@@ -6,7 +6,7 @@ import {
     mapNodes,
     mapEdges,
     getBuildingById
-} from "./data/map-data.js";
+} from "./data/map-data.js?v=4";
 
 
 /* =========================================================
