@@ -2,17 +2,23 @@
    FT UISU EXPLORER
    DATABASE + GRAPH NAVIGASI
 
-   REFERENSI TERBARU:
-   - Jalur mahasiswa = GARIS BIRU pada gambar terbaru
-   - Titik masuk gedung = TANDA KUNING BARU
-   - Jalur hijau lama TIDAK DIGUNAKAN
+   REVISI:
+   - Memperbaiki entrance Perpustakaan
+   - Memperbaiki entrance Gedung Perkuliahan
+   - Memperbaiki jalur Laboratorium
+   - Mengurangi garis diagonal yang tidak sesuai jalur
+   - Serbaguna tetap pada posisi yang sudah benar
+   - Biro tetap menggunakan akses sisi gedung
+========================================================= */
 
-   Sistem koordinat mengikuti denah:
-   551 x 544
+
+/* =========================================================
+   UKURAN DENAH
 ========================================================= */
 
 export const MAP_WIDTH = 551;
 export const MAP_HEIGHT = 544;
+
 
 
 /* =========================================================
@@ -126,10 +132,10 @@ export const buildings = [
         floorCount: 3,
 
         /*
-            LAB memiliki 2 akses.
+            Laboratorium mempunyai dua akses.
 
-            Dijkstra akan memilih salah satu
-            berdasarkan jarak rute terpendek.
+            Dijkstra otomatis memilih akses
+            yang memberikan rute terpendek.
         */
 
         entranceNodes: [
@@ -149,7 +155,7 @@ export const buildings = [
 export const rooms = [
 
     /* =====================================================
-       GEDUNG BIRO FT - LANTAI 2
+       BIRO FT
     ===================================================== */
 
     {
@@ -273,7 +279,8 @@ export const rooms = [
 
     {
         id: "kasubbag-umum",
-        name: "KaSubBag Umum Perlengkapan Kerumahtanggaan",
+        name:
+            "KaSubBag Umum Perlengkapan Kerumahtanggaan",
         buildingId: "biro-ft",
         floor: 2
     },
@@ -302,7 +309,6 @@ export const rooms = [
 
     /* =====================================================
        GEDUNG PERKULIAHAN
-       RUANG KULIAH 1 - 8
     ===================================================== */
 
     {
@@ -363,7 +369,7 @@ export const rooms = [
 
 
     /* =====================================================
-       LABORATORIUM - LANTAI 1
+       LABORATORIUM LANTAI 1
     ===================================================== */
 
     {
@@ -410,7 +416,7 @@ export const rooms = [
 
 
     /* =====================================================
-       LABORATORIUM - LANTAI 2
+       LABORATORIUM LANTAI 2
     ===================================================== */
 
     {
@@ -499,7 +505,7 @@ export const rooms = [
 
 
     /* =====================================================
-       LABORATORIUM - LANTAI 3
+       LABORATORIUM LANTAI 3
     ===================================================== */
 
     {
@@ -549,88 +555,76 @@ export const rooms = [
 
 
 /* =========================================================
-   GRAPH DENAH TERBARU
+   NODE JALUR
+
+   CATATAN:
+   Koordinat 551 x 544.
+
+   Jalur dibuat lebih sederhana.
+   Node hanya ditempatkan pada perubahan arah penting.
 ========================================================= */
 
 export const mapNodes = {
 
+
     /* =====================================================
-       JALUR UTAMA DARI SISI KIRI
+       GERBANG / JALUR BARAT
     ===================================================== */
 
     MAIN_START: {
-        x: 71,
+        x: 70,
         y: 242
     },
 
-    MAIN_WEST_1: {
-        x: 109,
+    WEST_1: {
+        x: 110,
         y: 244
     },
 
-    MAIN_WEST_2: {
-        x: 147,
-        y: 249
+    WEST_2: {
+        x: 150,
+        y: 248
     },
 
-    MAIN_WEST_3: {
-        x: 214,
+    WEST_3: {
+        x: 215,
         y: 255
     },
 
-    UP_JUNCTION: {
-        x: 243,
-        y: 247
-    },
-
-    MAIN_CENTER: {
-        x: 263,
+    CENTRAL_JUNCTION: {
+        x: 262,
         y: 255
     },
-
-    MAIN_EAST: {
-        x: 310,
-        y: 253
-    },
-
 
 
     /* =====================================================
-       JALUR ATAS
-       Mengikuti loop biru mengelilingi area
-       Serbaguna / Perpustakaan
+       JALUR UTARA
     ===================================================== */
 
-    UPPER_LEFT_1: {
-        x: 249,
-        y: 228
+    NORTH_1: {
+        x: 263,
+        y: 225
     },
 
-    UPPER_LEFT_2: {
-        x: 254,
-        y: 200
+    NORTH_2: {
+        x: 263,
+        y: 180
     },
 
-    UPPER_LEFT_3: {
-        x: 256,
-        y: 176
-    },
-
-    UPPER_TOP_LEFT: {
-        x: 254,
-        y: 133
-    },
-
-    UPPER_TOP_1: {
-        x: 304,
-        y: 133
+    NORTH_3: {
+        x: 263,
+        y: 135
     },
 
 
     /* =====================================================
-       TITIK KUNING BARU 1
        SERBAGUNA
     ===================================================== */
+
+    SERBAGUNA_ROUTE_1: {
+        x: 310,
+        y: 135
+    },
 
     SERBAGUNA_ENTRANCE: {
         x: 371,
@@ -638,184 +632,150 @@ export const mapNodes = {
         buildingId: "serbaguna-ft"
     },
 
-
-    UPPER_TOP_2: {
-        x: 407,
-        y: 130
+    SERBAGUNA_ROUTE_2: {
+        x: 420,
+        y: 132
     },
 
-    UPPER_TOP_RIGHT: {
-        x: 447,
-        y: 129
+    SERBAGUNA_CORNER: {
+        x: 446,
+        y: 135
     },
 
-    UPPER_RIGHT_1: {
+
+    /* =====================================================
+       PERPUSTAKAAN
+
+       Entrance lama dihapus.
+
+       Entrance sekarang berada pada area
+       Perpustakaan sebenarnya, bukan area kelas.
+    ===================================================== */
+
+    LIBRARY_RIGHT_TOP: {
         x: 454,
-        y: 154
+        y: 155
     },
 
-    UPPER_RIGHT_2: {
-        x: 443,
-        y: 185
-    },
-
-    UPPER_RETURN_1: {
-        x: 408,
+    LIBRARY_ROUTE: {
+        x: 448,
         y: 182
     },
 
-    UPPER_RETURN_2: {
-        x: 359,
-        y: 178
-    },
-
-    UPPER_RETURN_3: {
-        x: 325,
-        y: 177
-    },
-
-    UPPER_RETURN_4: {
-        x: 318,
-        y: 211
-    },
-
-    UPPER_RETURN_5: {
-        x: 308,
-        y: 242
-    },
-
-
-
-    /* =====================================================
-       TITIK KUNING BARU 2
-       PERPUSTAKAAN
-    ===================================================== */
-
     LIBRARY_ENTRANCE: {
-        x: 288,
-        y: 285,
+        x: 448,
+        y: 207,
         buildingId: "perpustakaan-ft"
     },
 
+    LIBRARY_INNER_LEFT: {
+        x: 407,
+        y: 182
+    },
+
+    LIBRARY_INNER_MIDDLE: {
+        x: 360,
+        y: 180
+    },
+
+    LIBRARY_INNER_CORNER: {
+        x: 323,
+        y: 180
+    },
+
+    LIBRARY_RETURN: {
+        x: 312,
+        y: 230
+    },
 
 
     /* =====================================================
-       AREA TENGAH / KANAN
+       JALUR TENGAH
     ===================================================== */
 
-    RIGHT_LOOP_TOP: {
-        x: 335,
-        y: 256
+    CENTER_EAST_1: {
+        x: 310,
+        y: 255
     },
 
-    RIGHT_LOOP_CENTER: {
-        x: 368,
-        y: 269
+    CENTER_EAST_2: {
+        x: 350,
+        y: 255
     },
 
 
     /* =====================================================
-       TITIK KUNING BARU 3
        BIRO
     ===================================================== */
 
+    BIRO_APPROACH: {
+        x: 385,
+        y: 255
+    },
+
     BIRO_ENTRANCE: {
         x: 385,
-        y: 261,
+        y: 264,
         buildingId: "biro-ft"
     },
 
 
-    RIGHT_LOOP_DOWN_1: {
-        x: 366,
-        y: 311
-    },
-
-    RIGHT_LOOP_DOWN_2: {
-        x: 364,
-        y: 346
-    },
-
-    RIGHT_LOOP_BOTTOM: {
-        x: 306,
-        y: 341
-    },
-
-    RIGHT_LOOP_LEFT: {
-        x: 297,
-        y: 307
-    },
-
-
-
     /* =====================================================
-       LOOP KIRI-TENGAH
+       JALUR MASJID / BARAT BAWAH
     ===================================================== */
 
-    LEFT_LOOP_1: {
-        x: 159,
+    DIAGONAL_START: {
+        x: 150,
+        y: 248
+    },
+
+    DIAGONAL_1: {
+        x: 170,
         y: 282
     },
 
-    LEFT_LOOP_2: {
-        x: 181,
-        y: 327
+    DIAGONAL_2: {
+        x: 190,
+        y: 320
     },
 
-    LEFT_LOOP_3: {
-        x: 211,
-        y: 333
-    },
-
-    LEFT_LOOP_4: {
-        x: 219,
-        y: 329
-    },
-
-    LEFT_LOOP_5: {
-        x: 224,
-        y: 264
+    DIAGONAL_3: {
+        x: 214,
+        y: 330
     },
 
 
     /* =====================================================
-       TITIK KUNING BARU 4
-       PERKULIAHAN
+       GEDUNG PERKULIAHAN
+
+       INI POSISI YANG SEBELUMNYA SALAH
+       TERBACA SEBAGAI PERPUSTAKAAN.
     ===================================================== */
 
+    CLASS_APPROACH: {
+        x: 288,
+        y: 255
+    },
+
     CLASS_ENTRANCE: {
-        x: 245,
-        y: 321,
+        x: 288,
+        y: 285,
         buildingId: "perkuliahan-ft"
     },
 
 
-    CENTER_DOWN_1: {
-        x: 262,
-        y: 283
-    },
-
-    CENTER_DOWN_2: {
-        x: 260,
-        y: 313
-    },
-
-
-
     /* =====================================================
-       AREA LABORATORIUM
+       LABORATORIUM AKSES BARAT
+
+       Entrance kelas lama berada terlalu ke bawah.
+       Area tersebut sekarang dipakai sebagai bagian
+       jalur Laboratorium.
     ===================================================== */
 
-    LOWER_LEFT_START: {
-        x: 213,
-        y: 334
+    LAB_ROUTE_TOP: {
+        x: 245,
+        y: 320
     },
-
-
-    /* =====================================================
-       TITIK KUNING BARU 5
-       LAB AKSES BARAT
-    ===================================================== */
 
     LAB_WEST_ENTRANCE: {
         x: 221,
@@ -823,22 +783,33 @@ export const mapNodes = {
         buildingId: "laboratorium-ft"
     },
 
-
-    LOWER_LEFT_1: {
-        x: 212,
-        y: 427
+    LAB_LEFT_1: {
+        x: 214,
+        y: 405
     },
 
-    LOWER_BOTTOM_LEFT: {
-        x: 216,
-        y: 449
+    LAB_LEFT_BOTTOM: {
+        x: 214,
+        y: 438
     },
 
 
     /* =====================================================
-       TITIK KUNING BARU 6
-       LAB AKSES SELATAN
+       LABORATORIUM BAGIAN BAWAH
+
+       Dibuat horizontal agar tidak lagi zig-zag
+       seperti area yang Anda lingkari merah.
     ===================================================== */
+
+    LAB_BOTTOM_LEFT: {
+        x: 235,
+        y: 438
+    },
+
+    LAB_BOTTOM_CENTER: {
+        x: 278,
+        y: 438
+    },
 
     LAB_SOUTH_ENTRANCE: {
         x: 278,
@@ -846,20 +817,39 @@ export const mapNodes = {
         buildingId: "laboratorium-ft"
     },
 
-
-    LOWER_BOTTOM_1: {
-        x: 292,
-        y: 440
+    LAB_BOTTOM_2: {
+        x: 320,
+        y: 438
     },
 
-    LOWER_BOTTOM_2: {
-        x: 332,
-        y: 440
+    LAB_BOTTOM_RIGHT: {
+        x: 360,
+        y: 438
     },
 
-    LOWER_BOTTOM_RIGHT: {
-        x: 364,
-        y: 425
+
+    /* =====================================================
+       JALUR KANAN LAB
+    ===================================================== */
+
+    LAB_RIGHT_1: {
+        x: 360,
+        y: 400
+    },
+
+    LAB_RIGHT_2: {
+        x: 360,
+        y: 350
+    },
+
+    LAB_RIGHT_3: {
+        x: 360,
+        y: 310
+    },
+
+    LAB_RIGHT_TOP: {
+        x: 350,
+        y: 255
     }
 
 };
@@ -867,320 +857,303 @@ export const mapNodes = {
 
 
 /* =========================================================
-   EDGE JALUR
-
-   SEMUA EDGE DI BAWAH MENGIKUTI GARIS BIRU BARU.
-   JALUR HIJAU LAMA TIDAK DIPAKAI.
+   EDGE / JALUR MAHASISWA
 ========================================================= */
 
 export const mapEdges = [
 
     /* =====================================================
-       JALUR UTAMA KIRI → TENGAH
+       JALUR BARAT → TENGAH
     ===================================================== */
 
     [
         "MAIN_START",
-        "MAIN_WEST_1"
+        "WEST_1"
     ],
 
     [
-        "MAIN_WEST_1",
-        "MAIN_WEST_2"
+        "WEST_1",
+        "WEST_2"
     ],
 
     [
-        "MAIN_WEST_2",
-        "MAIN_WEST_3"
+        "WEST_2",
+        "WEST_3"
     ],
 
     [
-        "MAIN_WEST_3",
-        "UP_JUNCTION"
-    ],
-
-    [
-        "UP_JUNCTION",
-        "MAIN_CENTER"
-    ],
-
-    [
-        "MAIN_CENTER",
-        "MAIN_EAST"
+        "WEST_3",
+        "CENTRAL_JUNCTION"
     ],
 
 
     /* =====================================================
-       LOOP ATAS
+       UTARA
     ===================================================== */
 
     [
-        "UP_JUNCTION",
-        "UPPER_LEFT_1"
+        "CENTRAL_JUNCTION",
+        "NORTH_1"
     ],
 
     [
-        "UPPER_LEFT_1",
-        "UPPER_LEFT_2"
+        "NORTH_1",
+        "NORTH_2"
     ],
 
     [
-        "UPPER_LEFT_2",
-        "UPPER_LEFT_3"
-    ],
-
-    [
-        "UPPER_LEFT_3",
-        "UPPER_TOP_LEFT"
-    ],
-
-    [
-        "UPPER_TOP_LEFT",
-        "UPPER_TOP_1"
+        "NORTH_2",
+        "NORTH_3"
     ],
 
 
-    /* SERBAGUNA */
+    /* =====================================================
+       SERBAGUNA
+    ===================================================== */
 
     [
-        "UPPER_TOP_1",
+        "NORTH_3",
+        "SERBAGUNA_ROUTE_1"
+    ],
+
+    [
+        "SERBAGUNA_ROUTE_1",
         "SERBAGUNA_ENTRANCE"
     ],
 
     [
         "SERBAGUNA_ENTRANCE",
-        "UPPER_TOP_2"
-    ],
-
-
-    [
-        "UPPER_TOP_2",
-        "UPPER_TOP_RIGHT"
+        "SERBAGUNA_ROUTE_2"
     ],
 
     [
-        "UPPER_TOP_RIGHT",
-        "UPPER_RIGHT_1"
-    ],
-
-    [
-        "UPPER_RIGHT_1",
-        "UPPER_RIGHT_2"
-    ],
-
-    [
-        "UPPER_RIGHT_2",
-        "UPPER_RETURN_1"
-    ],
-
-    [
-        "UPPER_RETURN_1",
-        "UPPER_RETURN_2"
-    ],
-
-    [
-        "UPPER_RETURN_2",
-        "UPPER_RETURN_3"
-    ],
-
-    [
-        "UPPER_RETURN_3",
-        "UPPER_RETURN_4"
-    ],
-
-    [
-        "UPPER_RETURN_4",
-        "UPPER_RETURN_5"
-    ],
-
-    [
-        "UPPER_RETURN_5",
-        "MAIN_EAST"
+        "SERBAGUNA_ROUTE_2",
+        "SERBAGUNA_CORNER"
     ],
 
 
     /* =====================================================
        PERPUSTAKAAN
-       AKSES KUNING BARU
+
+       Tidak ada shortcut dari tengah.
+
+       Rute:
+       Serbaguna
+       → sisi kanan
+       → sisi bawah Perpustakaan
+       → pintu Perpustakaan.
     ===================================================== */
 
     [
-        "MAIN_CENTER",
+        "SERBAGUNA_CORNER",
+        "LIBRARY_RIGHT_TOP"
+    ],
+
+    [
+        "LIBRARY_RIGHT_TOP",
+        "LIBRARY_ROUTE"
+    ],
+
+    [
+        "LIBRARY_ROUTE",
         "LIBRARY_ENTRANCE"
     ],
 
     [
-        "LIBRARY_ENTRANCE",
-        "RIGHT_LOOP_LEFT"
+        "LIBRARY_ROUTE",
+        "LIBRARY_INNER_LEFT"
+    ],
+
+    [
+        "LIBRARY_INNER_LEFT",
+        "LIBRARY_INNER_MIDDLE"
+    ],
+
+    [
+        "LIBRARY_INNER_MIDDLE",
+        "LIBRARY_INNER_CORNER"
+    ],
+
+    [
+        "LIBRARY_INNER_CORNER",
+        "LIBRARY_RETURN"
+    ],
+
+    [
+        "LIBRARY_RETURN",
+        "CENTER_EAST_1"
     ],
 
 
     /* =====================================================
-       LOOP KANAN / BIRO
+       TENGAH → BIRO
     ===================================================== */
 
     [
-        "MAIN_EAST",
-        "RIGHT_LOOP_TOP"
+        "CENTRAL_JUNCTION",
+        "CENTER_EAST_1"
     ],
 
     [
-        "RIGHT_LOOP_TOP",
-        "RIGHT_LOOP_CENTER"
+        "CENTER_EAST_1",
+        "CENTER_EAST_2"
     ],
 
-
-    /* BIRO - SPUR KE PINTU */
+    [
+        "CENTER_EAST_2",
+        "BIRO_APPROACH"
+    ],
 
     [
-        "RIGHT_LOOP_CENTER",
+        "BIRO_APPROACH",
         "BIRO_ENTRANCE"
     ],
 
 
-    [
-        "RIGHT_LOOP_CENTER",
-        "RIGHT_LOOP_DOWN_1"
-    ],
-
-    [
-        "RIGHT_LOOP_DOWN_1",
-        "RIGHT_LOOP_DOWN_2"
-    ],
-
-    [
-        "RIGHT_LOOP_DOWN_2",
-        "RIGHT_LOOP_BOTTOM"
-    ],
-
-    [
-        "RIGHT_LOOP_BOTTOM",
-        "RIGHT_LOOP_LEFT"
-    ],
-
-    [
-        "RIGHT_LOOP_LEFT",
-        "MAIN_EAST"
-    ],
-
-
     /* =====================================================
-       LOOP KIRI
+       DIAGONAL AREA MASJID
     ===================================================== */
 
     [
-        "MAIN_WEST_2",
-        "LEFT_LOOP_1"
+        "DIAGONAL_START",
+        "DIAGONAL_1"
     ],
 
     [
-        "LEFT_LOOP_1",
-        "LEFT_LOOP_2"
+        "DIAGONAL_1",
+        "DIAGONAL_2"
     ],
 
     [
-        "LEFT_LOOP_2",
-        "LEFT_LOOP_3"
+        "DIAGONAL_2",
+        "DIAGONAL_3"
     ],
 
     [
-        "LEFT_LOOP_3",
-        "LEFT_LOOP_4"
-    ],
-
-    [
-        "LEFT_LOOP_4",
-        "LEFT_LOOP_5"
-    ],
-
-    [
-        "LEFT_LOOP_5",
-        "MAIN_WEST_3"
+        "DIAGONAL_3",
+        "LAB_ROUTE_TOP"
     ],
 
 
     /* =====================================================
        PERKULIAHAN
+
+       Jalur sekarang dibuat lurus:
+       main route → approach → entrance kelas.
+
+       Tidak lagi diarahkan ke entrance Lab.
     ===================================================== */
 
     [
-        "LEFT_LOOP_3",
+        "CENTRAL_JUNCTION",
+        "CLASS_APPROACH"
+    ],
+
+    [
+        "CLASS_APPROACH",
         "CLASS_ENTRANCE"
-    ],
-
-    [
-        "CLASS_ENTRANCE",
-        "CENTER_DOWN_2"
-    ],
-
-    [
-        "CENTER_DOWN_2",
-        "CENTER_DOWN_1"
-    ],
-
-    [
-        "CENTER_DOWN_1",
-        "MAIN_CENTER"
     ],
 
 
     /* =====================================================
-       LAB - SISI KIRI
+       HUBUNGAN KELAS → AREA LAB
     ===================================================== */
 
     [
-        "LEFT_LOOP_3",
-        "LOWER_LEFT_START"
+        "CLASS_ENTRANCE",
+        "LAB_ROUTE_TOP"
     ],
 
+
+    /* =====================================================
+       LAB SISI KIRI
+    ===================================================== */
+
     [
-        "LOWER_LEFT_START",
+        "LAB_ROUTE_TOP",
         "LAB_WEST_ENTRANCE"
     ],
 
     [
         "LAB_WEST_ENTRANCE",
-        "LOWER_LEFT_1"
+        "LAB_LEFT_1"
     ],
 
     [
-        "LOWER_LEFT_1",
-        "LOWER_BOTTOM_LEFT"
+        "LAB_LEFT_1",
+        "LAB_LEFT_BOTTOM"
     ],
 
 
     /* =====================================================
-       LAB - BAGIAN BAWAH
+       LAB BAGIAN BAWAH
+
+       Semuanya dibuat HORIZONTAL.
+
+       Sebelumnya ada beberapa diagonal yang
+       menyebabkan jalur melintasi bangunan.
     ===================================================== */
 
     [
-        "LOWER_BOTTOM_LEFT",
+        "LAB_LEFT_BOTTOM",
+        "LAB_BOTTOM_LEFT"
+    ],
+
+    [
+        "LAB_BOTTOM_LEFT",
+        "LAB_BOTTOM_CENTER"
+    ],
+
+
+    /*
+       Entrance Selatan merupakan cabang pendek,
+       bukan bagian yang memaksa jalur berbelok.
+    */
+
+    [
+        "LAB_BOTTOM_CENTER",
         "LAB_SOUTH_ENTRANCE"
     ],
 
+
     [
-        "LAB_SOUTH_ENTRANCE",
-        "LOWER_BOTTOM_1"
+        "LAB_BOTTOM_CENTER",
+        "LAB_BOTTOM_2"
     ],
 
     [
-        "LOWER_BOTTOM_1",
-        "LOWER_BOTTOM_2"
-    ],
-
-    [
-        "LOWER_BOTTOM_2",
-        "LOWER_BOTTOM_RIGHT"
+        "LAB_BOTTOM_2",
+        "LAB_BOTTOM_RIGHT"
     ],
 
 
     /* =====================================================
-       LAB - KEMBALI KE LOOP KANAN
+       LAB SISI KANAN
     ===================================================== */
 
     [
-        "LOWER_BOTTOM_RIGHT",
-        "RIGHT_LOOP_DOWN_2"
+        "LAB_BOTTOM_RIGHT",
+        "LAB_RIGHT_1"
+    ],
+
+    [
+        "LAB_RIGHT_1",
+        "LAB_RIGHT_2"
+    ],
+
+    [
+        "LAB_RIGHT_2",
+        "LAB_RIGHT_3"
+    ],
+
+    [
+        "LAB_RIGHT_3",
+        "LAB_RIGHT_TOP"
+    ],
+
+    [
+        "LAB_RIGHT_TOP",
+        "CENTER_EAST_2"
     ]
 
 ];
@@ -1188,7 +1161,7 @@ export const mapEdges = [
 
 
 /* =========================================================
-   HELPER
+   HELPERS
 ========================================================= */
 
 export function getBuildingById(id) {
