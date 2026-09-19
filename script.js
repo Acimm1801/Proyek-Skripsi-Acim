@@ -11,7 +11,7 @@ import {
 
     getBuildingById
 
-} from "./data/map-data.js?v=15";
+} from "./data/map-data.js?v=16";
 
 
 
