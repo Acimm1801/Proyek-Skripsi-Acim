@@ -1,20 +1,11 @@
 /* =========================================================
-   FT UISU EXPLORER - MAP DATA v12
-   Fokus: Navigasi outdoor Fakultas Teknik UISU
-
-   Denah tampilan  : Denah V1
-   Denah referensi : Denah V3
-   Contoh hasil    : Denah V2
-
-   Network jalur TIDAK ditampilkan seluruhnya kepada user.
-   Network hanya digunakan oleh sistem routing.
-
-   Sistem koordinat:
-   1400 x 787
+   FT UISU EXPLORER
+   MAP DATA v14
 ========================================================= */
 
 
 export const MAP_WIDTH = 1400;
+
 export const MAP_HEIGHT = 787;
 
 
@@ -25,235 +16,308 @@ export const MAP_HEIGHT = 787;
 
 export const buildings = [
 
-  {
-    id:
-      "biro-ft",
+    {
 
-    name:
-      "Gedung Biro Fakultas Teknik",
+        id:
+            "biro-ft",
 
-    shortName:
-      "Biro FT",
+        name:
+            "Gedung Biro Fakultas Teknik",
 
-    description:
-      "Gedung Biro Fakultas Teknik berada di lantai 2 pada gedung yang sama dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3.",
+        shortName:
+            "Biro FT",
 
-    actualFloor:
-      2,
+        description:
 
-    floorCount:
-      1,
+            "Gedung Biro Fakultas Teknik berada di lantai 2 pada gedung yang sama dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3.",
 
-    mapMarker: {
-      x: 879,
-      y: 397
+        actualFloor:
+            2,
+
+        floorCount:
+            1,
+
+
+        mapMarker: {
+
+            x:
+                879,
+
+            y:
+                397
+
+        },
+
+
+        entrances: [
+
+            {
+
+                id:
+                    "biro-main",
+
+                x:
+                    854,
+
+                y:
+                    378
+
+            }
+
+        ],
+
+
+        modelPath:
+
+            "./assets/models/biro-fakultas-teknik.glb"
+
     },
 
-    entrances: [
 
-      {
+
+    {
+
         id:
-          "biro-main",
+            "perpustakaan-ft",
 
-        x:
-          854,
+        name:
+            "Perpustakaan Fakultas Teknik",
 
-        y:
-          378
-      }
+        shortName:
+            "Perpustakaan FT",
 
-    ],
+        description:
 
-    modelPath:
-      "./assets/models/biro-fakultas-teknik.glb"
-  },
+            "Perpustakaan Fakultas Teknik berada di lantai 1 pada gedung yang berbeda dan terletak di sudut seberang lapangan.",
+
+        actualFloor:
+            1,
+
+        floorCount:
+            1,
 
 
-  {
-    id:
-      "perpustakaan-ft",
+        mapMarker: {
 
-    name:
-      "Perpustakaan Fakultas Teknik",
+            x:
+                888,
 
-    shortName:
-      "Perpustakaan FT",
+            y:
+                214
 
-    description:
-      "Perpustakaan Fakultas Teknik berada di lantai 1 pada gedung yang berbeda dan terletak di sudut seberang lapangan.",
+        },
 
-    actualFloor:
-      1,
 
-    floorCount:
-      1,
+        entrances: [
 
-    mapMarker: {
-      x: 888,
-      y: 214
+            {
+
+                id:
+                    "library-main",
+
+                x:
+                    886,
+
+                y:
+                    261
+
+            }
+
+        ],
+
+
+        modelPath:
+            null
+
     },
 
-    entrances: [
 
-      {
+
+    {
+
         id:
-          "library-main",
+            "serbaguna-ft",
 
-        x:
-          886,
+        name:
+            "Gedung Serbaguna Fakultas Teknik",
 
-        y:
-          261
-      }
+        shortName:
+            "Serbaguna FT",
 
-    ],
+        description:
 
-    modelPath:
-      null
-  },
+            "Gedung Serbaguna Fakultas Teknik berada di lantai 1 pada gedung yang berbeda yaitu gedung Fakultas Hukum.",
+
+        actualFloor:
+            1,
+
+        floorCount:
+            1,
 
 
-  {
-    id:
-      "serbaguna-ft",
+        mapMarker: {
 
-    name:
-      "Gedung Serbaguna Fakultas Teknik",
+            x:
+                848,
 
-    shortName:
-      "Serbaguna FT",
+            y:
+                126
 
-    description:
-      "Gedung Serbaguna Fakultas Teknik berada di lantai 1 pada gedung yang berbeda, yaitu gedung Fakultas Hukum.",
+        },
 
-    actualFloor:
-      1,
 
-    floorCount:
-      1,
+        entrances: [
 
-    mapMarker: {
-      x: 848,
-      y: 126
+            {
+
+                id:
+                    "serbaguna-main",
+
+                x:
+                    845,
+
+                y:
+                    186
+
+            }
+
+        ],
+
+
+        modelPath:
+            null
+
     },
 
-    entrances: [
 
-      {
+
+    {
+
         id:
-          "serbaguna-main",
+            "perkuliahan-ft",
 
-        x:
-          845,
+        name:
+            "Gedung Perkuliahan Fakultas Teknik",
 
-        y:
-          186
-      }
+        shortName:
+            "Perkuliahan FT",
 
-    ],
+        description:
 
-    modelPath:
-      null
-  },
+            "Gedung Perkuliahan Fakultas Teknik berada di lantai 3 pada gedung yang terletak di seberang Gedung Biro Fakultas Teknik.",
+
+        actualFloor:
+            3,
+
+        floorCount:
+            1,
 
 
-  {
-    id:
-      "perkuliahan-ft",
+        mapMarker: {
 
-    name:
-      "Gedung Perkuliahan Fakultas Teknik",
+            x:
+                709,
 
-    shortName:
-      "Perkuliahan FT",
+            y:
+                492
 
-    description:
-      "Gedung Perkuliahan Fakultas Teknik berada di lantai 3 pada gedung yang terletak di seberang Gedung Biro Fakultas Teknik.",
+        },
 
-    actualFloor:
-      3,
 
-    floorCount:
-      1,
+        entrances: [
 
-    mapMarker: {
-      x: 709,
-      y: 492
+            {
+
+                id:
+                    "class-main",
+
+                x:
+                    692,
+
+                y:
+                    378
+
+            }
+
+        ],
+
+
+        modelPath:
+            null
+
     },
 
-    entrances: [
 
-      {
+
+    {
+
         id:
-          "class-main",
+            "laboratorium-ft",
 
-        x:
-          692,
+        name:
+            "Gedung Laboratorium Fakultas Teknik",
 
-        y:
-          378
-      }
+        shortName:
+            "Laboratorium FT",
 
-    ],
+        description:
 
-    modelPath:
-      null
-  },
+            "Gedung Laboratorium Fakultas Teknik terdiri dari tiga lantai dan berada di dekat Gedung Perkuliahan Fakultas Teknik.",
+
+        actualFloor:
+            null,
+
+        floorCount:
+            3,
 
 
-  {
-    id:
-      "laboratorium-ft",
+        mapMarker: {
 
-    name:
-      "Gedung Laboratorium Fakultas Teknik",
+            x:
+                646,
 
-    shortName:
-      "Laboratorium FT",
+            y:
+                563
 
-    description:
-      "Gedung Laboratorium Fakultas Teknik terdiri dari tiga lantai dan berada di dekat Gedung Perkuliahan Fakultas Teknik.",
+        },
 
-    actualFloor:
-      null,
 
-    floorCount:
-      3,
+        entrances: [
 
-    mapMarker: {
-      x: 646,
-      y: 563
-    },
+            {
 
-    entrances: [
+                id:
+                    "lab-west",
 
-      {
-        id:
-          "lab-west",
+                x:
+                    624,
 
-        x:
-          624,
+                y:
+                    573
 
-        y:
-          573
-      },
+            },
 
-      {
-        id:
-          "lab-south",
 
-        x:
-          752,
+            {
 
-        y:
-          626
-      }
+                id:
+                    "lab-south",
 
-    ],
+                x:
+                    752,
 
-    modelPath:
-      null
-  }
+                y:
+                    626
+
+            }
+
+        ],
+
+
+        modelPath:
+            null
+
+    }
 
 ];
 
@@ -265,845 +329,1082 @@ export const buildings = [
 
 export const rooms = [
 
-  /* =========================
-     BIRO FT
-  ========================= */
 
-  {
-    id: "gudang-mini",
-    name: "Gudang Mini",
-    buildingId: "biro-ft",
-    floor: 2
-  },
+    /* =====================================================
+       BIRO FT
+    ===================================================== */
 
-  {
-    id: "prodi-industri",
-    name: "Program Studi Teknik Industri",
-    buildingId: "biro-ft",
-    floor: 2
-  },
+    {
+        id:
+            "gudang-mini",
 
-  {
-    id: "prodi-mesin",
-    name: "Program Studi Teknik Mesin",
-    buildingId: "biro-ft",
-    floor: 2
-  },
+        name:
+            "Gudang Mini",
 
-  {
-    id: "prodi-sipil",
-    name: "Program Studi Teknik Sipil",
-    buildingId: "biro-ft",
-    floor: 2
-  },
+        buildingId:
+            "biro-ft",
 
-  {
-    id: "prodi-informatika",
-    name: "Program Studi Teknik Informatika",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "prodi-elektro",
-    name: "Program Studi Teknik Elektro",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "lpmf",
-    name: "LPMF",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "wd3-kak",
-    name: "WD3-KAK",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "wd2-stk",
-    name: "WD2-STK",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "wd1-adi",
-    name: "WD1-ADI",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "ruang-dekan",
-    name: "Ruang Dekan",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "loket-pembayaran",
-    name: "Loket Pembayaran Mahasiswa",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "kasubbag-akademik",
-    name: "KaSubBag Akademik IT dan Kerjasama",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "kasubbag-keuangan",
-    name: "KaSubBag Keuangan",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "kasubbag-kemahasiswaan",
-    name: "KaSubBag Kemahasiswaan",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "kasubbag-siakad",
-    name: "KaSubBag SIAKAD",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "ktu",
-    name: "KTU",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "kasubbag-umum",
-    name: "KaSubBag Umum Perlengkapan Kerumahtanggaan",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "mushola",
-    name: "Mushola",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "dapur",
-    name: "Dapur",
-    buildingId: "biro-ft",
-    floor: 2
-  },
-
-  {
-    id: "toilet-biro",
-    name: "Toilet",
-    buildingId: "biro-ft",
-    floor: 2
-  },
+        floor:
+            2
+    },
 
 
-  /* =========================
-     GEDUNG PERKULIAHAN
-  ========================= */
+    {
+        id:
+            "prodi-industri",
 
-  {
-    id: "ruang-kuliah-1",
-    name: "Ruang Kuliah 1",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
+        name:
+            "Program Studi Teknik Industri",
 
-  {
-    id: "ruang-kuliah-2",
-    name: "Ruang Kuliah 2",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
+        buildingId:
+            "biro-ft",
 
-  {
-    id: "ruang-kuliah-3",
-    name: "Ruang Kuliah 3",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
-
-  {
-    id: "ruang-kuliah-4",
-    name: "Ruang Kuliah 4",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
-
-  {
-    id: "ruang-kuliah-5",
-    name: "Ruang Kuliah 5",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
-
-  {
-    id: "ruang-kuliah-6",
-    name: "Ruang Kuliah 6",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
-
-  {
-    id: "ruang-kuliah-7",
-    name: "Ruang Kuliah 7",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
-
-  {
-    id: "ruang-kuliah-8",
-    name: "Ruang Kuliah 8",
-    buildingId: "perkuliahan-ft",
-    floor: 3
-  },
+        floor:
+            2
+    },
 
 
-  /* =========================
-     LAB - LANTAI 1
-  ========================= */
+    {
+        id:
+            "prodi-mesin",
 
-  {
-    id: "lab-foundry",
-    name: "Lab. Foundry",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
+        name:
+            "Program Studi Teknik Mesin",
 
-  {
-    id: "lab-teknologi-mekanik",
-    name: "Lab. Teknologi Mekanik",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
+        buildingId:
+            "biro-ft",
 
-  {
-    id: "lab-beton",
-    name: "Lab. Beton",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
-
-  {
-    id: "lab-mekanika-tanah",
-    name: "Lab. Mekanika Tanah",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
-
-  {
-    id: "lab-jalan-raya",
-    name: "Lab. Jalan Raya",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
-
-  {
-    id: "lab-hidrolika",
-    name: "Lab. Hidrolika",
-    buildingId: "laboratorium-ft",
-    floor: 1
-  },
+        floor:
+            2
+    },
 
 
-  /* =========================
-     LAB - LANTAI 2
-  ========================= */
+    {
+        id:
+            "prodi-sipil",
 
-  {
-    id: "lab-rangkaian-listrik",
-    name: "Lab. Rangkaian Listrik",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
+        name:
+            "Program Studi Teknik Sipil",
 
-  {
-    id: "lab-dasar-elektronika",
-    name: "Lab. Dasar Elektronika",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
+        buildingId:
+            "biro-ft",
 
-  {
-    id: "lab-sistem-pengukuran",
-    name: "Lab. Sistem Pengukuran",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-pengukuran-listrik",
-    name: "Lab. Pengukuran Listrik",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-dasar-telekomunikasi",
-    name: "Lab. Dasar Sistem Telekomunikasi",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-ilmu-ukur-tanah",
-    name: "Lab. Ilmu Ukur Tanah",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-komputasi",
-    name: "Lab. Komputasi",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-pengukuran-statistik",
-    name: "Lab. Pengukuran & Statistik",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-faktor-manusia",
-    name: "Lab. Teknik Faktor Manusia",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "lab-jaringan-komputer-mikro",
-    name: "Lab. Jaringan Komputer Mikro",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "ruang-kuliah-9",
-    name: "Ruang Kuliah 9",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
-
-  {
-    id: "ruang-kuliah-10",
-    name: "Ruang Kuliah 10",
-    buildingId: "laboratorium-ft",
-    floor: 2
-  },
+        floor:
+            2
+    },
 
 
-  /* =========================
-     LAB - LANTAI 3
-  ========================= */
+    {
+        id:
+            "prodi-informatika",
 
-  {
-    id: "ruang-kuliah-11",
-    name: "Ruang Kuliah 11",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  },
+        name:
+            "Program Studi Teknik Informatika",
 
-  {
-    id: "ruang-kuliah-12",
-    name: "Ruang Kuliah 12",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  },
+        buildingId:
+            "biro-ft",
 
-  {
-    id: "ruang-kuliah-13",
-    name: "Ruang Kuliah 13",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  },
+        floor:
+            2
+    },
 
-  {
-    id: "lab-sistem-digital",
-    name: "Lab. Sistem Digital",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  },
 
-  {
-    id: "lab-teknik-produksi",
-    name: "Lab. Teknik Produksi",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  },
+    {
+        id:
+            "prodi-elektro",
 
-  {
-    id: "lab-menggambar",
-    name: "Lab. Menggambar",
-    buildingId: "laboratorium-ft",
-    floor: 3
-  }
+        name:
+            "Program Studi Teknik Elektro",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "lpmf",
+
+        name:
+            "LPMF",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "wd3-kak",
+
+        name:
+            "WD3-KAK",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "wd2-stk",
+
+        name:
+            "WD2-STK",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "wd1-adi",
+
+        name:
+            "WD1-ADI",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "ruang-dekan",
+
+        name:
+            "Ruang Dekan",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "loket-pembayaran",
+
+        name:
+            "Loket Pembayaran Mahasiswa",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "kasubbag-akademik",
+
+        name:
+            "KaSubBag Akademik IT dan Kerjasama",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "kasubbag-keuangan",
+
+        name:
+            "KaSubBag Keuangan",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "kasubbag-kemahasiswaan",
+
+        name:
+            "KaSubBag Kemahasiswaan",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "kasubbag-siakad",
+
+        name:
+            "KaSubBag SIAKAD",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "ktu",
+
+        name:
+            "KTU",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "kasubbag-umum",
+
+        name:
+            "KaSubBag Umum Perlengkapan Kerumahtanggaan",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "mushola",
+
+        name:
+            "Mushola",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "dapur",
+
+        name:
+            "Dapur",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+    {
+        id:
+            "toilet-biro",
+
+        name:
+            "Toilet",
+
+        buildingId:
+            "biro-ft",
+
+        floor:
+            2
+    },
+
+
+
+    /* =====================================================
+       PERKULIAHAN
+    ===================================================== */
+
+    {
+        id:"ruang-kuliah-1",
+        name:"Ruang Kuliah 1",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-2",
+        name:"Ruang Kuliah 2",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-3",
+        name:"Ruang Kuliah 3",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-4",
+        name:"Ruang Kuliah 4",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-5",
+        name:"Ruang Kuliah 5",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-6",
+        name:"Ruang Kuliah 6",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-7",
+        name:"Ruang Kuliah 7",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-8",
+        name:"Ruang Kuliah 8",
+        buildingId:"perkuliahan-ft",
+        floor:3
+    },
+
+
+
+    /* =====================================================
+       LAB LANTAI 1
+    ===================================================== */
+
+    {
+        id:"lab-foundry",
+        name:"Lab. Foundry",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+    {
+        id:"lab-teknologi-mekanik",
+        name:"Lab. Teknologi Mekanik",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+    {
+        id:"lab-beton",
+        name:"Lab. Beton",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+    {
+        id:"lab-mekanika-tanah",
+        name:"Lab. Mekanika Tanah",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+    {
+        id:"lab-jalan-raya",
+        name:"Lab. Jalan Raya",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+    {
+        id:"lab-hidrolika",
+        name:"Lab. Hidrolika",
+        buildingId:"laboratorium-ft",
+        floor:1
+    },
+
+
+
+    /* =====================================================
+       LAB LANTAI 2
+    ===================================================== */
+
+    {
+        id:"lab-rangkaian-listrik",
+        name:"Lab. Rangkaian Listrik",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-dasar-elektronika",
+        name:"Lab. Dasar Elektronika",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-sistem-pengukuran",
+        name:"Lab. Sistem Pengukuran",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-pengukuran-listrik",
+        name:"Lab. Pengukuran Listrik",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-dasar-telekomunikasi",
+        name:"Lab. Dasar Sistem Telekomunikasi",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-ilmu-ukur-tanah",
+        name:"Lab. Ilmu Ukur Tanah",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-komputasi",
+        name:"Lab. Komputasi",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-pengukuran-statistik",
+        name:"Lab. Pengukuran & Statistik",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-faktor-manusia",
+        name:"Lab. Teknik Faktor Manusia",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"lab-jaringan-komputer-mikro",
+        name:"Lab. Jaringan Komputer Mikro",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"ruang-kuliah-9",
+        name:"Ruang Kuliah 9",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+    {
+        id:"ruang-kuliah-10",
+        name:"Ruang Kuliah 10",
+        buildingId:"laboratorium-ft",
+        floor:2
+    },
+
+
+
+    /* =====================================================
+       LAB LANTAI 3
+    ===================================================== */
+
+    {
+        id:"ruang-kuliah-11",
+        name:"Ruang Kuliah 11",
+        buildingId:"laboratorium-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-12",
+        name:"Ruang Kuliah 12",
+        buildingId:"laboratorium-ft",
+        floor:3
+    },
+
+    {
+        id:"ruang-kuliah-13",
+        name:"Ruang Kuliah 13",
+        buildingId:"laboratorium-ft",
+        floor:3
+    },
+
+    {
+        id:"lab-sistem-digital",
+        name:"Lab. Sistem Digital",
+        buildingId:"laboratorium-ft",
+        floor:3
+    },
+
+    {
+        id:"lab-teknik-produksi",
+        name:"Lab. Teknik Produksi",
+        buildingId:"laboratorium-ft",
+        floor:3
+    },
+
+    {
+        id:"lab-menggambar",
+        name:"Lab. Menggambar",
+        buildingId:"laboratorium-ft",
+        floor:3
+    }
 
 ];
 
 
 
 /* =========================================================
-   ROUTE NODE
-
-   Network tidak ditampilkan ke user.
-   Ini hanya "otak" routing.
+   ROUTE NODES
 ========================================================= */
 
 export const routeNodes = {
 
-  N0: {
-    x: 664.0,
-    y: 106.0
-  },
+    N0:{
+        x:664.0,
+        y:106.0
+    },
 
-  N1: {
-    x: 660.8,
-    y: 186.0
-  },
+    N1:{
+        x:660.8,
+        y:186.0
+    },
 
-  N2: {
-    x: 747.3,
-    y: 261.3
-  },
+    N2:{
+        x:747.3,
+        y:261.3
+    },
 
-  N3: {
-    x: 876.2,
-    y: 267.0
-  },
+    N3:{
+        x:876.2,
+        y:267.0
+    },
 
-  N4: {
-    x: 367.0,
-    y: 351.0
-  },
+    N4:{
+        x:367.0,
+        y:351.0
+    },
 
-  N5: {
-    x: 500.0,
-    y: 361.2
-  },
+    N5:{
+        x:500.0,
+        y:361.2
+    },
 
-  N6: {
-    x: 624.0,
-    y: 370.2
-  },
+    N6:{
+        x:624.0,
+        y:370.2
+    },
 
-  N7: {
-    x: 650.0,
-    y: 370.8
-  },
+    N7:{
+        x:650.0,
+        y:370.8
+    },
 
-  N8: {
-    x: 670.0,
-    y: 372.2
-  },
+    N8:{
+        x:670.0,
+        y:372.2
+    },
 
-  N9: {
-    x: 746.0,
-    y: 375.0
-  },
+    N9:{
+        x:746.0,
+        y:375.0
+    },
 
-  N10: {
-    x: 754.7,
-    y: 374.7
-  },
+    N10:{
+        x:754.7,
+        y:374.7
+    },
 
-  N11: {
-    x: 618.5,
-    y: 470.0
-  },
+    N11:{
+        x:618.5,
+        y:470.0
+    },
 
-  N12: {
-    x: 648.0,
-    y: 470.2
-  },
+    N12:{
+        x:648.0,
+        y:470.2
+    },
 
-  N13: {
-    x: 647.0,
-    y: 480.0
-  },
+    N13:{
+        x:647.0,
+        y:480.0
+    },
 
-  N14: {
-    x: 833.8,
-    y: 500.0
-  },
+    N14:{
+        x:833.8,
+        y:500.0
+    },
 
-  N15: {
-    x: 613.3,
-    y: 572.7
-  },
+    N15:{
+        x:613.3,
+        y:572.7
+    },
 
-  N16: {
-    x: 623.0,
-    y: 572.0
-  },
+    N16:{
+        x:623.0,
+        y:572.0
+    },
 
-  N17: {
-    x: 753.0,
-    y: 628.0
-  },
+    N17:{
+        x:753.0,
+        y:628.0
+    },
 
-  N18: {
-    x: 751.7,
-    y: 638.7
-  }
+    N18:{
+        x:751.7,
+        y:638.7
+    }
 
 };
 
 
 
 /* =========================================================
-   ROUTE EDGE
-
-   points = bentuk aktual jalur yang diikuti rute.
-
-   Edge dibuat berdasarkan Denah V3.
+   ROUTE EDGES
 ========================================================= */
 
 export const routeEdges = [
 
-  {
-    id: "E01",
+    {
 
-    from: "N0",
-    to: "N1",
+        id:"E01",
 
-    points: [
-      [664,106],
-      [661,185]
-    ]
-  },
+        from:"N0",
 
+        to:"N1",
 
-  {
-    id: "E02",
+        points:[
+            [664,106],
+            [661,185]
+        ]
 
-    from: "N1",
-    to: "N7",
+    },
 
-    points: [
-      [660,187],
-      [650,370]
-    ]
-  },
 
+    {
 
-  {
-    id: "E03",
+        id:"E02",
 
-    from: "N1",
-    to: "N3",
+        from:"N1",
 
-    points: [
-      [662,186],
-      [855,190],
-      [938,196],
-      [941,200],
-      [941,266],
-      [937,269],
-      [877,267]
-    ]
-  },
+        to:"N7",
 
+        points:[
+            [660,187],
+            [650,370]
+        ]
 
-  {
-    id: "E04",
+    },
 
-    from: "N2",
-    to: "N9",
 
-    points: [
-      [747,262],
-      [746,374]
-    ]
-  },
+    {
 
+        id:"E03",
 
-  {
-    id: "E05",
+        from:"N1",
 
-    from: "N2",
-    to: "N3",
+        to:"N3",
 
-    points: [
-      [747,261],
-      [876,266]
-    ]
-  },
+        points:[
+            [662,186],
+            [855,190],
+            [938,196],
+            [941,200],
+            [941,266],
+            [937,269],
+            [877,267]
+        ]
 
+    },
 
-  {
-    id: "E06",
 
-    from: "N3",
-    to: "N10",
+    {
 
-    points: [
-      [876,268],
-      [755,374]
-    ]
-  },
+        id:"E04",
 
+        from:"N2",
 
-  {
-    id: "E07",
+        to:"N9",
 
-    from: "N4",
-    to: "N5",
+        points:[
+            [747,262],
+            [746,374]
+        ]
 
-    points: [
-      [367,351],
-      [499,361]
-    ]
-  },
+    },
 
 
-  {
-    id: "E08",
+    {
 
-    from: "N5",
-    to: "N11",
+        id:"E05",
 
-    points: [
-      [500,362],
-      [572,470],
-      [617,470]
-    ]
-  },
+        from:"N2",
 
+        to:"N3",
 
-  {
-    id: "E09",
+        points:[
+            [747,261],
+            [876,266]
+        ]
 
-    from: "N5",
-    to: "N6",
+    },
 
-    points: [
-      [501,361],
-      [623,370]
-    ]
-  },
 
+    {
 
-  {
-    id: "E10",
+        id:"E06",
 
-    from: "N6",
-    to: "N7",
+        from:"N3",
 
-    points: [
-      [625,370],
-      [649,371]
-    ]
-  },
+        to:"N10",
 
+        points:[
+            [876,268],
+            [755,374]
+        ]
 
-  {
-    id: "E11",
+    },
 
-    from: "N6",
-    to: "N11",
 
-    points: [
-      [624,371],
-      [619,469]
-    ]
-  },
+    {
 
+        id:"E07",
 
-  {
-    id: "E12",
+        from:"N4",
 
-    from: "N7",
-    to: "N8",
+        to:"N5",
 
-    points: [
-      [651,371],
-      [669,372]
-    ]
-  },
+        points:[
+            [367,351],
+            [499,361]
+        ]
 
+    },
 
-  {
-    id: "E13",
 
-    from: "N8",
-    to: "N9",
+    {
 
-    points: [
-      [671,372],
-      [745,375]
-    ]
-  },
+        id:"E08",
 
+        from:"N5",
 
-  {
-    id: "E14",
+        to:"N11",
 
-    from: "N8",
-    to: "N12",
+        points:[
+            [500,362],
+            [572,470],
+            [617,470]
+        ]
 
-    points: [
-      [670,373],
-      [672,469],
-      [649,470]
-    ]
-  },
+    },
 
 
-  {
-    id: "E15",
+    {
 
-    from: "N9",
-    to: "N10",
+        id:"E09",
 
-    points: [
-      [747,376],
-      [754,375]
-    ]
-  },
+        from:"N5",
 
+        to:"N6",
 
-  {
-    id: "E16",
+        points:[
+            [501,361],
+            [623,370]
+        ]
 
-    from: "N9",
-    to: "N14",
+    },
 
-    points: [
-      [747,376],
-      [745,495],
-      [833,500]
-    ]
-  },
 
+    {
 
-  {
-    id: "E17",
+        id:"E10",
 
-    from: "N10",
-    to: "N14",
+        from:"N6",
 
-    points: [
-      [755,375],
-      [847,381],
-      [834,499]
-    ]
-  },
+        to:"N7",
 
+        points:[
+            [625,370],
+            [649,371]
+        ]
 
-  {
-    id: "E18",
+    },
 
-    from: "N11",
-    to: "N15",
 
-    points: [
-      [618,471],
-      [613,572]
-    ]
-  },
+    {
 
+        id:"E11",
 
-  {
-    id: "E19",
+        from:"N6",
 
-    from: "N11",
-    to: "N12",
+        to:"N11",
 
-    points: [
-      [620,470],
-      [647,470]
-    ]
-  },
+        points:[
+            [624,371],
+            [619,469]
+        ]
 
+    },
 
-  {
-    id: "E20",
 
-    from: "N12",
-    to: "N13",
+    {
 
-    points: [
-      [648,471],
-      [647,480]
-    ]
-  },
+        id:"E12",
 
+        from:"N7",
 
-  {
-    id: "E21",
+        to:"N8",
 
-    from: "N14",
-    to: "N18",
+        points:[
+            [651,371],
+            [669,372]
+        ]
 
-    points: [
-      [834,501],
-      [818,640],
-      [809,643],
-      [752,639]
-    ]
-  },
+    },
 
 
-  {
-    id: "E22",
+    {
 
-    from: "N15",
-    to: "N18",
+        id:"E13",
 
-    points: [
-      [613,573],
-      [612,632],
-      [751,639]
-    ]
-  },
+        from:"N8",
 
+        to:"N9",
 
-  {
-    id: "E23",
+        points:[
+            [671,372],
+            [745,375]
+        ]
 
-    from: "N15",
-    to: "N16",
+    },
 
-    points: [
-      [614,573],
-      [623,572]
-    ]
-  },
 
+    {
 
-  {
-    id: "E24",
+        id:"E14",
 
-    from: "N17",
-    to: "N18",
+        from:"N8",
 
-    points: [
-      [753,628],
-      [752,638]
-    ]
-  }
+        to:"N12",
+
+        points:[
+            [670,373],
+            [672,469],
+            [649,470]
+        ]
+
+    },
+
+
+    {
+
+        id:"E15",
+
+        from:"N9",
+
+        to:"N10",
+
+        points:[
+            [747,376],
+            [754,375]
+        ]
+
+    },
+
+
+    {
+
+        id:"E16",
+
+        from:"N9",
+
+        to:"N14",
+
+        points:[
+            [747,376],
+            [745,495],
+            [833,500]
+        ]
+
+    },
+
+
+    {
+
+        id:"E17",
+
+        from:"N10",
+
+        to:"N14",
+
+        points:[
+            [755,375],
+            [847,381],
+            [834,499]
+        ]
+
+    },
+
+
+    {
+
+        id:"E18",
+
+        from:"N11",
+
+        to:"N15",
+
+        points:[
+            [618,471],
+            [613,572]
+        ]
+
+    },
+
+
+    {
+
+        id:"E19",
+
+        from:"N11",
+
+        to:"N12",
+
+        points:[
+            [620,470],
+            [647,470]
+        ]
+
+    },
+
+
+    {
+
+        id:"E20",
+
+        from:"N12",
+
+        to:"N13",
+
+        points:[
+            [648,471],
+            [647,480]
+        ]
+
+    },
+
+
+    {
+
+        id:"E21",
+
+        from:"N14",
+
+        to:"N18",
+
+        points:[
+            [834,501],
+            [818,640],
+            [809,643],
+            [752,639]
+        ]
+
+    },
+
+
+    {
+
+        id:"E22",
+
+        from:"N15",
+
+        to:"N18",
+
+        points:[
+            [613,573],
+            [612,632],
+            [751,639]
+        ]
+
+    },
+
+
+    {
+
+        id:"E23",
+
+        from:"N15",
+
+        to:"N16",
+
+        points:[
+            [614,573],
+            [623,572]
+        ]
+
+    },
+
+
+    {
+
+        id:"E24",
+
+        from:"N17",
+
+        to:"N18",
+
+        points:[
+            [753,628],
+            [752,638]
+        ]
+
+    }
 
 ];
 
@@ -1113,21 +1414,26 @@ export const routeEdges = [
    HELPERS
 ========================================================= */
 
-export function getBuildingById(id) {
+export function getBuildingById(id){
 
-  return buildings.find(
-    (building) =>
-      building.id === id
-  ) || null;
+    return buildings.find(
+
+        building =>
+            building.id === id
+
+    ) || null;
 
 }
 
 
-export function getRoomById(id) {
 
-  return rooms.find(
-    (room) =>
-      room.id === id
-  ) || null;
+export function getRoomById(id){
+
+    return rooms.find(
+
+        room =>
+            room.id === id
+
+    ) || null;
 
 }
