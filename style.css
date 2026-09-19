@@ -80,11 +80,14 @@ button{
 
     height:var(--header);
 
-    background:rgba(255,255,255,.97);
+    background:
+        rgba(255,255,255,.97);
 
-    border-bottom:1px solid var(--line);
+    border-bottom:
+        1px solid var(--line);
 
-    backdrop-filter:blur(14px);
+    backdrop-filter:
+        blur(14px);
 }
 
 .header-inner{
@@ -133,7 +136,7 @@ button{
 
     border-radius:14px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-weight:800;
 
@@ -147,6 +150,7 @@ button{
 
 .brand-copy{
     display:grid;
+
     gap:3px;
 }
 
@@ -156,6 +160,7 @@ button{
 
 .brand-copy small{
     color:var(--muted);
+
     font-size:10px;
 }
 
@@ -183,7 +188,10 @@ button{
     font-size:13px;
     font-weight:700;
 
-    transition:.2s ease;
+    transition:
+        color .2s ease,
+        background .2s ease,
+        transform .2s ease;
 }
 
 .header-link:hover,
@@ -213,6 +221,18 @@ button{
             var(--green-900),
             var(--blue-900)
         );
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.hamburger:hover{
+    transform:scale(1.05);
+
+    box-shadow:
+        0 10px 25px
+        rgba(6,78,73,.22);
 }
 
 .hamburger span{
@@ -221,7 +241,7 @@ button{
     width:22px;
     height:2px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 
@@ -240,15 +260,18 @@ button{
 
     opacity:0;
 
-    background:rgba(0,24,34,.52);
+    background:
+        rgba(0,24,34,.52);
 
-    backdrop-filter:blur(4px);
+    backdrop-filter:
+        blur(4px);
 
-    transition:.25s;
+    transition:.25s ease;
 }
 
 .drawer-overlay.show{
     visibility:visible;
+
     opacity:1;
 }
 
@@ -267,11 +290,13 @@ button{
 
     padding:24px;
 
-    background:#fff;
+    background:#ffffff;
 
-    transform:translateX(105%);
+    transform:
+        translateX(105%);
 
-    transition:transform .28s ease;
+    transition:
+        transform .28s ease;
 
     box-shadow:
         -25px 0 70px
@@ -279,7 +304,8 @@ button{
 }
 
 .drawer.open{
-    transform:translateX(0);
+    transform:
+        translateX(0);
 }
 
 .drawer-header{
@@ -319,6 +345,16 @@ button{
     color:#4c6870;
 
     font-size:25px;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.close-button:hover{
+    background:#e2eded;
+
+    transform:scale(1.05);
 }
 
 
@@ -353,19 +389,23 @@ button{
 
     padding:0 14px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:14px;
 
     background:#f8fbfb;
 
-    transition:.2s ease;
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
 }
 
 .search-box:focus-within{
     border-color:#76c8b9;
 
-    background:#fff;
+    background:#ffffff;
 
     box-shadow:
         0 0 0 4px
@@ -376,6 +416,7 @@ button{
     width:100%;
 
     border:0;
+
     outline:0;
 
     background:transparent;
@@ -406,11 +447,12 @@ button{
 
     margin-top:8px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:13px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .search-result{
@@ -429,13 +471,17 @@ button{
 
     border:0;
 
-    border-bottom:1px solid #eaf0f1;
+    border-bottom:
+        1px solid #eaf0f1;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
     text-align:left;
+
+    transition:
+        background .2s ease;
 }
 
 .search-result:last-child{
@@ -490,7 +536,8 @@ button{
 
     padding:14px;
 
-    border:1px solid #bfe3da;
+    border:
+        1px solid #bfe3da;
 
     border-radius:13px;
 
@@ -513,7 +560,8 @@ button{
 .global-selected-actions{
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap:8px;
 
@@ -549,11 +597,12 @@ button{
 
     padding:12px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:15px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
@@ -562,7 +611,8 @@ button{
     transition:
         border-color .22s ease,
         background .22s ease,
-        transform .22s ease;
+        transform .22s ease,
+        box-shadow .22s ease;
 }
 
 .drawer-item:hover{
@@ -570,7 +620,12 @@ button{
 
     background:#f4fbf9;
 
-    transform:translateX(-2px);
+    transform:
+        translateX(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(8,127,114,.08);
 }
 
 .drawer-icon{
@@ -644,11 +699,12 @@ button{
 }
 
 .button:hover{
-    transform:translateY(-2px);
+    transform:
+        translateY(-2px);
 }
 
 .button-primary{
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -656,25 +712,32 @@ button{
             var(--green-700),
             var(--blue-500)
         );
+
+    box-shadow:
+        0 8px 18px
+        rgba(8,127,114,.13);
+}
+
+.button-primary:hover{
+    box-shadow:
+        0 12px 24px
+        rgba(8,127,114,.22);
 }
 
 .button-soft{
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     background:#f3f7f8;
 
     color:#405b63;
 }
 
-
-/* =====================================================
-   HERO CTA BUTTON
-===================================================== */
-
 .hero-cta{
     min-width:140px;
 
-    border:2px solid #ffffff;
+    border:
+        2px solid #ffffff;
 
     background:var(--green-700);
 
@@ -712,7 +775,8 @@ button{
 
     padding:0 13px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:10px;
 
@@ -751,7 +815,8 @@ main{
             100vh - var(--header)
         );
 
-    padding:55px 0 75px;
+    padding:
+        55px 0 75px;
 }
 
 .content-container{
@@ -779,7 +844,8 @@ main{
 }
 
 .page-heading h1{
-    margin:7px 0 9px;
+    margin:
+        7px 0 9px;
 
     font-size:
         clamp(
@@ -813,7 +879,6 @@ main{
             rgba(50,174,212,.20),
             transparent 28%
         ),
-
         linear-gradient(
             130deg,
             #054a46,
@@ -850,13 +915,15 @@ main{
 
     gap:42px;
 
-    padding:40px 0 88px;
+    padding:
+        40px 0 88px;
 
     visibility:hidden;
 
     opacity:0;
 
-    transform:translateX(45px);
+    transform:
+        translateX(45px);
 
     pointer-events:none;
 
@@ -871,15 +938,11 @@ main{
 
     opacity:1;
 
-    transform:translateX(0);
+    transform:
+        translateX(0);
 
     pointer-events:auto;
 }
-
-
-/* =====================================================
-   HERO EYEBROW
-===================================================== */
 
 .hero-eyebrow{
     display:block;
@@ -894,18 +957,13 @@ main{
     letter-spacing:1.2px;
 }
 
-
-/* =====================================================
-   HEADING SLIDER 1 + 2
-   UKURAN SAMA
-===================================================== */
-
 .hero-slide-title{
     max-width:760px;
 
-    margin:0 0 20px;
+    margin:
+        0 0 20px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:
         clamp(
@@ -972,7 +1030,8 @@ main{
         0 25px 70px
         rgba(0,20,30,.20);
 
-    backdrop-filter:blur(14px);
+    backdrop-filter:
+        blur(14px);
 }
 
 .landing-model-header{
@@ -1006,7 +1065,7 @@ main{
 
     margin-top:4px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:13px;
 }
@@ -1025,7 +1084,7 @@ main{
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dae9eb
         );
 }
@@ -1040,7 +1099,8 @@ main{
 
     gap:10px;
 
-    padding:9px 16px;
+    padding:
+        9px 16px;
 }
 
 .landing-model-footer span{
@@ -1050,14 +1110,14 @@ main{
 }
 
 .landing-model-footer strong{
-    color:#fff;
+    color:#ffffff;
 
     font-size:9px;
 }
 
 
 /* =====================================================
-   SLIDER 2 MAP
+   LANDING MAP SLIDER 2
 ===================================================== */
 
 .landing-map-card{
@@ -1088,7 +1148,8 @@ main{
         0 22px 60px
         rgba(0,20,30,.18);
 
-    backdrop-filter:blur(14px);
+    backdrop-filter:
+        blur(14px);
 }
 
 .landing-map-header{
@@ -1101,7 +1162,8 @@ main{
 
     gap:12px;
 
-    padding:10px 14px;
+    padding:
+        10px 14px;
 
     border-bottom:
         1px solid
@@ -1122,7 +1184,7 @@ main{
 
     margin-top:3px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:12px;
 }
@@ -1141,8 +1203,6 @@ main{
     overflow:hidden;
 
     line-height:0;
-
-    background:transparent;
 }
 
 .landing-map-image img{
@@ -1150,8 +1210,6 @@ main{
 
     width:100%;
     height:auto;
-
-    margin:0;
 }
 
 .landing-map-footer{
@@ -1161,7 +1219,8 @@ main{
 
     align-items:center;
 
-    padding:8px 14px;
+    padding:
+        8px 14px;
 
     color:#b5d1d2;
 
@@ -1170,7 +1229,7 @@ main{
 
 
 /* =====================================================
-   SLIDER CONTROLS v17
+   SLIDER CONTROLS
 ===================================================== */
 
 .slider-controls{
@@ -1187,16 +1246,9 @@ main{
 
     gap:11px;
 
-    transform:translateX(-50%);
+    transform:
+        translateX(-50%);
 }
-
-
-/*
-   Tema tombol panah mengikuti
-   card fitur bawah:
-   putih + border tipis,
-   hover hijau + sedikit membesar.
-*/
 
 .slider-arrow{
     width:40px;
@@ -1208,7 +1260,8 @@ main{
 
     padding:0;
 
-    border:1px solid #dbe7e9;
+    border:
+        1px solid #dbe7e9;
 
     border-radius:50%;
 
@@ -1260,19 +1313,14 @@ main{
     gap:7px;
 }
 
-
-/*
-   Dot juga memakai gaya
-   putih/border dan hover hijau.
-*/
-
 .slider-dot{
     width:10px;
     height:10px;
 
     padding:0;
 
-    border:1px solid #dbe7e9;
+    border:
+        1px solid #dbe7e9;
 
     border-radius:999px;
 
@@ -1294,7 +1342,8 @@ main{
 
     background:#9be3d5;
 
-    transform:scale(1.18);
+    transform:
+        scale(1.18);
 }
 
 .slider-dot.active{
@@ -1311,7 +1360,8 @@ main{
 ===================================================== */
 
 .feature-section{
-    padding:38px 0 70px;
+    padding:
+        38px 0 70px;
 }
 
 .feature-grid{
@@ -1345,11 +1395,12 @@ main{
 
     padding:23px;
 
-    border:1px solid #dbe7e9;
+    border:
+        1px solid #dbe7e9;
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
@@ -1408,15 +1459,18 @@ main{
 
     font-weight:800;
 
-    transition:transform .3s ease;
+    transition:
+        transform .3s ease;
 }
 
 .feature-card:hover .feature-icon{
-    transform:scale(1.08);
+    transform:
+        scale(1.08);
 }
 
 .feature-card h3{
-    margin:1px 0 10px;
+    margin:
+        1px 0 10px;
 
     font-size:18px;
 }
@@ -1460,11 +1514,12 @@ main{
 
     padding:22px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:18px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .selection-card label{
@@ -1475,13 +1530,15 @@ main{
 .selection-card select{
     min-height:48px;
 
-    padding:0 14px;
+    padding:
+        0 14px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:12px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 }
@@ -1504,11 +1561,12 @@ main{
 .ar-card{
     overflow:hidden;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .viewer-toolbar{
@@ -1519,9 +1577,11 @@ main{
     align-items:center;
     justify-content:space-between;
 
-    padding:10px 15px;
+    padding:
+        10px 15px;
 
-    border-bottom:1px solid var(--line);
+    border-bottom:
+        1px solid var(--line);
 }
 
 #mainModelViewer{
@@ -1534,7 +1594,7 @@ main{
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dfecee
         );
 }
@@ -1560,7 +1620,7 @@ main{
 
     border-radius:16px;
 
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -1578,7 +1638,8 @@ main{
 
     place-items:center;
 
-    border:3px solid #70dfd0;
+    border:
+        3px solid #70dfd0;
 
     border-radius:15px;
 
@@ -1609,32 +1670,35 @@ main{
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dfecee
         );
 }
 
 .native-ar-button{
-    padding:12px 18px;
+    padding:
+        12px 18px;
 
     border:0;
 
     border-radius:12px;
 
-    background:var(--green-700);
+    background:
+        var(--green-700);
 
-    color:#fff;
+    color:#ffffff;
 }
 
 .ar-card>.button{
-    width:calc(100% - 28px);
+    width:
+        calc(100% - 28px);
 
     margin:14px;
 }
 
 
 /* =====================================================
-   NAVIGATION
+   NAVIGATION PROGRESS
 ===================================================== */
 
 .nav-progress{
@@ -1677,7 +1741,10 @@ main{
 
     font-size:11px;
 
-    transition:.2s ease;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
 }
 
 .nav-step span{
@@ -1691,6 +1758,8 @@ main{
 
 .nav-step.active b{
     background:var(--green-100);
+
+    color:var(--green-900);
 }
 
 .nav-progress>i{
@@ -1699,14 +1768,24 @@ main{
     background:#dce7e8;
 }
 
+
+/* =====================================================
+   NAVIGATION SEARCH
+===================================================== */
+
 .navigation-search-card{
     padding:24px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:20px;
 
-    background:#fff;
+    background:#ffffff;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,50,60,.045);
 }
 
 .navigation-search-box{
@@ -1721,7 +1800,7 @@ main{
 
     border-radius:14px;
 
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -1738,7 +1817,8 @@ main{
 }
 
 .destination-card h3{
-    margin:5px 0 3px;
+    margin:
+        5px 0 3px;
 }
 
 .destination-card p{
@@ -1749,7 +1829,8 @@ main{
 
 
 /* =====================================================
-   MAP
+   NAVIGATION MAP SECTION
+   REVISION 19
 ===================================================== */
 
 .map-section{
@@ -1757,57 +1838,142 @@ main{
 
     padding:24px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 
     box-shadow:
         0 18px 50px
         rgba(0,50,60,.08);
 }
 
-.map-heading{
-    display:flex;
 
-    align-items:flex-end;
-    justify-content:space-between;
+/*
+   SEBELUM USER MEMILIH POSISI
 
-    gap:18px;
+   Hanya ada satu heading.
+   Tidak ada:
+   - DENAH 2D FAKULTAS TEKNIK UISU
+   - deskripsi kecil tambahan
+*/
 
-    margin-bottom:16px;
+.map-instruction-area{
+    margin-bottom:18px;
 }
 
-.map-heading small{
+.map-instruction-area h2{
+    max-width:1050px;
+
+    margin:0;
+
+    color:var(--text);
+
+    font-size:
+        clamp(
+            20px,
+            2vw,
+            27px
+        );
+
+    font-weight:800;
+
+    line-height:1.35;
+
+    letter-spacing:-.3px;
+}
+
+
+/* =====================================================
+   ROUTE RESULT - DI ATAS DENAH
+===================================================== */
+
+.route-found-box{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:24px;
+
+    margin:0;
+
+    padding:18px;
+
+    border:
+        1px solid #bde2da;
+
+    border-radius:15px;
+
+    background:#effaf7;
+}
+
+.route-found-top{
+    margin:
+        0 0 18px 0 !important;
+}
+
+.route-found-box small{
+    display:block;
+
     color:var(--green-700);
 
     font-size:8px;
     font-weight:800;
+
+    letter-spacing:.5px;
 }
 
-.map-heading h2{
-    margin:5px 0;
+.route-found-box h3{
+    margin:
+        4px 0 5px;
+
+    color:var(--text);
+
+    font-size:18px;
 }
 
-.map-heading p{
+.route-found-box p{
+    max-width:720px;
+
     color:var(--muted);
 
     font-size:11px;
 
-    line-height:1.5;
+    line-height:1.55;
 }
+
+
+/*
+   Status lama tidak boleh muncul
+   di bawah map.
+*/
+
+.map-status-grid{
+    display:none !important;
+}
+
+
+/* =====================================================
+   NAVIGATION MAP
+===================================================== */
 
 .navigation-map{
     position:relative;
 
     width:100%;
 
-    aspect-ratio:551 / 544;
+    aspect-ratio:
+        551 / 544;
 
     overflow:hidden;
 
-    border:1px solid #d4e5e5;
+    margin-bottom:0;
+
+    border:
+        1px solid #d4e5e5;
 
     border-radius:20px;
 
@@ -1837,7 +2003,7 @@ main{
 
 
 /* =====================================================
-   DESTINATION
+   DESTINATION HIGHLIGHT
 ===================================================== */
 
 .destination-highlight{
@@ -1882,12 +2048,16 @@ main{
 @keyframes destinationPulse{
 
     from{
-        transform:scale(.75);
+        transform:
+            scale(.75);
+
         opacity:1;
     }
 
     to{
-        transform:scale(1.35);
+        transform:
+            scale(1.35);
+
         opacity:0;
     }
 
@@ -1895,7 +2065,7 @@ main{
 
 
 /* =====================================================
-   ROUTE
+   ROUTE LINE
 ===================================================== */
 
 .route-svg{
@@ -1937,7 +2107,7 @@ main{
 
 
 /* =====================================================
-   MAP MARKER
+   MAP MARKERS
 ===================================================== */
 
 .user-marker,
@@ -1964,12 +2134,14 @@ main{
 
     margin:auto;
 
-    border:4px solid #fff;
+    border:
+        4px solid #ffffff;
 
     border-radius:
         50% 50% 50% 8px;
 
-    background:var(--blue-500);
+    background:
+        var(--blue-500);
 
     box-shadow:
         0 6px 18px
@@ -1982,14 +2154,15 @@ main{
 
     margin-top:5px;
 
-    padding:5px 8px;
+    padding:
+        5px 8px;
 
     border-radius:7px;
 
     background:
         rgba(5,55,63,.92);
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:8px;
 
@@ -2009,62 +2182,17 @@ main{
 
     margin:auto;
 
-    border:3px solid #fff;
+    border:
+        3px solid #ffffff;
 
     border-radius:50%;
 
-    background:var(--yellow);
+    background:
+        var(--yellow);
 
     box-shadow:
         0 0 0 2px
         #775e00;
-}
-
-
-/* =====================================================
-   ROUTE RESULT
-===================================================== */
-
-.route-found-box{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:24px;
-
-    margin-top:14px;
-
-    padding:18px;
-
-    border:1px solid #bde2da;
-
-    border-radius:15px;
-
-    background:#effaf7;
-}
-
-.route-found-box small{
-    color:var(--green-700);
-
-    font-size:8px;
-    font-weight:800;
-}
-
-.route-found-box h3{
-    margin:4px 0 5px;
-
-    font-size:18px;
-}
-
-.route-found-box p{
-    max-width:690px;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-    line-height:1.55;
 }
 
 
@@ -2079,7 +2207,7 @@ main{
 
     inset:0;
 
-    background:#000;
+    background:#000000;
 }
 
 .ar-navigation-page.active{
@@ -2141,7 +2269,7 @@ main{
         18px
         15px;
 
-    color:#fff;
+    color:#ffffff;
 
     pointer-events:auto;
 }
@@ -2159,7 +2287,7 @@ main{
     background:
         rgba(0,0,0,.40);
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:26px;
 }
@@ -2188,7 +2316,7 @@ main{
 
     gap:14px;
 
-    color:#fff;
+    color:#ffffff;
 }
 
 .direction-arrow{
@@ -2225,7 +2353,8 @@ main{
     border-left:
         18px solid #55e9ff;
 
-    transform:rotate(45deg);
+    transform:
+        rotate(45deg);
 }
 
 .direction-arrow span{
@@ -2263,7 +2392,7 @@ main{
     background:
         rgba(5,30,35,.72);
 
-    color:#fff;
+    color:#ffffff;
 
     backdrop-filter:
         blur(15px);
@@ -2278,7 +2407,8 @@ main{
 .camera-bottom-card strong{
     display:block;
 
-    margin:3px 0 4px;
+    margin:
+        3px 0 4px;
 }
 
 .camera-bottom-card p{
@@ -2303,11 +2433,12 @@ main{
 .building-card{
     overflow:hidden;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:17px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .building-button{
@@ -2326,11 +2457,18 @@ main{
 
     border:0;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
     text-align:left;
+
+    transition:
+        background .2s ease;
+}
+
+.building-button:hover{
+    background:#f5fbf9;
 }
 
 .building-number{
@@ -2343,9 +2481,11 @@ main{
 
     border-radius:14px;
 
-    background:var(--green-100);
+    background:
+        var(--green-100);
 
-    color:var(--green-900);
+    color:
+        var(--green-900);
 
     font-weight:800;
 }
@@ -2386,25 +2526,34 @@ main{
 .floor-button{
     min-height:36px;
 
-    padding:0 12px;
+    padding:
+        0 12px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:9px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:#466169;
 
     font-size:10px;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease;
 }
 
 .floor-button.active{
     border-color:#76cab9;
 
-    background:var(--green-100);
+    background:
+        var(--green-100);
 
-    color:var(--green-900);
+    color:
+        var(--green-900);
 }
 
 .room-grid{
@@ -2419,7 +2568,8 @@ main{
 .room-item{
     padding:10px;
 
-    border:1px solid #e5edef;
+    border:
+        1px solid #e5edef;
 
     border-radius:11px;
 
@@ -2466,13 +2616,15 @@ main{
 .room-actions button{
     min-height:34px;
 
-    padding:0 10px;
+    padding:
+        0 10px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:9px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:#496269;
 
@@ -2483,9 +2635,10 @@ main{
 .room-actions .room-nav-button{
     border:0;
 
-    background:var(--green-700);
+    background:
+        var(--green-700);
 
-    color:#fff;
+    color:#ffffff;
 }
 
 
@@ -2507,11 +2660,12 @@ main{
 
     padding:21px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:17px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .help-grid b{
@@ -2521,7 +2675,8 @@ main{
 }
 
 .help-grid h3{
-    margin:8px 0;
+    margin:
+        8px 0;
 }
 
 .help-grid p{
@@ -2553,11 +2708,12 @@ main{
 
     padding:40px;
 
-    border:1px solid var(--line);
+    border:
+        1px solid var(--line);
 
     border-radius:24px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .developer-avatar{
@@ -2576,20 +2732,22 @@ main{
             var(--blue-500)
         );
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:42px;
     font-weight:800;
 }
 
 .developer-card>div>small{
-    color:var(--green-700);
+    color:
+        var(--green-700);
 
     font-weight:800;
 }
 
 .developer-card h1{
-    margin:7px 0 12px;
+    margin:
+        7px 0 12px;
 }
 
 .developer-card p{
@@ -2620,7 +2778,7 @@ main{
 
 
 /* =====================================================
-   FOOTER v17
+   FOOTER
 ===================================================== */
 
 .site-footer{
@@ -2681,7 +2839,8 @@ main{
     background:
         rgba(0,24,34,.60);
 
-    backdrop-filter:blur(5px);
+    backdrop-filter:
+        blur(5px);
 }
 
 .info-modal{
@@ -2689,13 +2848,16 @@ main{
 
     z-index:2;
 
-    width:min(540px,100%);
+    width:min(
+        540px,
+        100%
+    );
 
     padding:28px;
 
     border-radius:21px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .modal-close{
@@ -2725,7 +2887,8 @@ main{
 }
 
 .info-description{
-    margin:18px 0;
+    margin:
+        18px 0;
 
     padding:14px;
 
@@ -2756,13 +2919,14 @@ main{
     max-width:
         calc(100vw - 30px);
 
-    padding:11px 15px;
+    padding:
+        11px 15px;
 
     border-radius:11px;
 
     background:#073e43;
 
-    color:#fff;
+    color:#ffffff;
 
     opacity:0;
 
@@ -2773,7 +2937,7 @@ main{
 
     font-size:11px;
 
-    transition:.28s;
+    transition:.28s ease;
 }
 
 .toast.show{
@@ -2795,7 +2959,6 @@ main{
         min-height:1010px;
     }
 
-
     .hero-slide{
         grid-template-columns:1fr;
 
@@ -2806,11 +2969,9 @@ main{
         padding-bottom:95px;
     }
 
-
     .hero-title-line{
         white-space:normal;
     }
-
 
     .landing-map-card{
         left:0;
@@ -2820,12 +2981,10 @@ main{
         max-width:420px;
     }
 
-
     .feature-grid{
         grid-template-columns:
             repeat(2,1fr);
     }
-
 
     .help-grid{
         grid-template-columns:
@@ -2847,7 +3006,8 @@ main{
 
 
     .header-inner{
-        width:calc(100% - 18px);
+        width:
+            calc(100% - 18px);
 
         gap:6px;
     }
@@ -2872,7 +3032,8 @@ main{
     .header-link{
         min-height:36px;
 
-        padding:0 7px;
+        padding:
+            0 7px;
 
         font-size:10px;
     }
@@ -2885,12 +3046,14 @@ main{
 
 
     .content-container{
-        width:calc(100% - 26px);
+        width:
+            calc(100% - 26px);
     }
 
 
     .content-page{
-        padding:38px 0 55px;
+        padding:
+            38px 0 55px;
     }
 
 
@@ -2901,7 +3064,8 @@ main{
 
 
     .hero-inner{
-        width:calc(100% - 30px);
+        width:
+            calc(100% - 30px);
     }
 
 
@@ -2945,14 +3109,18 @@ main{
     .landing-map-card{
         left:0;
 
-        width:min(100%,390px);
+        width:min(
+            100%,
+            390px
+        );
 
         justify-self:center;
     }
 
 
     .feature-grid{
-        width:calc(100% - 26px);
+        width:
+            calc(100% - 26px);
 
         grid-template-columns:1fr;
     }
@@ -2976,15 +3144,33 @@ main{
     }
 
 
-    .map-section{
-        padding:13px;
+    .navigation-search-card{
+        padding:16px;
     }
 
 
-    .map-heading{
-        align-items:flex-start;
+    .map-section{
+        padding:13px;
 
-        flex-direction:column;
+        border-radius:17px;
+    }
+
+
+    .map-instruction-area{
+        margin-bottom:13px;
+    }
+
+
+    .map-instruction-area h2{
+        font-size:20px;
+
+        line-height:1.4;
+    }
+
+
+    .route-found-top{
+        margin-bottom:
+            13px !important;
     }
 
 
@@ -2992,11 +3178,20 @@ main{
         align-items:stretch;
 
         flex-direction:column;
+
+        gap:14px;
+
+        padding:15px;
     }
 
 
     .route-found-box .button{
         width:100%;
+    }
+
+
+    .navigation-map{
+        border-radius:15px;
     }
 
 
@@ -3045,6 +3240,12 @@ main{
     .slider-arrow{
         width:38px;
         height:38px;
+    }
+
+
+    .user-marker label,
+    .entrance-marker label{
+        font-size:7px;
     }
 
 }
