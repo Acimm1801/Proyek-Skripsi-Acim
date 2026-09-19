@@ -11,7 +11,7 @@ import {
 
     getBuildingById
 
-} from "./data/map-data.js?v=14";
+} from "./data/map-data.js?v=15";
 
 
 
@@ -60,6 +60,9 @@ const state = {
     clickedPosition:
         null,
 
+    snappedPosition:
+        null,
+
     routeResult:
         null,
 
@@ -71,7 +74,7 @@ const state = {
 
 
 /* =========================================================
-   DATABASE SEARCH
+   LOCATION DATABASE
 ========================================================= */
 
 const locations = [];
@@ -247,9 +250,7 @@ function renderSearchResults(
 
             `
             <div class="search-empty">
-
                 Lokasi tidak ditemukan.
-
             </div>
             `;
 
@@ -285,13 +286,11 @@ function renderSearchResults(
             button.innerHTML =
 
                 `
-
                 <span>
 
                     <strong>
                         ${location.name}
                     </strong>
-
 
                     <small>
 
@@ -322,7 +321,6 @@ function renderSearchResults(
                     }
 
                 </span>
-
                 `;
 
 
@@ -544,13 +542,12 @@ $$("[data-page]")
 
 
 /* =========================================================
-   LANDING SLIDER
-   MANUAL ONLY
+   SLIDER
+   TIDAK OTOMATIS
 ========================================================= */
 
 const slides =
     $$(".hero-slide");
-
 
 
 function showSlide(index){
@@ -671,8 +668,7 @@ $$(".slider-dot")
 
 
 /* =========================================================
-   LANDING MODEL CAROUSEL
-   MODEL BERGANTI 10 DETIK
+   LANDING 3D MODEL
 ========================================================= */
 
 const landingModels =
@@ -690,8 +686,7 @@ const landingModels =
 function showLandingModel(index){
 
     if(
-        landingModels.length ===
-        0
+        !landingModels.length
     ){
 
         $("#landingModelName")
@@ -773,12 +768,9 @@ showLandingModel(
 
 
 /*
-   Saat ini hanya Biro FT yang mempunyai model.
-
-   Ketika model gedung lain ditambahkan
-   ke modelPath di map-data.js,
-   model landing page otomatis berganti
-   setiap 10 detik.
+   Jika model gedung lain nanti diberi modelPath
+   di map-data.js, model landing otomatis berganti
+   tiap 10 detik.
 */
 
 if(
@@ -959,9 +951,7 @@ $("#globalNavButton")
         ){
 
             openNavigationWithDestination(
-
                 state.globalSelection
-
             );
 
         }
@@ -973,7 +963,7 @@ $("#globalNavButton")
 
 
 /* =========================================================
-   INFO MODAL
+   INFO
 ========================================================= */
 
 function openInfo(location){
@@ -1181,7 +1171,6 @@ $("#show3DModel")
 
             $("#viewerMessage")
             .textContent =
-
                 `Model 3D ${building.shortName} belum tersedia.`;
 
 
@@ -1296,7 +1285,6 @@ $("#prepareMainAR")
 
             $("#arMessage")
             .textContent =
-
                 `Model AR ${building.shortName} belum tersedia.`;
 
 
@@ -1328,7 +1316,6 @@ $("#prepareMainAR")
 
         $("#mainARStatus")
         .textContent =
-
             `Siap menampilkan ${building.shortName}`;
 
 
@@ -1416,7 +1403,7 @@ function pointsEqual(
 
 
 /* =========================================================
-   PREPARE ROUTE EDGES
+   PREPARE ROUTE
 ========================================================= */
 
 const routingEdges =
@@ -1569,7 +1556,7 @@ routingEdges.forEach(
 
 
 /* =========================================================
-   PROJECT POINT TO SEGMENT
+   PROJECT POINT
 ========================================================= */
 
 function projectPointToSegment(
@@ -1661,7 +1648,7 @@ function projectPointToSegment(
 
 
 /* =========================================================
-   SNAP POINT
+   SNAP POSISI USER KE JALUR V3
 ========================================================= */
 
 function snapPointToNetwork(
@@ -1977,7 +1964,8 @@ function dijkstra(
 
 
         if(
-            cursor === startNode
+            cursor ===
+            startNode
         ){
 
             break;
@@ -2167,7 +2155,7 @@ function snapToEndpointPolyline(
 
 
 /* =========================================================
-   ENDPOINT TO SNAP
+   ENDPOINT → SNAP
 ========================================================= */
 
 function endpointToSnapPolyline(
@@ -2570,7 +2558,7 @@ function routeBetweenSnaps(
 
 
 /* =========================================================
-   BEST ENTRANCE ROUTE
+   BEST ENTRANCE
 ========================================================= */
 
 function findBestEntranceRoute(
@@ -2633,29 +2621,17 @@ function findBestEntranceRoute(
             }
 
 
-            const totalDistance =
+            /*
+                PENTING:
+                clickedPosition tidak dimasukkan ke polyline.
 
-                pointDistance(
-                    clickedPosition,
-                    startSnap.point
-                )
-
-                +
-
-                networkRoute.distance
-
-                +
-
-                pointDistance(
-                    targetSnap.point,
-                    entrance
-                );
-
+                Route dimulai dari startSnap.point,
+                sehingga rute tidak membuat garis lurus
+                yang memotong bangunan.
+            */
 
             const points =
                 dedupePolyline([
-
-                    clickedPosition,
 
                     startSnap.point,
 
@@ -2677,7 +2653,7 @@ function findBestEntranceRoute(
                 targetSnap,
 
                 distance:
-                    totalDistance,
+                    networkRoute.distance,
 
                 points
 
@@ -2738,7 +2714,7 @@ function getDestinationBuilding(){
 
 
 /* =========================================================
-   ELEMENT POSITION
+   POSITION ELEMENT
 ========================================================= */
 
 function setElementPosition(
@@ -2827,6 +2803,10 @@ function clearRouteOnly(){
         null;
 
 
+    state.snappedPosition =
+        null;
+
+
     state.routeResult =
         null;
 
@@ -2883,7 +2863,7 @@ function clearRouteOnly(){
 
     $("#mapInstruction")
     .textContent =
-        "Tap pada denah sesuai posisi Anda saat ini.";
+        "Tap pada denah sesuai posisi Anda. Sistem akan menyesuaikan posisi ke jalur mahasiswa terdekat.";
 
 
     updateProgress(
@@ -2919,9 +2899,7 @@ function resetNavigation(){
 
         `
         <div class="search-empty">
-
             Ketik nama gedung atau ruangan tujuan.
-
         </div>
         `;
 
@@ -3110,7 +3088,7 @@ function openNavigationWithDestination(
 
 
 /* =========================================================
-   NAV SEARCH
+   NAVIGATION SEARCH
 ========================================================= */
 
 $("#navigationSearch")
@@ -3131,9 +3109,7 @@ $("#navigationSearch")
 
                 `
                 <div class="search-empty">
-
                     Ketik nama gedung atau ruangan tujuan.
-
                 </div>
                 `;
 
@@ -3161,7 +3137,7 @@ $("#navigationSearch")
 
 
 /* =========================================================
-   MAP TAP
+   USER TAP MAP
 ========================================================= */
 
 $("#navigationMap")
@@ -3229,22 +3205,6 @@ $("#navigationMap")
             clicked;
 
 
-        setElementPosition(
-
-            $("#userMarker"),
-
-            clicked
-
-        );
-
-
-        $("#userMarker")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
         const routeResult =
             findBestEntranceRoute(
 
@@ -3272,6 +3232,35 @@ $("#navigationMap")
             routeResult;
 
 
+        /*
+            USER MARKER DIPINDAHKAN
+            KE JALUR V3 TERDEKAT.
+        */
+
+        state.snappedPosition =
+            routeResult.startSnap.point;
+
+
+        setElementPosition(
+
+            $("#userMarker"),
+
+            routeResult.startSnap.point
+
+        );
+
+
+        $("#userMarker")
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+        /*
+            ENTRANCE HANYA ENTRANCE TUJUAN.
+        */
+
         setElementPosition(
 
             $("#entranceMarker"),
@@ -3293,6 +3282,10 @@ $("#navigationMap")
             "hidden"
         );
 
+
+        /*
+            DRAW ROUTE.
+        */
 
         const pointsText =
 
@@ -3323,7 +3316,7 @@ $("#navigationMap")
 
         $("#positionStatus")
         .textContent =
-            "Posisi dipilih";
+            "Disesuaikan ke jalur terdekat";
 
 
         $("#routeStatus")
@@ -3339,7 +3332,7 @@ $("#navigationMap")
         $("#mapInstruction")
         .textContent =
 
-            `Rute aktif menuju entrance ${building.shortName}.`;
+            `Ikuti jalur biru menuju entrance ${building.shortName}.`;
 
 
         $("#resetPosition")
@@ -3418,7 +3411,7 @@ function calculateInitialArrowRotation(
 
             )
             >
-            12
+            8
         ){
 
             next =
@@ -3459,7 +3452,7 @@ function calculateInitialArrowRotation(
 
 
 /* =========================================================
-   START NAV CAMERA
+   START CAMERA
 ========================================================= */
 
 async function startNavigationCamera(){
@@ -3553,7 +3546,7 @@ async function startNavigationCamera(){
 
 
 /* =========================================================
-   STOP NAV CAMERA
+   STOP CAMERA
 ========================================================= */
 
 function stopNavigationCamera(){
@@ -3594,7 +3587,7 @@ function stopNavigationCamera(){
 
 
 /* =========================================================
-   OPEN AR NAVIGATION
+   OPEN AR NAV
 ========================================================= */
 
 $("#openARNavigation")
@@ -3696,7 +3689,7 @@ $("#closeARNavigation")
 
 
 /* =========================================================
-   DIRECTORY ROOM LIST
+   DIRECTORY ROOM
 ========================================================= */
 
 function renderRoomList(
@@ -3716,9 +3709,7 @@ function renderRoomList(
 
             `
             <div class="search-empty">
-
                 Data ruangan akan dilengkapi kemudian.
-
             </div>
             `;
 
@@ -3754,13 +3745,11 @@ function renderRoomList(
             item.innerHTML =
 
                 `
-
                 <div class="room-row">
 
                     <span>
                         ${room.name}
                     </span>
-
 
                     <button type="button">
                         Pilih
@@ -3787,7 +3776,6 @@ function renderRoomList(
                     </button>
 
                 </div>
-
                 `;
 
 
@@ -4073,7 +4061,6 @@ function renderDirectory(){
             article.innerHTML =
 
                 `
-
                 <button
                     class="building-button"
                     type="button"
@@ -4100,7 +4087,6 @@ function renderDirectory(){
                             ${building.name}
                         </strong>
 
-
                         <p>
                             ${building.description}
                         </p>
@@ -4117,7 +4103,6 @@ function renderDirectory(){
 
                 <div class="building-content">
                 </div>
-
                 `;
 
 
@@ -4223,8 +4208,6 @@ const openNavigation =
 
 
 
-/* 3D */
-
 $("#menu3D")
 .addEventListener(
     "click",
@@ -4246,8 +4229,6 @@ $("#hero3DButton")
 );
 
 
-
-/* AR */
 
 $("#menuAR")
 .addEventListener(
@@ -4271,8 +4252,6 @@ $("#heroARButton")
 
 
 
-/* NAV */
-
 $("#menuNavigation")
 .addEventListener(
     "click",
@@ -4294,8 +4273,6 @@ $("#heroNavigationButton")
 );
 
 
-
-/* DIRECTORY */
 
 $("#menuDirectory")
 .addEventListener(
