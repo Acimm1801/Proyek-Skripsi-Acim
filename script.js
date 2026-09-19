@@ -11,12 +11,12 @@ import {
 
     getBuildingById
 
-} from "./data/map-data.js?v=17";
+} from "./data/map-data.js?v=18";
 
 
 
 /* =========================================================
-   SHORTCUT
+   SHORTCUT DOM
 ========================================================= */
 
 const $ =
@@ -74,10 +74,12 @@ const state = {
 
 
 /* =========================================================
-   LOCATION DATABASE
+   DATABASE SEARCH
 ========================================================= */
 
-const locations = [];
+const locations =
+    [];
+
 
 
 buildings.forEach(
@@ -227,7 +229,7 @@ function searchLocations(value){
 
 
 /* =========================================================
-   SEARCH RESULT
+   SEARCH RESULT RENDER
 ========================================================= */
 
 function renderSearchResults(
@@ -427,7 +429,7 @@ $("#drawerOverlay")
 
 
 /* =========================================================
-   PAGE
+   PAGE NAVIGATION
 ========================================================= */
 
 function showPage(pageName){
@@ -542,8 +544,8 @@ $$("[data-page]")
 
 
 /* =========================================================
-   SLIDER
-   TIDAK OTOMATIS
+   HERO SLIDER
+   MANUAL
 ========================================================= */
 
 const slides =
@@ -767,12 +769,6 @@ showLandingModel(
 
 
 
-/*
-   Jika model gedung lain nanti diberi modelPath
-   di map-data.js, model landing otomatis berganti
-   tiap 10 detik.
-*/
-
 if(
     landingModels.length > 1
 ){
@@ -963,7 +959,7 @@ $("#globalNavButton")
 
 
 /* =========================================================
-   INFO
+   INFO MODAL
 ========================================================= */
 
 function openInfo(location){
@@ -1049,6 +1045,7 @@ $("#infoNavigationButton")
         ){
 
             return;
+
         }
 
 
@@ -1128,7 +1125,7 @@ populateBuildingSelect(
 
 
 /* =========================================================
-   3D VIEWER
+   3D MODEL VIEWER
 ========================================================= */
 
 $("#show3DModel")
@@ -1162,6 +1159,7 @@ $("#show3DModel")
 
 
             return;
+
         }
 
 
@@ -1182,6 +1180,7 @@ $("#show3DModel")
 
 
             return;
+
         }
 
 
@@ -1242,7 +1241,7 @@ $("#resetCamera")
 
 
 /* =========================================================
-   MAIN AR
+   AR UTAMA
 ========================================================= */
 
 $("#prepareMainAR")
@@ -1276,6 +1275,7 @@ $("#prepareMainAR")
 
 
             return;
+
         }
 
 
@@ -1296,6 +1296,7 @@ $("#prepareMainAR")
 
 
             return;
+
         }
 
 
@@ -1365,7 +1366,7 @@ $("#launchMainAR")
 
 
 /* =========================================================
-   ROUTING UTILITY
+   ROUTING UTILITIES
 ========================================================= */
 
 function pointDistance(
@@ -1403,7 +1404,7 @@ function pointsEqual(
 
 
 /* =========================================================
-   PREPARE ROUTE
+   PREPARE ROUTE EDGES
 ========================================================= */
 
 const routingEdges =
@@ -1489,7 +1490,7 @@ const edgeById =
 
 
 /* =========================================================
-   GRAPH
+   BUILD GRAPH
 ========================================================= */
 
 const routeGraph =
@@ -1556,7 +1557,7 @@ routingEdges.forEach(
 
 
 /* =========================================================
-   PROJECT POINT
+   PROJECT POINT TO SEGMENT
 ========================================================= */
 
 function projectPointToSegment(
@@ -1648,7 +1649,7 @@ function projectPointToSegment(
 
 
 /* =========================================================
-   SNAP POSISI USER KE JALUR V3
+   SNAP TO NETWORK
 ========================================================= */
 
 function snapPointToNetwork(
@@ -1857,6 +1858,7 @@ function dijkstra(
         ){
 
             break;
+
         }
 
 
@@ -1865,6 +1867,7 @@ function dijkstra(
         ){
 
             break;
+
         }
 
 
@@ -1885,6 +1888,7 @@ function dijkstra(
                 ){
 
                     return;
+
                 }
 
 
@@ -1941,6 +1945,7 @@ function dijkstra(
     ){
 
         return null;
+
     }
 
 
@@ -1969,6 +1974,7 @@ function dijkstra(
         ){
 
             break;
+
         }
 
 
@@ -1996,6 +2002,7 @@ function dijkstra(
     ){
 
         return null;
+
     }
 
 
@@ -2015,7 +2022,7 @@ function dijkstra(
 
 
 /* =========================================================
-   DEDUPE
+   DEDUPE POLYLINE
 ========================================================= */
 
 function dedupePolyline(
@@ -2072,7 +2079,7 @@ function dedupePolyline(
 
 
 /* =========================================================
-   SNAP TO ENDPOINT
+   SNAP -> ENDPOINT
 ========================================================= */
 
 function snapToEndpointPolyline(
@@ -2155,7 +2162,7 @@ function snapToEndpointPolyline(
 
 
 /* =========================================================
-   ENDPOINT → SNAP
+   ENDPOINT -> SNAP
 ========================================================= */
 
 function endpointToSnapPolyline(
@@ -2177,7 +2184,7 @@ function endpointToSnapPolyline(
 
 
 /* =========================================================
-   SAME EDGE
+   SAME EDGE ROUTE
 ========================================================= */
 
 function sameEdgePolyline(
@@ -2280,6 +2287,7 @@ function middlePolyline(
     ){
 
         return [];
+
     }
 
 
@@ -2441,6 +2449,7 @@ function routeBetweenSnaps(
                     if(!middle){
 
                         return;
+
                     }
 
 
@@ -2558,7 +2567,7 @@ function routeBetweenSnaps(
 
 
 /* =========================================================
-   BEST ENTRANCE
+   BEST ENTRANCE ROUTE
 ========================================================= */
 
 function findBestEntranceRoute(
@@ -2577,6 +2586,7 @@ function findBestEntranceRoute(
     ){
 
         return null;
+
     }
 
 
@@ -2600,6 +2610,7 @@ function findBestEntranceRoute(
             ){
 
                 return;
+
             }
 
 
@@ -2618,17 +2629,9 @@ function findBestEntranceRoute(
             ){
 
                 return;
+
             }
 
-
-            /*
-                PENTING:
-                clickedPosition tidak dimasukkan ke polyline.
-
-                Route dimulai dari startSnap.point,
-                sehingga rute tidak membuat garis lurus
-                yang memotong bangunan.
-            */
 
             const points =
                 dedupePolyline([
@@ -2699,6 +2702,7 @@ function getDestinationBuilding(){
     ){
 
         return null;
+
     }
 
 
@@ -2714,7 +2718,7 @@ function getDestinationBuilding(){
 
 
 /* =========================================================
-   POSITION ELEMENT
+   MAP POSITION
 ========================================================= */
 
 function setElementPosition(
@@ -2750,7 +2754,7 @@ function setElementPosition(
 
 
 /* =========================================================
-   PROGRESS
+   NAVIGATION PROGRESS
 ========================================================= */
 
 function updateProgress(stage){
@@ -2856,6 +2860,10 @@ function clearRouteOnly(){
         "Menunggu posisi";
 
 
+    /*
+       SEBELUM USER MEMILIH POSISI
+    */
+
     $("#mapHeadingTitle")
     .textContent =
         "Tandai posisi Anda sekarang";
@@ -2864,6 +2872,13 @@ function clearRouteOnly(){
     $("#mapInstruction")
     .textContent =
         "Tap pada denah sesuai posisi Anda. Lalu sistem akan memberikan jalur terdekat menuju tujuan pilihan anda.";
+
+
+    $("#mapInstruction")
+    .classList
+    .remove(
+        "hidden"
+    );
 
 
     updateProgress(
@@ -2981,6 +2996,7 @@ function selectNavigationDestination(
     if(!building){
 
         return;
+
     }
 
 
@@ -3115,6 +3131,7 @@ $("#navigationSearch")
 
 
             return;
+
         }
 
 
@@ -3137,7 +3154,7 @@ $("#navigationSearch")
 
 
 /* =========================================================
-   USER TAP MAP
+   USER CLICK MAP
 ========================================================= */
 
 $("#navigationMap")
@@ -3161,6 +3178,7 @@ $("#navigationMap")
 
 
             return;
+
         }
 
 
@@ -3225,6 +3243,7 @@ $("#navigationMap")
 
 
             return;
+
         }
 
 
@@ -3232,14 +3251,14 @@ $("#navigationMap")
             routeResult;
 
 
-        /*
-            USER MARKER DIPINDAHKAN
-            KE JALUR V3 TERDEKAT.
-        */
-
         state.snappedPosition =
             routeResult.startSnap.point;
 
+
+
+        /* =========================
+           USER MARKER
+        ========================= */
 
         setElementPosition(
 
@@ -3257,9 +3276,10 @@ $("#navigationMap")
         );
 
 
-        /*
-            ENTRANCE HANYA ENTRANCE TUJUAN.
-        */
+
+        /* =========================
+           ENTRANCE
+        ========================= */
 
         setElementPosition(
 
@@ -3283,9 +3303,10 @@ $("#navigationMap")
         );
 
 
-        /*
-            DRAW ROUTE.
-        */
+
+        /* =========================
+           ROUTE LINE
+        ========================= */
 
         const pointsText =
 
@@ -3314,6 +3335,11 @@ $("#navigationMap")
         );
 
 
+
+        /* =========================
+           INTERNAL STATUS
+        ========================= */
+
         $("#positionStatus")
         .textContent =
             "Disesuaikan ke jalur terdekat";
@@ -3324,6 +3350,17 @@ $("#navigationMap")
             "Rute Ditemukan";
 
 
+
+        /* =================================================
+           REVISI 18
+           Setelah user pilih posisi:
+
+           HANYA tampil:
+           "Rute menuju tujuan"
+
+           Deskripsi di bawah heading DIHAPUS.
+        ================================================= */
+
         $("#mapHeadingTitle")
         .textContent =
             "Rute menuju tujuan";
@@ -3331,8 +3368,15 @@ $("#navigationMap")
 
         $("#mapInstruction")
         .textContent =
+            "";
 
-            `Tap pada denah sesuai posisi Anda. Lalu sistem akan memberikan jalur terdekat menuju tujuan pilihan anda ${building.shortName}.`;
+
+        $("#mapInstruction")
+        .classList
+        .add(
+            "hidden"
+        );
+
 
 
         $("#resetPosition")
@@ -3359,6 +3403,10 @@ $("#navigationMap")
 
 
 
+/* =========================================================
+   RESET POSITION
+========================================================= */
+
 $("#resetPosition")
 .addEventListener(
 
@@ -3371,7 +3419,7 @@ $("#resetPosition")
 
 
 /* =========================================================
-   AR NAVIGATION ARROW
+   AR NAVIGATION DIRECTION
 ========================================================= */
 
 function calculateInitialArrowRotation(
@@ -3385,6 +3433,7 @@ function calculateInitialArrowRotation(
     ){
 
         return 0;
+
     }
 
 
@@ -3419,6 +3468,7 @@ function calculateInitialArrowRotation(
 
 
             break;
+
         }
 
     }
@@ -3452,7 +3502,7 @@ function calculateInitialArrowRotation(
 
 
 /* =========================================================
-   START CAMERA
+   CAMERA
 ========================================================= */
 
 async function startNavigationCamera(){
@@ -3483,6 +3533,7 @@ async function startNavigationCamera(){
 
 
         return;
+
     }
 
 
@@ -3587,7 +3638,7 @@ function stopNavigationCamera(){
 
 
 /* =========================================================
-   OPEN AR NAV
+   OPEN AR NAVIGATION
 ========================================================= */
 
 $("#openARNavigation")
@@ -3608,6 +3659,7 @@ $("#openARNavigation")
         ){
 
             return;
+
         }
 
 
@@ -3689,7 +3741,7 @@ $("#closeARNavigation")
 
 
 /* =========================================================
-   DIRECTORY ROOM
+   DIRECTORY ROOM LIST
 ========================================================= */
 
 function renderRoomList(
@@ -3715,6 +3767,7 @@ function renderRoomList(
 
 
         return;
+
     }
 
 
@@ -4178,7 +4231,7 @@ renderDirectory();
 
 
 /* =========================================================
-   MAIN BUTTONS
+   BUTTON ROUTING
 ========================================================= */
 
 const openViewer =
@@ -4343,7 +4396,7 @@ function toast(message){
 
 
 /* =========================================================
-   ESCAPE
+   ESCAPE KEY
 ========================================================= */
 
 document.addEventListener(
@@ -4358,6 +4411,7 @@ document.addEventListener(
         ){
 
             return;
+
         }
 
 
