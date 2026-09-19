@@ -11,7 +11,7 @@ import {
 
     getBuildingById
 
-} from "./data/map-data.js?v=16";
+} from "./data/map-data.js?v=17";
 
 
 
@@ -2863,7 +2863,7 @@ function clearRouteOnly(){
 
     $("#mapInstruction")
     .textContent =
-        "Tap pada denah sesuai posisi Anda. Sistem akan menyesuaikan posisi ke jalur mahasiswa terdekat.";
+        "Tap pada denah sesuai posisi Anda. Lalu sistem akan memberikan jalur terdekat menuju tujuan pilihan anda.";
 
 
     updateProgress(
@@ -3332,7 +3332,7 @@ $("#navigationMap")
         $("#mapInstruction")
         .textContent =
 
-            `Ikuti jalur biru menuju entrance ${building.shortName}.`;
+            `Tap pada denah sesuai posisi Anda. Lalu sistem akan memberikan jalur terdekat menuju tujuan pilihan anda ${building.shortName}.`;
 
 
         $("#resetPosition")
