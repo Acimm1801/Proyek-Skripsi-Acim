@@ -1,314 +1,197 @@
 /* =========================================================
    FT UISU EXPLORER
-   MAP DATA v15
-
-   SISTEM NAVIGASI:
-   - Denah tampilan = denah-v1.png
-   - Jalur internal = mengikuti Denah V3
-   - User tidak melihat seluruh graph
-   - Hanya rute aktif yang ditampilkan
+   MAP DATA v17
 ========================================================= */
-
 
 export const MAP_WIDTH = 551;
 export const MAP_HEIGHT = 544;
 
 
-
 /* =========================================================
-   DATABASE GEDUNG
+   GEDUNG
 ========================================================= */
 
 export const buildings = [
 
     {
+        id:"biro-ft",
 
-        id:
-            "biro-ft",
+        name:"Gedung Biro Fakultas Teknik",
 
-        name:
-            "Gedung Biro Fakultas Teknik",
-
-        shortName:
-            "Biro FT",
+        shortName:"Biro FT",
 
         description:
             "Gedung Biro Fakultas Teknik berada di lantai 2 pada gedung yang sama dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3.",
 
-        actualFloor:
-            2,
+        actualFloor:2,
 
-        floorCount:
-            1,
-
+        floorCount:1,
 
         mapMarker:{
-
             x:468,
             y:323
-
         },
 
-
         entrances:[
-
             {
-
-                id:
-                    "biro-main",
-
+                id:"biro-main",
                 x:449,
                 y:290
-
             }
-
         ],
-
 
         modelPath:
             "./assets/models/biro-fakultas-teknik.glb"
-
     },
 
 
-
     {
+        id:"perpustakaan-ft",
 
-        id:
-            "perpustakaan-ft",
+        name:"Perpustakaan Fakultas Teknik",
 
-        name:
-            "Perpustakaan Fakultas Teknik",
-
-        shortName:
-            "Perpustakaan FT",
+        shortName:"Perpustakaan FT",
 
         description:
             "Perpustakaan Fakultas Teknik berada di lantai 1 pada gedung yang berbeda dan terletak di sudut seberang lapangan.",
 
-        actualFloor:
-            1,
+        actualFloor:1,
 
-        floorCount:
-            1,
-
+        floorCount:1,
 
         mapMarker:{
-
             x:488,
             y:152
-
         },
 
-
         entrances:[
-
             {
-
-                id:
-                    "library-main",
-
+                id:"library-main",
                 x:490,
                 y:185
-
             }
-
         ],
 
-
-        modelPath:
-            null
-
+        modelPath:null
     },
 
 
-
     {
+        id:"serbaguna-ft",
 
-        id:
-            "serbaguna-ft",
+        name:"Gedung Serbaguna Fakultas Teknik",
 
-        name:
-            "Gedung Serbaguna Fakultas Teknik",
-
-        shortName:
-            "Serbaguna FT",
+        shortName:"Serbaguna FT",
 
         description:
             "Gedung Serbaguna Fakultas Teknik berada di lantai 1 pada gedung yang berbeda yaitu gedung Fakultas Hukum.",
 
-        actualFloor:
-            1,
+        actualFloor:1,
 
-        floorCount:
-            1,
-
+        floorCount:1,
 
         mapMarker:{
-
             x:390,
             y:87
-
         },
 
-
         entrances:[
-
             {
-
-                id:
-                    "serbaguna-main",
-
+                id:"serbaguna-main",
                 x:390,
                 y:120
-
             }
-
         ],
 
-
-        modelPath:
-            null
-
+        modelPath:null
     },
 
 
-
     {
+        id:"perkuliahan-ft",
 
-        id:
-            "perkuliahan-ft",
+        name:"Gedung Perkuliahan Fakultas Teknik",
 
-        name:
-            "Gedung Perkuliahan Fakultas Teknik",
-
-        shortName:
-            "Perkuliahan FT",
+        shortName:"Perkuliahan FT",
 
         description:
             "Gedung Perkuliahan Fakultas Teknik berada di lantai 3 pada gedung yang terletak di seberang Gedung Biro Fakultas Teknik.",
 
-        actualFloor:
-            3,
+        actualFloor:3,
 
-        floorCount:
-            1,
-
+        floorCount:1,
 
         mapMarker:{
-
             x:316,
             y:357
-
         },
 
-
         entrances:[
-
             {
-
-                id:
-                    "class-main",
-
+                id:"class-main",
                 x:303,
                 y:307
-
             }
-
         ],
 
-
-        modelPath:
-            null
-
+        modelPath:null
     },
 
 
-
     {
+        id:"laboratorium-ft",
 
-        id:
-            "laboratorium-ft",
+        name:"Gedung Laboratorium Fakultas Teknik",
 
-        name:
-            "Gedung Laboratorium Fakultas Teknik",
-
-        shortName:
-            "Laboratorium FT",
+        shortName:"Laboratorium FT",
 
         description:
             "Gedung Laboratorium Fakultas Teknik terdiri dari tiga lantai dan berada di dekat Gedung Perkuliahan Fakultas Teknik.",
 
-        actualFloor:
-            null,
+        actualFloor:null,
 
-        floorCount:
-            3,
-
+        floorCount:3,
 
         mapMarker:{
-
             x:329,
             y:466
-
         },
-
 
         entrances:[
 
             {
-
-                id:
-                    "lab-north",
-
+                id:"lab-north",
                 x:243,
                 y:370
-
             },
 
-
             {
-
-                id:
-                    "lab-west",
-
+                id:"lab-west",
                 x:243,
                 y:454
-
             },
 
-
             {
-
-                id:
-                    "lab-south",
-
+                id:"lab-south",
                 x:360,
                 y:507
-
             }
 
         ],
 
-
-        modelPath:
-            null
-
+        modelPath:null
     }
 
 ];
 
 
-
 /* =========================================================
-   DATABASE RUANGAN
+   RUANGAN
 ========================================================= */
 
 export const rooms = [
 
-    /* =========================
-       BIRO FT
-    ========================= */
+    /* BIRO */
 
     {
         id:"gudang-mini",
@@ -458,10 +341,7 @@ export const rooms = [
     },
 
 
-
-    /* =========================
-       PERKULIAHAN
-    ========================= */
+    /* PERKULIAHAN */
 
     {
         id:"ruang-kuliah-1",
@@ -520,10 +400,7 @@ export const rooms = [
     },
 
 
-
-    /* =========================
-       LAB LANTAI 1
-    ========================= */
+    /* LAB LANTAI 1 */
 
     {
         id:"lab-foundry",
@@ -568,10 +445,7 @@ export const rooms = [
     },
 
 
-
-    /* =========================
-       LAB LANTAI 2
-    ========================= */
+    /* LAB LANTAI 2 */
 
     {
         id:"lab-rangkaian-listrik",
@@ -658,10 +532,7 @@ export const rooms = [
     },
 
 
-
-    /* =========================
-       LAB LANTAI 3
-    ========================= */
+    /* LAB LANTAI 3 */
 
     {
         id:"ruang-kuliah-11",
@@ -708,10 +579,8 @@ export const rooms = [
 ];
 
 
-
 /* =========================================================
    ROUTE NODE
-   JALUR MENGIKUTI DENAH V3
 ========================================================= */
 
 export const routeNodes = {
@@ -721,120 +590,100 @@ export const routeNodes = {
         y:286
     },
 
-
     GATE_MID:{
         x:143,
         y:286
     },
-
 
     CENTER:{
         x:278,
         y:286
     },
 
-
     TOP_MAIN:{
         x:282,
         y:120
     },
-
 
     GATE_EXIT:{
         x:282,
         y:36
     },
 
-
     SERBAGUNA:{
         x:390,
         y:120
     },
-
 
     TOP_RIGHT:{
         x:535,
         y:120
     },
 
-
     LIB_CORNER:{
         x:535,
         y:185
     },
-
 
     LIBRARY:{
         x:490,
         y:185
     },
 
-
     COURT_TOP:{
         x:355,
         y:286
     },
-
 
     BIRO:{
         x:449,
         y:290
     },
 
-
     COURT_BOTTOM:{
         x:355,
         y:397
     },
-
 
     LAB_RIGHT:{
         x:418,
         y:397
     },
 
-
     LAB_RIGHT_BOTTOM:{
         x:418,
         y:507
     },
-
 
     LAB_SOUTH:{
         x:360,
         y:507
     },
 
-
     LAB_LEFT_BOTTOM:{
         x:243,
         y:507
     },
-
 
     LAB_WEST:{
         x:243,
         y:454
     },
 
-
     LAB_NORTH:{
         x:243,
         y:370
     },
-
 
     MOSQUE_BRANCH:{
         x:204,
         y:370
     },
 
-
     CLASS_JUNCTION:{
         x:303,
         y:286
     },
-
 
     CLASS_ENTRANCE:{
         x:303,
@@ -844,14 +693,11 @@ export const routeNodes = {
 };
 
 
-
 /* =========================================================
    ROUTE EDGE
 ========================================================= */
 
 export const routeEdges = [
-
-    /* GERBANG MASUK */
 
     {
         id:"E01",
@@ -866,8 +712,6 @@ export const routeEdges = [
     },
 
 
-    /* JALUR UTAMA KIRI → TENGAH */
-
     {
         id:"E02",
 
@@ -881,8 +725,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* DIAGONAL AREA MASJID */
 
     {
         id:"E03",
@@ -911,8 +753,6 @@ export const routeEdges = [
     },
 
 
-    /* DARI TENGAH KE LAB BAGIAN ATAS */
-
     {
         id:"E05",
 
@@ -927,8 +767,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* VERTIKAL UTAMA KE ATAS */
 
     {
         id:"E06",
@@ -945,8 +783,6 @@ export const routeEdges = [
     },
 
 
-    /* GERBANG KELUAR */
-
     {
         id:"E07",
 
@@ -959,8 +795,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* SERBAGUNA */
 
     {
         id:"E08",
@@ -976,8 +810,6 @@ export const routeEdges = [
     },
 
 
-    /* LANJUT KE KANAN */
-
     {
         id:"E09",
 
@@ -991,8 +823,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* MEMUTAR SISI KANAN PERPUSTAKAAN */
 
     {
         id:"E10",
@@ -1008,8 +838,6 @@ export const routeEdges = [
     },
 
 
-    /* MASUK KE ENTRANCE PERPUSTAKAAN */
-
     {
         id:"E11",
 
@@ -1023,8 +851,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* JALUR TENGAH KE AREA BIRO */
 
     {
         id:"E12",
@@ -1054,8 +880,6 @@ export const routeEdges = [
     },
 
 
-    /* JALUR TURUN MENGELILINGI LAPANGAN */
-
     {
         id:"E14",
 
@@ -1083,8 +907,6 @@ export const routeEdges = [
     },
 
 
-    /* SISI KANAN LAB */
-
     {
         id:"E16",
 
@@ -1098,8 +920,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* BAWAH LAB */
 
     {
         id:"E17",
@@ -1129,8 +949,6 @@ export const routeEdges = [
     },
 
 
-    /* SISI KIRI LAB */
-
     {
         id:"E19",
 
@@ -1157,8 +975,6 @@ export const routeEdges = [
         ]
     },
 
-
-    /* GEDUNG PERKULIAHAN */
 
     {
         id:"E21",
@@ -1188,7 +1004,6 @@ export const routeEdges = [
 ];
 
 
-
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -1196,10 +1011,8 @@ export const routeEdges = [
 export function getBuildingById(id){
 
     return buildings.find(
-
         building =>
             building.id === id
-
     ) || null;
 
 }
@@ -1208,10 +1021,8 @@ export function getBuildingById(id){
 export function getRoomById(id){
 
     return rooms.find(
-
         room =>
             room.id === id
-
     ) || null;
 
 }
