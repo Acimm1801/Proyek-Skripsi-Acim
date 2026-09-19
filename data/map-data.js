@@ -1,6 +1,6 @@
 /* =========================================================
    FT UISU EXPLORER
-   MAP DATA v17
+   MAP DATA v21
 ========================================================= */
 
 export const MAP_WIDTH = 551;
@@ -190,8 +190,6 @@ export const buildings = [
 ========================================================= */
 
 export const rooms = [
-
-    /* BIRO */
 
     {
         id:"gudang-mini",
@@ -580,7 +578,7 @@ export const rooms = [
 
 
 /* =========================================================
-   ROUTE NODE
+   ROUTE NODES
 ========================================================= */
 
 export const routeNodes = {
@@ -694,30 +692,25 @@ export const routeNodes = {
 
 
 /* =========================================================
-   ROUTE EDGE
+   ROUTE EDGES
 ========================================================= */
 
 export const routeEdges = [
 
     {
         id:"E01",
-
         from:"GATE_IN",
         to:"GATE_MID",
-
         points:[
             [34,286],
             [143,286]
         ]
     },
 
-
     {
         id:"E02",
-
         from:"GATE_MID",
         to:"CENTER",
-
         points:[
             [143,286],
             [210,286],
@@ -725,13 +718,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E03",
-
         from:"GATE_MID",
         to:"MOSQUE_BRANCH",
-
         points:[
             [143,286],
             [169,318],
@@ -739,26 +729,20 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E04",
-
         from:"MOSQUE_BRANCH",
         to:"LAB_NORTH",
-
         points:[
             [204,370],
             [243,370]
         ]
     },
 
-
     {
         id:"E05",
-
         from:"CENTER",
         to:"LAB_NORTH",
-
         points:[
             [278,286],
             [278,329],
@@ -767,13 +751,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E06",
-
         from:"CENTER",
         to:"TOP_MAIN",
-
         points:[
             [278,286],
             [280,230],
@@ -782,26 +763,20 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E07",
-
         from:"TOP_MAIN",
         to:"GATE_EXIT",
-
         points:[
             [282,120],
             [282,36]
         ]
     },
 
-
     {
         id:"E08",
-
         from:"TOP_MAIN",
         to:"SERBAGUNA",
-
         points:[
             [282,120],
             [335,120],
@@ -809,13 +784,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E09",
-
         from:"SERBAGUNA",
         to:"TOP_RIGHT",
-
         points:[
             [390,120],
             [455,120],
@@ -823,13 +795,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E10",
-
         from:"TOP_RIGHT",
         to:"LIB_CORNER",
-
         points:[
             [535,120],
             [535,150],
@@ -837,13 +806,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E11",
-
         from:"LIB_CORNER",
         to:"LIBRARY",
-
         points:[
             [535,185],
             [515,185],
@@ -851,13 +817,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E12",
-
         from:"CENTER",
         to:"COURT_TOP",
-
         points:[
             [278,286],
             [316,286],
@@ -865,13 +828,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E13",
-
         from:"COURT_TOP",
         to:"BIRO",
-
         points:[
             [355,286],
             [405,288],
@@ -879,13 +839,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E14",
-
         from:"COURT_TOP",
         to:"COURT_BOTTOM",
-
         points:[
             [355,286],
             [355,340],
@@ -893,26 +850,20 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E15",
-
         from:"COURT_BOTTOM",
         to:"LAB_RIGHT",
-
         points:[
             [355,397],
             [418,397]
         ]
     },
 
-
     {
         id:"E16",
-
         from:"LAB_RIGHT",
         to:"LAB_RIGHT_BOTTOM",
-
         points:[
             [418,397],
             [418,450],
@@ -920,13 +871,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E17",
-
         from:"LAB_RIGHT_BOTTOM",
         to:"LAB_SOUTH",
-
         points:[
             [418,507],
             [390,507],
@@ -934,13 +882,10 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E18",
-
         from:"LAB_SOUTH",
         to:"LAB_LEFT_BOTTOM",
-
         points:[
             [360,507],
             [300,507],
@@ -948,26 +893,20 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E19",
-
         from:"LAB_LEFT_BOTTOM",
         to:"LAB_WEST",
-
         points:[
             [243,507],
             [243,454]
         ]
     },
 
-
     {
         id:"E20",
-
         from:"LAB_WEST",
         to:"LAB_NORTH",
-
         points:[
             [243,454],
             [243,410],
@@ -975,26 +914,20 @@ export const routeEdges = [
         ]
     },
 
-
     {
         id:"E21",
-
         from:"CENTER",
         to:"CLASS_JUNCTION",
-
         points:[
             [278,286],
             [303,286]
         ]
     },
 
-
     {
         id:"E22",
-
         from:"CLASS_JUNCTION",
         to:"CLASS_ENTRANCE",
-
         points:[
             [303,286],
             [303,307]
