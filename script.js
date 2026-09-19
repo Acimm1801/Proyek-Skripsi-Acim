@@ -11,28 +11,22 @@ import {
 
     getBuildingById
 
-} from "./data/map-data.js?v=18";
+} from "./data/map-data.js?v=19";
 
 
 
 /* =========================================================
-   SHORTCUT DOM
+   DOM
 ========================================================= */
 
 const $ =
     selector =>
-        document.querySelector(
-            selector
-        );
+        document.querySelector(selector);
 
 
 const $$ =
     selector =>
-        [
-            ...document.querySelectorAll(
-                selector
-            )
-        ];
+        [...document.querySelectorAll(selector)];
 
 
 
@@ -42,157 +36,122 @@ const $$ =
 
 const state = {
 
-    currentSlide:
-        0,
+    currentSlide: 0,
 
-    landingModelIndex:
-        0,
+    landingModelIndex: 0,
 
-    globalSelection:
-        null,
+    globalSelection: null,
 
-    infoLocation:
-        null,
+    infoLocation: null,
 
-    destination:
-        null,
+    destination: null,
 
-    clickedPosition:
-        null,
+    clickedPosition: null,
 
-    snappedPosition:
-        null,
+    snappedPosition: null,
 
-    routeResult:
-        null,
+    routeResult: null,
 
-    cameraStream:
-        null
+    cameraStream: null
 
 };
 
 
 
 /* =========================================================
-   DATABASE SEARCH
+   LOCATION DATABASE
 ========================================================= */
 
-const locations =
-    [];
+const locations = [];
 
 
+buildings.forEach(building => {
 
-buildings.forEach(
+    locations.push({
 
-    building => {
+        id: building.id,
 
-        locations.push({
+        type: "building",
 
-            id:
-                building.id,
+        name: building.name,
 
-            type:
-                "building",
+        buildingId: building.id,
 
-            name:
-                building.name,
+        parent: "Fakultas Teknik UISU",
 
-            buildingId:
-                building.id,
+        floor: building.actualFloor,
 
-            parent:
+        description: building.description
+
+    });
+
+});
+
+
+rooms.forEach(room => {
+
+    const building =
+        getBuildingById(
+            room.buildingId
+        );
+
+
+    locations.push({
+
+        ...room,
+
+        type: "room",
+
+        parent:
+            building
+                ?
+                building.name
+                :
                 "Fakultas Teknik UISU",
 
-            floor:
-                building.actualFloor,
+        description:
 
-            description:
-                building.description
-
-        });
-
-    }
-
-);
-
-
-
-rooms.forEach(
-
-    room => {
-
-        const building =
-            getBuildingById(
-                room.buildingId
-            );
-
-
-        locations.push({
-
-            ...room,
-
-            type:
-                "room",
-
-            parent:
-
+            `${room.name} berada di ${
                 building
                     ?
                     building.name
                     :
-                    "Fakultas Teknik UISU",
+                    "Fakultas Teknik UISU"
+            }`
+
+            +
+
+            `${
+                room.floor
+                    ?
+                    `, lantai ${room.floor}`
+                    :
+                    ""
+            }. Detail informasi ruangan akan dilengkapi kemudian.`
+
+    });
+
+});
 
 
-            description:
 
-                `${room.name} berada di ${
-                    building
-                        ?
-                        building.name
-                        :
-                        "Fakultas Teknik UISU"
-                }`
-
-                +
-
-                `${
-                    room.floor
-                        ?
-                        `, lantai ${room.floor}`
-                        :
-                        ""
-                }. `
-
-                +
-
-                "Detail informasi ruangan akan dilengkapi kemudian."
-
-        });
-
-    }
-
-);
-
-
+/* =========================================================
+   SEARCH
+========================================================= */
 
 function normalizeText(value){
 
-    return String(
-        value || ""
-    )
-    .toLowerCase()
-    .trim();
+    return String(value || "")
+        .toLowerCase()
+        .trim();
 
 }
-
 
 
 function searchLocations(value){
 
     const query =
-        normalizeText(
-            value
-        );
+        normalizeText(value);
 
 
     if(!query){
@@ -203,154 +162,108 @@ function searchLocations(value){
 
 
     return locations
+        .filter(location =>
 
-        .filter(
-
-            location =>
-
-                normalizeText(
-
-                    `${location.name} ${location.parent}`
-
-                )
-                .includes(
-                    query
-                )
+            normalizeText(
+                `${location.name} ${location.parent}`
+            )
+            .includes(query)
 
         )
-
-        .slice(
-            0,
-            30
-        );
+        .slice(0,30);
 
 }
 
 
 
-/* =========================================================
-   SEARCH RESULT RENDER
-========================================================= */
-
 function renderSearchResults(
-
     results,
     container,
     onSelect
-
 ){
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
-    if(
-        !results.length
-    ){
+    if(!results.length){
 
-        container.innerHTML =
-
-            `
+        container.innerHTML = `
             <div class="search-empty">
                 Lokasi tidak ditemukan.
             </div>
-            `;
+        `;
 
-
-        container.classList
-        .remove(
-            "hidden"
-        );
-
+        container.classList.remove("hidden");
 
         return;
     }
 
 
-    results.forEach(
+    results.forEach(location => {
 
-        location => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
+        const button =
+            document.createElement("button");
 
 
-            button.type =
-                "button";
+        button.type =
+            "button";
 
 
-            button.className =
-                "search-result";
+        button.className =
+            "search-result";
 
 
-            button.innerHTML =
+        button.innerHTML = `
 
-                `
-                <span>
+            <span>
 
-                    <strong>
-                        ${location.name}
-                    </strong>
+                <strong>
+                    ${location.name}
+                </strong>
 
-                    <small>
+                <small>
 
-                        ${location.parent}
-
-                        ${
-                            location.floor
-                                ?
-                                ` • Lantai ${location.floor}`
-                                :
-                                ""
-                        }
-
-                    </small>
-
-                </span>
-
-
-                <span class="search-type">
+                    ${location.parent}
 
                     ${
-                        location.type ===
-                        "building"
+                        location.floor
                             ?
-                            "Gedung"
+                            ` • Lantai ${location.floor}`
                             :
-                            "Ruangan"
+                            ""
                     }
 
-                </span>
-                `;
+                </small>
+
+            </span>
+
+            <span class="search-type">
+
+                ${
+                    location.type === "building"
+                        ?
+                        "Gedung"
+                        :
+                        "Ruangan"
+                }
+
+            </span>
+
+        `;
 
 
-            button.addEventListener(
-
-                "click",
-
-                () =>
-                    onSelect(
-                        location
-                    )
-
-            );
+        button.addEventListener(
+            "click",
+            () => onSelect(location)
+        );
 
 
-            container.appendChild(
-                button
-            );
+        container.appendChild(button);
 
-        }
-
-    );
+    });
 
 
-    container.classList
-    .remove(
-        "hidden"
-    );
+    container.classList.remove("hidden");
 
 }
 
@@ -363,17 +276,13 @@ function renderSearchResults(
 function openDrawer(){
 
     $("#drawer")
-    .classList
-    .add(
-        "open"
-    );
+        .classList
+        .add("open");
 
 
     $("#drawerOverlay")
-    .classList
-    .add(
-        "show"
-    );
+        .classList
+        .add("show");
 
 
     document.body.style.overflow =
@@ -382,21 +291,16 @@ function openDrawer(){
 }
 
 
-
 function closeDrawer(){
 
     $("#drawer")
-    .classList
-    .remove(
-        "open"
-    );
+        .classList
+        .remove("open");
 
 
     $("#drawerOverlay")
-    .classList
-    .remove(
-        "show"
-    );
+        .classList
+        .remove("show");
 
 
     document.body.style.overflow =
@@ -405,26 +309,25 @@ function closeDrawer(){
 }
 
 
-
 $("#hamburgerButton")
-.addEventListener(
-    "click",
-    openDrawer
-);
+    .addEventListener(
+        "click",
+        openDrawer
+    );
 
 
 $("#closeDrawer")
-.addEventListener(
-    "click",
-    closeDrawer
-);
+    .addEventListener(
+        "click",
+        closeDrawer
+    );
 
 
 $("#drawerOverlay")
-.addEventListener(
-    "click",
-    closeDrawer
-);
+    .addEventListener(
+        "click",
+        closeDrawer
+    );
 
 
 
@@ -435,15 +338,9 @@ $("#drawerOverlay")
 function showPage(pageName){
 
     $$(".page")
-    .forEach(
-
-        page =>
-            page.classList
-            .remove(
-                "active"
-            )
-
-    );
+        .forEach(page =>
+            page.classList.remove("active")
+        );
 
 
     const target =
@@ -452,38 +349,23 @@ function showPage(pageName){
 
     if(target){
 
-        target.classList
-        .add(
-            "active"
-        );
+        target.classList.add("active");
 
     }
 
 
     $$(".header-link")
-    .forEach(
+        .forEach(button => {
 
-        button => {
-
-            button.classList
-            .toggle(
-
+            button.classList.toggle(
                 "active",
-
-                button.dataset.page ===
-                pageName
-
+                button.dataset.page === pageName
             );
 
-        }
-
-    );
+        });
 
 
-    if(
-        pageName !==
-        "arNavigation"
-    ){
+    if(pageName !== "arNavigation"){
 
         stopNavigationCamera();
 
@@ -495,11 +377,9 @@ function showPage(pageName){
 
     window.scrollTo({
 
-        top:
-            0,
+        top: 0,
 
-        behavior:
-            "smooth"
+        behavior: "smooth"
 
     });
 
@@ -508,44 +388,29 @@ function showPage(pageName){
 
 
 $("#logoHome")
-.addEventListener(
-
-    "click",
-
-    () =>
-        showPage(
-            "home"
-        )
-
-);
-
+    .addEventListener(
+        "click",
+        () => showPage("home")
+    );
 
 
 $$("[data-page]")
-.forEach(
-
-    button => {
+    .forEach(button => {
 
         button.addEventListener(
-
             "click",
-
             () =>
                 showPage(
                     button.dataset.page
                 )
-
         );
 
-    }
-
-);
+    });
 
 
 
 /* =========================================================
    HERO SLIDER
-   MANUAL
 ========================================================= */
 
 const slides =
@@ -568,133 +433,89 @@ function showSlide(index){
 
 
     slides.forEach(
+        (slide,slideIndex) => {
 
-        (
-            slide,
-            slideIndex
-        ) => {
-
-            slide.classList
-            .toggle(
-
+            slide.classList.toggle(
                 "active",
-
-                slideIndex ===
-                index
-
+                slideIndex === index
             );
 
         }
-
     );
 
 
     $$(".slider-dot")
-    .forEach(
+        .forEach(
+            (dot,dotIndex) => {
 
-        (
-            dot,
-            dotIndex
-        ) => {
+                dot.classList.toggle(
+                    "active",
+                    dotIndex === index
+                );
 
-            dot.classList
-            .toggle(
-
-                "active",
-
-                dotIndex ===
-                index
-
-            );
-
-        }
-
-    );
+            }
+        );
 
 }
 
 
-
 $("#nextSlide")
-.addEventListener(
-
-    "click",
-
-    () =>
-        showSlide(
-            state.currentSlide + 1
-        )
-
-);
-
+    .addEventListener(
+        "click",
+        () =>
+            showSlide(
+                state.currentSlide + 1
+            )
+    );
 
 
 $("#prevSlide")
-.addEventListener(
-
-    "click",
-
-    () =>
-        showSlide(
-            state.currentSlide - 1
-        )
-
-);
-
+    .addEventListener(
+        "click",
+        () =>
+            showSlide(
+                state.currentSlide - 1
+            )
+    );
 
 
 $$(".slider-dot")
-.forEach(
-
-    dot => {
+    .forEach(dot => {
 
         dot.addEventListener(
-
             "click",
-
             () =>
                 showSlide(
-
                     Number(
                         dot.dataset.slide
                     )
-
                 )
-
         );
 
-    }
-
-);
+    });
 
 
 
 /* =========================================================
-   LANDING 3D MODEL
+   LANDING MODEL
 ========================================================= */
 
 const landingModels =
     buildings.filter(
-
         building =>
             Boolean(
                 building.modelPath
             )
-
     );
-
 
 
 function showLandingModel(index){
 
-    if(
-        !landingModels.length
-    ){
+    if(!landingModels.length){
 
         $("#landingModelName")
-        .textContent =
-            "Model belum tersedia";
-
+            .textContent =
+                "Model belum tersedia";
 
         return;
     }
@@ -721,72 +542,41 @@ function showLandingModel(index){
         $("#landingModelViewer");
 
 
-    if(
-        viewer.getAttribute(
-            "src"
-        )
-        !==
+    viewer.setAttribute(
+        "src",
         building.modelPath
-    ){
-
-        viewer.setAttribute(
-
-            "src",
-
-            building.modelPath
-
-        );
-
-    }
+    );
 
 
     viewer.setAttribute(
-
         "alt",
-
         building.name
-
     );
 
 
     $("#landingModelName")
-    .textContent =
-        building.name;
+        .textContent =
+            building.name;
 
 
     $("#landingModelCounter")
-    .textContent =
-
-        `${index + 1} / ${landingModels.length}`;
+        .textContent =
+            `${index + 1} / ${landingModels.length}`;
 
 }
 
 
-
-showLandingModel(
-    0
-);
+showLandingModel(0);
 
 
-
-if(
-    landingModels.length > 1
-){
+if(landingModels.length > 1){
 
     setInterval(
-
-        () => {
-
+        () =>
             showLandingModel(
-
                 state.landingModelIndex + 1
-
-            );
-
-        },
-
+            ),
         10000
-
     );
 
 }
@@ -798,168 +588,138 @@ if(
 ========================================================= */
 
 $("#globalSearch")
-.addEventListener(
+    .addEventListener(
+        "input",
+        event => {
 
-    "input",
-
-    event => {
-
-        const value =
-            event.target.value;
+            const value =
+                event.target.value;
 
 
-        state.globalSelection =
-            null;
+            state.globalSelection =
+                null;
 
 
-        $("#globalSelected")
-        .classList
-        .add(
-            "hidden"
-        );
+            $("#globalSelected")
+                .classList
+                .add("hidden");
 
 
-        if(!value){
-
-            $("#globalSearchResults")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-            return;
-        }
-
-
-        renderSearchResults(
-
-            searchLocations(
-                value
-            ),
-
-            $("#globalSearchResults"),
-
-            location => {
-
-                state.globalSelection =
-                    location;
-
-
-                $("#globalSearch").value =
-                    location.name;
-
-
-                $("#globalSelectedName")
-                .textContent =
-                    location.name;
-
+            if(!value){
 
                 $("#globalSearchResults")
-                .classList
-                .add(
-                    "hidden"
-                );
+                    .classList
+                    .add("hidden");
 
-
-                $("#globalSelected")
-                .classList
-                .remove(
-                    "hidden"
-                );
-
+                return;
             }
 
-        );
 
-    }
+            renderSearchResults(
 
-);
+                searchLocations(value),
+
+                $("#globalSearchResults"),
+
+                location => {
+
+                    state.globalSelection =
+                        location;
+
+
+                    $("#globalSearch")
+                        .value =
+                            location.name;
+
+
+                    $("#globalSelectedName")
+                        .textContent =
+                            location.name;
+
+
+                    $("#globalSearchResults")
+                        .classList
+                        .add("hidden");
+
+
+                    $("#globalSelected")
+                        .classList
+                        .remove("hidden");
+
+                }
+
+            );
+
+        }
+    );
 
 
 
 $("#clearGlobalSearch")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
-
-    () => {
-
-        $("#globalSearch").value =
-            "";
+            $("#globalSearch").value =
+                "";
 
 
-        state.globalSelection =
-            null;
+            state.globalSelection =
+                null;
 
 
-        $("#globalSearchResults")
-        .classList
-        .add(
-            "hidden"
-        );
+            $("#globalSearchResults")
+                .classList
+                .add("hidden");
 
 
-        $("#globalSelected")
-        .classList
-        .add(
-            "hidden"
-        );
+            $("#globalSelected")
+                .classList
+                .add("hidden");
 
-    }
-
-);
+        }
+    );
 
 
 
 $("#globalInfoButton")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
+            if(state.globalSelection){
 
-    () => {
+                openInfo(
+                    state.globalSelection
+                );
 
-        if(
-            state.globalSelection
-        ){
-
-            openInfo(
-                state.globalSelection
-            );
+            }
 
         }
-
-    }
-
-);
+    );
 
 
 
 $("#globalNavButton")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
+            if(state.globalSelection){
 
-    () => {
+                openNavigationWithDestination(
+                    state.globalSelection
+                );
 
-        if(
-            state.globalSelection
-        ){
-
-            openNavigationWithDestination(
-                state.globalSelection
-            );
+            }
 
         }
-
-    }
-
-);
+    );
 
 
 
 /* =========================================================
-   INFO MODAL
+   INFO
 ========================================================= */
 
 function openInfo(location){
@@ -969,30 +729,28 @@ function openInfo(location){
 
 
     $("#infoTitle")
-    .textContent =
-        location.name;
+        .textContent =
+            location.name;
 
 
     $("#infoParent")
-    .textContent =
-        location.parent;
+        .textContent =
+            location.parent;
 
 
     $("#infoDescription")
-    .textContent =
+        .textContent =
 
-        location.description
+            location.description
 
-        ||
+            ||
 
-        "Detail informasi akan dilengkapi kemudian.";
+            "Detail informasi akan dilengkapi kemudian.";
 
 
     $("#infoModal")
-    .classList
-    .remove(
-        "hidden"
-    );
+        .classList
+        .remove("hidden");
 
 
     document.body.style.overflow =
@@ -1001,14 +759,11 @@ function openInfo(location){
 }
 
 
-
 function closeInfo(){
 
     $("#infoModal")
-    .classList
-    .add(
-        "hidden"
-    );
+        .classList
+        .add("hidden");
 
 
     document.body.style.overflow =
@@ -1017,52 +772,44 @@ function closeInfo(){
 }
 
 
-
 $("#closeInfoModal")
-.addEventListener(
-    "click",
-    closeInfo
-);
+    .addEventListener(
+        "click",
+        closeInfo
+    );
 
 
 $("#infoBackdrop")
-.addEventListener(
-    "click",
-    closeInfo
-);
-
+    .addEventListener(
+        "click",
+        closeInfo
+    );
 
 
 $("#infoNavigationButton")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
+            if(!state.infoLocation){
 
-    () => {
+                return;
+            }
 
-        if(
-            !state.infoLocation
-        ){
 
-            return;
+            const location =
+                state.infoLocation;
+
+
+            closeInfo();
+
+
+            openNavigationWithDestination(
+                location
+            );
 
         }
-
-
-        const location =
-            state.infoLocation;
-
-
-        closeInfo();
-
-
-        openNavigationWithDestination(
-            location
-        );
-
-    }
-
-);
+    );
 
 
 
@@ -1070,47 +817,36 @@ $("#infoNavigationButton")
    BUILDING SELECT
 ========================================================= */
 
-function populateBuildingSelect(
-    selectElement
-){
+function populateBuildingSelect(selectElement){
 
-    selectElement.innerHTML =
+    selectElement.innerHTML = `
 
-        `
         <option value="">
             -- Pilih Gedung --
         </option>
-        `;
+
+    `;
 
 
-    buildings.forEach(
+    buildings.forEach(building => {
 
-        building => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
+        const option =
+            document.createElement("option");
 
 
-            option.value =
-                building.id;
+        option.value =
+            building.id;
 
 
-            option.textContent =
-                building.name;
+        option.textContent =
+            building.name;
 
 
-            selectElement.appendChild(
-                option
-            );
+        selectElement.appendChild(option);
 
-        }
-
-    );
+    });
 
 }
-
 
 
 populateBuildingSelect(
@@ -1125,118 +861,94 @@ populateBuildingSelect(
 
 
 /* =========================================================
-   3D MODEL VIEWER
+   3D VIEWER
 ========================================================= */
 
 $("#show3DModel")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
-
-    () => {
-
-        const building =
-            getBuildingById(
-
-                $("#viewerBuildingSelect")
-                .value
-
-            );
+            const building =
+                getBuildingById(
+                    $("#viewerBuildingSelect").value
+                );
 
 
-        if(!building){
+            if(!building){
+
+                $("#viewerMessage")
+                    .textContent =
+                        "Pilih Gedung terlebih dahulu.";
+
+
+                $("#viewerCard")
+                    .classList
+                    .add("hidden");
+
+                return;
+            }
+
+
+            if(!building.modelPath){
+
+                $("#viewerMessage")
+                    .textContent =
+                        `Model 3D ${building.shortName} belum tersedia.`;
+
+
+                $("#viewerCard")
+                    .classList
+                    .add("hidden");
+
+                return;
+            }
+
 
             $("#viewerMessage")
-            .textContent =
-                "Pilih Gedung terlebih dahulu.";
+                .textContent =
+                    "";
+
+
+            $("#viewerTitle")
+                .textContent =
+                    building.name;
+
+
+            $("#mainModelViewer")
+                .setAttribute(
+                    "src",
+                    building.modelPath
+                );
 
 
             $("#viewerCard")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-            return;
+                .classList
+                .remove("hidden");
 
         }
-
-
-        if(
-            !building.modelPath
-        ){
-
-            $("#viewerMessage")
-            .textContent =
-                `Model 3D ${building.shortName} belum tersedia.`;
-
-
-            $("#viewerCard")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-            return;
-
-        }
-
-
-        $("#viewerMessage")
-        .textContent =
-            "";
-
-
-        $("#viewerTitle")
-        .textContent =
-            building.name;
-
-
-        $("#mainModelViewer")
-        .setAttribute(
-
-            "src",
-
-            building.modelPath
-
-        );
-
-
-        $("#viewerCard")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-    }
-
-);
+    );
 
 
 
 $("#resetCamera")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
-
-    () => {
-
-        const viewer =
-            $("#mainModelViewer");
+            const viewer =
+                $("#mainModelViewer");
 
 
-        viewer.cameraOrbit =
-            "0deg 75deg 105%";
+            viewer.cameraOrbit =
+                "0deg 75deg 105%";
 
 
-        viewer.cameraTarget =
-            "auto auto auto";
+            viewer.cameraTarget =
+                "auto auto auto";
 
-    }
-
-);
+        }
+    );
 
 
 
@@ -1245,281 +957,206 @@ $("#resetCamera")
 ========================================================= */
 
 $("#prepareMainAR")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
-
-    () => {
-
-        const building =
-            getBuildingById(
-
-                $("#arBuildingSelect")
-                .value
-
-            );
+            const building =
+                getBuildingById(
+                    $("#arBuildingSelect").value
+                );
 
 
-        if(!building){
+            if(!building){
+
+                $("#arMessage")
+                    .textContent =
+                        "Pilih Gedung terlebih dahulu.";
+
+
+                $("#arCard")
+                    .classList
+                    .add("hidden");
+
+                return;
+            }
+
+
+            if(!building.modelPath){
+
+                $("#arMessage")
+                    .textContent =
+                        `Model AR ${building.shortName} belum tersedia.`;
+
+
+                $("#arCard")
+                    .classList
+                    .add("hidden");
+
+                return;
+            }
+
 
             $("#arMessage")
-            .textContent =
-                "Pilih Gedung terlebih dahulu.";
+                .textContent =
+                    "";
+
+
+            $("#mainARViewer")
+                .setAttribute(
+                    "src",
+                    building.modelPath
+                );
+
+
+            $("#mainARStatus")
+                .textContent =
+                    `Siap menampilkan ${building.shortName}`;
 
 
             $("#arCard")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-            return;
+                .classList
+                .remove("hidden");
 
         }
-
-
-        if(
-            !building.modelPath
-        ){
-
-            $("#arMessage")
-            .textContent =
-                `Model AR ${building.shortName} belum tersedia.`;
-
-
-            $("#arCard")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-            return;
-
-        }
-
-
-        $("#arMessage")
-        .textContent =
-            "";
-
-
-        $("#mainARViewer")
-        .setAttribute(
-
-            "src",
-
-            building.modelPath
-
-        );
-
-
-        $("#mainARStatus")
-        .textContent =
-            `Siap menampilkan ${building.shortName}`;
-
-
-        $("#arCard")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-    }
-
-);
+    );
 
 
 
 $("#launchMainAR")
-.addEventListener(
+    .addEventListener(
+        "click",
+        async () => {
 
-    "click",
+            try{
 
-    async () => {
+                await $("#mainARViewer")
+                    .activateAR();
 
-        try{
+            }
 
-            await $("#mainARViewer")
-            .activateAR();
+            catch(error){
 
-        }
+                console.error(error);
 
-        catch(error){
-
-            console.error(
-                error
-            );
-
-
-            toast(
-                "AR belum dapat dibuka pada perangkat ini."
-            );
-
-        }
-
-    }
-
-);
-
-
-
-/* =========================================================
-   ROUTING UTILITIES
-========================================================= */
-
-function pointDistance(
-    a,
-    b
-){
-
-    return Math.hypot(
-
-        a.x - b.x,
-
-        a.y - b.y
-
-    );
-
-}
-
-
-
-function pointsEqual(
-    a,
-    b,
-    epsilon = 0.5
-){
-
-    return pointDistance(
-        a,
-        b
-    )
-    <=
-    epsilon;
-
-}
-
-
-
-/* =========================================================
-   PREPARE ROUTE EDGES
-========================================================= */
-
-const routingEdges =
-    routeEdges.map(
-
-        edge => {
-
-            const points =
-                edge.points.map(
-
-                    ([x,y]) => ({
-                        x,
-                        y
-                    })
-
-                );
-
-
-            const cumulative =
-                [0];
-
-
-            let total =
-                0;
-
-
-            for(
-                let i = 0;
-                i < points.length - 1;
-                i += 1
-            ){
-
-                total +=
-                    pointDistance(
-
-                        points[i],
-
-                        points[i + 1]
-
-                    );
-
-
-                cumulative.push(
-                    total
+                toast(
+                    "AR belum dapat dibuka pada perangkat ini."
                 );
 
             }
 
+        }
+    );
 
-            return {
 
-                ...edge,
 
-                points,
+/* =========================================================
+   ROUTING
+========================================================= */
 
-                cumulative,
+function pointDistance(a,b){
 
-                length:
-                    total
+    return Math.hypot(
+        a.x - b.x,
+        a.y - b.y
+    );
 
-            };
+}
+
+
+function pointsEqual(a,b,epsilon = 0.5){
+
+    return pointDistance(a,b)
+        <= epsilon;
+
+}
+
+
+
+const routingEdges =
+    routeEdges.map(edge => {
+
+        const points =
+            edge.points.map(
+                ([x,y]) => ({
+                    x,
+                    y
+                })
+            );
+
+
+        const cumulative =
+            [0];
+
+
+        let total =
+            0;
+
+
+        for(
+            let i = 0;
+            i < points.length - 1;
+            i++
+        ){
+
+            total +=
+                pointDistance(
+                    points[i],
+                    points[i + 1]
+                );
+
+
+            cumulative.push(total);
 
         }
 
-    );
+
+        return {
+
+            ...edge,
+
+            points,
+
+            cumulative,
+
+            length:
+                total
+
+        };
+
+    });
 
 
 
 const edgeById =
     new Map(
-
         routingEdges.map(
-
             edge => [
                 edge.id,
                 edge
             ]
-
         )
-
     );
 
 
-
-/* =========================================================
-   BUILD GRAPH
-========================================================= */
 
 const routeGraph =
     {};
 
 
-Object.keys(
-    routeNodes
-)
-.forEach(
-
-    nodeId => {
+Object.keys(routeNodes)
+    .forEach(nodeId => {
 
         routeGraph[nodeId] =
             [];
 
-    }
-
-);
+    });
 
 
 
-routingEdges.forEach(
+routingEdges.forEach(edge => {
 
-    edge => {
-
-        routeGraph[
-            edge.from
-        ]
+    routeGraph[edge.from]
         .push({
 
             node:
@@ -1534,9 +1171,7 @@ routingEdges.forEach(
         });
 
 
-        routeGraph[
-            edge.to
-        ]
+    routeGraph[edge.to]
         .push({
 
             node:
@@ -1550,15 +1185,9 @@ routingEdges.forEach(
 
         });
 
-    }
-
-);
+});
 
 
-
-/* =========================================================
-   PROJECT POINT TO SEGMENT
-========================================================= */
 
 function projectPointToSegment(
     point,
@@ -1583,29 +1212,21 @@ function projectPointToSegment(
 
 
     const lengthSquared =
-
-        abX * abX
-        +
+        abX * abX +
         abY * abY;
 
 
     let t =
-
         lengthSquared === 0
-
             ?
-
-        0
-
+            0
             :
-
-        (
-            apX * abX
-            +
-            apY * abY
-        )
-        /
-        lengthSquared;
+            (
+                apX * abX +
+                apY * abY
+            )
+            /
+            lengthSquared;
 
 
     t =
@@ -1621,10 +1242,12 @@ function projectPointToSegment(
     const projected = {
 
         x:
-            a.x + abX * t,
+            a.x +
+            abX * t,
 
         y:
-            a.y + abY * t
+            a.y +
+            abY * t
 
     };
 
@@ -1648,109 +1271,91 @@ function projectPointToSegment(
 
 
 
-/* =========================================================
-   SNAP TO NETWORK
-========================================================= */
-
-function snapPointToNetwork(
-    point
-){
+function snapPointToNetwork(point){
 
     let best =
         null;
 
 
-    routingEdges.forEach(
+    routingEdges.forEach(edge => {
 
-        edge => {
+        for(
+            let i = 0;
+            i < edge.points.length - 1;
+            i++
+        ){
 
-            for(
-                let i = 0;
-                i < edge.points.length - 1;
-                i += 1
+            const a =
+                edge.points[i];
+
+
+            const b =
+                edge.points[i + 1];
+
+
+            const projection =
+                projectPointToSegment(
+                    point,
+                    a,
+                    b
+                );
+
+
+            const segmentLength =
+                pointDistance(
+                    a,
+                    b
+                );
+
+
+            const along =
+                edge.cumulative[i]
+                +
+                segmentLength
+                *
+                projection.t;
+
+
+            if(
+                !best
+                ||
+                projection.distance
+                <
+                best.distance
             ){
 
-                const a =
-                    edge.points[i];
+                best = {
 
+                    edge,
 
-                const b =
-                    edge.points[i + 1];
+                    segmentIndex:
+                        i,
 
+                    t:
+                        projection.t,
 
-                const projection =
-                    projectPointToSegment(
+                    point:
+                        projection.point,
 
-                        point,
-                        a,
-                        b
+                    distance:
+                        projection.distance,
 
-                    );
+                    along,
 
-
-                const segmentLength =
-                    pointDistance(
-                        a,
-                        b
-                    );
-
-
-                const along =
-
-                    edge.cumulative[i]
-
-                    +
-
-                    segmentLength
-                    *
-                    projection.t;
-
-
-                if(
-
-                    !best
-
-                    ||
-
-                    projection.distance
-                    <
-                    best.distance
-
-                ){
-
-                    best = {
-
-                        edge,
-
-                        segmentIndex:
-                            i,
-
-                        t:
-                            projection.t,
-
-                        point:
-                            projection.point,
-
-                        distance:
-                            projection.distance,
-
+                    distanceToFrom:
                         along,
 
-                        distanceToFrom:
-                            along,
+                    distanceToTo:
+                        edge.length -
+                        along
 
-                        distanceToTo:
-                            edge.length - along
-
-                    };
-
-                }
+                };
 
             }
 
         }
 
-    );
+    });
 
 
     return best;
@@ -1782,20 +1387,12 @@ function dijkstra(
 
     const unvisited =
         new Set(
-
-            Object.keys(
-                routeNodes
-            )
-
+            Object.keys(routeNodes)
         );
 
 
-    Object.keys(
-        routeNodes
-    )
-    .forEach(
-
-        nodeId => {
+    Object.keys(routeNodes)
+        .forEach(nodeId => {
 
             distances[nodeId] =
                 Infinity;
@@ -1808,18 +1405,14 @@ function dijkstra(
             previousEdge[nodeId] =
                 null;
 
-        }
-
-    );
+        });
 
 
     distances[startNode] =
         0;
 
 
-    while(
-        unvisited.size
-    ){
+    while(unvisited.size){
 
         let current =
             null;
@@ -1829,57 +1422,43 @@ function dijkstra(
             Infinity;
 
 
-        unvisited.forEach(
+        unvisited.forEach(nodeId => {
 
-            nodeId => {
+            if(
+                distances[nodeId]
+                <
+                smallest
+            ){
 
-                if(
-                    distances[nodeId]
-                    <
-                    smallest
-                ){
-
-                    smallest =
-                        distances[nodeId];
+                smallest =
+                    distances[nodeId];
 
 
-                    current =
-                        nodeId;
-
-                }
+                current =
+                    nodeId;
 
             }
 
-        );
+        });
 
 
-        if(
-            current === null
-        ){
+        if(current === null){
 
             break;
-
         }
 
 
-        if(
-            current === targetNode
-        ){
+        if(current === targetNode){
 
             break;
-
         }
 
 
-        unvisited.delete(
-            current
-        );
+        unvisited.delete(current);
 
 
         routeGraph[current]
-        .forEach(
-
-            connection => {
+            .forEach(connection => {
 
                 if(
                     !unvisited.has(
@@ -1888,16 +1467,12 @@ function dijkstra(
                 ){
 
                     return;
-
                 }
 
 
                 const candidate =
-
                     distances[current]
-
                     +
-
                     connection.weight;
 
 
@@ -1931,9 +1506,7 @@ function dijkstra(
 
                 }
 
-            }
-
-        );
+            });
 
     }
 
@@ -1945,7 +1518,6 @@ function dijkstra(
     ){
 
         return null;
-
     }
 
 
@@ -1963,46 +1535,29 @@ function dijkstra(
 
     while(cursor){
 
-        nodePath.unshift(
-            cursor
-        );
+        nodePath.unshift(cursor);
 
 
-        if(
-            cursor ===
-            startNode
-        ){
+        if(cursor === startNode){
 
             break;
-
         }
 
 
         edgePath.unshift(
-
-            previousEdge[
-                cursor
-            ]
-
+            previousEdge[cursor]
         );
 
 
         cursor =
-            previousNode[
-                cursor
-            ];
+            previousNode[cursor];
 
     }
 
 
-    if(
-        nodePath[0]
-        !==
-        startNode
-    ){
+    if(nodePath[0] !== startNode){
 
         return null;
-
     }
 
 
@@ -2022,54 +1577,41 @@ function dijkstra(
 
 
 /* =========================================================
-   DEDUPE POLYLINE
+   ROUTE POLYLINE
 ========================================================= */
 
-function dedupePolyline(
-    points
-){
+function dedupePolyline(points){
 
     const output =
         [];
 
 
-    points.forEach(
+    points.forEach(point => {
 
-        point => {
+        if(
+            !output.length
+            ||
+            !pointsEqual(
+                output[
+                    output.length - 1
+                ],
+                point
+            )
+        ){
 
-            if(
+            output.push({
 
-                !output.length
+                x:
+                    point.x,
 
-                ||
+                y:
+                    point.y
 
-                !pointsEqual(
-
-                    output[
-                        output.length - 1
-                    ],
-
-                    point
-
-                )
-
-            ){
-
-                output.push({
-
-                    x:
-                        point.x,
-
-                    y:
-                        point.y
-
-                });
-
-            }
+            });
 
         }
 
-    );
+    });
 
 
     return output;
@@ -2077,10 +1619,6 @@ function dedupePolyline(
 }
 
 
-
-/* =========================================================
-   SNAP -> ENDPOINT
-========================================================= */
 
 function snapToEndpointPolyline(
     snap,
@@ -2100,17 +1638,12 @@ function snapToEndpointPolyline(
 
 
     const result =
-        [
-            {
-                ...snap.point
-            }
-        ];
+        [{
+            ...snap.point
+        }];
 
 
-    if(
-        endpointNode ===
-        edge.from
-    ){
+    if(endpointNode === edge.from){
 
         result.push(
             points[i]
@@ -2120,7 +1653,7 @@ function snapToEndpointPolyline(
         for(
             let j = i - 1;
             j >= 0;
-            j -= 1
+            j--
         ){
 
             result.push(
@@ -2141,7 +1674,7 @@ function snapToEndpointPolyline(
         for(
             let j = i + 2;
             j < points.length;
-            j += 1
+            j++
         ){
 
             result.push(
@@ -2153,17 +1686,11 @@ function snapToEndpointPolyline(
     }
 
 
-    return dedupePolyline(
-        result
-    );
+    return dedupePolyline(result);
 
 }
 
 
-
-/* =========================================================
-   ENDPOINT -> SNAP
-========================================================= */
 
 function endpointToSnapPolyline(
     snap,
@@ -2171,21 +1698,14 @@ function endpointToSnapPolyline(
 ){
 
     return snapToEndpointPolyline(
-
         snap,
-
         endpointNode
-
     )
     .reverse();
 
 }
 
 
-
-/* =========================================================
-   SAME EDGE ROUTE
-========================================================= */
 
 function sameEdgePolyline(
     startSnap,
@@ -2201,11 +1721,9 @@ function sameEdgePolyline(
 
 
     const result =
-        [
-            {
-                ...startSnap.point
-            }
-        ];
+        [{
+            ...startSnap.point
+        }];
 
 
     if(
@@ -2221,7 +1739,7 @@ function sameEdgePolyline(
             j <=
                 targetSnap.segmentIndex;
 
-            j += 1
+            j++
         ){
 
             result.push(
@@ -2241,7 +1759,7 @@ function sameEdgePolyline(
             j >
                 targetSnap.segmentIndex;
 
-            j -= 1
+            j--
         ){
 
             result.push(
@@ -2258,36 +1776,23 @@ function sameEdgePolyline(
     });
 
 
-    return dedupePolyline(
-        result
-    );
+    return dedupePolyline(result);
 
 }
 
 
 
-/* =========================================================
-   MIDDLE POLYLINE
-========================================================= */
-
 function middlePolyline(
-    dijkstraResult
+    result
 ){
 
     if(
-
-        !dijkstraResult
-
+        !result
         ||
-
-        !dijkstraResult
-        .edgePath
-        .length
-
+        !result.edgePath.length
     ){
 
         return [];
-
     }
 
 
@@ -2295,77 +1800,48 @@ function middlePolyline(
         [];
 
 
-    dijkstraResult.edgePath
-    .forEach(
+    result.edgePath
+        .forEach(
+            (edgeId,index) => {
 
-        (
-            edgeId,
-            index
-        ) => {
+                const edge =
+                    edgeById.get(edgeId);
 
-            const edge =
-                edgeById.get(
-                    edgeId
+
+                const fromNode =
+                    result.nodePath[index];
+
+
+                let points =
+                    edge.from === fromNode
+                        ?
+                        edge.points
+                        :
+                        [...edge.points]
+                            .reverse();
+
+
+                if(output.length){
+
+                    points =
+                        points.slice(1);
+
+                }
+
+
+                output.push(
+                    ...points
                 );
 
-
-            const fromNode =
-
-                dijkstraResult
-                .nodePath[
-                    index
-                ];
-
-
-            let points =
-
-                edge.from ===
-                fromNode
-
-                    ?
-
-                edge.points
-
-                    :
-
-                [
-                    ...edge.points
-                ]
-                .reverse();
-
-
-            if(
-                output.length
-            ){
-
-                points =
-                    points.slice(
-                        1
-                    );
-
             }
+        );
 
 
-            output.push(
-                ...points
-            );
-
-        }
-
-    );
-
-
-    return dedupePolyline(
-        output
-    );
+    return dedupePolyline(output);
 
 }
 
 
-
-/* =========================================================
-   ROUTE BETWEEN SNAPS
-========================================================= */
 
 function routeBetweenSnaps(
     startSnap,
@@ -2385,24 +1861,15 @@ function routeBetweenSnaps(
         candidates.push({
 
             distance:
-
                 Math.abs(
-
-                    startSnap.along
-                    -
+                    startSnap.along -
                     targetSnap.along
-
                 ),
 
-
             points:
-
                 sameEdgePolyline(
-
                     startSnap,
-
                     targetSnap
-
                 )
 
         });
@@ -2413,7 +1880,6 @@ function routeBetweenSnaps(
     const startEndpoints = [
 
         startSnap.edge.from,
-
         startSnap.edge.to
 
     ];
@@ -2422,39 +1888,31 @@ function routeBetweenSnaps(
     const targetEndpoints = [
 
         targetSnap.edge.from,
-
         targetSnap.edge.to
 
     ];
 
 
     startEndpoints.forEach(
-
         startNode => {
 
             targetEndpoints.forEach(
-
                 targetNode => {
 
                     const middle =
                         dijkstra(
-
                             startNode,
-
                             targetNode
-
                         );
 
 
                     if(!middle){
 
                         return;
-
                     }
 
 
                     const startDistance =
-
                         startNode ===
                         startSnap.edge.from
 
@@ -2468,7 +1926,6 @@ function routeBetweenSnaps(
 
 
                     const targetDistance =
-
                         targetNode ===
                         targetSnap.edge.from
 
@@ -2482,31 +1939,22 @@ function routeBetweenSnaps(
 
 
                     const startPart =
-
                         snapToEndpointPolyline(
-
                             startSnap,
-
                             startNode
-
                         );
 
 
                     const middlePart =
-
                         middlePolyline(
                             middle
                         );
 
 
                     const targetPart =
-
                         endpointToSnapPolyline(
-
                             targetSnap,
-
                             targetNode
-
                         );
 
 
@@ -2515,13 +1963,9 @@ function routeBetweenSnaps(
                         distance:
 
                             startDistance
-
                             +
-
                             middle.distance
-
                             +
-
                             targetDistance,
 
 
@@ -2530,9 +1974,7 @@ function routeBetweenSnaps(
                             dedupePolyline([
 
                                 ...startPart,
-
                                 ...middlePart,
-
                                 ...targetPart
 
                             ])
@@ -2540,26 +1982,19 @@ function routeBetweenSnaps(
                     });
 
                 }
-
             );
 
         }
-
     );
 
 
     return candidates
-
         .sort(
-
             (a,b) =>
                 a.distance -
                 b.distance
-
         )[0]
-
         ||
-
         null;
 
 }
@@ -2567,7 +2002,7 @@ function routeBetweenSnaps(
 
 
 /* =========================================================
-   BEST ENTRANCE ROUTE
+   BEST BUILDING ENTRANCE
 ========================================================= */
 
 function findBestEntranceRoute(
@@ -2581,12 +2016,9 @@ function findBestEntranceRoute(
         );
 
 
-    if(
-        !startSnap
-    ){
+    if(!startSnap){
 
         return null;
-
     }
 
 
@@ -2595,9 +2027,7 @@ function findBestEntranceRoute(
 
 
     building.entrances
-    .forEach(
-
-        entrance => {
+        .forEach(entrance => {
 
             const targetSnap =
                 snapPointToNetwork(
@@ -2605,31 +2035,22 @@ function findBestEntranceRoute(
                 );
 
 
-            if(
-                !targetSnap
-            ){
+            if(!targetSnap){
 
                 return;
-
             }
 
 
             const networkRoute =
                 routeBetweenSnaps(
-
                     startSnap,
-
                     targetSnap
-
                 );
 
 
-            if(
-                !networkRoute
-            ){
+            if(!networkRoute){
 
                 return;
-
             }
 
 
@@ -2664,15 +2085,11 @@ function findBestEntranceRoute(
 
 
             if(
-
                 !best
-
                 ||
-
                 candidate.distance
                 <
                 best.distance
-
             ){
 
                 best =
@@ -2680,9 +2097,7 @@ function findBestEntranceRoute(
 
             }
 
-        }
-
-    );
+        });
 
 
     return best;
@@ -2692,26 +2107,34 @@ function findBestEntranceRoute(
 
 
 /* =========================================================
-   DESTINATION BUILDING
+   NAVIGATION DESTINATION
 ========================================================= */
 
 function getDestinationBuilding(){
 
-    if(
-        !state.destination
-    ){
+    if(!state.destination){
 
         return null;
-
     }
 
 
     return getBuildingById(
-
-        state.destination
-        .buildingId
-
+        state.destination.buildingId
     );
+
+}
+
+
+
+function destinationDisplayName(){
+
+    if(!state.destination){
+
+        return "tujuan pilihan Anda";
+    }
+
+
+    return state.destination.name;
 
 }
 
@@ -2727,7 +2150,6 @@ function setElementPosition(
 ){
 
     element.style.left =
-
         `${
             (
                 point.x /
@@ -2739,7 +2161,6 @@ function setElementPosition(
 
 
     element.style.top =
-
         `${
             (
                 point.y /
@@ -2754,7 +2175,7 @@ function setElementPosition(
 
 
 /* =========================================================
-   NAVIGATION PROGRESS
+   PROGRESS
 ========================================================= */
 
 function updateProgress(stage){
@@ -2762,36 +2183,50 @@ function updateProgress(stage){
     const steps = [
 
         "stepTarget",
-
         "stepPosition",
-
         "stepRoute",
-
         "stepAR"
 
     ];
 
 
     steps.forEach(
-
-        (
-            id,
-            index
-        ) => {
+        (id,index) => {
 
             $(`#${id}`)
-            .classList
-            .toggle(
-
-                "active",
-
-                index <= stage
-
-            );
+                .classList
+                .toggle(
+                    "active",
+                    index <= stage
+                );
 
         }
-
     );
+
+}
+
+
+
+/* =========================================================
+   REVISI 19
+   TEXT BEFORE POSITION
+========================================================= */
+
+function setNavigationInstruction(){
+
+    const destination =
+        destinationDisplayName();
+
+
+    $("#mapHeadingTitle")
+        .textContent =
+
+            `Tap pada denah sesuai posisi Anda sekarang, lalu sistem akan memberikan jalur terdekat menuju ${destination}.`;
+
+
+    $("#mapInstructionArea")
+        .classList
+        .remove("hidden");
 
 }
 
@@ -2816,79 +2251,54 @@ function clearRouteOnly(){
 
 
     $("#activeRoute")
-    .setAttribute(
-        "points",
-        ""
-    );
+        .setAttribute(
+            "points",
+            ""
+        );
 
 
     $("#userMarker")
-    .classList
-    .add(
-        "hidden"
-    );
+        .classList
+        .add("hidden");
 
 
     $("#entranceMarker")
-    .classList
-    .add(
-        "hidden"
-    );
-
-
-    $("#resetPosition")
-    .classList
-    .add(
-        "hidden"
-    );
-
-
-    $("#routeFoundBox")
-    .classList
-    .add(
-        "hidden"
-    );
-
-
-    $("#positionStatus")
-    .textContent =
-        "Belum dipilih";
-
-
-    $("#routeStatus")
-    .textContent =
-        "Menunggu posisi";
+        .classList
+        .add("hidden");
 
 
     /*
-       SEBELUM USER MEMILIH POSISI
+       ROUTE RESULT DISEMBUNYIKAN
     */
 
-    $("#mapHeadingTitle")
-    .textContent =
-        "Tandai posisi Anda sekarang";
+    $("#routeFoundBox")
+        .classList
+        .add("hidden");
 
 
-    $("#mapInstruction")
-    .textContent =
-        "Tap pada denah sesuai posisi Anda. Lalu sistem akan memberikan jalur terdekat menuju tujuan pilihan anda.";
+    /*
+       INSTRUKSI DI ATAS MAP MUNCUL
+    */
+
+    setNavigationInstruction();
 
 
-    $("#mapInstruction")
-    .classList
-    .remove(
-        "hidden"
-    );
+    $("#positionStatus")
+        .textContent =
+            "Belum dipilih";
+
+
+    $("#routeStatus")
+        .textContent =
+            "Menunggu posisi";
 
 
     updateProgress(
-
         state.destination
             ?
             1
             :
             0
-
     );
 
 }
@@ -2910,42 +2320,34 @@ function resetNavigation(){
 
 
     $("#navigationSearchResults")
-    .innerHTML =
+        .innerHTML = `
 
-        `
-        <div class="search-empty">
-            Ketik nama gedung atau ruangan tujuan.
-        </div>
+            <div class="search-empty">
+                Ketik nama gedung atau ruangan tujuan.
+            </div>
+
         `;
 
 
     $("#selectedDestination")
-    .classList
-    .add(
-        "hidden"
-    );
+        .classList
+        .add("hidden");
 
 
     $("#mapSection")
-    .classList
-    .add(
-        "hidden"
-    );
+        .classList
+        .add("hidden");
 
 
     $("#destinationHighlight")
-    .classList
-    .add(
-        "hidden"
-    );
+        .classList
+        .add("hidden");
 
 
     clearRouteOnly();
 
 
-    updateProgress(
-        0
-    );
+    updateProgress(0);
 
 }
 
@@ -2963,30 +2365,29 @@ function selectNavigationDestination(
         location;
 
 
-    $("#navigationSearch").value =
-        location.name;
+    $("#navigationSearch")
+        .value =
+            location.name;
 
 
     $("#navigationSearchResults")
-    .innerHTML =
-        "";
+        .innerHTML =
+            "";
 
 
     $("#selectedDestinationName")
-    .textContent =
-        location.name;
+        .textContent =
+            location.name;
 
 
     $("#selectedDestinationParent")
-    .textContent =
-        location.parent;
+        .textContent =
+            location.parent;
 
 
     $("#selectedDestination")
-    .classList
-    .remove(
-        "hidden"
-    );
+        .classList
+        .remove("hidden");
 
 
     const building =
@@ -2996,65 +2397,61 @@ function selectNavigationDestination(
     if(!building){
 
         return;
-
     }
 
 
     $("#targetStatus")
-    .textContent =
-        location.name;
+        .textContent =
+            location.name;
 
 
     setElementPosition(
-
         $("#destinationHighlight"),
-
         building.mapMarker
-
     );
 
 
     $("#destinationHighlight")
-    .classList
-    .remove(
-        "hidden"
-    );
+        .classList
+        .remove("hidden");
 
 
     $("#mapSection")
-    .classList
-    .remove(
-        "hidden"
-    );
+        .classList
+        .remove("hidden");
 
 
     clearRouteOnly();
 
 
-    updateProgress(
-        1
-    );
+    /*
+       REVISI 19:
+       Heading langsung menggunakan
+       nama ruangan/gedung yang dipilih.
+    */
+
+    setNavigationInstruction();
+
+
+    updateProgress(1);
 
 
     setTimeout(
-
         () => {
 
             $("#mapSection")
-            .scrollIntoView({
+                .scrollIntoView({
 
-                behavior:
-                    "smooth",
+                    behavior:
+                        "smooth",
 
-                block:
-                    "start"
+                    block:
+                        "start"
 
-            });
+                });
 
         },
-
         120
-
     );
 
 }
@@ -3069,9 +2466,7 @@ function openNavigationWithDestination(
     location = null
 ){
 
-    showPage(
-        "navigation"
-    );
+    showPage("navigation");
 
 
     resetNavigation();
@@ -3088,13 +2483,10 @@ function openNavigationWithDestination(
     else{
 
         setTimeout(
-
             () =>
                 $("#navigationSearch")
-                .focus(),
-
+                    .focus(),
             180
-
         );
 
     }
@@ -3108,318 +2500,250 @@ function openNavigationWithDestination(
 ========================================================= */
 
 $("#navigationSearch")
-.addEventListener(
+    .addEventListener(
+        "input",
+        event => {
 
-    "input",
-
-    event => {
-
-        const value =
-            event.target.value;
+            const value =
+                event.target.value;
 
 
-        if(!value){
+            if(!value){
 
-            $("#navigationSearchResults")
-            .innerHTML =
+                $("#navigationSearchResults")
+                    .innerHTML = `
 
-                `
-                <div class="search-empty">
-                    Ketik nama gedung atau ruangan tujuan.
-                </div>
-                `;
+                        <div class="search-empty">
+                            Ketik nama gedung atau ruangan tujuan.
+                        </div>
+
+                    `;
+
+                return;
+            }
 
 
-            return;
+            renderSearchResults(
+
+                searchLocations(value),
+
+                $("#navigationSearchResults"),
+
+                selectNavigationDestination
+
+            );
 
         }
-
-
-        renderSearchResults(
-
-            searchLocations(
-                value
-            ),
-
-            $("#navigationSearchResults"),
-
-            selectNavigationDestination
-
-        );
-
-    }
-
-);
+    );
 
 
 
 /* =========================================================
-   USER CLICK MAP
+   CLICK MAP
 ========================================================= */
 
 $("#navigationMap")
-.addEventListener(
+    .addEventListener(
+        "pointerdown",
+        event => {
 
-    "pointerdown",
-
-    event => {
-
-        const building =
-            getDestinationBuilding();
+            const building =
+                getDestinationBuilding();
 
 
-        if(
-            !building
-        ){
+            if(!building){
 
-            toast(
-                "Pilih tujuan terlebih dahulu."
+                toast(
+                    "Pilih tujuan terlebih dahulu."
+                );
+
+                return;
+            }
+
+
+            const rect =
+                $("#navigationMap")
+                    .getBoundingClientRect();
+
+
+            const clicked = {
+
+                x:
+
+                    (
+                        (
+                            event.clientX -
+                            rect.left
+                        )
+                        /
+                        rect.width
+                    )
+                    *
+                    MAP_WIDTH,
+
+
+                y:
+
+                    (
+                        (
+                            event.clientY -
+                            rect.top
+                        )
+                        /
+                        rect.height
+                    )
+                    *
+                    MAP_HEIGHT
+
+            };
+
+
+            state.clickedPosition =
+                clicked;
+
+
+            const routeResult =
+                findBestEntranceRoute(
+                    clicked,
+                    building
+                );
+
+
+            if(!routeResult){
+
+                toast(
+                    "Rute tidak ditemukan dari posisi tersebut."
+                );
+
+                return;
+            }
+
+
+            state.routeResult =
+                routeResult;
+
+
+            state.snappedPosition =
+                routeResult
+                    .startSnap
+                    .point;
+
+
+
+            /* USER MARKER */
+
+            setElementPosition(
+
+                $("#userMarker"),
+
+                routeResult
+                    .startSnap
+                    .point
+
             );
 
 
-            return;
+            $("#userMarker")
+                .classList
+                .remove("hidden");
+
+
+
+            /* ENTRANCE */
+
+            setElementPosition(
+
+                $("#entranceMarker"),
+
+                routeResult.entrance
+
+            );
+
+
+            $("#entranceLabel")
+                .textContent =
+                    `Entrance ${building.shortName}`;
+
+
+            $("#entranceMarker")
+                .classList
+                .remove("hidden");
+
+
+
+            /* ROUTE */
+
+            const pointsText =
+                routeResult.points
+                    .map(
+                        point =>
+                            `${point.x.toFixed(1)},${point.y.toFixed(1)}`
+                    )
+                    .join(" ");
+
+
+            $("#activeRoute")
+                .setAttribute(
+                    "points",
+                    pointsText
+                );
+
+
+
+            /* INTERNAL */
+
+            $("#positionStatus")
+                .textContent =
+                    "Disesuaikan ke jalur terdekat";
+
+
+            $("#routeStatus")
+                .textContent =
+                    "Rute Ditemukan";
+
+
+
+            /* =================================================
+               REVISI 19
+
+               Setelah user memilih posisi:
+               - Semua tulisan instruksi dihilangkan.
+               - Container Rute ditemukan muncul.
+               - Container sudah berada DI ATAS DENAH.
+               - Tidak ada konten lagi di bawah denah.
+            ================================================= */
+
+            $("#mapInstructionArea")
+                .classList
+                .add("hidden");
+
+
+            $("#routeFoundBox")
+                .classList
+                .remove("hidden");
+
+
+            updateProgress(2);
 
         }
-
-
-        const rect =
-            $("#navigationMap")
-            .getBoundingClientRect();
-
-
-        const clicked = {
-
-            x:
-
-                (
-                    (
-                        event.clientX -
-                        rect.left
-                    )
-                    /
-                    rect.width
-                )
-                *
-                MAP_WIDTH,
-
-
-            y:
-
-                (
-                    (
-                        event.clientY -
-                        rect.top
-                    )
-                    /
-                    rect.height
-                )
-                *
-                MAP_HEIGHT
-
-        };
-
-
-        state.clickedPosition =
-            clicked;
-
-
-        const routeResult =
-            findBestEntranceRoute(
-
-                clicked,
-
-                building
-
-            );
-
-
-        if(
-            !routeResult
-        ){
-
-            toast(
-                "Rute tidak ditemukan dari posisi tersebut."
-            );
-
-
-            return;
-
-        }
-
-
-        state.routeResult =
-            routeResult;
-
-
-        state.snappedPosition =
-            routeResult.startSnap.point;
-
-
-
-        /* =========================
-           USER MARKER
-        ========================= */
-
-        setElementPosition(
-
-            $("#userMarker"),
-
-            routeResult.startSnap.point
-
-        );
-
-
-        $("#userMarker")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-
-        /* =========================
-           ENTRANCE
-        ========================= */
-
-        setElementPosition(
-
-            $("#entranceMarker"),
-
-            routeResult.entrance
-
-        );
-
-
-        $("#entranceLabel")
-        .textContent =
-
-            `Entrance ${building.shortName}`;
-
-
-        $("#entranceMarker")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-
-        /* =========================
-           ROUTE LINE
-        ========================= */
-
-        const pointsText =
-
-            routeResult.points
-
-            .map(
-
-                point =>
-
-                    `${point.x.toFixed(1)},${point.y.toFixed(1)}`
-
-            )
-
-            .join(
-                " "
-            );
-
-
-        $("#activeRoute")
-        .setAttribute(
-
-            "points",
-
-            pointsText
-
-        );
-
-
-
-        /* =========================
-           INTERNAL STATUS
-        ========================= */
-
-        $("#positionStatus")
-        .textContent =
-            "Disesuaikan ke jalur terdekat";
-
-
-        $("#routeStatus")
-        .textContent =
-            "Rute Ditemukan";
-
-
-
-        /* =================================================
-           REVISI 18
-           Setelah user pilih posisi:
-
-           HANYA tampil:
-           "Rute menuju tujuan"
-
-           Deskripsi di bawah heading DIHAPUS.
-        ================================================= */
-
-        $("#mapHeadingTitle")
-        .textContent =
-            "Rute menuju tujuan";
-
-
-        $("#mapInstruction")
-        .textContent =
-            "";
-
-
-        $("#mapInstruction")
-        .classList
-        .add(
-            "hidden"
-        );
-
-
-
-        $("#resetPosition")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-        $("#routeFoundBox")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-        updateProgress(
-            2
-        );
-
-    }
-
-);
+    );
 
 
 
 /* =========================================================
-   RESET POSITION
+   INTERNAL RESET
 ========================================================= */
 
 $("#resetPosition")
-.addEventListener(
-
-    "click",
-
-    clearRouteOnly
-
-);
+    .addEventListener(
+        "click",
+        clearRouteOnly
+    );
 
 
 
 /* =========================================================
-   AR NAVIGATION DIRECTION
+   AR NAVIGATION
 ========================================================= */
 
 function calculateInitialArrowRotation(
@@ -3433,7 +2757,6 @@ function calculateInitialArrowRotation(
     ){
 
         return 0;
-
     }
 
 
@@ -3448,16 +2771,13 @@ function calculateInitialArrowRotation(
     for(
         let i = 1;
         i < points.length;
-        i += 1
+        i++
     ){
 
         if(
             pointDistance(
-
                 start,
-
                 points[i]
-
             )
             >
             8
@@ -3466,9 +2786,7 @@ function calculateInitialArrowRotation(
             next =
                 points[i];
 
-
             break;
-
         }
 
     }
@@ -3485,11 +2803,8 @@ function calculateInitialArrowRotation(
 
 
     return Math.atan2(
-
         dx,
-
         -dy
-
     )
     *
     (
@@ -3512,54 +2827,46 @@ async function startNavigationCamera(){
 
 
     $("#cameraStatus")
-    .textContent =
-        "Meminta izin kamera...";
+        .textContent =
+            "Meminta izin kamera...";
 
 
     if(
-
         !navigator.mediaDevices
-
         ||
-
-        !navigator.mediaDevices
-        .getUserMedia
-
+        !navigator.mediaDevices.getUserMedia
     ){
 
         $("#cameraStatus")
-        .textContent =
-            "Browser tidak mendukung akses kamera.";
-
+            .textContent =
+                "Browser tidak mendukung akses kamera.";
 
         return;
-
     }
 
 
     try{
 
         const stream =
-
             await navigator
-            .mediaDevices
-            .getUserMedia({
+                .mediaDevices
+                .getUserMedia({
 
-                video:{
+                    video:{
 
-                    facingMode:{
+                        facingMode:{
 
-                        ideal:
-                            "environment"
+                            ideal:
+                                "environment"
 
-                    }
+                        }
 
-                },
+                    },
 
-                audio:
-                    false
+                    audio:
+                        false
 
-            });
+                });
 
 
         state.cameraStream =
@@ -3574,21 +2881,19 @@ async function startNavigationCamera(){
 
 
         $("#cameraStatus")
-        .textContent =
-            "Kamera aktif • Navigasi AR siap";
+            .textContent =
+                "Kamera aktif • Navigasi AR siap";
 
     }
 
     catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
 
         $("#cameraStatus")
-        .textContent =
-            "Kamera gagal dibuka. Periksa izin kamera browser.";
+            .textContent =
+                "Kamera gagal dibuka. Periksa izin kamera browser.";
 
     }
 
@@ -3596,24 +2901,16 @@ async function startNavigationCamera(){
 
 
 
-/* =========================================================
-   STOP CAMERA
-========================================================= */
-
 function stopNavigationCamera(){
 
-    if(
-        state.cameraStream
-    ){
+    if(state.cameraStream){
 
         state.cameraStream
-        .getTracks()
-        .forEach(
-
-            track =>
-                track.stop()
-
-        );
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
 
 
         state.cameraStream =
@@ -3642,106 +2939,87 @@ function stopNavigationCamera(){
 ========================================================= */
 
 $("#openARNavigation")
-.addEventListener(
+    .addEventListener(
+        "click",
+        async () => {
 
-    "click",
+            if(
+                !state.routeResult
+                ||
+                !state.destination
+            ){
 
-    async () => {
-
-        if(
-
-            !state.routeResult
-
-            ||
-
-            !state.destination
-
-        ){
-
-            return;
-
-        }
+                return;
+            }
 
 
-        const building =
-            getDestinationBuilding();
+            const building =
+                getDestinationBuilding();
 
 
-        $("#arNavigationTitle")
-        .textContent =
-            state.destination.name;
+            $("#arNavigationTitle")
+                .textContent =
+                    state.destination.name;
 
 
-        $("#arNavigationDestination")
-        .textContent =
+            $("#arNavigationDestination")
+                .textContent =
 
-            `${state.destination.name} • ${building.shortName}`;
+                    `${state.destination.name} • ${building.shortName}`;
 
 
-        const rotation =
-            calculateInitialArrowRotation(
+            const rotation =
+                calculateInitialArrowRotation(
+                    state.routeResult.points
+                );
 
-                state.routeResult.points
 
+            $("#directionArrow")
+                .style
+                .setProperty(
+                    "--arrow-rotation",
+                    `${rotation}deg`
+                );
+
+
+            $("#directionText")
+                .textContent =
+                    "Ikuti arah menuju tujuan";
+
+
+            updateProgress(3);
+
+
+            showPage(
+                "arNavigation"
             );
 
 
-        $("#directionArrow")
-        .style
-        .setProperty(
+            await startNavigationCamera();
 
-            "--arrow-rotation",
-
-            `${rotation}deg`
-
-        );
-
-
-        $("#directionText")
-        .textContent =
-            "Ikuti arah menuju tujuan";
-
-
-        updateProgress(
-            3
-        );
-
-
-        showPage(
-            "arNavigation"
-        );
-
-
-        await startNavigationCamera();
-
-    }
-
-);
+        }
+    );
 
 
 
 $("#closeARNavigation")
-.addEventListener(
+    .addEventListener(
+        "click",
+        () => {
 
-    "click",
+            stopNavigationCamera();
 
-    () => {
+            showPage(
+                "navigation"
+            );
 
-        stopNavigationCamera();
-
-
-        showPage(
-            "navigation"
-        );
-
-    }
-
-);
+        }
+    );
 
 
 
 /* =========================================================
-   DIRECTORY ROOM LIST
+   DIRECTORY
 ========================================================= */
 
 function renderRoomList(
@@ -3753,187 +3031,152 @@ function renderRoomList(
         "";
 
 
-    if(
-        !roomList.length
-    ){
+    if(!roomList.length){
 
-        container.innerHTML =
+        container.innerHTML = `
 
-            `
             <div class="search-empty">
                 Data ruangan akan dilengkapi kemudian.
             </div>
-            `;
 
+        `;
 
         return;
-
     }
 
 
     const grid =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     grid.className =
         "room-grid";
 
 
-    roomList.forEach(
+    roomList.forEach(room => {
 
-        room => {
+        const item =
+            document.createElement("div");
 
-            const item =
-                document.createElement(
-                    "div"
+
+        item.className =
+            "room-item";
+
+
+        item.innerHTML = `
+
+            <div class="room-row">
+
+                <span>
+                    ${room.name}
+                </span>
+
+                <button type="button">
+                    Pilih
+                </button>
+
+            </div>
+
+
+            <div class="room-actions hidden">
+
+                <button
+                    class="room-info-button"
+                    type="button"
+                >
+                    Informasi
+                </button>
+
+                <button
+                    class="room-nav-button"
+                    type="button"
+                >
+                    Petunjuk Arah
+                </button>
+
+            </div>
+
+        `;
+
+
+        const actions =
+            item.querySelector(
+                ".room-actions"
+            );
+
+
+        item.querySelector(
+            ".room-row button"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                actions.classList.toggle(
+                    "hidden"
                 );
 
-
-            item.className =
-                "room-item";
-
-
-            item.innerHTML =
-
-                `
-                <div class="room-row">
-
-                    <span>
-                        ${room.name}
-                    </span>
-
-                    <button type="button">
-                        Pilih
-                    </button>
-
-                </div>
+            }
+        );
 
 
-                <div class="room-actions hidden">
-
-                    <button
-                        class="room-info-button"
-                        type="button"
-                    >
-                        Informasi
-                    </button>
+        const location =
+            locations.find(
+                candidate =>
+                    candidate.id ===
+                    room.id
+            );
 
 
-                    <button
-                        class="room-nav-button"
-                        type="button"
-                    >
-                        Petunjuk Arah
-                    </button>
+        item.querySelector(
+            ".room-info-button"
+        )
+        .addEventListener(
+            "click",
+            () => {
 
-                </div>
-                `;
+                if(location){
+
+                    openInfo(location);
+
+                }
+
+            }
+        );
 
 
-            const actions =
-                item.querySelector(
-                    ".room-actions"
-                );
+        item.querySelector(
+            ".room-nav-button"
+        )
+        .addEventListener(
+            "click",
+            () => {
 
+                if(location){
 
-            item
-            .querySelector(
-                ".room-row button"
-            )
-            .addEventListener(
-
-                "click",
-
-                () => {
-
-                    actions
-                    .classList
-                    .toggle(
-                        "hidden"
+                    openNavigationWithDestination(
+                        location
                     );
 
                 }
 
-            );
+            }
+        );
 
 
-            const location =
-                locations.find(
+        grid.appendChild(item);
 
-                    candidate =>
-                        candidate.id ===
-                        room.id
-
-                );
+    });
 
 
-            item
-            .querySelector(
-                ".room-info-button"
-            )
-            .addEventListener(
-
-                "click",
-
-                () => {
-
-                    if(location){
-
-                        openInfo(
-                            location
-                        );
-
-                    }
-
-                }
-
-            );
-
-
-            item
-            .querySelector(
-                ".room-nav-button"
-            )
-            .addEventListener(
-
-                "click",
-
-                () => {
-
-                    if(location){
-
-                        openNavigationWithDestination(
-                            location
-                        );
-
-                    }
-
-                }
-
-            );
-
-
-            grid.appendChild(
-                item
-            );
-
-        }
-
-    );
-
-
-    container.appendChild(
-        grid
-    );
+    container.appendChild(grid);
 
 }
 
 
 
 /* =========================================================
-   LAB FLOORS
+   LAB FLOOR
 ========================================================= */
 
 function renderLaboratory(
@@ -3942,9 +3185,7 @@ function renderLaboratory(
 ){
 
     const floorButtons =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     floorButtons.className =
@@ -3952,20 +3193,14 @@ function renderLaboratory(
 
 
     const roomArea =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     [1,2,3]
-    .forEach(
-
-        floor => {
+        .forEach(floor => {
 
             const button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
 
             button.type =
@@ -3973,7 +3208,6 @@ function renderLaboratory(
 
 
             button.className =
-
                 `floor-button${
                     floor === 1
                         ?
@@ -3988,29 +3222,21 @@ function renderLaboratory(
 
 
             button.addEventListener(
-
                 "click",
-
                 () => {
 
                     floorButtons
-                    .querySelectorAll(
-                        ".floor-button"
-                    )
-                    .forEach(
-
-                        item =>
-                            item.classList
-                            .remove(
+                        .querySelectorAll(
+                            ".floor-button"
+                        )
+                        .forEach(item =>
+                            item.classList.remove(
                                 "active"
                             )
+                        );
 
-                    );
 
-
-                    button
-                    .classList
-                    .add(
+                    button.classList.add(
                         "active"
                     );
 
@@ -4018,11 +3244,9 @@ function renderLaboratory(
                     renderRoomList(
 
                         buildingRooms.filter(
-
                             room =>
                                 room.floor ===
                                 floor
-
                         ),
 
                         roomArea
@@ -4030,7 +3254,6 @@ function renderLaboratory(
                     );
 
                 }
-
             );
 
 
@@ -4038,9 +3261,7 @@ function renderLaboratory(
                 button
             );
 
-        }
-
-    );
+        });
 
 
     container.appendChild(
@@ -4056,10 +3277,8 @@ function renderLaboratory(
     renderRoomList(
 
         buildingRooms.filter(
-
             room =>
                 room.floor === 1
-
         ),
 
         roomArea
@@ -4085,19 +3304,13 @@ function renderDirectory(){
 
 
     buildings.forEach(
-
-        (
-            building,
-            index
-        ) => {
+        (building,index) => {
 
             const buildingRooms =
                 rooms.filter(
-
                     room =>
                         room.buildingId ===
                         building.id
-
                 );
 
 
@@ -4111,9 +3324,8 @@ function renderDirectory(){
                 "building-card";
 
 
-            article.innerHTML =
+            article.innerHTML = `
 
-                `
                 <button
                     class="building-button"
                     type="button"
@@ -4156,28 +3368,24 @@ function renderDirectory(){
 
                 <div class="building-content">
                 </div>
-                `;
+
+            `;
 
 
             article
-            .querySelector(
-                ".building-button"
-            )
-            .addEventListener(
+                .querySelector(
+                    ".building-button"
+                )
+                .addEventListener(
+                    "click",
+                    () => {
 
-                "click",
+                        article
+                            .classList
+                            .toggle("open");
 
-                () => {
-
-                    article
-                    .classList
-                    .toggle(
-                        "open"
-                    );
-
-                }
-
-            );
+                    }
+                );
 
 
             const content =
@@ -4192,11 +3400,8 @@ function renderDirectory(){
             ){
 
                 renderLaboratory(
-
                     buildingRooms,
-
                     content
-
                 );
 
             }
@@ -4204,11 +3409,8 @@ function renderDirectory(){
             else{
 
                 renderRoomList(
-
                     buildingRooms,
-
                     content
-
                 );
 
             }
@@ -4219,11 +3421,9 @@ function renderDirectory(){
             );
 
         }
-
     );
 
 }
-
 
 
 renderDirectory();
@@ -4231,28 +3431,22 @@ renderDirectory();
 
 
 /* =========================================================
-   BUTTON ROUTING
+   BUTTON ROUTES
 ========================================================= */
 
 const openViewer =
     () =>
-        showPage(
-            "viewer"
-        );
+        showPage("viewer");
 
 
 const openAR =
     () =>
-        showPage(
-            "ar"
-        );
+        showPage("ar");
 
 
 const openDirectory =
     () =>
-        showPage(
-            "directory"
-        );
+        showPage("directory");
 
 
 const openNavigation =
@@ -4262,90 +3456,90 @@ const openNavigation =
 
 
 $("#menu3D")
-.addEventListener(
-    "click",
-    openViewer
-);
+    .addEventListener(
+        "click",
+        openViewer
+    );
 
 
 $("#feature3D")
-.addEventListener(
-    "click",
-    openViewer
-);
+    .addEventListener(
+        "click",
+        openViewer
+    );
 
 
 $("#hero3DButton")
-.addEventListener(
-    "click",
-    openViewer
-);
+    .addEventListener(
+        "click",
+        openViewer
+    );
 
 
 
 $("#menuAR")
-.addEventListener(
-    "click",
-    openAR
-);
+    .addEventListener(
+        "click",
+        openAR
+    );
 
 
 $("#featureAR")
-.addEventListener(
-    "click",
-    openAR
-);
+    .addEventListener(
+        "click",
+        openAR
+    );
 
 
 $("#heroARButton")
-.addEventListener(
-    "click",
-    openAR
-);
+    .addEventListener(
+        "click",
+        openAR
+    );
 
 
 
 $("#menuNavigation")
-.addEventListener(
-    "click",
-    openNavigation
-);
+    .addEventListener(
+        "click",
+        openNavigation
+    );
 
 
 $("#featureNav")
-.addEventListener(
-    "click",
-    openNavigation
-);
+    .addEventListener(
+        "click",
+        openNavigation
+    );
 
 
 $("#heroNavigationButton")
-.addEventListener(
-    "click",
-    openNavigation
-);
+    .addEventListener(
+        "click",
+        openNavigation
+    );
 
 
 
 $("#menuDirectory")
-.addEventListener(
-    "click",
-    openDirectory
-);
+    .addEventListener(
+        "click",
+        openDirectory
+    );
 
 
 $("#featureDirectory")
-.addEventListener(
-    "click",
-    openDirectory
-);
+    .addEventListener(
+        "click",
+        openDirectory
+    );
 
 
 $("#heroDirectoryButton")
-.addEventListener(
-    "click",
-    openDirectory
-);
+    .addEventListener(
+        "click",
+        openDirectory
+    );
 
 
 
@@ -4366,8 +3560,7 @@ function toast(message){
         message;
 
 
-    element.classList
-    .add(
+    element.classList.add(
         "show"
     );
 
@@ -4379,16 +3572,11 @@ function toast(message){
 
     toastTimer =
         setTimeout(
-
             () =>
-                element
-                .classList
-                .remove(
+                element.classList.remove(
                     "show"
                 ),
-
             3200
-
         );
 
 }
@@ -4396,22 +3584,16 @@ function toast(message){
 
 
 /* =========================================================
-   ESCAPE KEY
+   ESCAPE
 ========================================================= */
 
 document.addEventListener(
-
     "keydown",
-
     event => {
 
-        if(
-            event.key !==
-            "Escape"
-        ){
+        if(event.key !== "Escape"){
 
             return;
-
         }
 
 
@@ -4419,13 +3601,9 @@ document.addEventListener(
 
 
         if(
-
             !$("#infoModal")
-            .classList
-            .contains(
-                "hidden"
-            )
-
+                .classList
+                .contains("hidden")
         ){
 
             closeInfo();
@@ -4434,17 +3612,12 @@ document.addEventListener(
 
 
         if(
-
             $("#arNavigationPage")
-            .classList
-            .contains(
-                "active"
-            )
-
+                .classList
+                .contains("active")
         ){
 
             stopNavigationCamera();
-
 
             showPage(
                 "navigation"
@@ -4453,5 +3626,4 @@ document.addEventListener(
         }
 
     }
-
 );
