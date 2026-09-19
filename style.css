@@ -24,7 +24,7 @@
 
 
 /* =====================================================
-   RESET + MOBILE INTERACTION FIX
+   RESET
 ===================================================== */
 
 *{
@@ -36,13 +36,16 @@
 html{
     width:100%;
     min-width:320px;
+
     scroll-behavior:smooth;
+
     -webkit-text-size-adjust:100%;
 }
 
 body{
     width:100%;
     min-width:320px;
+
     overflow-x:hidden;
 
     font-family:
@@ -51,6 +54,7 @@ body{
         sans-serif;
 
     color:var(--text);
+
     background:var(--bg);
 }
 
@@ -66,15 +70,13 @@ select,
 input,
 [role="button"]{
     touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
 }
 
 button{
     cursor:pointer;
-}
-
-button:disabled{
-    cursor:not-allowed;
 }
 
 img{
@@ -86,19 +88,19 @@ img{
 }
 
 
-/*
-   Sangat penting untuk mobile:
-   page yang tidak aktif tidak boleh
-   menangkap sentuhan.
-*/
+/* =====================================================
+   PAGE INTERACTION
+===================================================== */
 
 .page{
     display:none !important;
+
     pointer-events:none;
 }
 
 .page.active{
     display:block !important;
+
     pointer-events:auto;
 }
 
@@ -118,13 +120,16 @@ img{
 
     height:var(--header);
 
-    background:rgba(255,255,255,.97);
+    background:
+        rgba(255,255,255,.97);
 
     border-bottom:
         1px solid var(--line);
 
     backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
 }
 
 .header-inner{
@@ -161,16 +166,11 @@ img{
     color:var(--text);
 
     text-align:left;
-
-    position:relative;
-    z-index:2;
 }
 
 .brand-icon{
     width:48px;
     height:48px;
-
-    flex:0 0 48px;
 
     display:grid;
 
@@ -192,6 +192,7 @@ img{
 
 .brand-copy{
     display:grid;
+
     gap:3px;
 }
 
@@ -201,6 +202,7 @@ img{
 
 .brand-copy small{
     color:var(--muted);
+
     font-size:10px;
 }
 
@@ -208,8 +210,6 @@ img{
     justify-self:end;
 
     display:flex;
-
-    align-items:center;
 
     gap:5px;
 }
@@ -230,17 +230,12 @@ img{
     font-size:13px;
     font-weight:700;
 
-    position:relative;
-    z-index:2;
-
-    transition:
-        color .2s ease,
-        background .2s ease,
-        transform .2s ease;
+    transition:.2s ease;
 }
 
 .header-link.active{
     color:var(--green-700);
+
     background:var(--green-100);
 }
 
@@ -258,26 +253,19 @@ img{
 
     border-radius:14px;
 
-    position:relative;
-    z-index:3;
-
     background:
         linear-gradient(
             135deg,
             var(--green-900),
             var(--blue-900)
         );
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
 }
 
 .hamburger span{
-    display:block;
-
     width:22px;
     height:2px;
+
+    display:block;
 
     pointer-events:none;
 
@@ -287,7 +275,6 @@ img{
 
 /* =====================================================
    DRAWER
-   FIX: overlay/drawer nonaktif tidak bisa menangkap klik
 ===================================================== */
 
 .drawer-overlay{
@@ -298,6 +285,7 @@ img{
     inset:0;
 
     visibility:hidden;
+
     opacity:0;
 
     pointer-events:none;
@@ -305,16 +293,18 @@ img{
     background:
         rgba(0,24,34,.52);
 
-    backdrop-filter:blur(4px);
-    -webkit-backdrop-filter:blur(4px);
+    backdrop-filter:
+        blur(4px);
 
-    transition:
-        opacity .25s ease,
-        visibility .25s ease;
+    -webkit-backdrop-filter:
+        blur(4px);
+
+    transition:.25s ease;
 }
 
 .drawer-overlay.show{
     visibility:visible;
+
     opacity:1;
 
     pointer-events:auto;
@@ -329,16 +319,17 @@ img{
     right:0;
 
     width:min(430px,95vw);
+
     height:100dvh;
 
     overflow-y:auto;
-    overscroll-behavior:contain;
 
     padding:24px;
 
     background:#ffffff;
 
-    transform:translateX(105%);
+    transform:
+        translateX(105%);
 
     pointer-events:none;
 
@@ -351,7 +342,9 @@ img{
 }
 
 .drawer.open{
-    transform:translateX(0);
+    transform:
+        translateX(0);
+
     pointer-events:auto;
 }
 
@@ -359,7 +352,9 @@ img{
     display:flex;
 
     align-items:flex-start;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:16px;
 
@@ -370,6 +365,7 @@ img{
     color:var(--green-700);
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1px;
@@ -382,8 +378,6 @@ img{
 .close-button{
     width:42px;
     height:42px;
-
-    flex:0 0 42px;
 
     border:0;
 
@@ -434,11 +428,6 @@ img{
     border-radius:14px;
 
     background:#f8fbfb;
-
-    transition:
-        border-color .2s ease,
-        background .2s ease,
-        box-shadow .2s ease;
 }
 
 .search-box:focus-within{
@@ -453,9 +442,11 @@ img{
 
 .search-box input{
     width:100%;
+
     min-width:0;
 
     border:0;
+
     outline:0;
 
     background:transparent;
@@ -465,13 +456,17 @@ img{
 
 .search-box>span{
     color:var(--green-700);
+
     font-size:22px;
 }
 
 .search-box>button{
     border:0;
+
     background:transparent;
+
     color:#81939a;
+
     font-size:18px;
 }
 
@@ -496,7 +491,8 @@ img{
     display:grid;
 
     grid-template-columns:
-        minmax(0,1fr) auto;
+        minmax(0,1fr)
+        auto;
 
     align-items:center;
 
@@ -523,8 +519,6 @@ img{
 .search-result strong{
     display:block;
 
-    overflow-wrap:anywhere;
-
     font-size:12px;
 }
 
@@ -548,6 +542,7 @@ img{
     color:var(--green-900);
 
     font-size:8px;
+
     font-weight:800;
 }
 
@@ -576,12 +571,15 @@ img{
 
 .global-selected small{
     color:var(--muted);
+
     font-size:8px;
+
     font-weight:800;
 }
 
 .global-selected strong{
     display:block;
+
     margin-top:5px;
 }
 
@@ -611,6 +609,7 @@ img{
 
 .drawer-item{
     width:100%;
+
     min-height:78px;
 
     display:grid;
@@ -634,14 +633,6 @@ img{
     color:var(--text);
 
     text-align:left;
-
-    position:relative;
-
-    transition:
-        border-color .22s ease,
-        background .22s ease,
-        transform .22s ease,
-        box-shadow .22s ease;
 }
 
 .drawer-icon{
@@ -669,16 +660,20 @@ img{
 }
 
 .drawer-item strong,
-.drawer-item small{
-    display:block;
+.drawer-item small,
+.drawer-item b{
     pointer-events:none;
 }
 
 .drawer-item strong{
+    display:block;
+
     font-size:13px;
 }
 
 .drawer-item small{
+    display:block;
+
     margin-top:4px;
 
     color:var(--muted);
@@ -690,13 +685,11 @@ img{
     color:#8ba0a7;
 
     font-size:22px;
-
-    pointer-events:none;
 }
 
 
 /* =====================================================
-   BUTTONS
+   BUTTON
 ===================================================== */
 
 .button{
@@ -708,15 +701,13 @@ img{
 
     border-radius:12px;
 
-    position:relative;
-
     font-size:12px;
+
     font-weight:800;
 
     transition:
         color .25s ease,
         background .25s ease,
-        border-color .25s ease,
         transform .25s ease,
         box-shadow .25s ease;
 }
@@ -730,10 +721,6 @@ img{
             var(--green-700),
             var(--blue-500)
         );
-
-    box-shadow:
-        0 8px 18px
-        rgba(8,127,114,.13);
 }
 
 .button-soft{
@@ -754,10 +741,6 @@ img{
     background:var(--green-700);
 
     color:#ffffff;
-
-    box-shadow:
-        0 8px 20px
-        rgba(0,30,35,.12);
 }
 
 .small-button{
@@ -775,6 +758,7 @@ img{
     color:#486169;
 
     font-size:10px;
+
     font-weight:700;
 }
 
@@ -784,19 +768,18 @@ img{
 
 
 /* =====================================================
-   MAIN / PAGE
+   PAGE
 ===================================================== */
 
 main{
-    position:relative;
-
     padding-top:var(--header);
 }
 
 .content-page{
     min-height:
         calc(
-            100vh - var(--header)
+            100vh -
+            var(--header)
         );
 
     padding:
@@ -814,6 +797,7 @@ main{
 
 .page-heading{
     max-width:820px;
+
     margin-bottom:28px;
 }
 
@@ -821,6 +805,7 @@ main{
     color:var(--green-700);
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1.4px;
@@ -840,6 +825,7 @@ main{
 
 .page-heading p{
     color:var(--muted);
+
     line-height:1.65;
 }
 
@@ -917,12 +903,6 @@ main{
         visibility .65s ease;
 }
 
-
-/*
-   FIX mobile:
-   seluruh isi slider nonaktif juga dilarang menangkap klik.
-*/
-
 .hero-slide:not(.active),
 .hero-slide:not(.active) *{
     pointer-events:none !important;
@@ -935,7 +915,8 @@ main{
 
     opacity:1;
 
-    transform:translateX(0);
+    transform:
+        translateX(0);
 
     pointer-events:auto;
 }
@@ -952,6 +933,7 @@ main{
     color:#84e7d8;
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1.2px;
@@ -989,11 +971,6 @@ main{
     color:#6ce0ed;
 }
 
-.hero-copy{
-    position:relative;
-    z-index:4;
-}
-
 .hero-copy p{
     max-width:690px;
 
@@ -1020,14 +997,10 @@ main{
 ===================================================== */
 
 .landing-model-card{
-    position:relative;
-    z-index:3;
-
     overflow:hidden;
 
     border:
-        1px solid
-        rgba(255,255,255,.20);
+        1px solid rgba(255,255,255,.20);
 
     border-radius:24px;
 
@@ -1037,9 +1010,6 @@ main{
     box-shadow:
         0 25px 70px
         rgba(0,20,30,.20);
-
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
 }
 
 .landing-model-header{
@@ -1048,7 +1018,9 @@ main{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:12px;
 
@@ -1065,6 +1037,7 @@ main{
     color:#86dfd4;
 
     font-size:7px;
+
     font-weight:800;
 }
 
@@ -1080,11 +1053,13 @@ main{
 
 .landing-model-header>span{
     color:#a6d1d3;
+
     font-size:8px;
 }
 
 #landingModelViewer{
     width:100%;
+
     height:355px;
 
     display:block;
@@ -1105,7 +1080,9 @@ main{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:10px;
 
@@ -1115,11 +1092,13 @@ main{
 
 .landing-model-footer span{
     color:#9fcbcc;
+
     font-size:8px;
 }
 
 .landing-model-footer strong{
     color:#ffffff;
+
     font-size:9px;
 }
 
@@ -1131,15 +1110,13 @@ main{
 .landing-map-card{
     position:relative;
 
-    z-index:3;
-
     left:-18px;
 
     width:100%;
+
     max-width:390px;
 
     justify-self:end;
-    align-self:center;
 
     overflow:hidden;
 
@@ -1155,9 +1132,6 @@ main{
     box-shadow:
         0 22px 60px
         rgba(0,20,30,.18);
-
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
 }
 
 .landing-map-header{
@@ -1166,7 +1140,9 @@ main{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:12px;
 
@@ -1184,6 +1160,7 @@ main{
     color:#86dfd4;
 
     font-size:7px;
+
     font-weight:800;
 }
 
@@ -1199,6 +1176,7 @@ main{
 
 .landing-map-header>span{
     color:#a6d1d3;
+
     font-size:8px;
 }
 
@@ -1214,6 +1192,7 @@ main{
     display:block;
 
     width:100%;
+
     height:auto;
 }
 
@@ -1234,7 +1213,7 @@ main{
 
 
 /* =====================================================
-   SLIDER CONTROLS
+   SLIDER CONTROL
 ===================================================== */
 
 .slider-controls{
@@ -1243,6 +1222,7 @@ main{
     z-index:20;
 
     left:50%;
+
     bottom:18px;
 
     display:flex;
@@ -1253,8 +1233,6 @@ main{
 
     transform:
         translateX(-50%);
-
-    pointer-events:auto;
 }
 
 .slider-arrow{
@@ -1265,8 +1243,6 @@ main{
 
     place-items:center;
 
-    padding:0;
-
     border:
         1px solid #dbe7e9;
 
@@ -1276,21 +1252,7 @@ main{
 
     color:var(--green-800);
 
-    box-shadow:
-        0 8px 22px
-        rgba(5,66,72,.12);
-
     font-size:17px;
-
-    position:relative;
-    z-index:30;
-
-    transition:
-        transform .28s ease,
-        border-color .28s ease,
-        background .28s ease,
-        color .28s ease,
-        box-shadow .28s ease;
 }
 
 .slider-dots{
@@ -1313,27 +1275,14 @@ main{
     border-radius:999px;
 
     background:#ffffff;
-
-    box-shadow:
-        0 4px 12px
-        rgba(0,35,45,.12);
-
-    position:relative;
-    z-index:30;
-
-    transition:
-        width .28s ease,
-        transform .28s ease,
-        border-color .28s ease,
-        background .28s ease;
 }
 
 .slider-dot.active{
     width:27px;
 
-    border-color:#2fba9d;
-
     background:var(--green-500);
+
+    border-color:#2fba9d;
 }
 
 
@@ -1367,6 +1316,7 @@ main{
 
 .feature-card{
     width:100%;
+
     min-height:245px;
 
     display:grid;
@@ -1389,21 +1339,11 @@ main{
 
     text-align:left;
 
-    position:relative;
-    z-index:1;
-
     box-shadow:
         0 16px 38px
         rgba(5,66,72,.08);
 
-    transform:
-        translateY(0)
-        scale(1);
-
-    transition:
-        transform .30s ease,
-        border-color .30s ease,
-        box-shadow .30s ease;
+    transition:.3s ease;
 }
 
 .feature-card *{
@@ -1412,6 +1352,7 @@ main{
 
 .feature-icon{
     width:52px;
+
     height:52px;
 
     display:grid;
@@ -1460,88 +1401,25 @@ main{
 
 
 /* =====================================================
-   DESKTOP HOVERS
-   Tidak dipaksakan ke touch screen
+   DESKTOP HOVER
 ===================================================== */
 
 @media (hover:hover) and (pointer:fine){
 
     .header-link:hover{
         color:var(--green-700);
+
         background:var(--green-100);
     }
 
-    .hamburger:hover{
-        transform:scale(1.05);
-
-        box-shadow:
-            0 10px 25px
-            rgba(6,78,73,.22);
-    }
-
-    .drawer-item:hover{
-        border-color:#82cdbf;
-
-        background:#f4fbf9;
-
-        transform:
-            translateX(-2px);
-
-        box-shadow:
-            0 8px 20px
-            rgba(8,127,114,.08);
-    }
-
-    .button:hover{
-        transform:
-            translateY(-2px);
-    }
-
-    .button-primary:hover{
-        box-shadow:
-            0 12px 24px
-            rgba(8,127,114,.22);
-    }
-
     .hero-cta:hover{
-        border-color:#ffffff;
-
         background:#ffffff;
 
         color:var(--green-800);
 
         transform:
-            translateY(-4px)
-            scale(1.025);
-
-        box-shadow:
-            0 13px 30px
-            rgba(0,35,40,.18);
-    }
-
-    .slider-arrow:hover{
-        border-color:#2fba9d;
-
-        background:var(--green-700);
-
-        color:#ffffff;
-
-        transform:
             translateY(-3px)
-            scale(1.08);
-
-        box-shadow:
-            0 14px 28px
-            rgba(8,127,114,.22);
-    }
-
-    .slider-dot:hover{
-        border-color:#2fba9d;
-
-        background:#9be3d5;
-
-        transform:
-            scale(1.18);
+            scale(1.025);
     }
 
     .feature-card:hover{
@@ -1556,13 +1434,12 @@ main{
             rgba(8,127,114,.18);
     }
 
-    .feature-card:hover .feature-icon{
-        transform:
-            scale(1.08);
-    }
+    .slider-arrow:hover{
+        background:var(--green-700);
 
-    .search-result:hover{
-        background:#f1faf7;
+        color:#ffffff;
+
+        transform:scale(1.08);
     }
 
 }
@@ -1579,9 +1456,9 @@ main{
         minmax(220px,1fr)
         auto;
 
-    align-items:end;
-
     gap:12px;
+
+    align-items:end;
 
     margin-bottom:20px;
 
@@ -1611,8 +1488,6 @@ main{
     border-radius:12px;
 
     background:#ffffff;
-
-    color:var(--text);
 }
 
 .form-message{
@@ -1626,7 +1501,7 @@ main{
 
 
 /* =====================================================
-   3D VIEWER
+   MODEL VIEWER
 ===================================================== */
 
 .viewer-card,
@@ -1647,9 +1522,9 @@ main{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
 
-    gap:12px;
+    justify-content:
+        space-between;
 
     padding:
         10px 15px;
@@ -1661,7 +1536,10 @@ main{
 #mainModelViewer{
     width:100%;
 
-    height:min(72vh,720px);
+    height:min(
+        72vh,
+        720px
+    );
 
     min-height:520px;
 
@@ -1708,66 +1586,16 @@ main{
         );
 }
 
-.ar-status-card>span{
-    width:68px;
-    height:68px;
-
-    display:grid;
-
-    place-items:center;
-
-    border:
-        3px solid #70dfd0;
-
-    border-radius:15px;
-
-    color:#7ee6d7;
-
-    font-weight:800;
-}
-
-.ar-status-card small{
-    display:block;
-
-    color:#82e3d5;
-
-    font-size:8px;
-}
-
-.ar-status-card strong{
-    display:block;
-
-    margin-top:4px;
-}
-
 #mainARViewer{
     width:100%;
+
     height:390px;
 
     display:block;
 
     touch-action:none;
 
-    background:
-        radial-gradient(
-            circle,
-            #ffffff,
-            #dfecee
-        );
-}
-
-.native-ar-button{
-    padding:
-        12px 18px;
-
-    border:0;
-
-    border-radius:12px;
-
-    background:
-        var(--green-700);
-
-    color:#ffffff;
+    background:#edf5f5;
 }
 
 .ar-card>.button{
@@ -1810,6 +1638,7 @@ main{
 
 .nav-step b{
     width:36px;
+
     height:36px;
 
     display:grid;
@@ -1825,6 +1654,7 @@ main{
 
 .nav-step span{
     font-size:9px;
+
     font-weight:700;
 }
 
@@ -1851,10 +1681,6 @@ main{
     border-radius:20px;
 
     background:#ffffff;
-
-    box-shadow:
-        0 12px 35px
-        rgba(0,50,60,.045);
 }
 
 .navigation-search-box{
@@ -1898,7 +1724,7 @@ main{
 
 
 /* =====================================================
-   MAP SECTION
+   NAVIGATION MAP
 ===================================================== */
 
 .map-section{
@@ -1912,16 +1738,7 @@ main{
     border-radius:22px;
 
     background:#ffffff;
-
-    box-shadow:
-        0 18px 50px
-        rgba(0,50,60,.08);
 }
-
-
-/* Brief 20/21:
-   kecil dan satu baris pada desktop.
-*/
 
 .map-instruction-area{
     margin-bottom:24px;
@@ -1929,40 +1746,33 @@ main{
 
 .map-instruction-area h2{
     width:100%;
-    max-width:none;
 
     margin:0;
-
-    overflow:hidden;
 
     color:var(--text);
 
     font-size:15px;
-    font-weight:700;
 
     line-height:1.4;
 
-    letter-spacing:0;
+    font-weight:700;
 
     white-space:nowrap;
 
+    overflow:hidden;
+
     text-overflow:ellipsis;
 }
-
-
-/* =====================================================
-   ROUTE FOUND
-===================================================== */
 
 .route-found-box{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:24px;
-
-    margin:0;
 
     padding:18px;
 
@@ -1976,14 +1786,12 @@ main{
 
 .route-found-top{
     margin:
-        0 0 24px 0 !important;
+        0 0 24px 0;
 }
 
 .route-found-box h3{
     margin:
         0 0 6px;
-
-    color:var(--text);
 
     font-size:18px;
 }
@@ -1991,19 +1799,12 @@ main{
 .route-found-box p{
     max-width:720px;
 
-    margin:0;
-
     color:var(--muted);
 
     font-size:11px;
 
     line-height:1.55;
 }
-
-
-/* =====================================================
-   MAP
-===================================================== */
 
 .navigation-map{
     position:relative;
@@ -2015,8 +1816,6 @@ main{
 
     overflow:hidden;
 
-    margin:0;
-
     border:
         1px solid #d4e5e5;
 
@@ -2026,15 +1825,7 @@ main{
 
     cursor:crosshair;
 
-    /*
-       Tidak pakai touch-action:none.
-       Ini penting supaya mobile masih dapat scroll.
-    */
-
     touch-action:manipulation;
-
-    user-select:none;
-    -webkit-user-select:none;
 }
 
 .navigation-map img{
@@ -2045,12 +1836,10 @@ main{
     inset:0;
 
     width:100%;
+
     height:100%;
 
     object-fit:fill;
-
-    user-select:none;
-    -webkit-user-select:none;
 
     pointer-events:none;
 }
@@ -2061,6 +1850,7 @@ main{
     z-index:6;
 
     width:54px;
+
     height:54px;
 
     transform:
@@ -2078,38 +1868,6 @@ main{
     pointer-events:none;
 }
 
-.destination-highlight span{
-    position:absolute;
-
-    inset:-11px;
-
-    border:
-        2px solid
-        rgba(20,146,208,.35);
-
-    border-radius:50%;
-
-    animation:
-        destinationPulse
-        1.4s infinite;
-
-    pointer-events:none;
-}
-
-@keyframes destinationPulse{
-
-    from{
-        transform:scale(.75);
-        opacity:1;
-    }
-
-    to{
-        transform:scale(1.35);
-        opacity:0;
-    }
-
-}
-
 .route-svg{
     position:absolute;
 
@@ -2118,6 +1876,7 @@ main{
     inset:0;
 
     width:100%;
+
     height:100%;
 
     pointer-events:none;
@@ -2131,18 +1890,11 @@ main{
     stroke-width:5;
 
     stroke-linecap:round;
+
     stroke-linejoin:round;
 
     vector-effect:
         non-scaling-stroke;
-
-    pointer-events:none;
-
-    filter:
-        drop-shadow(
-            0 2px 3px
-            rgba(0,60,110,.24)
-        );
 }
 
 .route-arrow-shape{
@@ -2167,6 +1919,7 @@ main{
 
 .user-marker>span{
     width:28px;
+
     height:28px;
 
     display:block;
@@ -2179,12 +1932,7 @@ main{
     border-radius:
         50% 50% 50% 8px;
 
-    background:
-        var(--blue-500);
-
-    box-shadow:
-        0 6px 18px
-        rgba(0,50,80,.28);
+    background:var(--blue-500);
 }
 
 .user-marker label,
@@ -2215,6 +1963,7 @@ main{
 
 .entrance-marker>span{
     width:18px;
+
     height:18px;
 
     display:block;
@@ -2226,12 +1975,7 @@ main{
 
     border-radius:50%;
 
-    background:
-        var(--yellow);
-
-    box-shadow:
-        0 0 0 2px
-        #775e00;
+    background:var(--yellow);
 }
 
 
@@ -2251,27 +1995,25 @@ main{
 
 .ar-navigation-page:not(.active){
     display:none !important;
-    pointer-events:none !important;
-}
 
-.ar-navigation-page.active{
-    display:block !important;
-    pointer-events:auto !important;
+    pointer-events:none !important;
 }
 
 .camera-shell{
     position:relative;
 
     width:100%;
+
     height:100dvh;
 
     overflow:hidden;
 
-    background:#030606;
+    background:#000000;
 }
 
 #navigationCamera{
     width:100%;
+
     height:100%;
 
     object-fit:cover;
@@ -2288,184 +2030,39 @@ main{
         auto 1fr auto;
 
     pointer-events:none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.55),
-            transparent 22%,
-            transparent 74%,
-            rgba(0,0,0,.68)
-        );
 }
 
 .camera-topbar{
     display:flex;
 
-    align-items:center;
-
     gap:14px;
 
-    padding:
-        max(
-            18px,
-            env(safe-area-inset-top)
-        )
-        18px
-        15px;
+    padding:20px;
 
     color:#ffffff;
 
     pointer-events:auto;
 }
 
-.camera-topbar button{
-    width:45px;
-    height:45px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.30);
-
-    border-radius:50%;
-
-    background:
-        rgba(0,0,0,.40);
-
-    color:#ffffff;
-
-    font-size:26px;
-}
-
-.camera-topbar small{
-    display:block;
-
-    color:#8be6d9;
-
-    font-size:8px;
-}
-
-.camera-topbar strong{
-    display:block;
-
-    margin-top:3px;
-}
-
 .direction-hud{
     align-self:center;
+
     justify-self:center;
-
-    display:grid;
-
-    justify-items:center;
-
-    gap:14px;
-
-    color:#ffffff;
 
     pointer-events:none;
 }
 
-.direction-arrow{
-    width:100px;
-    height:155px;
-
-    display:grid;
-
-    justify-items:center;
-
-    filter:
-        drop-shadow(
-            0 8px 18px
-            rgba(0,200,255,.55)
-        );
-
-    transform:
-        rotate(
-            var(--arrow-rotation,0deg)
-        );
-
-    transform-origin:center;
-}
-
-.direction-arrow::before{
-    content:"";
-
-    width:62px;
-    height:62px;
-
-    border-top:
-        18px solid #55e9ff;
-
-    border-left:
-        18px solid #55e9ff;
-
-    transform:
-        rotate(45deg);
-}
-
-.direction-arrow span{
-    width:26px;
-    height:110px;
-
-    margin-top:-35px;
-
-    border-radius:14px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #55e9ff,
-            rgba(85,233,255,.25)
-        );
-}
-
 .camera-bottom-card{
-    margin:
-        0 18px
-        max(
-            20px,
-            env(safe-area-inset-bottom)
-        );
+    margin:18px;
 
     padding:15px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.18);
 
     border-radius:16px;
 
     background:
-        rgba(5,30,35,.72);
+        rgba(5,30,35,.75);
 
     color:#ffffff;
-
-    pointer-events:none;
-
-    backdrop-filter:
-        blur(15px);
-
-    -webkit-backdrop-filter:
-        blur(15px);
-}
-
-.camera-bottom-card small{
-    color:#80e5d7;
-    font-size:8px;
-}
-
-.camera-bottom-card strong{
-    display:block;
-    margin:3px 0 4px;
-}
-
-.camera-bottom-card p{
-    color:#c2d6d7;
-
-    font-size:10px;
-
-    line-height:1.45;
 }
 
 
@@ -2475,6 +2072,7 @@ main{
 
 .directory{
     display:grid;
+
     gap:11px;
 }
 
@@ -2518,6 +2116,7 @@ main{
 
 .building-number{
     width:54px;
+
     height:54px;
 
     display:grid;
@@ -2529,8 +2128,7 @@ main{
     background:
         var(--green-100);
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
     font-weight:800;
 }
@@ -2549,8 +2147,7 @@ main{
     display:none;
 
     padding:
-        0 16px
-        16px 83px;
+        0 16px 16px 83px;
 }
 
 .building-card.open
@@ -2571,8 +2168,7 @@ main{
 .floor-button{
     min-height:36px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
     border:
         1px solid var(--line);
@@ -2580,27 +2176,22 @@ main{
     border-radius:9px;
 
     background:#ffffff;
-
-    color:#466169;
-
-    font-size:10px;
 }
 
 .floor-button.active{
-    border-color:#76cab9;
+    background:var(--green-100);
 
-    background:
-        var(--green-100);
-
-    color:
-        var(--green-900);
+    color:var(--green-900);
 }
 
 .room-grid{
     display:grid;
 
     grid-template-columns:
-        repeat(2,minmax(0,1fr));
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
 
     gap:8px;
 }
@@ -2620,36 +2211,15 @@ main{
     display:flex;
 
     align-items:center;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
 
     gap:10px;
 }
 
-.room-row>span{
-    min-width:0;
-
-    overflow-wrap:anywhere;
-
-    font-size:11px;
-}
-
-.room-row>button{
-    flex:0 0 auto;
-
-    border:0;
-
-    background:transparent;
-
-    color:var(--green-700);
-
-    font-size:9px;
-    font-weight:800;
-}
-
 .room-actions{
     display:flex;
-
-    flex-wrap:wrap;
 
     gap:7px;
 
@@ -2661,34 +2231,6 @@ main{
         1px solid #e4eded;
 }
 
-.room-actions button{
-    min-height:34px;
-
-    padding:
-        0 10px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius:9px;
-
-    background:#ffffff;
-
-    color:#496269;
-
-    font-size:9px;
-    font-weight:800;
-}
-
-.room-actions .room-nav-button{
-    border:0;
-
-    background:
-        var(--green-700);
-
-    color:#ffffff;
-}
-
 
 /* =====================================================
    HELP
@@ -2698,7 +2240,10 @@ main{
     display:grid;
 
     grid-template-columns:
-        repeat(4,minmax(0,1fr));
+        repeat(
+            4,
+            minmax(0,1fr)
+        );
 
     gap:12px;
 }
@@ -2716,24 +2261,6 @@ main{
     background:#ffffff;
 }
 
-.help-grid b{
-    color:var(--green-700);
-
-    font-size:10px;
-}
-
-.help-grid h3{
-    margin:8px 0;
-}
-
-.help-grid p{
-    color:var(--muted);
-
-    font-size:11px;
-
-    line-height:1.6;
-}
-
 
 /* =====================================================
    ABOUT
@@ -2747,9 +2274,9 @@ main{
     grid-template-columns:
         230px minmax(0,1fr);
 
-    align-items:center;
-
     gap:32px;
+
+    align-items:center;
 
     margin:auto;
 
@@ -2772,35 +2299,18 @@ main{
 
     border-radius:26px;
 
+    color:#ffffff;
+
+    font-size:42px;
+
+    font-weight:800;
+
     background:
         linear-gradient(
             135deg,
             var(--green-900),
             var(--blue-500)
         );
-
-    color:#ffffff;
-
-    font-size:42px;
-    font-weight:800;
-}
-
-.developer-card>div>small{
-    color:
-        var(--green-700);
-
-    font-weight:800;
-}
-
-.developer-card h1{
-    margin:
-        7px 0 12px;
-}
-
-.developer-card p{
-    color:var(--muted);
-
-    line-height:1.7;
 }
 
 .thesis-box{
@@ -2811,16 +2321,6 @@ main{
     border-radius:12px;
 
     background:#eff8f6;
-}
-
-.thesis-box strong{
-    display:block;
-
-    margin-top:5px;
-
-    font-size:11px;
-
-    line-height:1.6;
 }
 
 
@@ -2849,10 +2349,6 @@ main{
     font-size:11px;
 }
 
-.site-footer p em{
-    color:#ffffff;
-}
-
 .site-footer strong{
     color:#ffffff;
 
@@ -2876,12 +2372,11 @@ main{
     place-items:center;
 
     padding:18px;
-
-    pointer-events:auto;
 }
 
 .modal.hidden{
     display:none !important;
+
     pointer-events:none !important;
 }
 
@@ -2892,9 +2387,6 @@ main{
 
     background:
         rgba(0,24,34,.60);
-
-    backdrop-filter:blur(5px);
-    -webkit-backdrop-filter:blur(5px);
 }
 
 .info-modal{
@@ -2907,11 +2399,6 @@ main{
         100%
     );
 
-    max-height:
-        calc(100dvh - 36px);
-
-    overflow-y:auto;
-
     padding:28px;
 
     border-radius:21px;
@@ -2923,43 +2410,8 @@ main{
     position:absolute;
 
     top:14px;
+
     right:14px;
-}
-
-.info-modal>small{
-    color:var(--green-700);
-
-    font-size:8px;
-    font-weight:800;
-}
-
-.info-modal h2{
-    margin:
-        7px 50px
-        5px 0;
-}
-
-.info-modal>p{
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-.info-description{
-    margin:
-        18px 0;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    background:#f3f7f8;
-
-    color:#526c74;
-
-    font-size:11px;
-
-    line-height:1.6;
 }
 
 
@@ -2973,10 +2425,8 @@ main{
     z-index:4000;
 
     left:50%;
-    bottom:20px;
 
-    max-width:
-        calc(100vw - 30px);
+    bottom:20px;
 
     padding:
         11px 15px;
@@ -2993,8 +2443,6 @@ main{
         translate(-50%,25px);
 
     pointer-events:none;
-
-    font-size:11px;
 
     transition:.28s ease;
 }
@@ -3013,61 +2461,67 @@ main{
 
 @media(max-width:1050px){
 
-    .header-inner{
-        width:
-            calc(100% - 28px);
-    }
-
     .hero,
     .hero-inner{
-        min-height:980px;
+        min-height:970px;
     }
+
 
     .hero-slide{
         grid-template-columns:1fr;
 
         align-content:center;
 
-        gap:28px;
+        gap:25px;
 
         padding:
-            42px 0 96px;
+            38px 0 100px;
     }
+
 
     .hero-title-line{
         white-space:normal;
     }
 
+
     .landing-model-card,
     .landing-map-card{
-        width:min(100%,560px);
+        width:min(
+            100%,
+            540px
+        );
 
         justify-self:center;
     }
+
 
     .landing-map-card{
         left:0;
     }
 
+
     .feature-grid{
         grid-template-columns:
-            repeat(2,minmax(0,1fr));
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
     }
+
 
     .help-grid{
         grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
-
-    .map-instruction-area h2{
-        font-size:13px;
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
     }
 
 }
 
 
 /* =====================================================
-   MOBILE
+   MOBILE — REVISION 22
 ===================================================== */
 
 @media(max-width:760px){
@@ -3077,36 +2531,22 @@ main{
     }
 
 
-    .site-header{
-        height:var(--header);
-    }
-
+    /* HEADER */
 
     .header-inner{
         width:
             calc(100% - 16px);
 
-        grid-template-columns:
-            auto 1fr auto;
-
         gap:5px;
-    }
-
-
-    .brand{
-        gap:0;
     }
 
 
     .brand-icon{
         width:40px;
+
         height:40px;
 
-        flex-basis:40px;
-
         border-radius:11px;
-
-        font-size:12px;
     }
 
 
@@ -3127,40 +2567,18 @@ main{
 
         padding:0 6px;
 
-        border-radius:8px;
-
         font-size:9px;
     }
 
 
     .hamburger{
         width:41px;
+
         height:41px;
-
-        border-radius:11px;
     }
 
 
-    .hamburger span{
-        width:19px;
-    }
-
-
-    .drawer{
-        width:min(390px,94vw);
-
-        padding:
-            max(
-                18px,
-                env(safe-area-inset-top)
-            )
-            16px
-            max(
-                20px,
-                env(safe-area-inset-bottom)
-            );
-    }
-
+    /* GENERAL */
 
     .content-container{
         width:
@@ -3179,26 +2597,78 @@ main{
     }
 
 
-    .page-heading h1{
-        font-size:
-            clamp(
-                30px,
-                9vw,
-                42px
-            );
-    }
-
-
     .page-heading p{
         font-size:13px;
     }
 
 
-    /* HERO */
+    /* =================================================
+       DIRECTORY TITLE - ONE LINE
+    ================================================= */
+
+    .directory-page-heading{
+        max-width:none;
+    }
+
+
+    .directory-page-heading h1{
+        width:100%;
+
+        margin:
+            8px 0 10px;
+
+        font-size:
+            clamp(
+                20px,
+                5.7vw,
+                25px
+            );
+
+        line-height:1.15;
+
+        letter-spacing:-.5px;
+
+        white-space:nowrap;
+    }
+
+
+    /* =================================================
+       NAVIGATION TITLE - ONE LINE
+    ================================================= */
+
+    .navigation-page-heading{
+        max-width:none;
+    }
+
+
+    .navigation-page-heading h1{
+        width:100%;
+
+        margin:
+            8px 0 10px;
+
+        font-size:
+            clamp(
+                18px,
+                5.35vw,
+                23px
+            );
+
+        line-height:1.15;
+
+        letter-spacing:-.55px;
+
+        white-space:nowrap;
+    }
+
+
+    /* =================================================
+       HERO
+    ================================================= */
 
     .hero,
     .hero-inner{
-        min-height:940px;
+        min-height:900px;
     }
 
 
@@ -3209,22 +2679,26 @@ main{
 
 
     .hero-slide{
-        gap:22px;
+        align-content:start;
+
+        gap:20px;
 
         padding:
-            32px 0 92px;
+            38px 0 100px;
     }
 
 
     .hero-slide-title{
         font-size:
             clamp(
-                31px,
-                9vw,
-                44px
+                30px,
+                8.5vw,
+                41px
             );
 
-        letter-spacing:-.8px;
+        line-height:1.09;
+
+        letter-spacing:-.7px;
     }
 
 
@@ -3245,7 +2719,7 @@ main{
     .hero-copy p{
         font-size:13px;
 
-        line-height:1.65;
+        line-height:1.6;
     }
 
 
@@ -3255,47 +2729,196 @@ main{
         display:grid;
 
         grid-template-columns:
-            repeat(2,minmax(0,1fr));
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
 
-        margin-top:21px;
+        gap:9px;
+
+        margin-top:20px;
     }
 
 
     .hero-cta{
         width:100%;
+
         min-width:0;
 
-        padding:
-            0 10px;
+        padding:0 9px;
 
-        font-size:11px;
+        font-size:10px;
     }
 
 
-    .landing-model-card,
-    .landing-map-card{
+    /* =================================================
+       SLIDER 2 MOBILE
+    ================================================= */
+
+    .slider-two-slide{
+        gap:14px;
+
+        padding-top:29px;
+
+        padding-bottom:105px;
+    }
+
+
+    .slider-two-copy{
         width:100%;
-        max-width:430px;
+    }
 
+
+    /*
+       Tepat 3 baris karena setiap span adalah satu baris.
+    */
+
+    .slider-two-title{
+        margin-bottom:14px;
+
+        font-size:
+            clamp(
+                27px,
+                7.8vw,
+                35px
+            );
+
+        line-height:1.08;
+
+        letter-spacing:-.7px;
+    }
+
+
+    .slider-two-title .hero-title-line{
+        display:block;
+
+        white-space:nowrap;
+    }
+
+
+    .slider-two-copy p{
+        font-size:12px;
+
+        line-height:1.55;
+    }
+
+
+    .slider-two-copy .hero-actions{
+        margin-top:16px;
+    }
+
+
+    /*
+       Card denah dibuat lebih kecil.
+       Tidak lagi menempel/menimpa tombol.
+    */
+
+    .slider-two-map{
         left:0;
+
+        width:min(
+            100%,
+            315px
+        );
+
+        max-width:315px;
+
+        justify-self:center;
+
+        margin-top:2px;
+
+        border-radius:17px;
     }
 
 
-    #landingModelViewer{
-        height:300px;
+    .slider-two-map
+    .landing-map-header{
+        min-height:42px;
+
+        padding:
+            7px 10px;
     }
 
+
+    .slider-two-map
+    .landing-map-header small{
+        font-size:6px;
+    }
+
+
+    .slider-two-map
+    .landing-map-header strong{
+        margin-top:2px;
+
+        font-size:10px;
+    }
+
+
+    .slider-two-map
+    .landing-map-header>span{
+        font-size:7px;
+    }
+
+
+    .slider-two-map
+    .landing-map-image{
+        width:100%;
+    }
+
+
+    .slider-two-map
+    .landing-map-image img{
+        width:100%;
+
+        height:auto;
+
+        object-fit:contain;
+    }
+
+
+    .slider-two-map
+    .landing-map-footer{
+        min-height:29px;
+
+        padding:
+            5px 10px;
+
+        font-size:7px;
+    }
+
+
+    /*
+       Kontrol selalu berada di bawah card,
+       bukan tertutup gambar.
+    */
 
     .slider-controls{
-        bottom:18px;
+        z-index:50;
 
-        gap:9px;
+        bottom:16px;
     }
 
 
     .slider-arrow{
         width:38px;
+
         height:38px;
+    }
+
+
+    /* SLIDER 1 CARD */
+
+    .landing-model-card{
+        width:100%;
+
+        max-width:390px;
+
+        justify-self:center;
+    }
+
+
+    #landingModelViewer{
+        height:285px;
     }
 
 
@@ -3324,7 +2947,7 @@ main{
     }
 
 
-    /* SELECTION */
+    /* FORM */
 
     .selection-card{
         grid-template-columns:1fr;
@@ -3356,7 +2979,7 @@ main{
     }
 
 
-    /* NAV */
+    /* NAVIGATION */
 
     .nav-progress{
         gap:3px;
@@ -3367,6 +2990,7 @@ main{
 
     .nav-step b{
         width:31px;
+
         height:31px;
     }
 
@@ -3390,11 +3014,6 @@ main{
     }
 
 
-    /*
-       Pada HP kalimat harus wrap,
-       karena satu baris penuh akan terlalu kecil.
-    */
-
     .map-instruction-area{
         margin-bottom:16px;
     }
@@ -3414,8 +3033,7 @@ main{
 
 
     .route-found-top{
-        margin-bottom:
-            16px !important;
+        margin-bottom:16px;
     }
 
 
@@ -3450,17 +3068,13 @@ main{
     }
 
 
-    .user-marker label,
-    .entrance-marker label{
-        font-size:7px;
-    }
-
-
     /* DIRECTORY */
 
     .building-button{
         grid-template-columns:
-            44px minmax(0,1fr) auto;
+            44px
+            minmax(0,1fr)
+            auto;
 
         gap:10px;
 
@@ -3470,6 +3084,7 @@ main{
 
     .building-number{
         width:44px;
+
         height:44px;
 
         border-radius:11px;
@@ -3480,8 +3095,7 @@ main{
 
     .building-content{
         padding:
-            0 12px
-            12px;
+            0 12px 12px;
     }
 
 
@@ -3509,34 +3123,23 @@ main{
 
 
     .developer-avatar{
-        width:min(210px,70vw);
-    }
-
-
-    .developer-card h1{
-        font-size:28px;
-    }
-
-
-    .global-selected-actions{
-        grid-template-columns:1fr;
+        width:min(
+            210px,
+            70vw
+        );
     }
 
 
     .site-footer{
         padding:
-            25px 16px
-            max(
-                25px,
-                env(safe-area-inset-bottom)
-            );
+            25px 16px;
     }
 
 }
 
 
 /* =====================================================
-   EXTRA SMALL MOBILE
+   SMALL MOBILE
 ===================================================== */
 
 @media(max-width:420px){
@@ -3548,19 +3151,58 @@ main{
     }
 
 
-    .hero,
-    .hero-inner{
-        min-height:900px;
+    /*
+       Tetap satu baris bahkan di layar kecil.
+    */
+
+    .directory-page-heading h1{
+        font-size:
+            clamp(
+                18px,
+                5.35vw,
+                22px
+            );
     }
 
 
-    .hero-slide-title{
+    .navigation-page-heading h1{
         font-size:
             clamp(
-                29px,
-                9.3vw,
-                38px
+                16px,
+                4.85vw,
+                20px
             );
+    }
+
+
+    .hero,
+    .hero-inner{
+        min-height:875px;
+    }
+
+
+    .hero-slide{
+        padding-top:30px;
+    }
+
+
+    .slider-two-title{
+        font-size:
+            clamp(
+                24px,
+                7.4vw,
+                31px
+            );
+    }
+
+
+    .slider-two-map{
+        width:min(
+            100%,
+            290px
+        );
+
+        max-width:290px;
     }
 
 
@@ -3569,26 +3211,39 @@ main{
     }
 
 
-    .landing-model-header,
-    .landing-map-header{
-        padding:
-            10px 12px;
+    /*
+       Slider 2 button tetap cukup compact
+       walau ditumpuk.
+    */
+
+    .slider-two-copy
+    .hero-actions{
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
+
+
+    .slider-two-copy
+    .hero-cta{
+        min-height:42px;
+
+        font-size:9px;
     }
 
 
     #landingModelViewer{
-        height:270px;
-    }
-
-
-    .feature-card{
-        min-height:190px;
+        height:260px;
     }
 
 
     .drawer-item{
         grid-template-columns:
-            46px minmax(0,1fr) auto;
+            46px
+            minmax(0,1fr)
+            auto;
 
         min-height:70px;
     }
@@ -3596,9 +3251,8 @@ main{
 
     .drawer-icon{
         width:46px;
-        height:46px;
 
-        border-radius:12px;
+        height:46px;
     }
 
 }
