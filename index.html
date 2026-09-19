@@ -13,7 +13,7 @@
 
     <title>FT UISU Explorer | 3D, AR & Navigation</title>
 
-    <link rel="stylesheet" href="./style.css?v=17">
+    <link rel="stylesheet" href="./style.css?v=18">
 
     <script
         type="module"
@@ -22,7 +22,7 @@
 
     <script
         type="module"
-        src="./script.js?v=17">
+        src="./script.js?v=18">
     </script>
 </head>
 
@@ -98,11 +98,9 @@
             type="button"
             aria-label="Buka menu"
         >
-
             <span></span>
             <span></span>
             <span></span>
-
         </button>
 
     </div>
@@ -129,9 +127,17 @@
     <div class="drawer-header">
 
         <div>
-            <small>MENU UTAMA</small>
-            <h2>FT UISU Explorer</h2>
+
+            <small>
+                MENU UTAMA
+            </small>
+
+            <h2>
+                FT UISU Explorer
+            </h2>
+
         </div>
+
 
         <button
             id="closeDrawer"
@@ -144,15 +150,21 @@
     </div>
 
 
+
+    <!-- SEARCH -->
+
     <div class="drawer-search-wrap">
 
         <label for="globalSearch">
             Cari Gedung / Ruangan
         </label>
 
+
         <div class="search-box">
 
-            <span>⌕</span>
+            <span>
+                ⌕
+            </span>
 
             <input
                 id="globalSearch"
@@ -217,6 +229,8 @@
 
 
 
+    <!-- MENU -->
+
     <nav class="drawer-menu">
 
         <button
@@ -230,13 +244,21 @@
             </span>
 
             <span>
-                <strong>3D Objek</strong>
-                <small>3D Model Viewer Fakultas Teknik</small>
+
+                <strong>
+                    3D Objek
+                </strong>
+
+                <small>
+                    3D Model Viewer Fakultas Teknik
+                </small>
+
             </span>
 
             <b>›</b>
 
         </button>
+
 
 
         <button
@@ -250,13 +272,21 @@
             </span>
 
             <span>
-                <strong>AR (Markerless)</strong>
-                <small>Augmented Reality Markerless</small>
+
+                <strong>
+                    AR (Markerless)
+                </strong>
+
+                <small>
+                    Augmented Reality Markerless
+                </small>
+
             </span>
 
             <b>›</b>
 
         </button>
+
 
 
         <button
@@ -270,13 +300,21 @@
             </span>
 
             <span>
-                <strong>Navigasi</strong>
-                <small>Denah & Petunjuk Arah AR</small>
+
+                <strong>
+                    Navigasi
+                </strong>
+
+                <small>
+                    Denah & Petunjuk Arah AR
+                </small>
+
             </span>
 
             <b>›</b>
 
         </button>
+
 
 
         <button
@@ -290,8 +328,15 @@
             </span>
 
             <span>
-                <strong>Daftar Gedung & Ruangan</strong>
-                <small>Informasi & Navigasi</small>
+
+                <strong>
+                    Daftar Gedung & Ruangan
+                </strong>
+
+                <small>
+                    Informasi & Navigasi
+                </small>
+
             </span>
 
             <b>›</b>
@@ -320,14 +365,15 @@
     class="page active"
 >
 
+
     <section class="hero">
 
         <div class="hero-inner">
 
 
-            <!-- =============================================
+            <!-- =================================================
                  SLIDER 1
-            ============================================== -->
+            ================================================== -->
 
             <article class="hero-slide active">
 
@@ -406,7 +452,6 @@
 
                         </div>
 
-
                         <span id="landingModelCounter">
                             1 / 1
                         </span>
@@ -445,9 +490,9 @@
 
 
 
-            <!-- =============================================
+            <!-- =================================================
                  SLIDER 2
-            ============================================== -->
+            ================================================== -->
 
             <article class="hero-slide slider-two-slide">
 
@@ -558,9 +603,9 @@
 
 
 
-        <!-- =============================================
-             SLIDER CONTROLS
-        ============================================== -->
+        <!-- =================================================
+             SLIDER CONTROL
+        ================================================== -->
 
         <div class="slider-controls">
 
@@ -582,6 +627,7 @@
                     type="button"
                     aria-label="Slider pertama">
                 </button>
+
 
                 <button
                     class="slider-dot"
@@ -609,13 +655,15 @@
 
 
     <!-- =================================================
-         4 FEATURE CARDS
+         4 FITUR UTAMA
     ================================================== -->
 
     <section class="feature-section">
 
         <div class="feature-grid">
 
+
+            <!-- 3D -->
 
             <button
                 id="feature3D"
@@ -648,6 +696,8 @@
 
 
 
+            <!-- AR -->
+
             <button
                 id="featureAR"
                 class="feature-card"
@@ -679,6 +729,8 @@
 
 
 
+            <!-- NAVIGASI -->
+
             <button
                 id="featureNav"
                 class="feature-card"
@@ -708,6 +760,8 @@
             </button>
 
 
+
+            <!-- DIREKTORI -->
 
             <button
                 id="featureDirectory"
@@ -747,7 +801,7 @@
 
 
 <!-- =====================================================
-     3D MODEL VIEWER
+     3D OBJEK
 ===================================================== -->
 
 <section
@@ -780,7 +834,8 @@
                 Pilih Gedung
             </label>
 
-            <select id="viewerBuildingSelect"></select>
+            <select id="viewerBuildingSelect">
+            </select>
 
             <button
                 id="show3DModel"
@@ -839,7 +894,7 @@
 
 
 <!-- =====================================================
-     AR MARKERLESS
+     AR UTAMA
 ===================================================== -->
 
 <section
@@ -874,7 +929,8 @@
                 Pilih Gedung
             </label>
 
-            <select id="arBuildingSelect"></select>
+            <select id="arBuildingSelect">
+            </select>
 
             <button
                 id="prepareMainAR"
@@ -899,7 +955,9 @@
 
             <div class="ar-status-card">
 
-                <span>AR</span>
+                <span>
+                    AR
+                </span>
 
                 <div>
 
@@ -981,49 +1039,84 @@
 
 
 
+        <!-- PROGRESS -->
+
         <div class="nav-progress">
 
             <div
                 id="stepTarget"
                 class="nav-step active"
             >
-                <b>1</b>
-                <span>Tujuan</span>
+
+                <b>
+                    1
+                </b>
+
+                <span>
+                    Tujuan
+                </span>
+
             </div>
 
             <i></i>
+
 
             <div
                 id="stepPosition"
                 class="nav-step"
             >
-                <b>2</b>
-                <span>Posisi</span>
+
+                <b>
+                    2
+                </b>
+
+                <span>
+                    Posisi
+                </span>
+
             </div>
 
             <i></i>
+
 
             <div
                 id="stepRoute"
                 class="nav-step"
             >
-                <b>3</b>
-                <span>Rute</span>
+
+                <b>
+                    3
+                </b>
+
+                <span>
+                    Rute
+                </span>
+
             </div>
 
             <i></i>
+
 
             <div
                 id="stepAR"
                 class="nav-step"
             >
-                <b>4</b>
-                <span>AR</span>
+
+                <b>
+                    4
+                </b>
+
+                <span>
+                    AR
+                </span>
+
             </div>
 
         </div>
 
 
+
+        <!-- SEARCH -->
 
         <div class="navigation-search-card">
 
@@ -1034,7 +1127,9 @@
 
             <div class="search-box navigation-search-box">
 
-                <span>⌕</span>
+                <span>
+                    ⌕
+                </span>
 
                 <input
                     id="navigationSearch"
@@ -1081,9 +1176,7 @@
 
 
 
-        <!-- =================================================
-             DENAH
-        ================================================== -->
+        <!-- MAP -->
 
         <div
             id="mapSection"
@@ -1134,6 +1227,9 @@
                 >
 
 
+
+                <!-- DESTINATION HIGHLIGHT -->
+
                 <div
                     id="destinationHighlight"
                     class="destination-highlight hidden"
@@ -1141,6 +1237,9 @@
                     <span></span>
                 </div>
 
+
+
+                <!-- ROUTE -->
 
                 <svg
                     class="route-svg"
@@ -1181,6 +1280,8 @@
 
 
 
+                <!-- USER MARKER -->
+
                 <div
                     id="userMarker"
                     class="user-marker hidden"
@@ -1195,6 +1296,8 @@
                 </div>
 
 
+
+                <!-- ENTRANCE MARKER -->
 
                 <div
                     id="entranceMarker"
@@ -1214,11 +1317,11 @@
 
 
             <!--
-                Tetap ada tetapi tersembunyi supaya
-                JavaScript lama tidak error.
+                DATA INTERNAL.
+                Disembunyikan agar JS tetap berjalan.
             -->
 
-            <div class="hidden" aria-hidden="true">
+            <div class="hidden">
 
                 <span id="positionStatus">
                     Belum dipilih
@@ -1236,9 +1339,7 @@
 
 
 
-            <!-- =============================================
-                 ROUTE RESULT
-            ============================================== -->
+            <!-- ROUTE FOUND -->
 
             <div
                 id="routeFoundBox"
@@ -1326,6 +1427,7 @@
             </div>
 
 
+
             <div class="direction-hud">
 
                 <div
@@ -1340,6 +1442,7 @@
                 </strong>
 
             </div>
+
 
 
             <div class="camera-bottom-card">
@@ -1394,6 +1497,7 @@
 
         </div>
 
+
         <div
             id="directoryContainer"
             class="directory">
@@ -1432,7 +1536,10 @@
         <div class="help-grid">
 
             <article>
-                <b>01</b>
+
+                <b>
+                    01
+                </b>
 
                 <h3>
                     3D Objek
@@ -1441,11 +1548,16 @@
                 <p>
                     Pilih Gedung lalu buka 3D Model Viewer.
                 </p>
+
             </article>
 
 
+
             <article>
-                <b>02</b>
+
+                <b>
+                    02
+                </b>
 
                 <h3>
                     AR Markerless
@@ -1454,11 +1566,16 @@
                 <p>
                     Pilih Gedung, buka kamera dan tracking bidang datar.
                 </p>
+
             </article>
 
 
+
             <article>
-                <b>03</b>
+
+                <b>
+                    03
+                </b>
 
                 <h3>
                     Navigasi
@@ -1467,11 +1584,16 @@
                 <p>
                     Cari tujuan, pilih posisi, lihat rute dan lanjutkan ke AR.
                 </p>
+
             </article>
 
 
+
             <article>
-                <b>04</b>
+
+                <b>
+                    04
+                </b>
 
                 <h3>
                     Direktori
@@ -1480,6 +1602,7 @@
                 <p>
                     Cari Gedung dan Ruangan untuk Informasi atau Petunjuk Arah.
                 </p>
+
             </article>
 
         </div>
@@ -1556,7 +1679,7 @@
 
 
 <!-- =====================================================
-     FOOTER v17
+     FOOTER
 ===================================================== -->
 
 <footer class="site-footer">
@@ -1597,6 +1720,7 @@
         >
             ×
         </button>
+
 
         <small>
             INFORMASI
