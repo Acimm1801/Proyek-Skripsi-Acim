@@ -15,7 +15,7 @@
 
     <link
         rel="stylesheet"
-        href="./style.css?v=21"
+        href="./style.css?v=22"
     >
 
     <script
@@ -66,10 +66,7 @@
         </button>
 
 
-        <nav
-            class="header-nav"
-            aria-label="Navigasi utama"
-        >
+        <nav class="header-nav">
 
             <button
                 class="header-link active"
@@ -115,6 +112,7 @@
 </header>
 
 
+
 <!-- =====================================================
      DRAWER
 ===================================================== -->
@@ -150,12 +148,12 @@
             id="closeDrawer"
             class="close-button"
             type="button"
-            aria-label="Tutup menu"
         >
             ×
         </button>
 
     </div>
+
 
 
     <div class="drawer-search-wrap">
@@ -167,7 +165,7 @@
 
         <div class="search-box">
 
-            <span aria-hidden="true">
+            <span>
                 ⌕
             </span>
 
@@ -181,7 +179,6 @@
             <button
                 id="clearGlobalSearch"
                 type="button"
-                aria-label="Hapus pencarian"
             >
                 ×
             </button>
@@ -232,6 +229,7 @@
         </div>
 
     </div>
+
 
 
     <nav class="drawer-menu">
@@ -348,6 +346,7 @@
 </aside>
 
 
+
 <!-- =====================================================
      MAIN
 ===================================================== -->
@@ -369,7 +368,9 @@
         <div class="hero-inner">
 
 
-            <!-- SLIDER 1 -->
+            <!-- =================================================
+                 SLIDER 1
+            ================================================== -->
 
             <article class="hero-slide active">
 
@@ -431,6 +432,7 @@
                 </div>
 
 
+
                 <div class="landing-model-card">
 
                     <div class="landing-model-header">
@@ -446,7 +448,6 @@
                             </strong>
 
                         </div>
-
 
                         <span id="landingModelCounter">
                             1 / 1
@@ -485,29 +486,32 @@
             </article>
 
 
-            <!-- SLIDER 2 -->
+
+            <!-- =================================================
+                 SLIDER 2
+            ================================================== -->
 
             <article class="hero-slide slider-two-slide">
 
-                <div class="hero-copy">
+                <div class="hero-copy slider-two-copy">
 
                     <small class="hero-eyebrow">
                         TEKNIK INFORMATIKA • FAKULTAS TEKNIK • UISU
                     </small>
 
 
-                    <h1 class="hero-slide-title">
+                    <h1 class="hero-slide-title slider-two-title">
 
                         <span class="hero-title-line">
-                            Kesulitan mencari
+                            Kesulitan mencari Ruangan
                         </span>
 
                         <span class="hero-title-line">
-                            Ruangan / Civitas Akademik
+                            atau Civitas Akademik
                         </span>
 
                         <span class="hero-title-line accent">
-                            di Fakultas Teknik UISU?
+                            Di Fakultas Teknik UISU?
                         </span>
 
                     </h1>
@@ -546,7 +550,8 @@
                 </div>
 
 
-                <div class="landing-map-card">
+
+                <div class="landing-map-card slider-two-map">
 
                     <div class="landing-map-header">
 
@@ -594,13 +599,15 @@
         </div>
 
 
+
+        <!-- SLIDER CONTROL -->
+
         <div class="slider-controls">
 
             <button
                 id="prevSlide"
                 class="slider-arrow"
                 type="button"
-                aria-label="Slider sebelumnya"
             >
                 ←
             </button>
@@ -612,14 +619,13 @@
                     class="slider-dot active"
                     data-slide="0"
                     type="button"
-                    aria-label="Slider pertama"
                 ></button>
+
 
                 <button
                     class="slider-dot"
                     data-slide="1"
                     type="button"
-                    aria-label="Slider kedua"
                 ></button>
 
             </div>
@@ -629,7 +635,6 @@
                 id="nextSlide"
                 class="slider-arrow"
                 type="button"
-                aria-label="Slider berikutnya"
             >
                 →
             </button>
@@ -639,7 +644,10 @@
     </section>
 
 
-    <!-- FEATURE CARD -->
+
+    <!-- =================================================
+         4 FEATURE CARD
+    ================================================== -->
 
     <section class="feature-section">
 
@@ -656,6 +664,7 @@
                     3D
                 </span>
 
+
                 <div>
 
                     <h3>
@@ -668,11 +677,13 @@
 
                 </div>
 
+
                 <strong>
                     Buka Fitur →
                 </strong>
 
             </button>
+
 
 
             <button
@@ -684,6 +695,7 @@
                 <span class="feature-icon">
                     AR
                 </span>
+
 
                 <div>
 
@@ -698,11 +710,13 @@
 
                 </div>
 
+
                 <strong>
                     Buka Fitur →
                 </strong>
 
             </button>
+
 
 
             <button
@@ -714,6 +728,7 @@
                 <span class="feature-icon">
                     ↗
                 </span>
+
 
                 <div>
 
@@ -727,11 +742,13 @@
 
                 </div>
 
+
                 <strong>
                     Mulai Navigasi →
                 </strong>
 
             </button>
+
 
 
             <button
@@ -744,6 +761,7 @@
                     ▦
                 </span>
 
+
                 <div>
 
                     <h3>
@@ -751,11 +769,12 @@
                     </h3>
 
                     <p>
-                        Dapatkan informasi mengenai Gedung, Ruangan, dan
-                        Civitas Akademik Fakultas Teknik UISU.
+                        Dapatkan informasi mengenai Gedung, Ruangan,
+                        dan Civitas Akademik Fakultas Teknik UISU.
                     </p>
 
                 </div>
+
 
                 <strong>
                     Buka Direktori →
@@ -768,6 +787,7 @@
     </section>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -850,7 +870,6 @@
                 auto-rotate
                 shadow-intensity="1"
                 environment-image="neutral"
-                alt="Model 3D Fakultas Teknik UISU"
             >
             </model-viewer>
 
@@ -861,8 +880,9 @@
 </section>
 
 
+
 <!-- =====================================================
-     AR UTAMA
+     AR
 ===================================================== -->
 
 <section
@@ -974,8 +994,9 @@
 </section>
 
 
+
 <!-- =====================================================
-     NAVIGASI
+     NAVIGATION
 ===================================================== -->
 
 <section
@@ -985,14 +1006,14 @@
 
     <div class="content-container">
 
-        <div class="page-heading">
+        <div class="page-heading navigation-page-heading">
 
             <small>
                 NAVIGASI
             </small>
 
             <h1>
-                Denah & Petunjuk Arah AR
+                Denah dan Petunjuk Arah AR
             </h1>
 
             <p>
@@ -1014,6 +1035,7 @@
 
             <i></i>
 
+
             <div
                 id="stepPosition"
                 class="nav-step"
@@ -1023,6 +1045,7 @@
             </div>
 
             <i></i>
+
 
             <div
                 id="stepRoute"
@@ -1034,6 +1057,7 @@
 
             <i></i>
 
+
             <div
                 id="stepAR"
                 class="nav-step"
@@ -1043,6 +1067,7 @@
             </div>
 
         </div>
+
 
 
         <div class="navigation-search-card">
@@ -1102,15 +1127,11 @@
         </div>
 
 
-        <!-- MAP -->
 
         <div
             id="mapSection"
             class="map-section hidden"
         >
-
-
-            <!-- SEBELUM PILIH POSISI -->
 
             <div
                 id="mapInstructionArea"
@@ -1123,8 +1144,6 @@
 
             </div>
 
-
-            <!-- SESUDAH PILIH POSISI -->
 
             <div
                 id="routeFoundBox"
@@ -1161,7 +1180,6 @@
                 class="navigation-map"
                 role="button"
                 tabindex="0"
-                aria-label="Pilih posisi Anda pada denah"
             >
 
                 <img
@@ -1184,7 +1202,6 @@
                     class="route-svg"
                     viewBox="0 0 551 544"
                     preserveAspectRatio="none"
-                    aria-hidden="true"
                 >
 
                     <defs>
@@ -1255,6 +1272,7 @@
 </section>
 
 
+
 <!-- =====================================================
      AR NAVIGATION
 ===================================================== -->
@@ -1281,7 +1299,6 @@
                 <button
                     id="closeARNavigation"
                     type="button"
-                    aria-label="Tutup Navigasi AR"
                 >
                     ×
                 </button>
@@ -1341,6 +1358,7 @@
 </section>
 
 
+
 <!-- =====================================================
      DIRECTORY
 ===================================================== -->
@@ -1352,7 +1370,7 @@
 
     <div class="content-container">
 
-        <div class="page-heading">
+        <div class="page-heading directory-page-heading">
 
             <small>
                 DAFTAR GEDUNG & RUANGAN
@@ -1380,8 +1398,9 @@
 </section>
 
 
+
 <!-- =====================================================
-     BANTUAN
+     HELP
 ===================================================== -->
 
 <section
@@ -1437,8 +1456,9 @@
 </section>
 
 
+
 <!-- =====================================================
-     TENTANG
+     ABOUT
 ===================================================== -->
 
 <section
@@ -1500,6 +1520,7 @@
 </main>
 
 
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -1515,6 +1536,7 @@
     </strong>
 
 </footer>
+
 
 
 <!-- =====================================================
@@ -1581,4 +1603,5 @@
 
 
 </body>
+
 </html>
