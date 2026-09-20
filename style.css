@@ -3256,3 +3256,327 @@ main{
     }
 
 }
+/* =========================================================
+   REVISION 23
+   MOBILE SLIDER 2 + DIRECTORY/NAVIGATION TITLE
+========================================================= */
+
+@media (max-width: 760px){
+
+    /* =====================================================
+       SLIDER 2
+       Tinggi keseluruhan dibuat lebih proporsional
+    ===================================================== */
+
+    .hero,
+    .hero-inner{
+        min-height: 840px;
+    }
+
+
+    .slider-two-slide{
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        align-content: start;
+
+        gap: 18px;
+
+        padding-top: 30px;
+        padding-bottom: 86px;
+    }
+
+
+    /* =====================================================
+       HEADING SLIDER 2
+       Tetap tepat 3 baris
+    ===================================================== */
+
+    .slider-two-title{
+        margin-bottom: 14px;
+
+        font-size: clamp(
+            27px,
+            7.6vw,
+            34px
+        );
+
+        line-height: 1.08;
+
+        letter-spacing: -.65px;
+    }
+
+
+    .slider-two-title .hero-title-line{
+        display: block;
+
+        white-space: nowrap;
+    }
+
+
+    .slider-two-copy p{
+        margin: 0;
+
+        font-size: 12px;
+
+        line-height: 1.55;
+    }
+
+
+    /* =====================================================
+       2 BUTTON SLIDER 2
+       Dibuat satu tombol per baris
+    ===================================================== */
+
+    .slider-two-copy .hero-actions{
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        width: 100%;
+
+        margin-top: 17px;
+    }
+
+
+    .slider-two-copy .hero-cta{
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 0 14px;
+
+        font-size: 11px;
+
+        border-radius: 12px;
+    }
+
+
+    /* =====================================================
+       DENAH SLIDER 2
+       Sedikit diperbesar dari v22
+    ===================================================== */
+
+    .slider-two-map{
+        position: relative;
+
+        left: 0;
+
+        width: min(
+            100%,
+            345px
+        );
+
+        max-width: 345px;
+
+        justify-self: center;
+
+        margin-top: 2px;
+
+        border-radius: 18px;
+    }
+
+
+    .slider-two-map .landing-map-header{
+        min-height: 46px;
+
+        padding: 8px 12px;
+    }
+
+
+    .slider-two-map .landing-map-header small{
+        font-size: 6px;
+    }
+
+
+    .slider-two-map .landing-map-header strong{
+        margin-top: 2px;
+
+        font-size: 11px;
+    }
+
+
+    .slider-two-map .landing-map-header > span{
+        font-size: 7px;
+    }
+
+
+    .slider-two-map .landing-map-image{
+        width: 100%;
+
+        line-height: 0;
+    }
+
+
+    .slider-two-map .landing-map-image img{
+        display: block;
+
+        width: 100%;
+        height: auto;
+
+        object-fit: contain;
+    }
+
+
+    .slider-two-map .landing-map-footer{
+        min-height: 32px;
+
+        padding: 6px 11px;
+
+        font-size: 7px;
+    }
+
+
+    /* =====================================================
+       SLIDER ARROW + DOT
+       Dekat dengan konten, tetapi tidak bertabrakan
+    ===================================================== */
+
+    .slider-controls{
+        bottom: 17px;
+
+        gap: 10px;
+    }
+
+
+    .slider-arrow{
+        width: 40px;
+        height: 40px;
+    }
+
+
+    /* =====================================================
+       DIREKTORI
+       Sedikit diperbesar, tetap satu baris
+    ===================================================== */
+
+    .directory-page-heading h1{
+        width: 100%;
+
+        margin: 8px 0 11px;
+
+        font-size: clamp(
+            22px,
+            6vw,
+            28px
+        );
+
+        line-height: 1.12;
+
+        letter-spacing: -.65px;
+
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       NAVIGASI
+       Sedikit diperbesar, tetap satu baris
+    ===================================================== */
+
+    .navigation-page-heading h1{
+        width: 100%;
+
+        margin: 8px 0 11px;
+
+        font-size: clamp(
+            20px,
+            5.45vw,
+            25px
+        );
+
+        line-height: 1.12;
+
+        letter-spacing: -.7px;
+
+        white-space: nowrap;
+    }
+
+}
+
+
+
+/* =========================================================
+   SMALL MOBILE
+   iPhone kecil / Android sekitar 320–420 px
+========================================================= */
+
+@media (max-width: 420px){
+
+    .hero,
+    .hero-inner{
+        min-height: 825px;
+    }
+
+
+    .slider-two-slide{
+        gap: 15px;
+
+        padding-top: 26px;
+        padding-bottom: 82px;
+    }
+
+
+    .slider-two-title{
+        font-size: clamp(
+            23px,
+            7vw,
+            29px
+        );
+    }
+
+
+    .slider-two-copy p{
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+
+    .slider-two-copy .hero-actions{
+        grid-template-columns: 1fr;
+
+        gap: 9px;
+
+        margin-top: 14px;
+    }
+
+
+    .slider-two-copy .hero-cta{
+        min-height: 43px;
+
+        font-size: 10px;
+    }
+
+
+    .slider-two-map{
+        width: min(
+            100%,
+            325px
+        );
+
+        max-width: 325px;
+    }
+
+
+    .directory-page-heading h1{
+        font-size: clamp(
+            20px,
+            5.6vw,
+            24px
+        );
+    }
+
+
+    .navigation-page-heading h1{
+        font-size: clamp(
+            18px,
+            5.05vw,
+            22px
+        );
+    }
+
+}
