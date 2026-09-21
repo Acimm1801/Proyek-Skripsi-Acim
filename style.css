@@ -66,6 +66,7 @@ button{
 .site-header{
   position:fixed;
   z-index:1000;
+
   top:0;
   left:0;
   right:0;
@@ -73,6 +74,7 @@ button{
   height:var(--header);
 
   background:rgba(255,255,255,.97);
+
   border-bottom:1px solid var(--line);
 
   backdrop-filter:blur(14px);
@@ -90,7 +92,9 @@ button{
   margin:auto;
 
   display:grid;
-  grid-template-columns:auto 1fr auto;
+
+  grid-template-columns:
+    auto 1fr auto;
 
   align-items:center;
 
@@ -339,7 +343,8 @@ button{
 
   display:grid;
 
-  grid-template-columns:auto 1fr auto;
+  grid-template-columns:
+    auto 1fr auto;
 
   align-items:center;
 
@@ -413,7 +418,8 @@ button{
 
   display:grid;
 
-  grid-template-columns:1fr auto;
+  grid-template-columns:
+    1fr auto;
 
   align-items:center;
 
@@ -515,7 +521,8 @@ button{
 .global-selected-actions{
   display:grid;
 
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:
+    1fr 1fr;
 
   gap:8px;
 
@@ -538,7 +545,8 @@ button{
 
   display:grid;
 
-  grid-template-columns:52px 1fr auto;
+  grid-template-columns:
+    52px 1fr auto;
 
   align-items:center;
 
@@ -614,7 +622,7 @@ button{
 
 
 /* =========================================================
-   BUTTONS
+   BUTTON
 ========================================================= */
 
 .button{
@@ -1176,7 +1184,9 @@ main{
 }
 
 
-/* FEATURE */
+/* =========================================================
+   FEATURE
+========================================================= */
 
 .feature-section{
   padding:38px 0 70px;
@@ -1225,11 +1235,17 @@ main{
 
   box-shadow:
     0 16px 38px rgba(5,66,72,.08);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
 }
 
 
 .feature-card:hover{
-  transform:translateY(-4px);
+  transform:
+    translateY(-4px);
 }
 
 
@@ -1494,7 +1510,7 @@ main{
 
 /* =========================================================
    REVISI 25
-   3D MODEL SLIDER + INDOOR / OUTDOOR
+   3D / AR MODEL CHOOSER + SLIDER 7 MODEL
 ========================================================= */
 
 .model-selection-card{
@@ -1518,7 +1534,7 @@ main{
 
 
 .model-choice-button{
-  min-width:170px;
+  min-width:180px;
 }
 
 
@@ -1533,7 +1549,7 @@ main{
   color:#fff;
 
   border-bottom:
-    1px solid rgba(255,255,255,.15);
+    1px solid rgba(255,255,255,.14);
 }
 
 
@@ -1545,12 +1561,12 @@ main{
 .viewer-counter{
   flex:0 0 auto;
 
-  color:#bde9e5;
+  color:#c4ece8;
 
   font-size:9px;
   font-weight:800;
 
-  letter-spacing:.5px;
+  letter-spacing:.4px;
 }
 
 
@@ -1563,11 +1579,6 @@ main{
       #fff,
       #dfecee
     );
-}
-
-
-#mainModelViewer{
-  display:block;
 }
 
 
@@ -1590,16 +1601,16 @@ main{
 
   padding:24px;
 
-  color:#5b737b;
-
-  text-align:center;
-
   background:
     radial-gradient(
       circle,
       #fff,
       #dfecee
     );
+
+  color:#667e86;
+
+  text-align:center;
 }
 
 
@@ -1616,7 +1627,7 @@ main{
 
 
 .viewer-footer{
-  min-height:48px;
+  min-height:50px;
 
   display:flex;
 
@@ -1640,6 +1651,7 @@ main{
 
 .viewer-footer > span{
   font-size:8px;
+  font-weight:700;
 
   letter-spacing:.35px;
 }
@@ -1754,9 +1766,7 @@ main{
 .navigation-search-card{
   padding:24px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:20px;
 
   background:#fff;
@@ -1811,9 +1821,7 @@ main{
 
   padding:24px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:22px;
 
   background:#fff;
@@ -1864,9 +1872,7 @@ main{
 
   overflow:hidden;
 
-  border:
-    1px solid #d4e5e5;
-
+  border:1px solid #d4e5e5;
   border-radius:20px;
 
   background:#eaf3f2;
@@ -2123,9 +2129,7 @@ main{
 
   padding:16px;
 
-  border:
-    1px solid #bde2da;
-
+  border:1px solid #bde2da;
   border-radius:14px;
 
   background:#effaf7;
@@ -2295,7 +2299,9 @@ main{
     );
 
   transform:
-    rotate(var(--arrow-rotation,0deg));
+    rotate(
+      var(--arrow-rotation,0deg)
+    );
 
   transform-origin:center;
 }
@@ -2307,10 +2313,14 @@ main{
   width:62px;
   height:62px;
 
-  border-top:18px solid #55e9ff;
-  border-left:18px solid #55e9ff;
+  border-top:
+    18px solid #55e9ff;
 
-  transform:rotate(45deg);
+  border-left:
+    18px solid #55e9ff;
+
+  transform:
+    rotate(45deg);
 }
 
 
@@ -2397,9 +2407,7 @@ main{
 .building-card{
   overflow:hidden;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:17px;
 
   background:#fff;
@@ -2487,9 +2495,7 @@ main{
 
   padding:0 12px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:9px;
 
   background:#fff;
@@ -2577,9 +2583,7 @@ main{
 
   padding:0 10px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:9px;
 
   background:#fff;
@@ -2619,9 +2623,7 @@ main{
 
   padding:21px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:17px;
 
   background:#fff;
@@ -2665,9 +2667,7 @@ main{
 
   padding:40px;
 
-  border:
-    1px solid var(--line);
-
+  border:1px solid var(--line);
   border-radius:24px;
 
   background:#fff;
@@ -2738,7 +2738,7 @@ main{
 
 
 /* =========================================================
-   MODAL / FOOTER / TOAST
+   FOOTER / MODAL / TOAST
 ========================================================= */
 
 .site-footer{
@@ -2992,7 +2992,8 @@ main{
 
 
   .content-page{
-    padding:38px 0 55px;
+    padding:
+      38px 0 55px;
   }
 
 
