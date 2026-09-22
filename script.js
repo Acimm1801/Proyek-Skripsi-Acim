@@ -14,21 +14,26 @@ import {
     getModelVariant,
     getDefaultModelVariant
 
-} from "./data/map-data.js?v=27";
+} from "./data/map-data.js?v=29";
 
 
 /* =========================================================
-   DOM HELPERS
+   DOM
 ========================================================= */
 
-const $ = selector =>
-    document.querySelector(selector);
+const $ =
+    selector =>
+        document.querySelector(selector);
 
-const $$ = selector =>
-    [...document.querySelectorAll(selector)];
 
-const byId = id =>
-    document.getElementById(id);
+const $$ =
+    selector =>
+        [...document.querySelectorAll(selector)];
+
+
+const byId =
+    id =>
+        document.getElementById(id);
 
 
 function on(id,event,handler){
@@ -37,10 +42,12 @@ function on(id,event,handler){
         byId(id);
 
     if(element){
+
         element.addEventListener(
             event,
             handler
         );
+
     }
 
 }
@@ -52,7 +59,10 @@ function text(id,value){
         byId(id);
 
     if(element){
-        element.textContent = value;
+
+        element.textContent =
+            value;
+
     }
 
 }
@@ -82,35 +92,38 @@ function hide(id){
 
 const state = {
 
-    currentPage:"home",
+    currentPage:
+        "home",
 
-    pageHistory:[],
+    pageHistory:
+        [],
 
-    currentSlide:0,
+    currentSlide:
+        0,
 
-    landingModelIndex:0,
+    landingModelIndex:
+        0,
 
-    globalSelection:null,
+    globalSelection:
+        null,
 
-    infoLocation:null,
+    infoLocation:
+        null,
 
-    destination:null,
+    destination:
+        null,
 
-    clickedPosition:null,
+    routeResult:
+        null,
 
-    snappedPosition:null,
-
-    routeResult:null,
-
-    cameraStream:null,
-
-    modelFocusURL:null
+    cameraStream:
+        null
 
 };
 
 
 /* =========================================================
-   LANDING MODEL DATABASE
+   LANDING 3D
 ========================================================= */
 
 const landingModels = [
@@ -146,62 +159,85 @@ const landingModels = [
    LOCATION DATABASE
 ========================================================= */
 
-const locations = [];
+const locations =
+    [];
 
 
-buildings.forEach(building => {
+buildings.forEach(
+    building => {
 
-    locations.push({
+        locations.push({
 
-        id:building.id,
+            id:
+                building.id,
 
-        type:"building",
+            type:
+                "building",
 
-        name:building.name,
+            name:
+                building.name,
 
-        buildingId:building.id,
+            buildingId:
+                building.id,
 
-        parent:"Fakultas Teknik UISU",
+            parent:
+                "Fakultas Teknik UISU",
 
-        floor:building.actualFloor,
+            floor:
+                building.actualFloor,
 
-        description:building.description
+            description:
+                building.description
 
-    });
+        });
 
-});
+    }
+);
 
 
-rooms.forEach(room => {
+rooms.forEach(
+    room => {
 
-    const building =
-        getBuildingById(
-            room.buildingId
-        );
+        const building =
+            getBuildingById(
+                room.buildingId
+            );
 
-    locations.push({
 
-        ...room,
+        locations.push({
 
-        type:"room",
+            ...room,
 
-        parent:
-            building?.name
-            ||
-            "Fakultas Teknik UISU",
+            type:
+                "room",
 
-        description:
-            `${room.name} berada di ${building?.name || "Fakultas Teknik UISU"}${
-                room.floor
+            parent:
+                building?.name
+                ||
+                "Fakultas Teknik UISU",
+
+            description:
+
+                `${room.name} berada di ${
+
+                    building?.name
+                    ||
+                    "Fakultas Teknik UISU"
+
+                }${
+
+                    room.floor
                     ?
                     `, lantai ${room.floor}`
                     :
                     ""
-            }. Detail informasi ruangan akan dilengkapi kemudian.`
 
-    });
+                }. Detail informasi ruangan akan dilengkapi kemudian.`
 
-});
+        });
+
+    }
+);
 
 
 /* =========================================================
@@ -214,9 +250,11 @@ function openDrawer(){
         ?.classList
         .add("open");
 
+
     byId("drawerOverlay")
         ?.classList
         .add("show");
+
 
     byId("drawer")
         ?.setAttribute(
@@ -224,11 +262,13 @@ function openDrawer(){
             "false"
         );
 
+
     byId("hamburgerButton")
         ?.setAttribute(
             "aria-expanded",
             "true"
         );
+
 
     document.body.style.overflow =
         "hidden";
@@ -242,9 +282,11 @@ function closeDrawer(){
         ?.classList
         .remove("open");
 
+
     byId("drawerOverlay")
         ?.classList
         .remove("show");
+
 
     byId("drawer")
         ?.setAttribute(
@@ -252,11 +294,13 @@ function closeDrawer(){
             "true"
         );
 
+
     byId("hamburgerButton")
         ?.setAttribute(
             "aria-expanded",
             "false"
         );
+
 
     document.body.style.overflow =
         "";
@@ -270,11 +314,13 @@ on(
     openDrawer
 );
 
+
 on(
     "closeDrawer",
     "click",
     closeDrawer
 );
+
 
 on(
     "drawerOverlay",
@@ -297,18 +343,22 @@ function showPage(
             `${pageName}Page`
         );
 
+
     if(!target){
+
         return;
+
     }
 
 
     if(
+
         pushHistory
         &&
         state.currentPage
         &&
-        state.currentPage !==
-        pageName
+        state.currentPage !== pageName
+
     ){
 
         state.pageHistory.push(
@@ -319,13 +369,15 @@ function showPage(
 
 
     $$(".page")
-        .forEach(page => {
+        .forEach(
+            page => {
 
-            page.classList.remove(
-                "active"
-            );
+                page.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     target.classList.add(
@@ -338,18 +390,20 @@ function showPage(
 
 
     $$(".header-link")
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.classList.toggle(
+                button.classList.toggle(
 
-                "active",
+                    "active",
 
-                button.dataset.page ===
-                pageName
+                    button.dataset.page ===
+                    pageName
 
-            );
+                );
 
-        });
+            }
+        );
 
 
     if(
@@ -405,38 +459,43 @@ function goBack(){
 
 
 $$("[data-back]")
-    .forEach(button => {
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            goBack
-        );
+            button.addEventListener(
+                "click",
+                goBack
+            );
 
-    });
+        }
+    );
 
 
 on(
     "logoHome",
     "click",
-    () => showPage("home")
+    () =>
+        showPage("home")
 );
 
 
 $$("[data-page]")
-    .forEach(button => {
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                showPage(
-                    button.dataset.page
-                );
+                    showPage(
+                        button.dataset.page
+                    );
 
-            }
-        );
+                }
+            );
 
-    });
+        }
+    );
 
 
 /* =========================================================
@@ -450,7 +509,9 @@ const slides =
 function showSlide(index){
 
     if(!slides.length){
+
         return;
+
     }
 
 
@@ -515,26 +576,28 @@ on(
 
 
 $$(".slider-dot")
-    .forEach(dot => {
+    .forEach(
+        dot => {
 
-        dot.addEventListener(
-            "click",
-            () => {
+            dot.addEventListener(
+                "click",
+                () => {
 
-                showSlide(
-                    Number(
-                        dot.dataset.slide
-                    )
-                );
+                    showSlide(
+                        Number(
+                            dot.dataset.slide
+                        )
+                    );
 
-            }
-        );
+                }
+            );
 
-    });
+        }
+    );
 
 
 /* =========================================================
-   LANDING 3D MODEL
+   LANDING MODEL
 ========================================================= */
 
 function showLandingModel(index){
@@ -564,11 +627,16 @@ function showLandingModel(index){
 
     if(viewer){
 
-        viewer.src =
-            model.src;
+        viewer.setAttribute(
+            "src",
+            model.src
+        );
 
-        viewer.alt =
-            model.name;
+
+        viewer.setAttribute(
+            "alt",
+            model.name
+        );
 
     }
 
@@ -592,7 +660,10 @@ on(
     "click",
     event => {
 
+        event.preventDefault();
+
         event.stopPropagation();
+
 
         showLandingModel(
             state.landingModelIndex + 1
@@ -627,22 +698,28 @@ function searchLocations(value){
 
 
     if(!query){
+
         return [];
+
     }
 
 
     return locations
 
-        .filter(location =>
+        .filter(
+            location =>
 
-            normalizeText(
-                `${location.name} ${location.parent}`
-            )
-            .includes(query)
+                normalizeText(
+                    `${location.name} ${location.parent}`
+                )
+                .includes(query)
 
         )
 
-        .slice(0,30);
+        .slice(
+            0,
+            30
+        );
 
 }
 
@@ -654,11 +731,14 @@ function renderSearchResults(
 ){
 
     if(!container){
+
         return;
+
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     if(!results.length){
@@ -671,82 +751,88 @@ function renderSearchResults(
 
         `;
 
+
         container.classList.remove(
             "hidden"
         );
 
+
         return;
+
     }
 
 
-    results.forEach(location => {
+    results.forEach(
+        location => {
 
-        const button =
-            document.createElement(
-                "button"
-            );
-
-
-        button.type =
-            "button";
+            const button =
+                document.createElement(
+                    "button"
+                );
 
 
-        button.className =
-            "search-result";
+            button.type =
+                "button";
 
 
-        button.innerHTML = `
+            button.className =
+                "search-result";
 
-            <span>
 
-                <strong>
-                    ${location.name}
-                </strong>
+            button.innerHTML = `
 
-                <small>
+                <span>
 
-                    ${location.parent}
+                    <strong>
+                        ${location.name}
+                    </strong>
 
-                    ${
-                        location.floor
+                    <small>
+
+                        ${location.parent}
+
+                        ${
+                            location.floor
                             ?
                             ` • Lantai ${location.floor}`
                             :
                             ""
-                    }
+                        }
 
-                </small>
+                    </small>
 
-            </span>
+                </span>
 
-            <span class="search-type">
 
-                ${
-                    location.type ===
-                    "building"
+                <span class="search-type">
+
+                    ${
+                        location.type ===
+                        "building"
                         ?
                         "Gedung"
                         :
                         "Ruangan"
-                }
+                    }
 
-            </span>
+                </span>
 
-        `;
-
-
-        button.addEventListener(
-            "click",
-            () =>
-                onSelect(location)
-        );
+            `;
 
 
-        container.appendChild(
-            button
-        );
+            button.addEventListener(
+                "click",
+                () =>
+                    onSelect(location)
+            );
 
-    });
+
+            container.appendChild(
+                button
+            );
+
+        }
+    );
 
 
     container.classList.remove(
@@ -792,6 +878,7 @@ if(globalSearch){
                 );
 
                 return;
+
             }
 
 
@@ -844,7 +931,10 @@ on(
     () => {
 
         if(globalSearch){
-            globalSearch.value = "";
+
+            globalSearch.value =
+                "";
+
         }
 
 
@@ -866,10 +956,17 @@ on(
 
 
 /* =========================================================
-   INFORMATION MODAL
+   INFO MODAL
 ========================================================= */
 
 function openInfo(location){
+
+    if(!location){
+
+        return;
+
+    }
+
 
     state.infoLocation =
         location;
@@ -912,6 +1009,7 @@ function closeInfo(){
         "infoModal"
     );
 
+
     document.body.style.overflow =
         "";
 
@@ -937,7 +1035,9 @@ on(
     "click",
     () => {
 
-        if(state.globalSelection){
+        if(
+            state.globalSelection
+        ){
 
             openInfo(
                 state.globalSelection
@@ -954,7 +1054,9 @@ on(
     "click",
     () => {
 
-        if(state.globalSelection){
+        if(
+            state.globalSelection
+        ){
 
             openNavigationWithDestination(
                 state.globalSelection
@@ -971,8 +1073,12 @@ on(
     "click",
     () => {
 
-        if(!state.infoLocation){
+        if(
+            !state.infoLocation
+        ){
+
             return;
+
         }
 
 
@@ -1000,7 +1106,9 @@ function populateBuildingSelect(
 ){
 
     if(!selectElement){
+
         return;
+
     }
 
 
@@ -1013,27 +1121,29 @@ function populateBuildingSelect(
     `;
 
 
-    buildings.forEach(building => {
+    buildings.forEach(
+        building => {
 
-        const option =
-            document.createElement(
-                "option"
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                building.id;
+
+
+            option.textContent =
+                building.name;
+
+
+            selectElement.appendChild(
+                option
             );
 
-
-        option.value =
-            building.id;
-
-
-        option.textContent =
-            building.name;
-
-
-        selectElement.appendChild(
-            option
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -1053,7 +1163,7 @@ populateBuildingSelect(
 
 
 /* =========================================================
-   MODEL VARIANTS
+   MODEL VARIANT SELECT
 ========================================================= */
 
 function configureModelVariants(
@@ -1063,11 +1173,15 @@ function configureModelVariants(
 ){
 
     const select =
-        byId(selectId);
+        byId(
+            selectId
+        );
 
 
     if(!select){
+
         return;
+
     }
 
 
@@ -1077,30 +1191,33 @@ function configureModelVariants(
         );
 
 
-    select.innerHTML = "";
+    select.innerHTML =
+        "";
 
 
-    models.forEach(model => {
+    models.forEach(
+        model => {
 
-        const option =
-            document.createElement(
-                "option"
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                model.id;
+
+
+            option.textContent =
+                model.name;
+
+
+            select.appendChild(
+                option
             );
 
-
-        option.value =
-            model.id;
-
-
-        option.textContent =
-            model.name;
-
-
-        select.appendChild(
-            option
-        );
-
-    });
+        }
+    );
 
 
     const building =
@@ -1109,7 +1226,9 @@ function configureModelVariants(
         );
 
 
-    if(building?.defaultModel){
+    if(
+        building?.defaultModel
+    ){
 
         select.value =
             building.defaultModel;
@@ -1117,15 +1236,21 @@ function configureModelVariants(
     }
 
 
-    if(models.length > 1){
+    if(
+        models.length > 1
+    ){
 
-        show(wrapId);
+        show(
+            wrapId
+        );
 
     }
 
     else{
 
-        hide(wrapId);
+        hide(
+            wrapId
+        );
 
     }
 
@@ -1138,15 +1263,19 @@ function resolveSelectedModel(
 ){
 
     const buildingId =
-        byId(buildingSelectId)
+        byId(
+            buildingSelectId
+        )
         ?.value;
 
 
     if(!buildingId){
 
         return {
+
             building:null,
             model:null
+
         };
 
     }
@@ -1159,82 +1288,202 @@ function resolveSelectedModel(
 
 
     const variantId =
-        byId(variantSelectId)
+        byId(
+            variantSelectId
+        )
         ?.value
         ||
         building.defaultModel;
 
 
     const model =
+
         getModelVariant(
             building.id,
             variantId
         )
+
         ||
+
         getDefaultModelVariant(
             building.id
         );
 
 
     return {
+
         building,
         model
+
     };
 
 }
 
 
-byId("viewerBuildingSelect")
-    ?.addEventListener(
-        "change",
-        event => {
+byId(
+    "viewerBuildingSelect"
+)
+?.addEventListener(
+    "change",
+    event => {
 
-            configureModelVariants(
+        configureModelVariants(
 
-                event.target.value,
+            event.target.value,
 
-                "viewerVariantWrap",
+            "viewerVariantWrap",
 
-                "viewerVariantSelect"
+            "viewerVariantSelect"
 
-            );
-
-
-            hide(
-                "viewerCard"
-            );
-
-        }
-    );
+        );
 
 
-byId("arBuildingSelect")
-    ?.addEventListener(
-        "change",
-        event => {
+        hide(
+            "viewerCard"
+        );
 
-            configureModelVariants(
-
-                event.target.value,
-
-                "arVariantWrap",
-
-                "arVariantSelect"
-
-            );
+    }
+);
 
 
-            hide(
-                "arCard"
-            );
+byId(
+    "arBuildingSelect"
+)
+?.addEventListener(
+    "change",
+    event => {
 
-        }
-    );
+        configureModelVariants(
+
+            event.target.value,
+
+            "arVariantWrap",
+
+            "arVariantSelect"
+
+        );
+
+
+        hide(
+            "arCard"
+        );
+
+    }
+);
 
 
 /* =========================================================
-   3D MODEL VIEWER
+   MAIN 3D VIEWER
 ========================================================= */
+
+const mainModelViewer =
+    byId(
+        "mainModelViewer"
+    );
+
+
+const modelFocusRing =
+    byId(
+        "modelFocusRing"
+    );
+
+
+function hideFocusRing(){
+
+    if(
+        !modelFocusRing
+    ){
+
+        return;
+
+    }
+
+
+    modelFocusRing.classList.remove(
+        "focus-visible"
+    );
+
+
+    modelFocusRing.classList.add(
+        "hidden"
+    );
+
+}
+
+
+function showFocusRingAt(
+    clientX,
+    clientY
+){
+
+    const stage =
+        byId(
+            "modelViewerStage"
+        );
+
+
+    if(
+        !stage
+        ||
+        !modelFocusRing
+    ){
+
+        return;
+
+    }
+
+
+    const rect =
+        stage.getBoundingClientRect();
+
+
+    const x =
+        Math.max(
+            0,
+            Math.min(
+                rect.width,
+                clientX -
+                rect.left
+            )
+        );
+
+
+    const y =
+        Math.max(
+            0,
+            Math.min(
+                rect.height,
+                clientY -
+                rect.top
+            )
+        );
+
+
+    modelFocusRing.style.left =
+        `${x}px`;
+
+
+    modelFocusRing.style.top =
+        `${y}px`;
+
+
+    modelFocusRing.classList.remove(
+        "hidden"
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            modelFocusRing.classList.add(
+                "focus-visible"
+            );
+
+        }
+    );
+
+}
+
 
 on(
     "show3DModel",
@@ -1261,7 +1510,12 @@ on(
                 "Pilih Gedung terlebih dahulu."
             );
 
+            hide(
+                "viewerCard"
+            );
+
             return;
+
         }
 
 
@@ -1272,22 +1526,46 @@ on(
                 "Model 3D belum tersedia."
             );
 
+            hide(
+                "viewerCard"
+            );
+
             return;
+
         }
 
 
-        const viewer =
-            byId(
-                "mainModelViewer"
+        hideFocusRing();
+
+
+        if(
+            mainModelViewer
+        ){
+
+            mainModelViewer.setAttribute(
+                "src",
+                model.src
             );
 
 
-        viewer.src =
-            model.src;
+            mainModelViewer.setAttribute(
+                "alt",
+                model.label
+            );
 
 
-        viewer.alt =
-            model.label;
+            mainModelViewer.setAttribute(
+                "min-camera-orbit",
+                "auto auto 0.02m"
+            );
+
+
+            mainModelViewer.setAttribute(
+                "min-field-of-view",
+                "5deg"
+            );
+
+        }
 
 
         text(
@@ -1316,25 +1594,24 @@ on(
         );
 
 
-        hideModelFocusRing();
-
-
         show(
             "viewerCard"
         );
 
 
-        setTimeout(
+        window.setTimeout(
             () => {
 
-                byId("viewerCard")
-                    ?.scrollIntoView({
+                byId(
+                    "viewerCard"
+                )
+                ?.scrollIntoView({
 
-                        behavior:"smooth",
+                    behavior:"smooth",
 
-                        block:"start"
+                    block:"start"
 
-                    });
+                });
 
             },
             100
@@ -1345,66 +1622,178 @@ on(
 
 
 /* =========================================================
-   MODEL FOCUS / MAGNIFIER
+   3D CLICK FOCUS
 ========================================================= */
 
-let modelPointerStart = null;
-let modelPointerMoved = false;
+const activeViewerPointers =
+    new Map();
 
 
-const mainViewer =
-    byId(
-        "mainModelViewer"
+let focusPointerStart =
+    null;
+
+
+let focusPointerMoved =
+    false;
+
+
+const CLICK_MOVE_LIMIT =
+    8;
+
+
+function pointMovement(
+    start,
+    current
+){
+
+    return Math.hypot(
+
+        current.x -
+        start.x,
+
+        current.y -
+        start.y
+
     );
 
+}
 
-mainViewer?.addEventListener(
+
+/*
+   Saat user mulai menyentuh / menekan model,
+   lingkaran sebelumnya langsung hilang.
+*/
+
+mainModelViewer
+?.addEventListener(
     "pointerdown",
     event => {
 
-        modelPointerStart = {
+        hideFocusRing();
+
+
+        activeViewerPointers.set(
+            event.pointerId,
+            {
+                x:event.clientX,
+                y:event.clientY
+            }
+        );
+
+
+        /*
+           Dua pointer berarti pinch.
+        */
+
+        if(
+            activeViewerPointers.size > 1
+        ){
+
+            focusPointerStart =
+                null;
+
+            focusPointerMoved =
+                true;
+
+            return;
+
+        }
+
+
+        focusPointerStart = {
 
             x:event.clientX,
 
-            y:event.clientY
+            y:event.clientY,
+
+            pointerId:
+                event.pointerId
 
         };
 
 
-        modelPointerMoved =
+        focusPointerMoved =
             false;
 
     }
 );
 
 
-mainViewer?.addEventListener(
+/*
+   Drag / rotate / pinch:
+   lingkaran tetap hilang.
+*/
+
+mainModelViewer
+?.addEventListener(
     "pointermove",
     event => {
 
-        if(!modelPointerStart){
-            return;
+        if(
+            activeViewerPointers.has(
+                event.pointerId
+            )
+        ){
+
+            activeViewerPointers.set(
+                event.pointerId,
+                {
+                    x:event.clientX,
+                    y:event.clientY
+                }
+            );
+
         }
 
 
-        const distance =
-            Math.hypot(
+        if(
+            activeViewerPointers.size > 1
+        ){
 
-                event.clientX
-                -
-                modelPointerStart.x,
+            focusPointerMoved =
+                true;
 
-                event.clientY
-                -
-                modelPointerStart.y
+
+            hideFocusRing();
+
+
+            return;
+
+        }
+
+
+        if(
+            !focusPointerStart
+        ){
+
+            return;
+
+        }
+
+
+        const movement =
+            pointMovement(
+
+                focusPointerStart,
+
+                {
+                    x:event.clientX,
+                    y:event.clientY
+                }
 
             );
 
 
-        if(distance > 8){
+        if(
+            movement >
+            CLICK_MOVE_LIMIT
+        ){
 
-            modelPointerMoved =
+            focusPointerMoved =
                 true;
+
+
+            hideFocusRing();
 
         }
 
@@ -1412,175 +1801,167 @@ mainViewer?.addEventListener(
 );
 
 
-mainViewer?.addEventListener(
+/*
+   Saat pointer dilepas:
+   hanya dianggap CLICK apabila pointer tidak bergerak.
+*/
+
+mainModelViewer
+?.addEventListener(
     "pointerup",
     async event => {
 
-        if(
-            !modelPointerStart
-            ||
-            modelPointerMoved
-        ){
-
-            modelPointerStart =
-                null;
-
-            return;
-        }
+        const wasMultiTouch =
+            activeViewerPointers.size > 1;
 
 
-        await focusModelPoint(
-            event
+        activeViewerPointers.delete(
+            event.pointerId
         );
 
 
-        modelPointerStart =
+        if(
+            wasMultiTouch
+            ||
+            !focusPointerStart
+            ||
+            focusPointerMoved
+        ){
+
+            focusPointerStart =
+                null;
+
+
+            hideFocusRing();
+
+
+            return;
+
+        }
+
+
+        const movement =
+            pointMovement(
+
+                focusPointerStart,
+
+                {
+                    x:event.clientX,
+                    y:event.clientY
+                }
+
+            );
+
+
+        focusPointerStart =
             null;
+
+
+        if(
+            movement >
+            CLICK_MOVE_LIMIT
+        ){
+
+            hideFocusRing();
+
+            return;
+
+        }
+
+
+        await focusOnClickedModelPoint(
+            event.clientX,
+            event.clientY
+        );
 
     }
 );
 
 
-async function focusModelPoint(event){
+mainModelViewer
+?.addEventListener(
+    "pointercancel",
+    event => {
 
-    const viewer =
-        byId(
-            "mainModelViewer"
+        activeViewerPointers.delete(
+            event.pointerId
         );
 
 
-    const stage =
-        byId(
-            "modelViewerStage"
-        );
+        focusPointerStart =
+            null;
 
 
-    const ring =
-        byId(
-            "modelFocusRing"
-        );
+        focusPointerMoved =
+            false;
 
+
+        hideFocusRing();
+
+    }
+);
+
+
+/*
+   Scroll mouse / trackpad berarti zoom manual.
+*/
+
+mainModelViewer
+?.addEventListener(
+    "wheel",
+    () => {
+
+        hideFocusRing();
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/*
+   Click area menjadi pusat kamera,
+   kemudian kamera sedikit diperbesar.
+*/
+
+async function focusOnClickedModelPoint(
+    clientX,
+    clientY
+){
 
     if(
-        !viewer
-        ||
-        !stage
-        ||
-        !ring
+        !mainModelViewer
     ){
+
         return;
+
     }
 
 
-    const viewerRect =
-        viewer.getBoundingClientRect();
-
-
-    const stageRect =
-        stage.getBoundingClientRect();
-
-
-    const localX =
-        event.clientX
-        -
-        viewerRect.left;
-
-
-    const localY =
-        event.clientY
-        -
-        viewerRect.top;
-
-
-    ring.style.left =
-        `${
-            event.clientX
-            -
-            stageRect.left
-        }px`;
-
-
-    ring.style.top =
-        `${
-            event.clientY
-            -
-            stageRect.top
-        }px`;
+    let hit =
+        null;
 
 
     try{
 
         if(
-            typeof viewer.toBlob ===
+            typeof
+            mainModelViewer
+            .positionAndNormalFromPoint
+            ===
             "function"
         ){
 
-            const blob =
-                await viewer.toBlob({
-                    idealAspect:true
-                });
+            hit =
+                mainModelViewer
+                .positionAndNormalFromPoint(
 
+                    clientX,
 
-            if(state.modelFocusURL){
+                    clientY
 
-                URL.revokeObjectURL(
-                    state.modelFocusURL
                 );
-
-            }
-
-
-            state.modelFocusURL =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const magnification =
-                2.1;
-
-
-            const ringSize =
-                ring.getBoundingClientRect()
-                .width
-                ||
-                260;
-
-
-            ring.style.backgroundImage =
-                `url("${state.modelFocusURL}")`;
-
-
-            ring.style.backgroundSize =
-                `${
-                    viewerRect.width
-                    *
-                    magnification
-                }px ${
-                    viewerRect.height
-                    *
-                    magnification
-                }px`;
-
-
-            ring.style.backgroundPosition =
-                `${
-                    -(
-                        localX
-                        *
-                        magnification
-                        -
-                        ringSize / 2
-                    )
-                }px ${
-                    -(
-                        localY
-                        *
-                        magnification
-                        -
-                        ringSize / 2
-                    )
-                }px`;
 
         }
 
@@ -1589,119 +1970,100 @@ async function focusModelPoint(event){
     catch(error){
 
         console.warn(
-            "Magnifier snapshot tidak tersedia:",
+            "Titik model tidak dapat dibaca.",
             error
         );
 
     }
 
 
-    ring.classList.remove(
-        "hidden"
-    );
-
-
-    ring.classList.remove(
-        "focus-visible"
-    );
-
-
-    requestAnimationFrame(
-        () => {
-
-            ring.classList.add(
-                "focus-visible"
-            );
-
-        }
-    );
-
+    /*
+       Lingkaran hanya muncul jika user
+       benar-benar mengklik permukaan model.
+    */
 
     if(
-        typeof viewer.positionAndNormalFromPoint ===
-        "function"
+        !hit?.position
     ){
 
-        try{
+        hideFocusRing();
 
-            const result =
-                viewer.positionAndNormalFromPoint(
+        return;
 
-                    event.clientX,
+    }
 
-                    event.clientY
+
+    const position =
+        hit.position;
+
+
+    mainModelViewer.cameraTarget =
+        `${
+            position.x
+        }m ${
+            position.y
+        }m ${
+            position.z
+        }m`;
+
+
+    try{
+
+        const orbit =
+            mainModelViewer
+            .getCameraOrbit();
+
+
+        if(
+            orbit
+            &&
+            Number.isFinite(
+                orbit.radius
+            )
+        ){
+
+            const newRadius =
+                Math.max(
+
+                    orbit.radius *
+                    0.55,
+
+                    0.08
 
                 );
 
 
-            if(result?.position){
-
-                const position =
-                    result.position;
-
-
-                viewer.cameraTarget =
-                    `${
-                        position.x
-                    }m ${
-                        position.y
-                    }m ${
-                        position.z
-                    }m`;
-
-
-                viewer.fieldOfView =
-                    "22deg";
-
-            }
-
-        }
-
-        catch(error){
-
-            console.warn(
-                "Tidak dapat menentukan titik fokus:",
-                error
-            );
+            mainModelViewer.cameraOrbit =
+                `${
+                    orbit.theta
+                }rad ${
+                    orbit.phi
+                }rad ${
+                    newRadius
+                }m`;
 
         }
 
     }
 
-}
+    catch(error){
 
-
-function hideModelFocusRing(){
-
-    const ring =
-        byId(
-            "modelFocusRing"
+        console.warn(
+            "Zoom fokus tidak dapat diterapkan.",
+            error
         );
-
-
-    ring?.classList
-        .remove(
-            "focus-visible"
-        );
-
-
-    ring?.classList
-        .add(
-            "hidden"
-        );
-
-
-    if(state.modelFocusURL){
-
-        URL.revokeObjectURL(
-            state.modelFocusURL
-        );
-
-
-        state.modelFocusURL =
-            null;
 
     }
+
+
+    mainModelViewer.fieldOfView =
+        "18deg";
+
+
+    showFocusRingAt(
+        clientX,
+        clientY
+    );
 
 }
 
@@ -1715,30 +2077,28 @@ on(
     "click",
     () => {
 
-        const viewer =
-            byId(
-                "mainModelViewer"
-            );
+        if(
+            !mainModelViewer
+        ){
 
-
-        if(!viewer){
             return;
+
         }
 
 
-        viewer.cameraOrbit =
+        hideFocusRing();
+
+
+        mainModelViewer.cameraOrbit =
             "auto auto auto";
 
 
-        viewer.cameraTarget =
+        mainModelViewer.cameraTarget =
             "auto auto auto";
 
 
-        viewer.fieldOfView =
+        mainModelViewer.fieldOfView =
             "auto";
-
-
-        hideModelFocusRing();
 
     }
 );
@@ -1773,7 +2133,32 @@ on(
                 "Pilih Gedung terlebih dahulu."
             );
 
+
+            hide(
+                "arCard"
+            );
+
+
             return;
+
+        }
+
+
+        if(!model){
+
+            text(
+                "arMessage",
+                "Model AR belum tersedia."
+            );
+
+
+            hide(
+                "arCard"
+            );
+
+
+            return;
+
         }
 
 
@@ -1783,12 +2168,20 @@ on(
             );
 
 
-        viewer.src =
-            model.src;
+        if(viewer){
+
+            viewer.setAttribute(
+                "src",
+                model.src
+            );
 
 
-        viewer.alt =
-            model.label;
+            viewer.setAttribute(
+                "alt",
+                model.label
+            );
+
+        }
 
 
         text(
@@ -1800,6 +2193,12 @@ on(
         text(
             "arModeBadge",
             model.name
+        );
+
+
+        text(
+            "arMessage",
+            ""
         );
 
 
@@ -1825,7 +2224,9 @@ on(
         if(
             !viewer
             ||
-            typeof viewer.activateAR !==
+            typeof
+            viewer.activateAR
+            !==
             "function"
         ){
 
@@ -1833,7 +2234,9 @@ on(
                 "AR belum dapat dibuka pada browser ini."
             );
 
+
             return;
+
         }
 
 
@@ -1859,14 +2262,17 @@ on(
 
 
 /* =========================================================
-   ROUTING HELPERS
+   ROUTING
 ========================================================= */
 
 function pointDistance(a,b){
 
     return Math.hypot(
+
         a.x - b.x,
+
         a.y - b.y
+
     );
 
 }
@@ -1879,7 +2285,10 @@ function pointsEqual(
 ){
 
     return (
-        pointDistance(a,b)
+        pointDistance(
+            a,
+            b
+        )
         <=
         epsilon
     );
@@ -1888,58 +2297,61 @@ function pointsEqual(
 
 
 const routingEdges =
-    routeEdges.map(edge => {
+    routeEdges.map(
+        edge => {
 
-        const points =
-            edge.points.map(
-                ([x,y]) => ({
-                    x,
-                    y
-                })
-            );
-
-
-        const cumulative =
-            [0];
-
-
-        let total =
-            0;
-
-
-        for(
-            let i = 0;
-            i < points.length - 1;
-            i++
-        ){
-
-            total +=
-                pointDistance(
-                    points[i],
-                    points[i + 1]
+            const points =
+                edge.points.map(
+                    ([x,y]) => ({
+                        x,
+                        y
+                    })
                 );
 
 
-            cumulative.push(
-                total
-            );
+            const cumulative =
+                [0];
+
+
+            let total =
+                0;
+
+
+            for(
+                let i = 0;
+                i < points.length - 1;
+                i++
+            ){
+
+                total +=
+                    pointDistance(
+                        points[i],
+                        points[i + 1]
+                    );
+
+
+                cumulative.push(
+                    total
+                );
+
+            }
+
+
+            return {
+
+                ...edge,
+
+                points,
+
+                cumulative,
+
+                length:
+                    total
+
+            };
 
         }
-
-
-        return {
-
-            ...edge,
-
-            points,
-
-            cumulative,
-
-            length:total
-
-        };
-
-    });
+    );
 
 
 const edgeById =
@@ -1955,44 +2367,66 @@ const edgeById =
     );
 
 
-const routeGraph = {};
+const routeGraph =
+    {};
 
 
-Object.keys(routeNodes)
-    .forEach(id => {
+Object.keys(
+    routeNodes
+)
+.forEach(
+    id => {
 
-        routeGraph[id] = [];
+        routeGraph[id] =
+            [];
 
-    });
+    }
+);
 
 
-routingEdges.forEach(edge => {
+routingEdges.forEach(
+    edge => {
 
-    routeGraph[edge.from]
+        routeGraph[
+            edge.from
+        ]
         ?.push({
 
-            node:edge.to,
+            node:
+                edge.to,
 
-            edgeId:edge.id,
+            edgeId:
+                edge.id,
 
-            weight:edge.length
+            weight:
+                edge.length
 
         });
 
 
-    routeGraph[edge.to]
+        routeGraph[
+            edge.to
+        ]
         ?.push({
 
-            node:edge.from,
+            node:
+                edge.from,
 
-            edgeId:edge.id,
+            edgeId:
+                edge.id,
 
-            weight:edge.length
+            weight:
+                edge.length
 
         });
 
-});
+    }
+);
 
+
+/* =========================================================
+   SNAP
+========================================================= */
 
 function projectPointToSegment(
     point,
@@ -2003,11 +2437,14 @@ function projectPointToSegment(
     const abX =
         b.x - a.x;
 
+
     const abY =
         b.y - a.y;
 
+
     const apX =
         point.x - a.x;
+
 
     const apY =
         point.y - a.y;
@@ -2021,16 +2458,16 @@ function projectPointToSegment(
 
     let t =
         lengthSquared
-            ?
-            (
-                apX * abX
-                +
-                apY * abY
-            )
-            /
-            lengthSquared
-            :
-            0;
+        ?
+        (
+            apX * abX
+            +
+            apY * abY
+        )
+        /
+        lengthSquared
+        :
+        0;
 
 
     t =
@@ -2046,13 +2483,11 @@ function projectPointToSegment(
     const projected = {
 
         x:
-            a.x
-            +
+            a.x +
             abX * t,
 
         y:
-            a.y
-            +
+            a.y +
             abY * t
 
     };
@@ -2060,7 +2495,8 @@ function projectPointToSegment(
 
     return {
 
-        point:projected,
+        point:
+            projected,
 
         t,
 
@@ -2077,82 +2513,89 @@ function projectPointToSegment(
 
 function snapPointToNetwork(point){
 
-    let best = null;
+    let best =
+        null;
 
 
-    routingEdges.forEach(edge => {
+    routingEdges.forEach(
+        edge => {
 
-        for(
-            let i = 0;
-            i < edge.points.length - 1;
-            i++
-        ){
-
-            const a =
-                edge.points[i];
-
-            const b =
-                edge.points[i + 1];
-
-
-            const projection =
-                projectPointToSegment(
-                    point,
-                    a,
-                    b
-                );
-
-
-            const segmentLength =
-                pointDistance(
-                    a,
-                    b
-                );
-
-
-            const along =
-                edge.cumulative[i]
-                +
-                segmentLength
-                *
-                projection.t;
-
-
-            if(
-                !best
-                ||
-                projection.distance
-                <
-                best.distance
+            for(
+                let i = 0;
+                i < edge.points.length - 1;
+                i++
             ){
 
-                best = {
+                const a =
+                    edge.points[i];
 
-                    edge,
 
-                    segmentIndex:i,
+                const b =
+                    edge.points[i + 1];
 
-                    point:
-                        projection.point,
 
-                    distance:
-                        projection.distance,
+                const projection =
+                    projectPointToSegment(
+                        point,
+                        a,
+                        b
+                    );
 
-                    along,
 
-                    distanceToFrom:
+                const segmentLength =
+                    pointDistance(
+                        a,
+                        b
+                    );
+
+
+                const along =
+                    edge.cumulative[i]
+                    +
+                    segmentLength
+                    *
+                    projection.t;
+
+
+                if(
+                    !best
+                    ||
+                    projection.distance
+                    <
+                    best.distance
+                ){
+
+                    best = {
+
+                        edge,
+
+                        segmentIndex:
+                            i,
+
+                        point:
+                            projection.point,
+
+                        distance:
+                            projection.distance,
+
                         along,
 
-                    distanceToTo:
-                        edge.length - along
+                        distanceToFrom:
+                            along,
 
-                };
+                        distanceToTo:
+                            edge.length
+                            -
+                            along
+
+                    };
+
+                }
 
             }
 
         }
-
-    });
+    );
 
 
     return best;
@@ -2160,14 +2603,25 @@ function snapPointToNetwork(point){
 }
 
 
+/* =========================================================
+   DIJKSTRA
+========================================================= */
+
 function dijkstra(
     startNode,
     targetNode
 ){
 
-    const distances = {};
-    const previousNode = {};
-    const previousEdge = {};
+    const distances =
+        {};
+
+
+    const previousNode =
+        {};
+
+
+    const previousEdge =
+        {};
 
 
     const unvisited =
@@ -2178,57 +2632,81 @@ function dijkstra(
         );
 
 
-    Object.keys(routeNodes)
-        .forEach(id => {
+    Object.keys(
+        routeNodes
+    )
+    .forEach(
+        id => {
 
             distances[id] =
                 Infinity;
 
+
             previousNode[id] =
                 null;
+
 
             previousEdge[id] =
                 null;
 
-        });
+        }
+    );
 
 
-    distances[startNode] =
-        0;
+    distances[
+        startNode
+    ] = 0;
 
 
-    while(unvisited.size){
+    while(
+        unvisited.size
+    ){
 
-        let current = null;
-        let smallest = Infinity;
+        let current =
+            null;
 
 
-        unvisited.forEach(id => {
+        let smallest =
+            Infinity;
 
-            if(
-                distances[id]
-                <
-                smallest
-            ){
 
-                smallest =
-                    distances[id];
+        unvisited.forEach(
+            id => {
 
-                current =
-                    id;
+                if(
+                    distances[id]
+                    <
+                    smallest
+                ){
+
+                    smallest =
+                        distances[id];
+
+
+                    current =
+                        id;
+
+                }
 
             }
+        );
 
-        });
 
+        if(
+            current === null
+        ){
 
-        if(current === null){
             break;
+
         }
 
 
-        if(current === targetNode){
+        if(
+            current === targetNode
+        ){
+
             break;
+
         }
 
 
@@ -2237,15 +2715,20 @@ function dijkstra(
         );
 
 
-        routeGraph[current]
-            .forEach(connection => {
+        routeGraph[
+            current
+        ]
+        .forEach(
+            connection => {
 
                 if(
                     !unvisited.has(
                         connection.node
                     )
                 ){
+
                     return;
+
                 }
 
 
@@ -2282,22 +2765,31 @@ function dijkstra(
 
                 }
 
-            });
+            }
+        );
 
     }
 
 
     if(
         !Number.isFinite(
-            distances[targetNode]
+            distances[
+                targetNode
+            ]
         )
     ){
+
         return null;
+
     }
 
 
-    const nodePath = [];
-    const edgePath = [];
+    const nodePath =
+        [];
+
+
+    const edgePath =
+        [];
 
 
     let cursor =
@@ -2311,18 +2803,27 @@ function dijkstra(
         );
 
 
-        if(cursor === startNode){
+        if(
+            cursor ===
+            startNode
+        ){
+
             break;
+
         }
 
 
         edgePath.unshift(
-            previousEdge[cursor]
+            previousEdge[
+                cursor
+            ]
         );
 
 
         cursor =
-            previousNode[cursor];
+            previousNode[
+                cursor
+            ];
 
     }
 
@@ -2330,7 +2831,9 @@ function dijkstra(
     return {
 
         distance:
-            distances[targetNode],
+            distances[
+                targetNode
+            ],
 
         nodePath,
 
@@ -2341,32 +2844,48 @@ function dijkstra(
 }
 
 
+/* =========================================================
+   ROUTE POLYLINE
+========================================================= */
+
 function dedupePolyline(points){
 
-    const output = [];
+    const output =
+        [];
 
 
-    points.forEach(point => {
+    points.forEach(
+        point => {
 
-        if(
-            !output.length
-            ||
-            !pointsEqual(
-                output[
-                    output.length - 1
-                ],
-                point
-            )
-        ){
+            if(
 
-            output.push({
-                x:point.x,
-                y:point.y
-            });
+                !output.length
+
+                ||
+
+                !pointsEqual(
+                    output[
+                        output.length - 1
+                    ],
+                    point
+                )
+
+            ){
+
+                output.push({
+
+                    x:
+                        point.x,
+
+                    y:
+                        point.y
+
+                });
+
+            }
 
         }
-
-    });
+    );
 
 
     return output;
@@ -2382,15 +2901,19 @@ function snapToEndpointPolyline(
     const edge =
         snap.edge;
 
+
     const points =
         edge.points;
+
 
     const i =
         snap.segmentIndex;
 
 
     const result = [
-        {...snap.point}
+        {
+            ...snap.point
+        }
     ];
 
 
@@ -2405,8 +2928,11 @@ function snapToEndpointPolyline(
 
 
         for(
-            let j = i - 1;
+            let j =
+                i - 1;
+
             j >= 0;
+
             j--
         ){
 
@@ -2426,8 +2952,11 @@ function snapToEndpointPolyline(
 
 
         for(
-            let j = i + 2;
+            let j =
+                i + 2;
+
             j < points.length;
+
             j++
         ){
 
@@ -2455,7 +2984,8 @@ function endpointToSnapPolyline(
     return snapToEndpointPolyline(
         snap,
         endpointNode
-    ).reverse();
+    )
+    .reverse();
 
 }
 
@@ -2470,7 +3000,9 @@ function sameEdgePolyline(
 
 
     const result = [
-        {...startSnap.point}
+        {
+            ...startSnap.point
+        }
     ];
 
 
@@ -2533,11 +3065,14 @@ function sameEdgePolyline(
 
 function middlePolyline(result){
 
-    const output = [];
+    const output =
+        [];
 
 
     if(!result){
+
         return output;
+
     }
 
 
@@ -2552,24 +3087,31 @@ function middlePolyline(result){
 
 
                 if(!edge){
+
                     return;
+
                 }
 
 
                 const from =
-                    result.nodePath[index];
+                    result.nodePath[
+                        index
+                    ];
 
 
                 let points =
-                    edge.from === from
-                        ?
-                        edge.points
-                        :
-                        [...edge.points]
-                            .reverse();
+                    edge.from ===
+                    from
+                    ?
+                    edge.points
+                    :
+                    [...edge.points]
+                        .reverse();
 
 
-                if(output.length){
+                if(
+                    output.length
+                ){
 
                     points =
                         points.slice(1);
@@ -2597,11 +3139,13 @@ function routeBetweenSnaps(
     targetSnap
 ){
 
-    const candidates = [];
+    const candidates =
+        [];
 
 
     if(
-        startSnap.edge.id ===
+        startSnap.edge.id
+        ===
         targetSnap.edge.id
     ){
 
@@ -2629,86 +3173,96 @@ function routeBetweenSnaps(
         startSnap.edge.from,
         startSnap.edge.to
     ]
-    .forEach(startNode => {
+    .forEach(
+        startNode => {
 
-        [
-            targetSnap.edge.from,
-            targetSnap.edge.to
-        ]
-        .forEach(targetNode => {
+            [
+                targetSnap.edge.from,
+                targetSnap.edge.to
+            ]
+            .forEach(
+                targetNode => {
 
-            const middle =
-                dijkstra(
-                    startNode,
-                    targetNode
-                );
-
-
-            if(!middle){
-                return;
-            }
-
-
-            const startDistance =
-                startNode ===
-                startSnap.edge.from
-                    ?
-                    startSnap.distanceToFrom
-                    :
-                    startSnap.distanceToTo;
-
-
-            const targetDistance =
-                targetNode ===
-                targetSnap.edge.from
-                    ?
-                    targetSnap.distanceToFrom
-                    :
-                    targetSnap.distanceToTo;
-
-
-            candidates.push({
-
-                distance:
-                    startDistance
-                    +
-                    middle.distance
-                    +
-                    targetDistance,
-
-                points:
-                    dedupePolyline([
-
-                        ...snapToEndpointPolyline(
-                            startSnap,
-                            startNode
-                        ),
-
-                        ...middlePolyline(
-                            middle
-                        ),
-
-                        ...endpointToSnapPolyline(
-                            targetSnap,
+                    const middle =
+                        dijkstra(
+                            startNode,
                             targetNode
-                        )
+                        );
 
-                    ])
 
-            });
+                    if(!middle){
 
-        });
+                        return;
 
-    });
+                    }
+
+
+                    const startDistance =
+                        startNode ===
+                        startSnap.edge.from
+                        ?
+                        startSnap.distanceToFrom
+                        :
+                        startSnap.distanceToTo;
+
+
+                    const targetDistance =
+                        targetNode ===
+                        targetSnap.edge.from
+                        ?
+                        targetSnap.distanceToFrom
+                        :
+                        targetSnap.distanceToTo;
+
+
+                    candidates.push({
+
+                        distance:
+                            startDistance
+                            +
+                            middle.distance
+                            +
+                            targetDistance,
+
+                        points:
+                            dedupePolyline([
+
+                                ...snapToEndpointPolyline(
+                                    startSnap,
+                                    startNode
+                                ),
+
+                                ...middlePolyline(
+                                    middle
+                                ),
+
+                                ...endpointToSnapPolyline(
+                                    targetSnap,
+                                    targetNode
+                                )
+
+                            ])
+
+                    });
+
+                }
+            );
+
+        }
+    );
 
 
     return candidates
+
         .sort(
             (a,b) =>
-                a.distance -
+                a.distance
+                -
                 b.distance
         )[0]
+
         ||
+
         null;
 
 }
@@ -2726,75 +3280,93 @@ function findBestEntranceRoute(
 
 
     if(!startSnap){
+
         return null;
+
     }
 
 
-    let best = null;
+    let best =
+        null;
 
 
     building.entrances
-        .forEach(entrance => {
+        .forEach(
+            entrance => {
 
-            const targetSnap =
-                snapPointToNetwork(
-                    entrance
-                );
-
-
-            const networkRoute =
-                routeBetweenSnaps(
-                    startSnap,
-                    targetSnap
-                );
-
-
-            if(!networkRoute){
-                return;
-            }
-
-
-            const candidate = {
-
-                entrance,
-
-                startSnap,
-
-                targetSnap,
-
-                distance:
-                    networkRoute.distance,
-
-                points:
-                    dedupePolyline([
-
-                        startSnap.point,
-
-                        ...networkRoute.points,
-
-                        targetSnap.point,
-
+                const targetSnap =
+                    snapPointToNetwork(
                         entrance
-
-                    ])
-
-            };
+                    );
 
 
-            if(
-                !best
-                ||
-                candidate.distance
-                <
-                best.distance
-            ){
+                if(!targetSnap){
 
-                best =
-                    candidate;
+                    return;
+
+                }
+
+
+                const networkRoute =
+                    routeBetweenSnaps(
+                        startSnap,
+                        targetSnap
+                    );
+
+
+                if(!networkRoute){
+
+                    return;
+
+                }
+
+
+                const candidate = {
+
+                    entrance,
+
+                    startSnap,
+
+                    targetSnap,
+
+                    distance:
+                        networkRoute.distance,
+
+                    points:
+                        dedupePolyline([
+
+                            startSnap.point,
+
+                            ...networkRoute.points,
+
+                            targetSnap.point,
+
+                            entrance
+
+                        ])
+
+                };
+
+
+                if(
+
+                    !best
+
+                    ||
+
+                    candidate.distance
+                    <
+                    best.distance
+
+                ){
+
+                    best =
+                        candidate;
+
+                }
 
             }
-
-        });
+        );
 
 
     return best;
@@ -2809,11 +3381,16 @@ function findBestEntranceRoute(
 function getDestinationBuilding(){
 
     return state.destination
+
         ?
+
         getBuildingById(
-            state.destination.buildingId
+            state.destination
+                .buildingId
         )
+
         :
+
         null;
 
 }
@@ -2822,7 +3399,9 @@ function getDestinationBuilding(){
 function destinationDisplayName(){
 
     return state.destination?.name
+
         ||
+
         "tujuan pilihan Anda";
 
 }
@@ -2838,7 +3417,9 @@ function setElementPosition(
         ||
         !point
     ){
+
         return;
+
     }
 
 
@@ -2874,8 +3455,11 @@ function updateProgress(stage){
             byId(id)
                 ?.classList
                 .toggle(
+
                     "active",
+
                     index <= stage
+
                 );
 
         }
@@ -2908,11 +3492,13 @@ function clearRouteOnly(){
         null;
 
 
-    byId("activeRoute")
-        ?.setAttribute(
-            "points",
-            ""
-        );
+    byId(
+        "activeRoute"
+    )
+    ?.setAttribute(
+        "points",
+        ""
+    );
 
 
     hide(
@@ -2941,15 +3527,35 @@ function resetNavigation(){
         null;
 
 
-    if(
+    const search =
         byId(
             "navigationSearch"
-        )
-    ){
+        );
 
+
+    if(search){
+
+        search.value =
+            "";
+
+    }
+
+
+    const results =
         byId(
-            "navigationSearch"
-        ).value = "";
+            "navigationSearchResults"
+        );
+
+
+    if(results){
+
+        results.innerHTML = `
+
+            <div class="search-empty">
+                Ketik nama gedung atau ruangan tujuan.
+            </div>
+
+        `;
 
     }
 
@@ -2999,6 +3605,20 @@ function selectNavigationDestination(
     }
 
 
+    const results =
+        byId(
+            "navigationSearchResults"
+        );
+
+
+    if(results){
+
+        results.innerHTML =
+            "";
+
+    }
+
+
     text(
         "selectedDestinationName",
         location.name
@@ -3021,7 +3641,9 @@ function selectNavigationDestination(
 
 
     if(!building){
+
         return;
+
     }
 
 
@@ -3084,198 +3706,221 @@ const navigationSearch =
 
 
 navigationSearch
-    ?.addEventListener(
-        "input",
-        event => {
+?.addEventListener(
+    "input",
+    event => {
 
-            const container =
-                byId(
-                    "navigationSearchResults"
-                );
-
-
-            if(
-                !event.target.value
-            ){
-
-                container.innerHTML = `
-
-                    <div class="search-empty">
-                        Ketik nama gedung atau ruangan tujuan.
-                    </div>
-
-                `;
-
-                return;
-            }
-
-
-            renderSearchResults(
-
-                searchLocations(
-                    event.target.value
-                ),
-
-                container,
-
-                selectNavigationDestination
-
+        const container =
+            byId(
+                "navigationSearchResults"
             );
+
+
+        if(
+            !container
+        ){
+
+            return;
 
         }
-    );
 
 
-byId("navigationMap")
-    ?.addEventListener(
-        "click",
-        event => {
+        if(
+            !event.target.value
+        ){
 
-            const map =
-                byId(
-                    "navigationMap"
-                );
+            container.innerHTML = `
 
+                <div class="search-empty">
+                    Ketik nama gedung atau ruangan tujuan.
+                </div>
 
-            const building =
-                getDestinationBuilding();
+            `;
 
 
-            if(
-                !map
-                ||
-                !building
-            ){
-                return;
-            }
-
-
-            const rect =
-                map.getBoundingClientRect();
-
-
-            const clicked = {
-
-                x:
-                    (
-                        event.clientX
-                        -
-                        rect.left
-                    )
-                    /
-                    rect.width
-                    *
-                    MAP_WIDTH,
-
-                y:
-                    (
-                        event.clientY
-                        -
-                        rect.top
-                    )
-                    /
-                    rect.height
-                    *
-                    MAP_HEIGHT
-
-            };
-
-
-            const result =
-                findBestEntranceRoute(
-                    clicked,
-                    building
-                );
-
-
-            if(!result){
-
-                toast(
-                    "Rute tidak ditemukan."
-                );
-
-                return;
-            }
-
-
-            state.routeResult =
-                result;
-
-
-            setElementPosition(
-
-                byId(
-                    "userMarker"
-                ),
-
-                result.startSnap.point
-
-            );
-
-
-            setElementPosition(
-
-                byId(
-                    "entranceMarker"
-                ),
-
-                result.entrance
-
-            );
-
-
-            text(
-
-                "entranceLabel",
-
-                `Entrance ${building.shortName}`
-
-            );
-
-
-            show(
-                "userMarker"
-            );
-
-
-            show(
-                "entranceMarker"
-            );
-
-
-            byId("activeRoute")
-                ?.setAttribute(
-
-                    "points",
-
-                    result.points
-                        .map(
-                            p =>
-                                `${p.x},${p.y}`
-                        )
-                        .join(" ")
-
-                );
-
-
-            hide(
-                "mapInstructionArea"
-            );
-
-
-            show(
-                "routeFoundBox"
-            );
-
-
-            updateProgress(2);
+            return;
 
         }
-    );
+
+
+        renderSearchResults(
+
+            searchLocations(
+                event.target.value
+            ),
+
+            container,
+
+            selectNavigationDestination
+
+        );
+
+    }
+);
 
 
 /* =========================================================
-   AR NAVIGATION CAMERA
+   MAP CLICK
+========================================================= */
+
+byId(
+    "navigationMap"
+)
+?.addEventListener(
+    "click",
+    event => {
+
+        const map =
+            byId(
+                "navigationMap"
+            );
+
+
+        const building =
+            getDestinationBuilding();
+
+
+        if(
+            !map
+            ||
+            !building
+        ){
+
+            return;
+
+        }
+
+
+        const rect =
+            map.getBoundingClientRect();
+
+
+        const clicked = {
+
+            x:
+                (
+                    event.clientX
+                    -
+                    rect.left
+                )
+                /
+                rect.width
+                *
+                MAP_WIDTH,
+
+            y:
+                (
+                    event.clientY
+                    -
+                    rect.top
+                )
+                /
+                rect.height
+                *
+                MAP_HEIGHT
+
+        };
+
+
+        const result =
+            findBestEntranceRoute(
+                clicked,
+                building
+            );
+
+
+        if(!result){
+
+            toast(
+                "Rute tidak ditemukan."
+            );
+
+
+            return;
+
+        }
+
+
+        state.routeResult =
+            result;
+
+
+        setElementPosition(
+
+            byId(
+                "userMarker"
+            ),
+
+            result.startSnap.point
+
+        );
+
+
+        setElementPosition(
+
+            byId(
+                "entranceMarker"
+            ),
+
+            result.entrance
+
+        );
+
+
+        text(
+
+            "entranceLabel",
+
+            `Entrance ${building.shortName}`
+
+        );
+
+
+        show(
+            "userMarker"
+        );
+
+
+        show(
+            "entranceMarker"
+        );
+
+
+        byId(
+            "activeRoute"
+        )
+        ?.setAttribute(
+
+            "points",
+
+            result.points
+                .map(
+                    point =>
+                        `${point.x},${point.y}`
+                )
+                .join(" ")
+
+        );
+
+
+        hide(
+            "mapInstructionArea"
+        );
+
+
+        show(
+            "routeFoundBox"
+        );
+
+
+        updateProgress(2);
+
+    }
+);
+
+
+/* =========================================================
+   AR NAVIGATION
 ========================================================= */
 
 async function startNavigationCamera(){
@@ -3296,22 +3941,27 @@ async function startNavigationCamera(){
             "Browser tidak mendukung kamera."
         );
 
+
         return;
+
     }
 
 
     try{
 
         state.cameraStream =
+
             await navigator
                 .mediaDevices
                 .getUserMedia({
 
                     video:{
+
                         facingMode:{
                             ideal:
                                 "environment"
                         }
+
                     },
 
                     audio:false
@@ -3335,7 +3985,9 @@ async function startNavigationCamera(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
 
         text(
@@ -3384,11 +4036,17 @@ on(
     async () => {
 
         if(
+
             !state.routeResult
+
             ||
+
             !state.destination
+
         ){
+
             return;
+
         }
 
 
@@ -3402,6 +4060,9 @@ on(
             "arNavigationDestination",
             state.destination.name
         );
+
+
+        updateProgress(3);
 
 
         showPage(
@@ -3437,11 +4098,22 @@ function renderRoomList(
     container
 ){
 
+    if(
+        !container
+    ){
+
+        return;
+
+    }
+
+
     container.innerHTML =
         "";
 
 
-    if(!roomList.length){
+    if(
+        !roomList.length
+    ){
 
         container.innerHTML = `
 
@@ -3451,7 +4123,9 @@ function renderRoomList(
 
         `;
 
+
         return;
+
     }
 
 
@@ -3465,99 +4139,116 @@ function renderRoomList(
         "room-grid";
 
 
-    roomList.forEach(room => {
+    roomList.forEach(
+        room => {
 
-        const location =
-            locations.find(
-                item =>
-                    item.id ===
-                    room.id
-            );
-
-
-        const item =
-            document.createElement(
-                "div"
-            );
+            const location =
+                locations.find(
+                    item =>
+                        item.id ===
+                        room.id
+                );
 
 
-        item.className =
-            "room-item";
+            const item =
+                document.createElement(
+                    "div"
+                );
 
 
-        item.innerHTML = `
-
-            <div class="room-row">
-
-                <span>
-                    ${room.name}
-                </span>
-
-                <button type="button">
-                    Pilih
-                </button>
-
-            </div>
-
-            <div class="room-actions hidden">
-
-                <button class="room-info-button">
-                    Informasi
-                </button>
-
-                <button class="room-nav-button">
-                    Petunjuk Arah
-                </button>
-
-            </div>
-
-        `;
+            item.className =
+                "room-item";
 
 
-        const actions =
+            item.innerHTML = `
+
+                <div class="room-row">
+
+                    <span>
+                        ${room.name}
+                    </span>
+
+                    <button type="button">
+                        Pilih
+                    </button>
+
+                </div>
+
+
+                <div class="room-actions hidden">
+
+                    <button
+                        class="room-info-button"
+                        type="button"
+                    >
+                        Informasi
+                    </button>
+
+                    <button
+                        class="room-nav-button"
+                        type="button"
+                    >
+                        Petunjuk Arah
+                    </button>
+
+                </div>
+
+            `;
+
+
+            const actions =
+                item.querySelector(
+                    ".room-actions"
+                );
+
+
             item.querySelector(
-                ".room-actions"
+                ".room-row button"
+            )
+            ?.addEventListener(
+                "click",
+                () => {
+
+                    actions
+                        ?.classList
+                        .toggle(
+                            "hidden"
+                        );
+
+                }
             );
 
 
-        item.querySelector(
-            ".room-row button"
-        )
-        .onclick =
-            () => {
-
-                actions.classList.toggle(
-                    "hidden"
-                );
-
-            };
-
-
-        item.querySelector(
-            ".room-info-button"
-        )
-        .onclick =
-            () =>
-                openInfo(
-                    location
-                );
+            item.querySelector(
+                ".room-info-button"
+            )
+            ?.addEventListener(
+                "click",
+                () =>
+                    openInfo(
+                        location
+                    )
+            );
 
 
-        item.querySelector(
-            ".room-nav-button"
-        )
-        .onclick =
-            () =>
-                openNavigationWithDestination(
-                    location
-                );
+            item.querySelector(
+                ".room-nav-button"
+            )
+            ?.addEventListener(
+                "click",
+                () =>
+                    openNavigationWithDestination(
+                        location
+                    )
+            );
 
 
-        grid.appendChild(
-            item
-        );
+            grid.appendChild(
+                item
+            );
 
-    });
+        }
+    );
 
 
     container.appendChild(
@@ -3589,63 +4280,72 @@ function renderLaboratory(
 
 
     [1,2,3]
-        .forEach(floor => {
+        .forEach(
+            floor => {
 
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "floor-button";
+                const button =
+                    document.createElement(
+                        "button"
+                    );
 
 
-            button.textContent =
-                `Lantai ${floor}`;
+                button.type =
+                    "button";
 
 
-            button.onclick =
-                () => {
+                button.className =
+                    "floor-button";
 
-                    buttons
-                        .querySelectorAll(
-                            ".floor-button"
-                        )
-                        .forEach(
-                            item =>
-                                item.classList
-                                    .remove(
-                                        "active"
-                                    )
+
+                button.textContent =
+                    `Lantai ${floor}`;
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        buttons
+                            .querySelectorAll(
+                                ".floor-button"
+                            )
+                            .forEach(
+                                item =>
+                                    item
+                                        .classList
+                                        .remove(
+                                            "active"
+                                        )
+                            );
+
+
+                        button.classList.add(
+                            "active"
                         );
 
 
-                    button.classList.add(
-                        "active"
-                    );
+                        renderRoomList(
+
+                            roomList.filter(
+                                room =>
+                                    room.floor ===
+                                    floor
+                            ),
+
+                            roomsArea
+
+                        );
+
+                    }
+                );
 
 
-                    renderRoomList(
+                buttons.appendChild(
+                    button
+                );
 
-                        roomList.filter(
-                            room =>
-                                room.floor ===
-                                floor
-                        ),
-
-                        roomsArea
-
-                    );
-
-                };
-
-
-            buttons.appendChild(
-                button
-            );
-
-        });
+            }
+        );
 
 
     container.append(
@@ -3667,6 +4367,13 @@ function renderDirectory(){
         byId(
             "directoryContainer"
         );
+
+
+    if(!container){
+
+        return;
+
+    }
 
 
     container.innerHTML =
@@ -3702,8 +4409,19 @@ function renderDirectory(){
                 >
 
                     <span class="building-number">
-                        ${String(index + 1).padStart(2,"0")}
+
+                        ${
+                            String(
+                                index + 1
+                            )
+                            .padStart(
+                                2,
+                                "0"
+                            )
+                        }
+
                     </span>
+
 
                     <span>
 
@@ -3717,11 +4435,13 @@ function renderDirectory(){
 
                     </span>
 
+
                     <span>
                         ›
                     </span>
 
                 </button>
+
 
                 <div class="building-content">
                 </div>
@@ -3733,14 +4453,18 @@ function renderDirectory(){
                 .querySelector(
                     ".building-button"
                 )
-                .onclick =
+                ?.addEventListener(
+                    "click",
                     () => {
 
-                        article.classList.toggle(
-                            "open"
-                        );
+                        article
+                            .classList
+                            .toggle(
+                                "open"
+                            );
 
-                    };
+                    }
+                );
 
 
             const content =
@@ -3785,7 +4509,7 @@ renderDirectory();
 
 
 /* =========================================================
-   FEATURE LINKS
+   FEATURE BUTTONS
 ========================================================= */
 
 [
@@ -3794,7 +4518,8 @@ renderDirectory();
     "hero3DButton"
 ]
 .forEach(
-    id =>
+    id => {
+
         on(
             id,
             "click",
@@ -3802,7 +4527,9 @@ renderDirectory();
                 showPage(
                     "viewer"
                 )
-        )
+        );
+
+    }
 );
 
 
@@ -3812,7 +4539,8 @@ renderDirectory();
     "heroARButton"
 ]
 .forEach(
-    id =>
+    id => {
+
         on(
             id,
             "click",
@@ -3820,7 +4548,9 @@ renderDirectory();
                 showPage(
                     "ar"
                 )
-        )
+        );
+
+    }
 );
 
 
@@ -3830,13 +4560,16 @@ renderDirectory();
     "heroNavigationButton"
 ]
 .forEach(
-    id =>
+    id => {
+
         on(
             id,
             "click",
             () =>
                 openNavigationWithDestination()
-        )
+        );
+
+    }
 );
 
 
@@ -3846,7 +4579,8 @@ renderDirectory();
     "heroDirectoryButton"
 ]
 .forEach(
-    id =>
+    id => {
+
         on(
             id,
             "click",
@@ -3854,7 +4588,9 @@ renderDirectory();
                 showPage(
                     "directory"
                 )
-        )
+        );
+
+    }
 );
 
 
@@ -3871,6 +4607,13 @@ function toast(message){
         byId(
             "toast"
         );
+
+
+    if(!element){
+
+        return;
+
+    }
 
 
     element.textContent =
@@ -3914,19 +4657,25 @@ document.addEventListener(
             event.key !==
             "Escape"
         ){
+
             return;
+
         }
 
 
         closeDrawer();
 
 
-        if(
-            !byId(
+        const modal =
+            byId(
                 "infoModal"
-            )
-            ?.classList
-            .contains(
+            );
+
+
+        if(
+            modal
+            &&
+            !modal.classList.contains(
                 "hidden"
             )
         ){
@@ -3934,6 +4683,7 @@ document.addEventListener(
             closeInfo();
 
             return;
+
         }
 
 
@@ -3948,717 +4698,33 @@ document.addEventListener(
 
     }
 );
-/* =========================================================
-   REVISION 28
-   3D CLICK FOCUS + HELP + DIRECTORY + ABOUT
-========================================================= */
 
 
 /* =========================================================
-   3D OBJECT — TRUE CLICK FOCUS
+   SAFARI / MOBILE PAGE RESTORE
 ========================================================= */
 
-const r28Viewer =
-    document.getElementById(
-        "mainModelViewer"
-    );
-
-
-const r28FocusRing =
-    document.getElementById(
-        "modelFocusRing"
-    );
-
-
-if(r28Viewer){
-
-    /*
-       Model Viewer bawaan memiliki batas jarak kamera.
-       Nilai ini dibuat jauh lebih dekat agar ruangan/detail
-       interior dapat dilihat lebih jelas.
-    */
-
-    r28Viewer.setAttribute(
-        "min-camera-orbit",
-        "auto auto 0.05m"
-    );
-
-
-    r28Viewer.setAttribute(
-        "min-field-of-view",
-        "5deg"
-    );
-
-
-    /*
-       Snapshot magnifier dari Revisi 27 dimatikan.
-       Lingkaran sekarang hanya menjadi penanda area fokus.
-    */
-
-    try{
-
-        Object.defineProperty(
-            r28Viewer,
-            "toBlob",
-            {
-                value:undefined,
-                configurable:true
-            }
-        );
-
-    }
-
-    catch(error){
-
-        console.warn(
-            "Snapshot magnifier tidak dapat dinonaktifkan:",
-            error
-        );
-
-    }
-
-}
-
-
-/*
-   Membedakan klik dengan drag.
-   Jika user sedang memutar model, lingkaran tidak muncul.
-*/
-
-let r28PointerStart = null;
-let r28PointerMoved = false;
-
-
-r28Viewer?.addEventListener(
-    "pointerdown",
-    event => {
-
-        r28PointerStart = {
-
-            x:event.clientX,
-
-            y:event.clientY
-
-        };
-
-
-        r28PointerMoved =
-            false;
-
-    }
-);
-
-
-r28Viewer?.addEventListener(
-    "pointermove",
-    event => {
-
-        if(!r28PointerStart){
-            return;
-        }
-
-
-        const movement =
-            Math.hypot(
-
-                event.clientX
-                -
-                r28PointerStart.x,
-
-                event.clientY
-                -
-                r28PointerStart.y
-
-            );
-
-
-        if(movement > 8){
-
-            r28PointerMoved =
-                true;
-
-        }
-
-    }
-);
-
-
-r28Viewer?.addEventListener(
-    "pointerup",
-    event => {
+window.addEventListener(
+    "pageshow",
+    () => {
 
         if(
-            !r28PointerStart
-            ||
-            r28PointerMoved
-        ){
-
-            r28PointerStart =
-                null;
-
-            return;
-
-        }
-
-
-        /*
-           Tunggu sebentar supaya fungsi fokus
-           Revisi 27 selesai menentukan surface target.
-        */
-
-        window.setTimeout(
-            () => {
-
-                r28ApplyFocusZoom(
-                    event
-                );
-
-            },
-            20
-        );
-
-
-        r28PointerStart =
-            null;
-
-    }
-);
-
-
-/* =========================================================
-   APPLY CLICK FOCUS
-========================================================= */
-
-function r28ApplyFocusZoom(event){
-
-    if(
-        !r28Viewer
-        ||
-        !r28FocusRing
-    ){
-        return;
-    }
-
-
-    const stage =
-        document.getElementById(
-            "modelViewerStage"
-        );
-
-
-    if(!stage){
-        return;
-    }
-
-
-    const stageRect =
-        stage.getBoundingClientRect();
-
-
-    /*
-       Lingkaran muncul tepat pada bagian yang diklik.
-    */
-
-    r28FocusRing.style.left =
-        `${
-            event.clientX
-            -
-            stageRect.left
-        }px`;
-
-
-    r28FocusRing.style.top =
-        `${
-            event.clientY
-            -
-            stageRect.top
-        }px`;
-
-
-    /*
-       Pastikan tidak ada gambar zoom di dalam lingkaran.
-    */
-
-    r28FocusRing.style.backgroundImage =
-        "none";
-
-
-    r28FocusRing.classList.remove(
-        "hidden"
-    );
-
-
-    r28FocusRing.classList.remove(
-        "focus-visible"
-    );
-
-
-    requestAnimationFrame(
-        () => {
-
-            r28FocusRing
-                .classList
-                .add(
-                    "focus-visible"
-                );
-
-        }
-    );
-
-
-    /*
-       Ambil koordinat 3D permukaan model yang diklik.
-    */
-
-    if(
-        typeof
-        r28Viewer.positionAndNormalFromPoint
-        ===
-        "function"
-    ){
-
-        try{
-
-            const hit =
-                r28Viewer.positionAndNormalFromPoint(
-
-                    event.clientX,
-
-                    event.clientY
-
-                );
-
-
-            if(hit?.position){
-
-                const p =
-                    hit.position;
-
-
-                /*
-                   Titik yang diklik menjadi
-                   pusat kamera baru.
-                */
-
-                r28Viewer.cameraTarget =
-                    `${p.x}m ${p.y}m ${p.z}m`;
-
-            }
-
-        }
-
-        catch(error){
-
-            console.warn(
-                "Tidak dapat menentukan titik fokus:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /*
-       Ambil posisi kamera sekarang dan dekatkan
-       secara moderat ke titik yang dipilih.
-
-       User masih dapat pinch / scroll untuk masuk
-       lebih dekat sesudahnya.
-    */
-
-    try{
-
-        if(
-            typeof r28Viewer.getCameraOrbit
-            ===
-            "function"
-        ){
-
-            const orbit =
-                r28Viewer.getCameraOrbit();
-
-
-            if(
-                orbit
-                &&
-                Number.isFinite(
-                    orbit.radius
-                )
-            ){
-
-                const newRadius =
-                    Math.max(
-
-                        orbit.radius
-                        *
-                        0.58,
-
-                        0.12
-
-                    );
-
-
-                r28Viewer.cameraOrbit =
-                    `${
-                        orbit.theta
-                    }rad ${
-                        orbit.phi
-                    }rad ${
-                        newRadius
-                    }m`;
-
-            }
-
-        }
-
-    }
-
-    catch(error){
-
-        console.warn(
-            "Tidak dapat memperbesar fokus kamera:",
-            error
-        );
-
-    }
-
-
-    /*
-       Field of View dibuat lebih sempit
-       agar detail ruangan terlihat lebih dekat.
-    */
-
-    r28Viewer.fieldOfView =
-        "18deg";
-
-}
-
-
-/* =========================================================
-   RESET FOCUS CIRCLE
-========================================================= */
-
-document
-    .getElementById(
-        "resetCamera"
-    )
-    ?.addEventListener(
-        "click",
-        () => {
-
-            if(r28FocusRing){
-
-                r28FocusRing
-                    .classList
-                    .remove(
-                        "focus-visible"
-                    );
-
-
-                window.setTimeout(
-                    () => {
-
-                        r28FocusRing
-                            .classList
-                            .add(
-                                "hidden"
-                            );
-
-                    },
-                    180
-                );
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   HOME — DIRECTORY CARD
-========================================================= */
-
-const r28DirectoryCard =
-    document.getElementById(
-        "featureDirectory"
-    );
-
-
-if(r28DirectoryCard){
-
-    const title =
-        r28DirectoryCard
-        .querySelector(
-            "h3"
-        );
-
-
-    const description =
-        r28DirectoryCard
-        .querySelector(
-            "p"
-        );
-
-
-    if(title){
-
-        title.textContent =
-            "Direktori (Gedung, Ruangan, & Civitas Akademik)";
-
-    }
-
-
-    if(description){
-
-        description.textContent =
-            "Informasi mengenai Gedung, Ruangan, dan Civitas Akademik yang ada di lingkungan Fakultas Teknik UISU.";
-
-    }
-
-}
-
-
-/* =========================================================
-   HAMBURGER — DIRECTORY
-   Menyesuaikan revisi yang sebelumnya juga diminta.
-========================================================= */
-
-const r28DrawerDirectory =
-    document.getElementById(
-        "menuDirectory"
-    );
-
-
-if(r28DrawerDirectory){
-
-    const title =
-        r28DrawerDirectory
-        .querySelector(
-            "strong"
-        );
-
-
-    const description =
-        r28DrawerDirectory
-        .querySelector(
-            "small"
-        );
-
-
-    if(title){
-
-        title.textContent =
-            "Direktori (Gedung, Ruangan & Civitas Akademik)";
-
-    }
-
-
-    if(description){
-
-        description.textContent =
-            "Informasi & Navigasi";
-
-    }
-
-}
-
-
-/* =========================================================
-   HELP — STEP BY STEP WITHOUT NUMBERS
-========================================================= */
-
-const r28HelpData = [
-
-    {
-        title:
-            "3D Objek",
-
-        steps:[
-
-            "Pilih Gedung atau Ruangan yang ingin anda lihat.",
-
-            "Klik tombol \"Tampilkan 3D Objek\".",
-
-            "Sistem akan menampilkan Model 3D sesuai pilihan anda.",
-
-            "Model 3D dapat anda drag, zoom, dan rotate untuk melihat objek dari berbagai sudut."
-
-        ]
-    },
-
-
-    {
-        title:
-            "AR Markerless",
-
-        steps:[
-
-            "Pilih Gedung atau Ruangan yang ingin anda lihat.",
-
-            "Sistem akan meminta izin untuk mengakses kamera perangkat anda.",
-
-            "Arahkan kamera ke bidang datar seperti lantai, permukaan meja, atau bidang datar lainnya.",
-
-            "Augmented Reality berupa Model 3D sesuai pilihan anda akan muncul pada bidang tersebut."
-
-        ]
-    },
-
-
-    {
-        title:
-            "Navigasi",
-
-        steps:[
-
-            "Pilih tujuan dengan mengetikkan nama Gedung atau Ruangan yang anda cari.",
-
-            "Sistem akan menampilkan denah 2D UISU.",
-
-            "Tentukan posisi anda saat ini dengan meng-klik posisi anda pada denah.",
-
-            "Sistem akan menampilkan rute menuju Gedung atau Ruangan tujuan anda."
-
-        ]
-    },
-
-
-    {
-        title:
-            "Direktori",
-
-        steps:[
-
-            "Ketik Gedung, Ruangan, atau Civitas Akademik yang ingin anda cari.",
-
-            "Pilih hasil pencarian yang sesuai.",
-
-            "Sistem akan menampilkan informasi mengenai Gedung, Ruangan, atau Civitas Akademik tersebut.",
-
-            "Gunakan Petunjuk Arah jika anda ingin membuka Navigasi menuju Gedung atau Ruangan yang dipilih."
-
-        ]
-    }
-
-];
-
-
-const r28HelpCards =
-    document.querySelectorAll(
-        ".help-grid article"
-    );
-
-
-r28HelpCards.forEach(
-    (card,index) => {
-
-        const data =
-            r28HelpData[index];
-
-
-        if(!data){
-            return;
-        }
-
-
-        /*
-           Menghapus angka lama apabila masih
-           tersisa dari versi sebelumnya.
-        */
-
-        card
-            .querySelector(
-                "b"
+            !document.querySelector(
+                ".page.active"
             )
-            ?.remove();
+        ){
 
-
-        const title =
-            card.querySelector(
-                "h3"
+            byId(
+                "homePage"
+            )
+            ?.classList
+            .add(
+                "active"
             );
 
 
-        if(title){
-
-            title.textContent =
-                data.title;
-
-        }
-
-
-        const oldParagraph =
-            card.querySelector(
-                "p"
-            );
-
-
-        const list =
-            document.createElement(
-                "ul"
-            );
-
-
-        list.className =
-            "help-steps";
-
-
-        data.steps.forEach(
-            step => {
-
-                const item =
-                    document.createElement(
-                        "li"
-                    );
-
-
-                /*
-                   Memberi italic pada istilah
-                   interaksi yang relevan.
-                */
-
-                item.innerHTML =
-                    step
-                    .replace(
-                        /\bdrag\b/gi,
-                        "<em>drag</em>"
-                    )
-                    .replace(
-                        /\bzoom\b/gi,
-                        "<em>zoom</em>"
-                    )
-                    .replace(
-                        /\brotate\b/gi,
-                        "<em>rotate</em>"
-                    )
-                    .replace(
-                        /meng-klik/gi,
-                        "meng-<em>klik</em>"
-                    );
-
-
-                list.appendChild(
-                    item
-                );
-
-            }
-        );
-
-
-        if(oldParagraph){
-
-            oldParagraph.replaceWith(
-                list
-            );
-
-        }
-
-        else{
-
-            card.appendChild(
-                list
-            );
+            state.currentPage =
+                "home";
 
         }
 
