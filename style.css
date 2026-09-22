@@ -3383,3 +3383,499 @@ main{
     }
 
 }
+/* =========================================================
+   REVISION 28
+   3D CLICK FOCUS + HELP + DIRECTORY + ABOUT
+========================================================= */
+
+
+/* =========================================================
+   3D OBJECT — CLICK FOCUS
+   BUKAN MAGNIFIER
+========================================================= */
+
+.model-viewer-stage{
+    position:relative;
+    overflow:hidden;
+}
+
+
+/*
+   Lingkaran hanya berfungsi sebagai penanda
+   area yang sedang menjadi pusat zoom.
+*/
+.model-focus-ring{
+    width:clamp(230px,26vw,340px) !important;
+    height:clamp(230px,26vw,340px) !important;
+
+    position:absolute;
+    z-index:30;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.92);
+
+    border:5px solid #18c98b !important;
+
+    border-radius:50%;
+
+    background:
+        rgba(24,201,139,.035) !important;
+
+    background-image:
+        none !important;
+
+    background-size:
+        auto !important;
+
+    background-position:
+        center !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,255,255,.72),
+
+        0 12px 35px
+        rgba(3,84,68,.24) !important;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease;
+}
+
+
+/*
+   Tidak ada lagi hasil snapshot/model
+   di dalam lingkaran.
+*/
+.model-focus-ring::before{
+    content:"";
+
+    position:absolute;
+
+    inset:50% auto auto 50%;
+
+    width:10px;
+    height:10px;
+
+    transform:
+        translate(-50%,-50%);
+
+    border:3px solid #ffffff;
+
+    border-radius:50%;
+
+    background:#18c98b;
+
+    box-shadow:
+        0 1px 8px
+        rgba(0,0,0,.22);
+}
+
+
+.model-focus-ring.focus-visible{
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+
+/*
+   Cursor memberi tahu user bahwa
+   bagian objek dapat dipilih sebagai titik fokus.
+*/
+#mainModelViewer{
+    cursor:crosshair;
+}
+
+
+/* =========================================================
+   HELP — LANGKAH PER POIN
+========================================================= */
+
+.help-grid article{
+    min-height:260px;
+}
+
+
+.help-grid h3{
+    margin:0 0 18px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:20px;
+
+    line-height:1.2;
+}
+
+
+.help-steps{
+    display:grid;
+
+    gap:12px;
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+}
+
+
+.help-steps li{
+    position:relative;
+
+    padding-left:21px;
+
+    color:#526870;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:13px;
+
+    line-height:1.65;
+}
+
+
+.help-steps li::before{
+    content:"";
+
+    position:absolute;
+
+    top:.57em;
+    left:0;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--green-500);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(32,184,157,.11);
+}
+
+
+.help-steps em{
+    color:var(--green-800);
+
+    font-style:italic;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   FEATURE CARD — DIRECTORY
+========================================================= */
+
+#featureDirectory h3{
+    font-size:17px;
+
+    line-height:1.35;
+}
+
+
+/* =========================================================
+   ABOUT / DEVELOPER
+========================================================= */
+
+.developer-card{
+    grid-template-columns:
+        260px
+        minmax(0,1fr);
+
+    gap:38px;
+
+    align-items:start;
+}
+
+
+/*
+   Foto sekarang benar-benar kotak 1:1,
+   tidak memanjang penuh.
+*/
+.developer-photo-wrap{
+    width:260px;
+
+    max-width:100%;
+
+    aspect-ratio:1 / 1 !important;
+
+    justify-self:center;
+
+    align-self:start;
+
+    overflow:hidden;
+
+    border-radius:22px;
+}
+
+
+.developer-photo{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    /*
+       Posisi wajah lebih nyaman pada crop kotak.
+    */
+    object-position:center 36%;
+}
+
+
+/*
+   Pastikan bagian Tentang menggunakan
+   font yang sama dengan seluruh website.
+*/
+.developer-card,
+.developer-card *,
+.about-project,
+.about-project *,
+.developer-contacts,
+.developer-contacts *{
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+/*
+   Developer -> Nama -> Jabatan
+   diberi jarak seimbang.
+*/
+.developer-content > small{
+    display:block;
+
+    margin:0 0 12px;
+
+    color:var(--green-700);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    letter-spacing:1.2px;
+}
+
+
+.developer-name{
+    margin:
+        0 0 12px;
+
+    font-size:
+        clamp(
+            30px,
+            3vw,
+            42px
+        );
+
+    line-height:1.12;
+}
+
+
+.developer-role{
+    margin:0 0 22px;
+
+    color:var(--green-700) !important;
+
+    font-size:14px !important;
+
+    line-height:1.5;
+
+    font-weight:700;
+}
+
+
+.about-project{
+    margin-top:0;
+
+    padding-top:22px;
+}
+
+
+.about-project p{
+    color:#526870;
+
+    font-size:14px;
+
+    line-height:1.78;
+}
+
+
+.contact-item small{
+    font-size:9px;
+}
+
+
+.contact-item strong{
+    font-size:10px;
+}
+
+
+/* =========================================================
+   DRAWER DIRECTORY NAME
+========================================================= */
+
+#menuDirectory strong{
+    font-size:12px;
+
+    line-height:1.35;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:760px){
+
+    /*
+       Ukuran lingkaran fokus menyesuaikan HP.
+    */
+    .model-focus-ring{
+        width:180px !important;
+        height:180px !important;
+
+        border-width:4px !important;
+    }
+
+
+    /* Bantuan tetap nyaman dibaca pada HP */
+
+    .help-grid article{
+        min-height:0;
+    }
+
+
+    .help-grid h3{
+        margin-bottom:14px;
+
+        font-size:18px;
+    }
+
+
+    .help-steps{
+        gap:10px;
+    }
+
+
+    .help-steps li{
+        padding-left:18px;
+
+        font-size:11px;
+
+        line-height:1.6;
+    }
+
+
+    .help-steps li::before{
+        width:6px;
+        height:6px;
+    }
+
+
+    /*
+       Foto developer tetap 1:1,
+       tetapi tidak terlalu besar di mobile.
+    */
+    .developer-card{
+        grid-template-columns:1fr;
+
+        gap:24px;
+    }
+
+
+    .developer-photo-wrap{
+        width:min(
+            220px,
+            65vw
+        );
+
+        aspect-ratio:1 / 1 !important;
+
+        justify-self:center;
+    }
+
+
+    /*
+       Font mobile dipertahankan seperti
+       versi yang sudah Anda suka.
+    */
+    .developer-content > small{
+        margin-bottom:10px;
+
+        font-size:9px;
+    }
+
+
+    .developer-name{
+        margin:
+            0 0 10px;
+
+        font-size:
+            clamp(
+                25px,
+                7vw,
+                34px
+            );
+    }
+
+
+    .developer-role{
+        margin-bottom:18px;
+
+        font-size:12px !important;
+    }
+
+
+    .about-project p{
+        font-size:11px;
+
+        line-height:1.75;
+    }
+
+
+    #featureDirectory h3{
+        font-size:17px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:420px){
+
+    .model-focus-ring{
+        width:155px !important;
+        height:155px !important;
+    }
+
+
+    .developer-photo-wrap{
+        width:min(
+            200px,
+            62vw
+        );
+    }
+
+}
