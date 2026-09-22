@@ -3948,3 +3948,719 @@ document.addEventListener(
 
     }
 );
+/* =========================================================
+   REVISION 28
+   3D CLICK FOCUS + HELP + DIRECTORY + ABOUT
+========================================================= */
+
+
+/* =========================================================
+   3D OBJECT — TRUE CLICK FOCUS
+========================================================= */
+
+const r28Viewer =
+    document.getElementById(
+        "mainModelViewer"
+    );
+
+
+const r28FocusRing =
+    document.getElementById(
+        "modelFocusRing"
+    );
+
+
+if(r28Viewer){
+
+    /*
+       Model Viewer bawaan memiliki batas jarak kamera.
+       Nilai ini dibuat jauh lebih dekat agar ruangan/detail
+       interior dapat dilihat lebih jelas.
+    */
+
+    r28Viewer.setAttribute(
+        "min-camera-orbit",
+        "auto auto 0.05m"
+    );
+
+
+    r28Viewer.setAttribute(
+        "min-field-of-view",
+        "5deg"
+    );
+
+
+    /*
+       Snapshot magnifier dari Revisi 27 dimatikan.
+       Lingkaran sekarang hanya menjadi penanda area fokus.
+    */
+
+    try{
+
+        Object.defineProperty(
+            r28Viewer,
+            "toBlob",
+            {
+                value:undefined,
+                configurable:true
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.warn(
+            "Snapshot magnifier tidak dapat dinonaktifkan:",
+            error
+        );
+
+    }
+
+}
+
+
+/*
+   Membedakan klik dengan drag.
+   Jika user sedang memutar model, lingkaran tidak muncul.
+*/
+
+let r28PointerStart = null;
+let r28PointerMoved = false;
+
+
+r28Viewer?.addEventListener(
+    "pointerdown",
+    event => {
+
+        r28PointerStart = {
+
+            x:event.clientX,
+
+            y:event.clientY
+
+        };
+
+
+        r28PointerMoved =
+            false;
+
+    }
+);
+
+
+r28Viewer?.addEventListener(
+    "pointermove",
+    event => {
+
+        if(!r28PointerStart){
+            return;
+        }
+
+
+        const movement =
+            Math.hypot(
+
+                event.clientX
+                -
+                r28PointerStart.x,
+
+                event.clientY
+                -
+                r28PointerStart.y
+
+            );
+
+
+        if(movement > 8){
+
+            r28PointerMoved =
+                true;
+
+        }
+
+    }
+);
+
+
+r28Viewer?.addEventListener(
+    "pointerup",
+    event => {
+
+        if(
+            !r28PointerStart
+            ||
+            r28PointerMoved
+        ){
+
+            r28PointerStart =
+                null;
+
+            return;
+
+        }
+
+
+        /*
+           Tunggu sebentar supaya fungsi fokus
+           Revisi 27 selesai menentukan surface target.
+        */
+
+        window.setTimeout(
+            () => {
+
+                r28ApplyFocusZoom(
+                    event
+                );
+
+            },
+            20
+        );
+
+
+        r28PointerStart =
+            null;
+
+    }
+);
+
+
+/* =========================================================
+   APPLY CLICK FOCUS
+========================================================= */
+
+function r28ApplyFocusZoom(event){
+
+    if(
+        !r28Viewer
+        ||
+        !r28FocusRing
+    ){
+        return;
+    }
+
+
+    const stage =
+        document.getElementById(
+            "modelViewerStage"
+        );
+
+
+    if(!stage){
+        return;
+    }
+
+
+    const stageRect =
+        stage.getBoundingClientRect();
+
+
+    /*
+       Lingkaran muncul tepat pada bagian yang diklik.
+    */
+
+    r28FocusRing.style.left =
+        `${
+            event.clientX
+            -
+            stageRect.left
+        }px`;
+
+
+    r28FocusRing.style.top =
+        `${
+            event.clientY
+            -
+            stageRect.top
+        }px`;
+
+
+    /*
+       Pastikan tidak ada gambar zoom di dalam lingkaran.
+    */
+
+    r28FocusRing.style.backgroundImage =
+        "none";
+
+
+    r28FocusRing.classList.remove(
+        "hidden"
+    );
+
+
+    r28FocusRing.classList.remove(
+        "focus-visible"
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            r28FocusRing
+                .classList
+                .add(
+                    "focus-visible"
+                );
+
+        }
+    );
+
+
+    /*
+       Ambil koordinat 3D permukaan model yang diklik.
+    */
+
+    if(
+        typeof
+        r28Viewer.positionAndNormalFromPoint
+        ===
+        "function"
+    ){
+
+        try{
+
+            const hit =
+                r28Viewer.positionAndNormalFromPoint(
+
+                    event.clientX,
+
+                    event.clientY
+
+                );
+
+
+            if(hit?.position){
+
+                const p =
+                    hit.position;
+
+
+                /*
+                   Titik yang diklik menjadi
+                   pusat kamera baru.
+                */
+
+                r28Viewer.cameraTarget =
+                    `${p.x}m ${p.y}m ${p.z}m`;
+
+            }
+
+        }
+
+        catch(error){
+
+            console.warn(
+                "Tidak dapat menentukan titik fokus:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+       Ambil posisi kamera sekarang dan dekatkan
+       secara moderat ke titik yang dipilih.
+
+       User masih dapat pinch / scroll untuk masuk
+       lebih dekat sesudahnya.
+    */
+
+    try{
+
+        if(
+            typeof r28Viewer.getCameraOrbit
+            ===
+            "function"
+        ){
+
+            const orbit =
+                r28Viewer.getCameraOrbit();
+
+
+            if(
+                orbit
+                &&
+                Number.isFinite(
+                    orbit.radius
+                )
+            ){
+
+                const newRadius =
+                    Math.max(
+
+                        orbit.radius
+                        *
+                        0.58,
+
+                        0.12
+
+                    );
+
+
+                r28Viewer.cameraOrbit =
+                    `${
+                        orbit.theta
+                    }rad ${
+                        orbit.phi
+                    }rad ${
+                        newRadius
+                    }m`;
+
+            }
+
+        }
+
+    }
+
+    catch(error){
+
+        console.warn(
+            "Tidak dapat memperbesar fokus kamera:",
+            error
+        );
+
+    }
+
+
+    /*
+       Field of View dibuat lebih sempit
+       agar detail ruangan terlihat lebih dekat.
+    */
+
+    r28Viewer.fieldOfView =
+        "18deg";
+
+}
+
+
+/* =========================================================
+   RESET FOCUS CIRCLE
+========================================================= */
+
+document
+    .getElementById(
+        "resetCamera"
+    )
+    ?.addEventListener(
+        "click",
+        () => {
+
+            if(r28FocusRing){
+
+                r28FocusRing
+                    .classList
+                    .remove(
+                        "focus-visible"
+                    );
+
+
+                window.setTimeout(
+                    () => {
+
+                        r28FocusRing
+                            .classList
+                            .add(
+                                "hidden"
+                            );
+
+                    },
+                    180
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   HOME — DIRECTORY CARD
+========================================================= */
+
+const r28DirectoryCard =
+    document.getElementById(
+        "featureDirectory"
+    );
+
+
+if(r28DirectoryCard){
+
+    const title =
+        r28DirectoryCard
+        .querySelector(
+            "h3"
+        );
+
+
+    const description =
+        r28DirectoryCard
+        .querySelector(
+            "p"
+        );
+
+
+    if(title){
+
+        title.textContent =
+            "Direktori (Gedung, Ruangan, & Civitas Akademik)";
+
+    }
+
+
+    if(description){
+
+        description.textContent =
+            "Informasi mengenai Gedung, Ruangan, dan Civitas Akademik yang ada di lingkungan Fakultas Teknik UISU.";
+
+    }
+
+}
+
+
+/* =========================================================
+   HAMBURGER — DIRECTORY
+   Menyesuaikan revisi yang sebelumnya juga diminta.
+========================================================= */
+
+const r28DrawerDirectory =
+    document.getElementById(
+        "menuDirectory"
+    );
+
+
+if(r28DrawerDirectory){
+
+    const title =
+        r28DrawerDirectory
+        .querySelector(
+            "strong"
+        );
+
+
+    const description =
+        r28DrawerDirectory
+        .querySelector(
+            "small"
+        );
+
+
+    if(title){
+
+        title.textContent =
+            "Direktori (Gedung, Ruangan & Civitas Akademik)";
+
+    }
+
+
+    if(description){
+
+        description.textContent =
+            "Informasi & Navigasi";
+
+    }
+
+}
+
+
+/* =========================================================
+   HELP — STEP BY STEP WITHOUT NUMBERS
+========================================================= */
+
+const r28HelpData = [
+
+    {
+        title:
+            "3D Objek",
+
+        steps:[
+
+            "Pilih Gedung atau Ruangan yang ingin anda lihat.",
+
+            "Klik tombol \"Tampilkan 3D Objek\".",
+
+            "Sistem akan menampilkan Model 3D sesuai pilihan anda.",
+
+            "Model 3D dapat anda drag, zoom, dan rotate untuk melihat objek dari berbagai sudut."
+
+        ]
+    },
+
+
+    {
+        title:
+            "AR Markerless",
+
+        steps:[
+
+            "Pilih Gedung atau Ruangan yang ingin anda lihat.",
+
+            "Sistem akan meminta izin untuk mengakses kamera perangkat anda.",
+
+            "Arahkan kamera ke bidang datar seperti lantai, permukaan meja, atau bidang datar lainnya.",
+
+            "Augmented Reality berupa Model 3D sesuai pilihan anda akan muncul pada bidang tersebut."
+
+        ]
+    },
+
+
+    {
+        title:
+            "Navigasi",
+
+        steps:[
+
+            "Pilih tujuan dengan mengetikkan nama Gedung atau Ruangan yang anda cari.",
+
+            "Sistem akan menampilkan denah 2D UISU.",
+
+            "Tentukan posisi anda saat ini dengan meng-klik posisi anda pada denah.",
+
+            "Sistem akan menampilkan rute menuju Gedung atau Ruangan tujuan anda."
+
+        ]
+    },
+
+
+    {
+        title:
+            "Direktori",
+
+        steps:[
+
+            "Ketik Gedung, Ruangan, atau Civitas Akademik yang ingin anda cari.",
+
+            "Pilih hasil pencarian yang sesuai.",
+
+            "Sistem akan menampilkan informasi mengenai Gedung, Ruangan, atau Civitas Akademik tersebut.",
+
+            "Gunakan Petunjuk Arah jika anda ingin membuka Navigasi menuju Gedung atau Ruangan yang dipilih."
+
+        ]
+    }
+
+];
+
+
+const r28HelpCards =
+    document.querySelectorAll(
+        ".help-grid article"
+    );
+
+
+r28HelpCards.forEach(
+    (card,index) => {
+
+        const data =
+            r28HelpData[index];
+
+
+        if(!data){
+            return;
+        }
+
+
+        /*
+           Menghapus angka lama apabila masih
+           tersisa dari versi sebelumnya.
+        */
+
+        card
+            .querySelector(
+                "b"
+            )
+            ?.remove();
+
+
+        const title =
+            card.querySelector(
+                "h3"
+            );
+
+
+        if(title){
+
+            title.textContent =
+                data.title;
+
+        }
+
+
+        const oldParagraph =
+            card.querySelector(
+                "p"
+            );
+
+
+        const list =
+            document.createElement(
+                "ul"
+            );
+
+
+        list.className =
+            "help-steps";
+
+
+        data.steps.forEach(
+            step => {
+
+                const item =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                /*
+                   Memberi italic pada istilah
+                   interaksi yang relevan.
+                */
+
+                item.innerHTML =
+                    step
+                    .replace(
+                        /\bdrag\b/gi,
+                        "<em>drag</em>"
+                    )
+                    .replace(
+                        /\bzoom\b/gi,
+                        "<em>zoom</em>"
+                    )
+                    .replace(
+                        /\brotate\b/gi,
+                        "<em>rotate</em>"
+                    )
+                    .replace(
+                        /meng-klik/gi,
+                        "meng-<em>klik</em>"
+                    );
+
+
+                list.appendChild(
+                    item
+                );
+
+            }
+        );
+
+
+        if(oldParagraph){
+
+            oldParagraph.replaceWith(
+                list
+            );
+
+        }
+
+        else{
+
+            card.appendChild(
+                list
+            );
+
+        }
+
+    }
+);
