@@ -1,8 +1,15 @@
+/* =========================================================
+   FT UISU EXPLORER
+   REVISION 31
+========================================================= */
+
 :root{
 
+    --green-950:#043f3c;
     --green-900:#064e49;
     --green-800:#075f59;
     --green-700:#087f72;
+    --green-600:#0d9488;
     --green-500:#20b89d;
     --green-100:#dff5ef;
 
@@ -11,12 +18,15 @@
     --blue-500:#1592d0;
     --blue-100:#e4f3fa;
 
+    --route-blue:#0787e8;
+
     --text:#17323d;
     --muted:#687c84;
+
     --line:#d9e6e8;
 
     --bg:#f5f9f9;
-    --white:#fff;
+    --white:#ffffff;
 
     --header-height:76px;
 
@@ -24,9 +34,10 @@
 }
 
 
-/* =====================================================
+
+/* =========================================================
    RESET
-   ===================================================== */
+========================================================= */
 
 *{
     box-sizing:border-box;
@@ -76,15 +87,7 @@ button{
 
     touch-action:manipulation;
 
-    -webkit-tap-highlight-color:
-        transparent;
-}
-
-
-input,
-select{
-
-    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
 }
 
 
@@ -100,12 +103,10 @@ img{
 }
 
 
+
 /*
- * INI PENTING.
- *
- * Page yang tidak aktif benar-benar
- * tidak menerima klik/touch.
- */
+   Hanya halaman aktif yang bisa menerima touch/click.
+*/
 
 .page{
 
@@ -124,9 +125,9 @@ img{
 
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-   ===================================================== */
+========================================================= */
 
 .site-header{
 
@@ -138,27 +139,22 @@ img{
     left:0;
     right:0;
 
-    height:
-        var(--header-height);
+    height:var(--header-height);
 
-    border-bottom:
-        1px solid var(--line);
+    border-bottom:1px solid var(--line);
 
-    background:
-        rgba(255,255,255,.97);
+    background:rgba(255,255,255,.97);
 
-    backdrop-filter:
-        blur(14px);
+    backdrop-filter:blur(14px);
 }
 
 
 .header-inner{
 
-    width:
-        min(
-            var(--container),
-            calc(100% - 36px)
-        );
+    width:min(
+        var(--container),
+        calc(100% - 36px)
+    );
 
     height:100%;
 
@@ -166,14 +162,16 @@ img{
 
     display:grid;
 
-    grid-template-columns:
-        auto 1fr auto;
+    grid-template-columns:auto 1fr auto;
 
     align-items:center;
 
     gap:24px;
 }
 
+
+
+/* BRAND */
 
 .brand{
 
@@ -182,6 +180,8 @@ img{
     align-items:center;
 
     gap:12px;
+
+    padding:0;
 
     border:0;
 
@@ -193,18 +193,16 @@ img{
 
 .brand-icon{
 
-    width:48px;
-    height:48px;
+    width:56px;
+    height:56px;
 
     display:grid;
 
     place-items:center;
 
-    border-radius:14px;
+    flex:0 0 auto;
 
-    color:#fff;
-
-    font-weight:800;
+    border-radius:16px;
 
     background:
         linear-gradient(
@@ -212,14 +210,31 @@ img{
             var(--green-700),
             var(--blue-500)
         );
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 8px 18px
+        rgba(7,95,89,.10);
 }
 
 
 .brand-copy strong{
 
-    font-size:15px;
+    display:block;
+
+    font-size:16px;
+
+    white-space:nowrap;
 }
 
+
+
+/* NAV HEADER */
 
 .header-nav{
 
@@ -227,7 +242,9 @@ img{
 
     display:flex;
 
-    gap:5px;
+    align-items:center;
+
+    gap:6px;
 }
 
 
@@ -235,38 +252,49 @@ img{
 
     min-height:42px;
 
-    padding:
-        0 14px;
+    padding:0 14px;
 
-    border:0;
+    border:1px solid transparent;
 
     border-radius:11px;
 
-    background:
-        transparent;
+    background:transparent;
 
     color:#415a63;
 
     font-size:13px;
 
     font-weight:700;
+
+    transition:.2s ease;
 }
 
 
 .header-link.active{
 
-    color:
-        var(--green-700);
+    color:var(--green-700);
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 }
 
 
+.header-link:hover{
+
+    color:var(--green-700);
+
+    background:#f0faf7;
+
+    border-color:#cbe9e1;
+}
+
+
+
+/* HAMBURGER */
+
 .hamburger{
 
-    width:48px;
-    height:48px;
+    width:50px;
+    height:50px;
 
     display:grid;
 
@@ -274,9 +302,11 @@ img{
 
     gap:5px;
 
+    padding:0;
+
     border:0;
 
-    border-radius:14px;
+    border-radius:15px;
 
     background:
         linear-gradient(
@@ -289,29 +319,32 @@ img{
 
 .hamburger span{
 
-    width:22px;
+    width:23px;
     height:2px;
 
+    display:block;
+
     background:#fff;
+
+    border-radius:10px;
 }
 
 
 
-/* =====================================================
+/* =========================================================
    MAIN
-   ===================================================== */
+========================================================= */
 
 main{
 
-    padding-top:
-        var(--header-height);
+    padding-top:var(--header-height);
 }
 
 
 
-/* =====================================================
+/* =========================================================
    DRAWER
-   ===================================================== */
+========================================================= */
 
 .drawer-overlay{
 
@@ -327,8 +360,9 @@ main{
 
     pointer-events:none;
 
-    background:
-        rgba(0,24,34,.52);
+    background:rgba(0,24,34,.52);
+
+    backdrop-filter:blur(4px);
 
     transition:
         opacity .25s ease,
@@ -355,11 +389,7 @@ main{
     top:0;
     right:0;
 
-    width:
-        min(
-            430px,
-            95vw
-        );
+    width:min(430px,95vw);
 
     height:100dvh;
 
@@ -369,18 +399,19 @@ main{
 
     background:#fff;
 
-    transform:
-        translateX(105%);
+    transform:translateX(105%);
 
-    transition:
-        transform .28s ease;
+    transition:transform .28s ease;
+
+    box-shadow:
+        -25px 0 70px
+        rgba(0,35,45,.23);
 }
 
 
 .drawer.open{
 
-    transform:
-        translateX(0);
+    transform:translateX(0);
 }
 
 
@@ -388,10 +419,9 @@ main{
 
     display:flex;
 
-    justify-content:
-        space-between;
-
     align-items:flex-start;
+
+    justify-content:space-between;
 
     gap:16px;
 
@@ -401,8 +431,7 @@ main{
 
 .drawer-header small{
 
-    color:
-        var(--green-700);
+    color:var(--green-700);
 
     font-size:9px;
 
@@ -415,6 +444,8 @@ main{
 .drawer-header h2{
 
     margin-top:5px;
+
+    font-size:22px;
 }
 
 
@@ -422,6 +453,8 @@ main{
 
     width:42px;
     height:42px;
+
+    flex:0 0 auto;
 
     border:0;
 
@@ -436,13 +469,13 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    SEARCH
-   ===================================================== */
+========================================================= */
 
 .drawer-search-wrap label,
-.navigation-search-card label,
-.selection-card label{
+.navigation-search-card > label,
+.selection-field label{
 
     display:block;
 
@@ -462,22 +495,39 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        auto 1fr auto;
+    grid-template-columns:auto 1fr auto;
 
     align-items:center;
 
     gap:9px;
 
-    padding:
-        0 14px;
+    padding:0 14px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:14px;
 
     background:#f8fbfb;
+
+    transition:.2s ease;
+}
+
+
+.search-box:focus-within{
+
+    border-color:#75cbbb;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(32,184,157,.09);
+}
+
+
+.search-symbol{
+
+    color:var(--green-700);
+
+    font-size:21px;
 }
 
 
@@ -491,25 +541,26 @@ main{
 
     outline:0;
 
-    background:
-        transparent;
+    background:transparent;
 
     color:var(--text);
 }
 
 
-.search-box button{
+.search-box > button{
 
     border:0;
 
-    background:
-        transparent;
-
-    font-size:18px;
+    background:transparent;
 
     color:var(--muted);
+
+    font-size:18px;
 }
 
+
+
+/* SEARCH RESULT */
 
 .search-results{
 
@@ -519,8 +570,7 @@ main{
 
     margin-top:8px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:13px;
 
@@ -534,8 +584,7 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        1fr auto;
+    grid-template-columns:1fr auto;
 
     align-items:center;
 
@@ -545,14 +594,21 @@ main{
 
     border:0;
 
-    border-bottom:
-        1px solid #eaf0f1;
+    border-bottom:1px solid #eaf0f1;
 
     background:#fff;
 
     color:var(--text);
 
     text-align:left;
+
+    transition:.18s ease;
+}
+
+
+.search-result:hover{
+
+    background:#f1faf8;
 }
 
 
@@ -584,16 +640,13 @@ main{
 
 .search-type{
 
-    padding:
-        5px 8px;
+    padding:5px 8px;
 
     border-radius:999px;
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
     font-size:8px;
 
@@ -613,14 +666,16 @@ main{
 }
 
 
+
+/* GLOBAL SELECTED */
+
 .global-selected{
 
     margin-top:9px;
 
     padding:14px;
 
-    border:
-        1px solid #bfe3da;
+    border:1px solid #bfe3da;
 
     border-radius:13px;
 
@@ -628,16 +683,15 @@ main{
 }
 
 
-.global-selected small{
+.global-selected > small{
 
     display:block;
 
     margin-bottom:5px;
 
-    font-size:8px;
+    color:var(--green-700);
 
-    color:
-        var(--green-700);
+    font-size:8px;
 
     font-weight:800;
 }
@@ -647,8 +701,7 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        1fr 1fr;
+    grid-template-columns:1fr 1fr;
 
     gap:8px;
 
@@ -657,9 +710,9 @@ main{
 
 
 
-/* =====================================================
-   DRAWER MENU
-   ===================================================== */
+/* =========================================================
+   DRAWER ITEMS
+========================================================= */
 
 .drawer-menu{
 
@@ -679,8 +732,7 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        52px 1fr auto;
+    grid-template-columns:54px 1fr auto;
 
     align-items:center;
 
@@ -688,29 +740,48 @@ main{
 
     padding:12px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--line);
 
-    border-radius:15px;
+    border-radius:16px;
 
     background:#fff;
 
     color:var(--text);
 
     text-align:left;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.drawer-item:hover{
+
+    transform:translateX(-2px);
+
+    border-color:var(--green-500);
+
+    background:#f4fbf9;
+
+    box-shadow:
+        0 10px 24px
+        rgba(8,68,72,.07);
 }
 
 
 .drawer-icon{
 
-    width:52px;
-    height:52px;
+    width:54px;
+    height:54px;
 
     display:grid;
 
     place-items:center;
 
-    border-radius:15px;
+    border-radius:16px;
 
     background:
         linear-gradient(
@@ -719,16 +790,17 @@ main{
             var(--blue-100)
         );
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
-    font-weight:800;
+    font-size:15px;
+
+    font-weight:900;
 }
 
 
-.directory-icon{
+.drawer-icon.directory-icon{
 
-    font-size:24px;
+    font-size:28px;
 }
 
 
@@ -755,36 +827,19 @@ main{
 
 
 
-/* =====================================================
-   GENERIC BUTTONS
-   ===================================================== */
+/* =========================================================
+   BUTTON GLOBAL
+========================================================= */
 
 .button{
 
-    min-height:45px;
+    min-height:44px;
 
-    padding:
-        0 17px;
+    padding:0 16px;
 
-    border:0;
+    border:1.5px solid var(--green-700);
 
     border-radius:12px;
-
-    font-size:12px;
-
-    font-weight:800;
-
-    transition:
-        transform .22s ease,
-        background .22s ease,
-        color .22s ease,
-        border-color .22s ease;
-}
-
-
-.button-primary{
-
-    color:#fff;
 
     background:
         linear-gradient(
@@ -792,61 +847,100 @@ main{
             var(--green-700),
             var(--blue-500)
         );
-}
 
-
-.button-soft{
-
-    border:
-        1px solid var(--line);
-
-    background:#f3f7f8;
-
-    color:#405b63;
-}
-
-
-.button-outline{
-
-    border:
-        1px solid var(--green-700);
-
-    background:#fff;
-
-    color:
-        var(--green-800);
-}
-
-
-.page-back-button{
-
-    min-height:40px;
-
-    margin-bottom:24px;
-
-    padding:
-        0 15px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius:11px;
-
-    background:#fff;
-
-    color:
-        var(--green-800);
+    color:#fff;
 
     font-size:11px;
 
     font-weight:800;
+
+    transition:
+        transform .2s ease,
+        color .2s ease,
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+
+.button:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.02);
+
+    background:#fff;
+
+    color:var(--green-700);
+
+    border-color:var(--green-700);
+
+    box-shadow:
+        0 8px 20px
+        rgba(7,95,89,.12);
+}
+
+
+.button:active{
+
+    transform:scale(.98);
+}
+
+
+.button-primary{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green-700),
+            var(--blue-500)
+        );
+
+    color:#fff;
 }
 
 
 
-/* =====================================================
-   CONTENT
-   ===================================================== */
+/* BACK */
+
+.page-back-button{
+
+    min-height:39px;
+
+    margin-bottom:24px;
+
+    padding:0 13px;
+
+    border:1.5px solid var(--green-700);
+
+    border-radius:10px;
+
+    background:#fff;
+
+    color:var(--green-800);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    transition:.2s ease;
+}
+
+
+.page-back-button:hover{
+
+    background:var(--green-700);
+
+    color:#fff;
+}
+
+
+
+/* =========================================================
+   CONTENT PAGE
+========================================================= */
 
 .content-page{
 
@@ -856,18 +950,16 @@ main{
             var(--header-height)
         );
 
-    padding:
-        55px 0 75px;
+    padding:52px 0 75px;
 }
 
 
 .content-container{
 
-    width:
-        min(
-            var(--container),
-            calc(100% - 36px)
-        );
+    width:min(
+        var(--container),
+        calc(100% - 36px)
+    );
 
     margin:auto;
 }
@@ -883,8 +975,7 @@ main{
 
 .page-heading > small{
 
-    color:
-        var(--green-700);
+    color:var(--green-700);
 
     font-size:9px;
 
@@ -896,15 +987,13 @@ main{
 
 .page-heading h1{
 
-    margin:
-        7px 0 9px;
+    margin:7px 0 9px;
 
-    font-size:
-        clamp(
-            34px,
-            4vw,
-            50px
-        );
+    font-size:clamp(
+        34px,
+        4vw,
+        50px
+    );
 }
 
 
@@ -917,9 +1006,9 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    HERO
-   ===================================================== */
+========================================================= */
 
 .hero{
 
@@ -943,17 +1032,19 @@ main{
 
     position:relative;
 
-    width:
-        min(
-            var(--container),
-            calc(100% - 36px)
-        );
+    width:min(
+        var(--container),
+        calc(100% - 36px)
+    );
 
     min-height:590px;
 
     margin:auto;
 }
 
+
+
+/* SLIDE */
 
 .hero-slide{
 
@@ -964,15 +1055,14 @@ main{
     display:grid;
 
     grid-template-columns:
-        minmax(0,1.28fr)
-        minmax(360px,.72fr);
+        minmax(0,1.18fr)
+        minmax(360px,.82fr);
 
     align-items:center;
 
     gap:42px;
 
-    padding:
-        40px 0 88px;
+    padding:40px 0 88px;
 
     visibility:hidden;
 
@@ -980,13 +1070,12 @@ main{
 
     pointer-events:none;
 
-    transform:
-        translateX(40px);
+    transform:translateX(40px);
 
     transition:
-        opacity .5s ease,
-        transform .5s ease,
-        visibility .5s ease;
+        opacity .45s ease,
+        transform .45s ease,
+        visibility .45s ease;
 }
 
 
@@ -1026,14 +1115,13 @@ main{
 
     color:#fff;
 
-    font-size:
-        clamp(
-            36px,
-            3.7vw,
-            50px
-        );
+    font-size:clamp(
+        38px,
+        4vw,
+        54px
+    );
 
-    line-height:1.08;
+    line-height:1.07;
 }
 
 
@@ -1046,6 +1134,16 @@ main{
 .hero-title .accent{
 
     color:#6ce0ed;
+}
+
+
+.slider-two-title{
+
+    font-size:clamp(
+        37px,
+        3.8vw,
+        52px
+    );
 }
 
 
@@ -1073,38 +1171,48 @@ main{
 }
 
 
+
+/* BUTTON HERO */
+
 .hero-button{
 
-    min-width:140px;
+    min-width:145px;
 
-    border:
-        2px solid #fff;
+    border:2px solid #fff;
 
-    background:
-        var(--green-700);
+    background:var(--green-600);
 
     color:#fff;
 }
 
 
+.hero-button:hover{
 
-/* =====================================================
-   LANDING MODEL
-   ===================================================== */
+    background:#fff;
+
+    color:var(--green-800);
+}
+
+
+
+/* =========================================================
+   LANDING MODEL CARD
+========================================================= */
 
 .landing-model-card,
 .landing-map-card{
 
     overflow:hidden;
 
-    border:
-        1px solid
-        rgba(255,255,255,.20);
+    border:1px solid rgba(255,255,255,.22);
 
     border-radius:24px;
 
-    background:
-        rgba(255,255,255,.08);
+    background:rgba(255,255,255,.08);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,25,35,.08);
 }
 
 
@@ -1114,17 +1222,27 @@ main{
 
     display:flex;
 
-    justify-content:
-        space-between;
-
     align-items:center;
+
+    justify-content:space-between;
 
     gap:12px;
 
-    padding:
-        12px 16px;
+    padding:12px 16px;
 
     color:#fff;
+}
+
+
+.landing-card-head strong{
+
+    min-width:0;
+
+    flex:1;
+
+    font-size:13px;
+
+    line-height:1.3;
 }
 
 
@@ -1134,9 +1252,23 @@ main{
 
     margin-bottom:4px;
 
-    font-size:7px;
-
     color:#a9dad5;
+
+    font-size:7px;
+}
+
+
+.landing-model-counter{
+
+    flex:0 0 auto;
+
+    min-width:max-content;
+
+    white-space:nowrap;
+
+    font-size:8px;
+
+    line-height:1;
 }
 
 
@@ -1158,13 +1290,11 @@ main{
 
     display:flex;
 
-    justify-content:
-        space-between;
-
     align-items:center;
 
-    padding:
-        8px 12px 8px 16px;
+    justify-content:space-between;
+
+    padding:8px 12px 8px 16px;
 
     color:#9fcbcc;
 
@@ -1172,29 +1302,47 @@ main{
 }
 
 
-.landing-model-footer button{
+.landing-next-button{
 
     width:40px;
     height:40px;
 
-    border:
-        1px solid
-        rgba(255,255,255,.32);
+    display:grid;
+
+    place-items:center;
+
+    border:1px solid rgba(255,255,255,.35);
 
     border-radius:50%;
 
-    background:
-        rgba(255,255,255,.10);
+    background:rgba(255,255,255,.10);
 
     color:#fff;
+
+    transition:.2s ease;
 }
 
+
+.landing-next-button:hover{
+
+    background:#fff;
+
+    color:var(--green-800);
+
+    transform:scale(1.07);
+}
+
+
+
+/* =========================================================
+   LANDING MAP CARD
+========================================================= */
 
 .landing-map-card{
 
     width:100%;
 
-    max-width:390px;
+    max-width:395px;
 
     justify-self:end;
 }
@@ -1207,13 +1355,14 @@ main{
     width:100%;
 
     height:auto;
+
+    object-fit:contain;
 }
 
 
 .landing-map-footer{
 
-    padding:
-        11px 14px;
+    padding:11px 14px;
 
     color:#b5d1d2;
 
@@ -1221,10 +1370,18 @@ main{
 }
 
 
+.map-label{
 
-/* =====================================================
-   SLIDER CONTROLS
-   ===================================================== */
+    flex:0 0 auto;
+
+    font-size:8px;
+}
+
+
+
+/* =========================================================
+   SLIDER CONTROL
+========================================================= */
 
 .slider-controls{
 
@@ -1233,7 +1390,6 @@ main{
     z-index:20;
 
     left:50%;
-
     bottom:18px;
 
     display:flex;
@@ -1242,34 +1398,48 @@ main{
 
     gap:11px;
 
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 }
 
 
 .slider-arrow{
 
-    width:40px;
-    height:40px;
+    width:42px;
+    height:42px;
 
-    border:
-        1px solid
-        #dbe7e9;
+    display:grid;
+
+    place-items:center;
+
+    border:1.5px solid #dbe7e9;
 
     border-radius:50%;
 
     background:#fff;
 
-    color:
-        var(--green-800);
+    color:var(--green-800);
 
-    transition:.22s;
+    transition:.22s ease;
+}
+
+
+.slider-arrow:hover{
+
+    background:var(--green-700);
+
+    color:#fff;
+
+    border-color:#fff;
+
+    transform:scale(1.07);
 }
 
 
 .slider-dots{
 
     display:flex;
+
+    align-items:center;
 
     gap:7px;
 }
@@ -1282,46 +1452,41 @@ main{
 
     padding:0;
 
-    border:
-        1px solid
-        #dbe7e9;
+    border:1.5px solid #dbe7e9;
 
     border-radius:999px;
 
     background:#fff;
 
-    transition:.22s;
+    transition:.22s ease;
 }
 
 
 .slider-dot.active{
 
-    width:28px;
+    width:29px;
 
-    background:
-        var(--green-500);
+    background:var(--green-500);
 }
 
 
 
-/* =====================================================
+/* =========================================================
    FEATURE CARDS
-   ===================================================== */
+========================================================= */
 
 .feature-section{
 
-    padding:
-        38px 0 70px;
+    padding:38px 0 70px;
 }
 
 
 .feature-grid{
 
-    width:
-        min(
-            1180px,
-            calc(100% - 36px)
-        );
+    width:min(
+        1180px,
+        calc(100% - 36px)
+    );
 
     margin:auto;
 
@@ -1340,15 +1505,13 @@ main{
 
     display:grid;
 
-    grid-template-rows:
-        auto 1fr auto;
+    grid-template-rows:auto 1fr auto;
 
     gap:18px;
 
     padding:23px;
 
-    border:
-        1px solid #dbe7e9;
+    border:1.5px solid #dbe7e9;
 
     border-radius:22px;
 
@@ -1359,22 +1522,36 @@ main{
     text-align:left;
 
     transition:
-        transform .28s ease,
-        border-color .28s ease,
-        box-shadow .28s ease;
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.feature-card:hover{
+
+    transform:
+        translateY(-6px)
+        scale(1.02);
+
+    border-color:var(--green-500);
+
+    box-shadow:
+        0 18px 40px
+        rgba(8,68,72,.10);
 }
 
 
 .feature-icon{
 
-    width:52px;
-    height:52px;
+    width:58px;
+    height:58px;
 
     display:grid;
 
     place-items:center;
 
-    border-radius:15px;
+    border-radius:17px;
 
     background:
         linear-gradient(
@@ -1383,12 +1560,17 @@ main{
             var(--blue-100)
         );
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
-    font-size:17px;
+    font-size:18px;
 
-    font-weight:800;
+    font-weight:900;
+}
+
+
+.directory-feature-icon{
+
+    font-size:30px;
 }
 
 
@@ -1414,20 +1596,18 @@ main{
 
     padding-top:15px;
 
-    border-top:
-        1px solid #e6edef;
+    border-top:1px solid #e6edef;
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
     font-size:10px;
 }
 
 
 
-/* =====================================================
+/* =========================================================
    SELECTION CARD
-   ===================================================== */
+========================================================= */
 
 .selection-card{
 
@@ -1444,8 +1624,7 @@ main{
 
     padding:22px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:18px;
 
@@ -1459,22 +1638,29 @@ main{
 
     min-height:48px;
 
-    padding:
-        0 14px;
+    padding:0 14px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:12px;
 
+    outline:none;
+
     background:#fff;
+
+    color:var(--text);
+}
+
+
+.selection-field select:focus{
+
+    border-color:var(--green-500);
 }
 
 
 .form-message{
 
-    grid-column:
-        1 / -1;
+    grid-column:1/-1;
 
     color:#a94634;
 
@@ -1483,16 +1669,15 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    3D VIEWER
-   ===================================================== */
+========================================================= */
 
 .viewer-card{
 
     overflow:hidden;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:22px;
 
@@ -1502,19 +1687,17 @@ main{
 
 .viewer-toolbar{
 
-    min-height:62px;
+    min-height:60px;
 
     display:flex;
 
     align-items:center;
 
-    justify-content:
-        space-between;
+    justify-content:space-between;
 
     gap:15px;
 
-    padding:
-        11px 15px;
+    padding:10px 15px;
 }
 
 
@@ -1522,45 +1705,58 @@ main{
 
     display:inline-block;
 
-    margin-left:8px;
+    margin-left:7px;
 
-    padding:
-        5px 8px;
+    padding:4px 7px;
 
     border-radius:999px;
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 
-    color:
-        var(--green-800);
+    color:var(--green-800);
 
-    font-size:9px;
+    font-size:8px;
 
     font-weight:800;
 }
 
 
-.small-button{
 
-    min-height:38px;
+/* RESET CAMERA DIPERKECIL UNTUK SEMUA DEVICE */
 
-    padding:
-        0 12px;
+.small-button,
+.reset-camera-button{
 
-    border:
-        1px solid var(--line);
+    min-height:31px;
 
-    border-radius:10px;
+    padding:0 9px;
+
+    border:1px solid var(--line);
+
+    border-radius:8px;
 
     background:#fff;
 
-    color:
-        var(--green-800);
+    color:var(--green-800);
+
+    font-size:9px;
 
     font-weight:700;
+
+    transition:.2s ease;
 }
 
+
+.small-button:hover{
+
+    border-color:var(--green-500);
+
+    background:#effaf7;
+}
+
+
+
+/* VIEWER */
 
 .model-viewer-stage{
 
@@ -1574,11 +1770,7 @@ main{
 
     width:100%;
 
-    height:
-        min(
-            72vh,
-            720px
-        );
+    height:min(72vh,720px);
 
     min-height:520px;
 
@@ -1588,30 +1780,31 @@ main{
 }
 
 
+
+/* LINGKARAN FOCUS MODEL */
+
 .model-focus-ring{
 
     position:absolute;
 
     z-index:20;
 
-    width:300px;
-    height:300px;
+    width:280px;
+    height:280px;
 
-    border:
-        5px solid #16cb89;
+    border:5px solid #17cf8a;
 
     border-radius:50%;
 
-    transform:
-        translate(-50%,-50%)
-        scale(.93);
+    background:rgba(23,207,138,.025);
 
     opacity:0;
 
     pointer-events:none;
 
-    background:
-        rgba(22,203,137,.025);
+    transform:
+        translate(-50%,-50%)
+        scale(.92);
 
     transition:
         opacity .2s ease,
@@ -1639,17 +1832,18 @@ main{
     width:12px;
     height:12px;
 
-    transform:
-        translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 
-    border:
-        3px solid #fff;
+    border:3px solid #fff;
 
     border-radius:50%;
 
-    background:#16cb89;
+    background:#17cf8a;
 }
 
+
+
+/* DESCRIPTION */
 
 .viewer-description{
 
@@ -1659,11 +1853,9 @@ main{
 
     gap:12px;
 
-    padding:
-        15px 18px;
+    padding:15px 18px;
 
-    border-top:
-        1px solid var(--line);
+    border-top:1px solid var(--line);
 
     background:#f8fbfb;
 }
@@ -1682,11 +1874,9 @@ main{
 
     border-radius:50%;
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 
-    color:
-        var(--green-800);
+    color:var(--green-800);
 
     font-weight:800;
 }
@@ -1703,21 +1893,17 @@ main{
 
 
 
-/* =====================================================
-   3D DESTINATION MARKER
-   ===================================================== */
+/* DESTINATION 3D HOTSPOT */
 
 .destination-3d-hotspot{
 
     border:0;
 
-    background:
-        transparent;
+    background:transparent;
 
     pointer-events:none;
 
-    transform:
-        translate(-50%,-100%);
+    transform:translate(-50%,-100%);
 }
 
 
@@ -1730,8 +1916,7 @@ main{
 
     margin:auto;
 
-    border:
-        5px solid #fff;
+    border:5px solid #fff;
 
     border-radius:50%;
 
@@ -1742,8 +1927,9 @@ main{
         rgba(34,213,137,.55);
 
     animation:
-        destinationPulse
-        1.25s infinite;
+        destination3DPulse
+        1.25s
+        infinite;
 }
 
 
@@ -1753,8 +1939,7 @@ main{
 
     margin-top:7px;
 
-    padding:
-        6px 10px;
+    padding:6px 10px;
 
     border-radius:8px;
 
@@ -1768,7 +1953,7 @@ main{
 }
 
 
-@keyframes destinationPulse{
+@keyframes destination3DPulse{
 
     70%{
 
@@ -1788,9 +1973,75 @@ main{
 
 
 
-/* =====================================================
-   NAVIGATION PROGRESS
-   ===================================================== */
+/* =========================================================
+   AR VIEWER
+========================================================= */
+
+.ar-viewer-card{
+
+    overflow:hidden;
+
+    border:1px solid var(--line);
+
+    border-radius:20px;
+
+    background:#fff;
+}
+
+
+#mainARViewer{
+
+    width:100%;
+
+    height:600px;
+
+    background:#e7f1f2;
+}
+
+
+.native-ar-button{
+
+    position:absolute;
+
+    right:18px;
+    bottom:18px;
+
+    min-height:45px;
+
+    padding:0 18px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green-700),
+            var(--blue-500)
+        );
+
+    color:#fff;
+
+    font-weight:800;
+}
+
+
+
+/* =========================================================
+   NAVIGATION HEADER
+========================================================= */
+
+.navigation-heading h1{
+
+    white-space:nowrap;
+}
+
+
+
+/* =========================================================
+   NAV PROGRESS
+========================================================= */
 
 .nav-progress{
 
@@ -1834,24 +2085,24 @@ main{
     border-radius:50%;
 
     background:#e9f0f1;
+
+    font-size:11px;
 }
 
 
 .nav-step.active{
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 }
 
 
 .nav-step.active b{
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 }
 
 
-.nav-progress i{
+.nav-progress > i{
 
     height:2px;
 
@@ -1860,16 +2111,15 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    NAV SEARCH
-   ===================================================== */
+========================================================= */
 
 .navigation-search-card{
 
     padding:24px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:20px;
 
@@ -1885,18 +2135,18 @@ main{
 
     border-radius:14px;
 
-    color:#fff;
-
     background:
         linear-gradient(
             135deg,
             var(--green-900),
             var(--blue-900)
         );
+
+    color:#fff;
 }
 
 
-.destination-card small{
+.destination-card > small{
 
     font-size:8px;
 
@@ -1906,23 +2156,22 @@ main{
 
 .destination-card h3{
 
-    margin:
-        4px 0;
+    margin:4px 0;
 }
 
 
 .destination-card p{
 
-    font-size:10px;
-
     color:#d3e6e7;
+
+    font-size:10px;
 }
 
 
 
-/* =====================================================
+/* =========================================================
    MAP SECTION
-   ===================================================== */
+========================================================= */
 
 .map-section{
 
@@ -1930,8 +2179,7 @@ main{
 
     padding:24px;
 
-    border:
-        1px solid var(--line);
+    border:1px solid var(--line);
 
     border-radius:22px;
 
@@ -1939,33 +2187,35 @@ main{
 }
 
 
+
+/* INSTRUCTION */
+
 .map-instruction{
 
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 
 .map-instruction h2{
 
-    font-size:15px;
+    font-size:14px;
 
-    line-height:1.45;
+    font-weight:700;
+
+    line-height:1.4;
 }
 
 
 
-/* =====================================================
-   ROUTE FOUND
-   ===================================================== */
+/* ROUTE FOUND */
 
 .route-found-box{
 
     display:flex;
 
-    justify-content:
-        space-between;
-
     align-items:center;
+
+    justify-content:space-between;
 
     gap:20px;
 
@@ -1973,8 +2223,7 @@ main{
 
     padding:18px;
 
-    border:
-        1px solid #bde2da;
+    border:1px solid #bde2da;
 
     border-radius:16px;
 
@@ -1985,6 +2234,8 @@ main{
 .route-found-box h3{
 
     margin-bottom:6px;
+
+    font-size:16px;
 }
 
 
@@ -1992,7 +2243,7 @@ main{
 
     color:var(--muted);
 
-    font-size:11px;
+    font-size:10px;
 
     line-height:1.55;
 }
@@ -2002,16 +2253,18 @@ main{
 
     display:flex;
 
+    align-items:center;
+
     gap:9px;
 
-    flex-shrink:0;
+    flex:0 0 auto;
 }
 
 
 
-/* =====================================================
-   NAV MAP
-   ===================================================== */
+/* =========================================================
+   DENAH PEMILIHAN
+========================================================= */
 
 .navigation-map{
 
@@ -2019,13 +2272,11 @@ main{
 
     width:100%;
 
-    aspect-ratio:
-        768 / 1024;
+    aspect-ratio:3 / 4;
 
     overflow:hidden;
 
-    border:
-        1px solid #d4e5e5;
+    border:1px solid #d4e5e5;
 
     border-radius:20px;
 
@@ -2048,15 +2299,20 @@ main{
     width:100%;
     height:100%;
 
-    object-fit:fill;
+    object-fit:contain;
 
     pointer-events:none;
 
     user-select:none;
+
+    -webkit-user-drag:none;
 }
 
 
-.navigation-map svg{
+
+/* SVG ROUTE */
+
+.route-svg{
 
     position:absolute;
 
@@ -2075,31 +2331,34 @@ main{
 
     fill:none;
 
-    stroke:#0a84ff;
+    stroke:var(--route-blue);
 
-    stroke-width:5;
+    stroke-width:4;
 
     stroke-linecap:round;
 
     stroke-linejoin:round;
 
-    vector-effect:
-        non-scaling-stroke;
+    vector-effect:non-scaling-stroke;
+
+    filter:
+        drop-shadow(
+            0 1px 1px
+            rgba(0,0,0,.13)
+        );
 }
 
 
-#routeArrow path{
 
-    fill:#0a84ff;
-}
+/* USER MARKER */
 
-
-.user-marker,
-.entrance-marker{
+.user-marker{
 
     position:absolute;
 
-    z-index:12;
+    z-index:15;
+
+    transform:translate(-50%,-50%);
 
     pointer-events:none;
 
@@ -2107,87 +2366,169 @@ main{
 }
 
 
-.user-marker{
-
-    transform:
-        translate(-50%,-100%);
-}
-
-
 .user-marker > span{
 
-    width:28px;
-    height:28px;
+    width:24px;
+    height:24px;
 
     display:block;
 
     margin:auto;
 
-    border:
-        4px solid #fff;
+    border:4px solid #fff;
 
     border-radius:50%;
 
-    background:#1592d0;
+    background:#1497d3;
 
     box-shadow:
-        0 0 0 8px
-        rgba(21,146,208,.18);
+        0 0 0 6px
+        rgba(20,151,211,.20),
+        0 3px 8px
+        rgba(0,0,0,.18);
 }
 
 
-.user-marker label,
-.entrance-marker label{
+.user-marker label{
 
     display:inline-block;
 
     margin-top:5px;
 
-    padding:
-        5px 8px;
+    padding:4px 7px;
 
-    border-radius:7px;
+    border-radius:6px;
 
-    background:
-        rgba(5,55,63,.94);
+    background:rgba(5,65,71,.94);
 
     color:#fff;
 
     white-space:nowrap;
 
     font-size:8px;
+
+    font-weight:700;
 }
 
 
+
+/* ENTRANCE HANYA BULATAN */
+
 .entrance-marker{
 
-    transform:
-        translate(-50%,-50%);
+    position:absolute;
+
+    z-index:16;
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+
+    place-items:center;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
 }
 
 
 .entrance-marker > span{
+
+    position:relative;
 
     width:20px;
     height:20px;
 
     display:block;
 
-    margin:auto;
-
-    border:
-        4px solid #fff;
+    border:4px solid #fff;
 
     border-radius:50%;
 
-    background:#ffd21f;
+    background:var(--route-blue);
+
+    box-shadow:
+        0 2px 7px
+        rgba(0,0,0,.24);
+}
+
+
+.entrance-marker > span::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-9px;
+
+    border:3px solid
+        rgba(7,135,232,.60);
+
+    border-radius:50%;
+
+    animation:
+        entrancePulse
+        1.35s ease-out
+        infinite;
+}
+
+
+@keyframes entrancePulse{
+
+    0%{
+
+        transform:scale(.75);
+
+        opacity:1;
+    }
+
+    75%{
+
+        transform:scale(1.18);
+
+        opacity:.25;
+    }
+
+    100%{
+
+        transform:scale(1.3);
+
+        opacity:0;
+    }
+
 }
 
 
 
-/* =====================================================
-   ACTIVE NAVIGATION
-   ===================================================== */
+/* RESET POSISI */
+
+.reset-position-button{
+
+    min-height:36px;
+
+    margin-top:14px;
+
+    padding:0 12px;
+
+    border:1px solid var(--green-700);
+
+    border-radius:9px;
+
+    background:#fff;
+
+    color:var(--green-800);
+
+    font-size:9px;
+
+    font-weight:800;
+}
+
+
+
+/* =========================================================
+   LIVE NAVIGATION
+========================================================= */
 
 .navigation-live-page{
 
@@ -2197,17 +2538,19 @@ main{
 
     inset:0;
 
-    background:#12191d;
+    background:#11181d;
 }
 
 
 .navigation-live-page.active{
 
     display:block !important;
+
+    pointer-events:auto !important;
 }
 
 
-.nav-live-shell{
+.navigation-live-shell{
 
     width:100%;
     height:100dvh;
@@ -2216,98 +2559,91 @@ main{
 
     display:grid;
 
-    grid-template-rows:
-        auto 1fr auto;
+    grid-template-rows:auto 1fr auto;
 
-    background:#182126;
+    background:#172126;
 }
 
 
 
-/* TOP */
+/* LIVE TOP BAR */
 
-.nav-live-header{
+.live-instruction-bar{
 
     position:relative;
 
-    z-index:20;
+    z-index:30;
 
-    min-height:132px;
+    min-height:126px;
 
     display:grid;
 
-    grid-template-columns:
-        92px 1fr;
+    grid-template-columns:80px 1fr;
 
     align-items:center;
 
-    gap:18px;
+    gap:16px;
 
     padding:
-        max(
-            20px,
-            env(safe-area-inset-top)
-        )
-        25px
-        20px;
+        max(18px,env(safe-area-inset-top))
+        24px
+        18px;
 
-    background:
-        rgba(14,18,21,.98);
+    background:#101416;
 
     color:#fff;
 }
 
 
-.live-maneuver-icon{
+.live-direction-icon{
 
-    font-size:67px;
+    font-size:58px;
+
+    font-weight:700;
 
     line-height:1;
 
     text-align:center;
-
-    font-weight:700;
 }
 
 
-.nav-live-header small{
+.live-instruction-bar small{
 
     display:block;
 
     margin-bottom:6px;
 
-    color:#91a0a6;
+    color:#929ca1;
 
-    font-size:9px;
+    font-size:8px;
 
     letter-spacing:1px;
 }
 
 
-.nav-live-header strong{
+.live-instruction-bar strong{
 
     display:block;
 
-    font-size:
-        clamp(
-            23px,
-            4vw,
-            39px
-        );
+    font-size:clamp(
+        22px,
+        3vw,
+        34px
+    );
 
-    line-height:1.1;
+    line-height:1.12;
 }
 
 
-.nav-live-header span{
+.live-instruction-bar span{
 
     display:block;
 
-    margin-top:8px;
+    margin-top:7px;
 
-    color:#c8d0d3;
+    color:#c9d1d3;
 
-    font-size:15px;
+    font-size:13px;
 }
 
 
@@ -2322,7 +2658,7 @@ main{
 
     overflow:hidden;
 
-    background:#354b5d;
+    background:#d6e3e3;
 }
 
 
@@ -2332,33 +2668,22 @@ main{
 
     width:100%;
 
-    aspect-ratio:
-        768 / 1024;
+    aspect-ratio:3 / 4;
 
     left:50%;
     top:50%;
 
     transform:
         translate(-50%,-50%)
-        scale(1);
+        scale(1.03);
 
     transform-origin:center;
 
-    transition:
-        transform .8s
-        cubic-bezier(.2,.8,.2,1);
+    transition:transform .8s ease;
 }
 
 
-.live-map-content.navigation-started{
-
-    transform:
-        translate(-50%,-50%)
-        scale(1.15);
-}
-
-
-.live-map-content > img{
+.live-map-background{
 
     position:absolute;
 
@@ -2369,15 +2694,36 @@ main{
     width:100%;
     height:100%;
 
-    object-fit:fill;
+    object-fit:contain;
+
+    pointer-events:none;
+
+    /*
+       Sedikit ditenangkan agar rute lebih dominan.
+    */
+    filter:
+        saturate(.82)
+        brightness(1.03);
 }
 
 
-.live-map-content svg{
+
+/*
+   Tidak ada:
+   - tangga overlay
+   - compass
+   - node
+   - persimpangan
+   - entrance lain
+   - graph lain
+*/
+
+
+.live-route-svg{
 
     position:absolute;
 
-    z-index:5;
+    z-index:8;
 
     inset:0;
 
@@ -2392,60 +2738,163 @@ main{
 
     fill:none;
 
-    stroke:#0985ff;
+    stroke:#0787e8;
 
-    stroke-width:7;
+    stroke-width:6;
 
     stroke-linecap:round;
 
     stroke-linejoin:round;
 
-    vector-effect:
-        non-scaling-stroke;
+    vector-effect:non-scaling-stroke;
+
+    filter:
+        drop-shadow(
+            0 2px 2px
+            rgba(0,0,0,.22)
+        );
 }
 
 
-#liveArrow path{
 
-    fill:#0985ff;
-}
+/* =========================================================
+   MARKER 5 GEDUNG FT
+========================================================= */
 
-
-.live-user-marker,
-.live-destination-marker{
+.live-building-markers{
 
     position:absolute;
 
     z-index:10;
 
-    transform:
-        translate(-50%,-50%);
+    inset:0;
 
     pointer-events:none;
 }
 
 
-.live-user-marker span{
+.live-building-marker{
 
-    width:30px;
-    height:30px;
+    position:absolute;
 
-    display:block;
+    transform:translate(-50%,-100%);
 
-    border:
-        5px solid #fff;
-
-    border-radius:50%;
-
-    background:#1592d0;
-
-    box-shadow:
-        0 0 0 18px
-        rgba(21,146,208,.18);
+    text-align:center;
 }
 
 
-.live-destination-marker span{
+.live-building-marker > span{
+
+    width:11px;
+    height:11px;
+
+    display:block;
+
+    margin:auto;
+
+    border:2px solid #fff;
+
+    border-radius:50%;
+
+    background:var(--green-700);
+
+    box-shadow:
+        0 2px 5px
+        rgba(0,0,0,.20);
+}
+
+
+.live-building-marker label{
+
+    display:inline-block;
+
+    max-width:140px;
+
+    margin-top:4px;
+
+    padding:4px 7px;
+
+    border-radius:6px;
+
+    background:
+        rgba(5,66,70,.90);
+
+    color:#fff;
+
+    font-size:7px;
+
+    font-weight:700;
+
+    line-height:1.25;
+
+    white-space:nowrap;
+}
+
+
+
+/* =========================================================
+   LIVE GPS USER
+========================================================= */
+
+.live-user-marker{
+
+    position:absolute;
+
+    z-index:18;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+
+    transition:
+        left .65s linear,
+        top .65s linear;
+}
+
+
+.live-user-marker > span{
+
+    width:25px;
+    height:25px;
+
+    display:block;
+
+    border:4px solid #fff;
+
+    border-radius:50%;
+
+    background:#0787e8;
+
+    box-shadow:
+        0 0 0 10px
+        rgba(7,135,232,.18),
+        0 3px 8px
+        rgba(0,0,0,.22);
+}
+
+
+
+/* =========================================================
+   LIVE END MARKER
+========================================================= */
+
+.live-destination-marker{
+
+    position:absolute;
+
+    z-index:19;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+
+    text-align:center;
+}
+
+
+.live-destination-marker > span{
+
+    position:relative;
 
     width:24px;
     height:24px;
@@ -2454,71 +2903,91 @@ main{
 
     margin:auto;
 
-    border:
-        4px solid #fff;
+    border:4px solid #fff;
 
     border-radius:50%;
 
-    background:#ffd21f;
+    background:#0787e8;
+
+    box-shadow:
+        0 3px 8px
+        rgba(0,0,0,.23);
+}
+
+
+.live-destination-marker > span::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-12px;
+
+    border:3px solid
+        rgba(7,135,232,.72);
+
+    border-radius:50%;
+
+    animation:
+        destinationBluePulse
+        1.25s ease-out
+        infinite;
+}
+
+
+@keyframes destinationBluePulse{
+
+    0%{
+
+        transform:scale(.72);
+
+        opacity:1;
+    }
+
+    70%{
+
+        transform:scale(1.3);
+
+        opacity:.24;
+    }
+
+    100%{
+
+        transform:scale(1.5);
+
+        opacity:0;
+    }
+
 }
 
 
 .live-destination-marker label{
 
-    display:block;
+    display:inline-block;
 
     margin-top:7px;
 
-    padding:
-        6px 9px;
+    padding:5px 8px;
 
     border-radius:7px;
 
-    background:#0a343b;
+    background:
+        rgba(5,54,63,.94);
 
     color:#fff;
 
     white-space:nowrap;
 
-    font-size:9px;
-}
-
-
-.live-compass{
-
-    position:absolute;
-
-    z-index:15;
-
-    top:18px;
-    right:18px;
-
-    width:56px;
-    height:56px;
-
-    display:grid;
-
-    place-items:center;
-
-    border:
-        3px solid
-        rgba(255,255,255,.8);
-
-    border-radius:50%;
-
-    background:
-        rgba(8,14,18,.84);
-
-    color:#fff;
+    font-size:8px;
 
     font-weight:800;
 }
 
 
 
-/* =====================================================
-   LIVE BOTTOM SHEET
-   ===================================================== */
+/* =========================================================
+   NAVIGATION BOTTOM SHEET
+========================================================= */
 
 .navigation-bottom-sheet{
 
@@ -2526,7 +2995,7 @@ main{
 
     z-index:30;
 
-    max-height:67vh;
+    max-height:65vh;
 
     overflow-y:auto;
 
@@ -2556,25 +3025,11 @@ main{
     width:48px;
     height:5px;
 
-    margin:
-        0 auto 13px;
+    margin:0 auto 13px;
 
     border-radius:99px;
 
     background:#53585c;
-}
-
-
-.live-route-summary{
-
-    display:flex;
-
-    justify-content:
-        space-between;
-
-    align-items:center;
-
-    gap:15px;
 }
 
 
@@ -2606,35 +3061,17 @@ main{
 }
 
 
-#collapseRouteSheet{
-
-    width:46px;
-    height:46px;
-
-    border:0;
-
-    border-radius:50%;
-
-    background:#303438;
-
-    color:#c8ced1;
-
-    font-size:28px;
-}
-
-
 .route-detail-button{
 
     width:100%;
 
-    min-height:70px;
+    min-height:64px;
 
     margin-top:18px;
 
-    padding:
-        0 20px;
+    padding:0 20px;
 
-    border:0;
+    border:1px solid #373c3f;
 
     border-radius:16px;
 
@@ -2644,7 +3081,17 @@ main{
 
     text-align:left;
 
-    font-size:18px;
+    font-size:17px;
+
+    transition:.2s ease;
+}
+
+
+.route-detail-button:hover{
+
+    border-color:#657177;
+
+    background:#32373a;
 }
 
 
@@ -2664,15 +3111,13 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        50px 1fr;
+    grid-template-columns:50px 1fr;
 
     gap:14px;
 
     padding:17px;
 
-    border-bottom:
-        1px solid #353b3f;
+    border-bottom:1px solid #353b3f;
 }
 
 
@@ -2695,7 +3140,7 @@ main{
 
     background:#343a3e;
 
-    font-size:24px;
+    font-size:22px;
 }
 
 
@@ -2723,7 +3168,7 @@ main{
 
     width:100%;
 
-    min-height:65px;
+    min-height:62px;
 
     margin-top:18px;
 
@@ -2735,22 +3180,30 @@ main{
 
     color:#fff;
 
-    font-size:18px;
+    font-size:17px;
 
     font-weight:800;
+
+    transition:.2s ease;
+}
+
+
+.end-route-button:hover{
+
+    background:#ff5b52;
 }
 
 
 
-/* =====================================================
+/* =========================================================
    DIRECTORY
-   ===================================================== */
+========================================================= */
 
 .directory{
 
     display:grid;
 
-    gap:11px;
+    gap:12px;
 }
 
 
@@ -2758,12 +3211,25 @@ main{
 
     overflow:hidden;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--line);
 
-    border-radius:17px;
+    border-radius:18px;
 
     background:#fff;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.building-card:hover{
+
+    border-color:#c3e4dc;
+
+    box-shadow:
+        0 10px 28px
+        rgba(7,95,89,.05);
 }
 
 
@@ -2773,8 +3239,7 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        54px 1fr auto;
+    grid-template-columns:58px 1fr auto;
 
     align-items:center;
 
@@ -2794,22 +3259,22 @@ main{
 
 .building-number{
 
-    width:54px;
-    height:54px;
+    width:58px;
+    height:58px;
 
     display:grid;
 
     place-items:center;
 
-    border-radius:14px;
+    border-radius:15px;
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 
-    color:
-        var(--green-900);
+    color:var(--green-900);
 
-    font-weight:800;
+    font-size:15px;
+
+    font-weight:900;
 }
 
 
@@ -2821,13 +3286,13 @@ main{
 
 .building-button p{
 
-    margin-top:4px;
+    margin-top:5px;
 
     color:var(--muted);
 
     font-size:10px;
 
-    line-height:1.45;
+    line-height:1.5;
 }
 
 
@@ -2835,17 +3300,18 @@ main{
 
     display:none;
 
-    padding:
-        0 16px 16px 83px;
+    padding:0 16px 16px 87px;
 }
 
 
-.building-card.open
-.building-content{
+.building-card.open .building-content{
 
     display:block;
 }
 
+
+
+/* BUILDING ACTION */
 
 .building-actions{
 
@@ -2858,6 +3324,9 @@ main{
     margin-bottom:14px;
 }
 
+
+
+/* FLOOR */
 
 .floor-buttons{
 
@@ -2875,24 +3344,35 @@ main{
 
     min-height:36px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--green-700);
 
     border-radius:9px;
 
     background:#fff;
+
+    color:var(--green-800);
+
+    font-size:10px;
+
+    font-weight:700;
+
+    transition:.2s ease;
 }
 
 
+.floor-button:hover,
 .floor-button.active{
 
-    background:
-        var(--green-100);
+    background:var(--green-700);
+
+    color:#fff;
 }
 
+
+
+/* ROOM */
 
 .room-grid{
 
@@ -2901,18 +3381,17 @@ main{
     grid-template-columns:
         repeat(2,1fr);
 
-    gap:8px;
+    gap:9px;
 }
 
 
 .room-item{
 
-    padding:10px;
+    padding:11px;
 
-    border:
-        1px solid #e5edef;
+    border:1.5px solid #e1ebed;
 
-    border-radius:11px;
+    border-radius:12px;
 
     background:#fbfdfd;
 }
@@ -2924,34 +3403,63 @@ main{
 
     align-items:center;
 
-    justify-content:
-        space-between;
+    justify-content:space-between;
 
     gap:10px;
 }
 
 
-.room-row span{
+.room-row > span{
 
     font-size:11px;
 
     font-weight:700;
+
+    line-height:1.35;
 }
 
 
-.room-row button{
+
+/*
+   Semua button direktori disamakan
+*/
+
+.room-row button,
+.room-actions button{
 
     min-height:34px;
 
-    padding:
-        0 10px;
+    padding:0 10px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--green-700);
 
     border-radius:8px;
 
+    background:
+        linear-gradient(
+            135deg,
+            var(--green-700),
+            var(--blue-500)
+        );
+
+    color:#fff;
+
+    font-size:9px;
+
+    font-weight:700;
+
+    transition:.2s ease;
+}
+
+
+.room-row button:hover,
+.room-actions button:hover{
+
     background:#fff;
+
+    color:var(--green-700);
+
+    transform:translateY(-1px);
 }
 
 
@@ -2965,33 +3473,10 @@ main{
 }
 
 
-.room-actions button{
 
-    min-height:34px;
-
-    padding:
-        0 9px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius:8px;
-
-    background:#fff;
-
-    color:
-        var(--green-800);
-
-    font-size:9px;
-
-    font-weight:700;
-}
-
-
-
-/* =====================================================
+/* =========================================================
    HELP
-   ===================================================== */
+========================================================= */
 
 .help-grid{
 
@@ -3008,12 +3493,25 @@ main{
 
     padding:24px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--line);
 
     border-radius:18px;
 
     background:#fff;
+
+    transition:.22s ease;
+}
+
+
+.help-grid article:hover{
+
+    border-color:var(--green-500);
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(8,68,72,.07);
 }
 
 
@@ -3029,7 +3527,7 @@ main{
 
     display:grid;
 
-    gap:14px;
+    gap:13px;
 
     list-style:none;
 }
@@ -3056,7 +3554,6 @@ main{
     position:absolute;
 
     top:.55em;
-
     left:0;
 
     width:7px;
@@ -3064,15 +3561,14 @@ main{
 
     border-radius:50%;
 
-    background:
-        var(--green-500);
+    background:var(--green-500);
 }
 
 
 
-/* =====================================================
+/* =========================================================
    ABOUT
-   ===================================================== */
+========================================================= */
 
 .developer-card{
 
@@ -3080,8 +3576,7 @@ main{
 
     display:grid;
 
-    grid-template-columns:
-        270px 1fr;
+    grid-template-columns:270px 1fr;
 
     gap:40px;
 
@@ -3089,8 +3584,7 @@ main{
 
     padding:38px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--line);
 
     border-radius:25px;
 
@@ -3107,6 +3601,8 @@ main{
     overflow:hidden;
 
     border-radius:22px;
+
+    background:#eef4f4;
 }
 
 
@@ -3117,8 +3613,7 @@ main{
 
     object-fit:cover;
 
-    object-position:
-        center 38%;
+    object-position:center 38%;
 }
 
 
@@ -3128,8 +3623,7 @@ main{
 
     margin-bottom:14px;
 
-    color:
-        var(--green-700);
+    color:var(--green-700);
 
     font-size:10px;
 
@@ -3139,12 +3633,19 @@ main{
 
 .developer-content h1{
 
-    font-size:
-        clamp(
-            30px,
-            3vw,
-            42px
-        );
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:baseline;
+
+    gap:8px;
+
+    font-size:clamp(
+        30px,
+        3vw,
+        42px
+    );
 }
 
 
@@ -3156,12 +3657,11 @@ main{
 
 .developer-role{
 
-    margin-top:14px;
+    margin-top:16px;
 
-    margin-bottom:24px;
+    margin-bottom:25px;
 
-    color:
-        var(--green-700);
+    color:var(--green-700);
 
     font-size:14px;
 
@@ -3177,8 +3677,7 @@ main{
 
     padding-top:23px;
 
-    border-top:
-        1px solid var(--line);
+    border-top:1px solid var(--line);
 }
 
 
@@ -3191,6 +3690,9 @@ main{
     line-height:1.8;
 }
 
+
+
+/* CONTACT */
 
 .developer-contacts{
 
@@ -3215,8 +3717,7 @@ main{
 
     padding:12px;
 
-    border:
-        1px solid var(--line);
+    border:1.5px solid var(--line);
 
     border-radius:13px;
 
@@ -3225,13 +3726,25 @@ main{
     color:var(--text);
 
     text-decoration:none;
+
+    transition:.2s ease;
 }
 
 
-.contact-item > span{
+.contact-item:hover{
 
-    width:37px;
-    height:37px;
+    border-color:var(--green-500);
+
+    background:#effaf7;
+
+    transform:translateY(-2px);
+}
+
+
+.contact-icon{
+
+    width:40px;
+    height:40px;
 
     display:grid;
 
@@ -3239,13 +3752,22 @@ main{
 
     flex:0 0 auto;
 
-    border-radius:11px;
+    border-radius:12px;
 
-    background:
-        var(--green-100);
+    background:var(--green-100);
 
-    color:
-        var(--green-900);
+    color:var(--green-700);
+}
+
+
+.contact-icon svg{
+
+    width:22px;
+    height:22px;
+
+    display:block;
+
+    fill:currentColor;
 }
 
 
@@ -3266,13 +3788,15 @@ main{
     margin-top:3px;
 
     font-size:10px;
+
+    word-break:break-word;
 }
 
 
 
-/* =====================================================
+/* =========================================================
    FOOTER
-   ===================================================== */
+========================================================= */
 
 .site-footer{
 
@@ -3308,9 +3832,9 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    MODAL
-   ===================================================== */
+========================================================= */
 
 .modal{
 
@@ -3345,11 +3869,10 @@ main{
 
     z-index:2;
 
-    width:
-        min(
-            540px,
-            100%
-        );
+    width:min(
+        540px,
+        100%
+    );
 
     padding:28px;
 
@@ -3370,8 +3893,7 @@ main{
 
 .info-description{
 
-    margin:
-        18px 0;
+    margin:18px 0;
 
     padding:14px;
 
@@ -3384,9 +3906,9 @@ main{
 
 
 
-/* =====================================================
+/* =========================================================
    TOAST
-   ===================================================== */
+========================================================= */
 
 .toast{
 
@@ -3397,11 +3919,9 @@ main{
     left:50%;
     bottom:20px;
 
-    max-width:
-        calc(100% - 30px);
+    max-width:calc(100% - 30px);
 
-    padding:
-        11px 15px;
+    padding:11px 15px;
 
     border-radius:11px;
 
@@ -3428,86 +3948,16 @@ main{
 
     opacity:1;
 
-    transform:
-        translate(-50%,0);
+    transform:translate(-50%,0);
 }
 
 
 
-/* =====================================================
-   HOVER DESKTOP
-   ===================================================== */
-
-@media
-(hover:hover)
-and
-(pointer:fine){
-
-    .feature-card:hover{
-
-        transform:
-            translateY(-7px)
-            scale(1.025);
-
-        border-color:#2fba9d;
-
-        box-shadow:
-            0 18px 40px
-            rgba(8,68,72,.10);
-    }
-
-
-    .hero-button:hover{
-
-        background:#fff;
-
-        color:
-            var(--green-800);
-
-        transform:
-            translateY(-3px)
-            scale(1.025);
-    }
-
-
-    .slider-arrow:hover{
-
-        background:
-            var(--green-700);
-
-        color:#fff;
-
-        transform:
-            scale(1.08);
-    }
-
-
-    .drawer-item:hover{
-
-        border-color:#75cbbb;
-
-        background:#f4fbf9;
-    }
-
-
-    .button-outline:hover{
-
-        background:
-            var(--green-700);
-
-        color:#fff;
-    }
-
-}
-
-
-
-/* =====================================================
+/* =========================================================
    TABLET
-   ===================================================== */
+========================================================= */
 
-@media
-(max-width:1050px){
+@media (max-width:1050px){
 
     .hero,
     .hero-inner{
@@ -3524,19 +3974,16 @@ and
 
         gap:25px;
 
-        padding:
-            38px 0 100px;
+        padding:38px 0 100px;
     }
 
 
     .landing-model-card,
     .landing-map-card{
 
-        width:
-            min(
-                100%,
-                540px
-            );
+        width:min(100%,540px);
+
+        max-width:540px;
 
         justify-self:center;
     }
@@ -3558,8 +4005,7 @@ and
 
     .selection-card > .button{
 
-        grid-column:
-            1 / -1;
+        grid-column:1/-1;
     }
 
 
@@ -3586,25 +4032,28 @@ and
 
 
 
-/* =====================================================
+/* =========================================================
    MOBILE
-   ===================================================== */
+========================================================= */
 
-@media
-(max-width:760px){
+@media (max-width:760px){
 
     :root{
 
-        --header-height:66px;
+        --header-height:68px;
     }
 
+
+    /* HEADER MOBILE
+       5 POSISI BALANCE:
+       logo / beranda / bantuan / tentang / hamburger
+    */
 
     .header-inner{
 
         width:100%;
 
-        padding:
-            0 8px;
+        padding:0 7px;
 
         grid-template-columns:
             repeat(5,1fr);
@@ -3621,10 +4070,12 @@ and
 
     .brand-icon{
 
-        width:40px;
-        height:40px;
+        width:48px;
+        height:48px;
 
-        font-size:12px;
+        border-radius:14px;
+
+        font-size:15px;
     }
 
 
@@ -3642,8 +4093,11 @@ and
 
     .header-link{
 
-        padding:
-            0 5px;
+        min-width:0;
+
+        min-height:40px;
+
+        padding:0 4px;
 
         font-size:9px;
     }
@@ -3651,22 +4105,23 @@ and
 
     .hamburger{
 
-        width:41px;
-        height:41px;
+        width:47px;
+        height:47px;
+
+        justify-self:center;
     }
+
 
 
     .content-container{
 
-        width:
-            calc(100% - 24px);
+        width:calc(100% - 24px);
     }
 
 
     .content-page{
 
-        padding:
-            24px 0 52px;
+        padding:25px 0 52px;
     }
 
 
@@ -3676,14 +4131,13 @@ and
     .hero,
     .hero-inner{
 
-        min-height:855px;
+        min-height:890px;
     }
 
 
     .hero-inner{
 
-        width:
-            calc(100% - 28px);
+        width:calc(100% - 28px);
     }
 
 
@@ -3693,36 +4147,35 @@ and
 
         gap:18px;
 
-        padding:
-            30px 0 88px;
+        padding:30px 0 88px;
     }
 
 
     .hero-title{
 
-        font-size:
-            clamp(
-                29px,
-                8.5vw,
-                40px
-            );
+        font-size:clamp(
+            28px,
+            8vw,
+            38px
+        );
     }
 
 
     .slider-two-title{
 
-        font-size:
-            clamp(
-                26px,
-                7.5vw,
-                34px
-            );
+        font-size:clamp(
+            25px,
+            7.2vw,
+            33px
+        );
     }
 
 
     .hero-copy p{
 
-        font-size:13px;
+        font-size:12px;
+
+        line-height:1.7;
     }
 
 
@@ -3734,7 +4187,7 @@ and
 
         gap:10px;
 
-        margin-top:22px;
+        margin-top:21px;
     }
 
 
@@ -3746,29 +4199,30 @@ and
 
     #landingModelViewer{
 
-        height:280px;
+        height:285px;
+    }
+
+
+    .landing-model-counter{
+
+        font-size:7px;
     }
 
 
     .landing-map-card{
 
-        max-width:none;
+        width:100%;
 
-        width:
-            min(
-                100%,
-                560px
-            );
+        max-width:560px;
     }
 
 
 
-    /* CARDS */
+    /* FEATURE */
 
     .feature-grid{
 
-        width:
-            calc(100% - 24px);
+        width:calc(100% - 24px);
 
         grid-template-columns:1fr;
     }
@@ -3808,24 +4262,34 @@ and
 
     .model-focus-ring{
 
-        width:185px;
-        height:185px;
+        width:180px;
+        height:180px;
 
         border-width:4px;
     }
 
 
+    .small-button,
+    .reset-camera-button{
 
-    /* NAVIGATION */
+        min-height:29px;
+
+        padding:0 7px;
+
+        font-size:8px;
+    }
+
+
+
+    /* NAV HEADER */
 
     .navigation-heading h1{
 
-        font-size:
-            clamp(
-                18px,
-                5vw,
-                22px
-            );
+        font-size:clamp(
+            16px,
+            4.7vw,
+            21px
+        );
 
         white-space:nowrap;
     }
@@ -3859,8 +4323,11 @@ and
 
     .map-instruction h2{
 
-        font-size:12px;
+        font-size:11px;
+
+        white-space:normal;
     }
+
 
 
     .route-found-box{
@@ -3868,6 +4335,8 @@ and
         flex-direction:column;
 
         align-items:stretch;
+
+        gap:14px;
     }
 
 
@@ -3875,7 +4344,22 @@ and
 
         display:grid;
 
-        grid-template-columns:1fr;
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+    }
+
+
+    .route-found-actions .button{
+
+        min-width:0;
+
+        padding:0 7px;
+
+        font-size:8px;
+
+        white-space:nowrap;
     }
 
 
@@ -3886,52 +4370,52 @@ and
 
 
 
-    /* LIVE NAV */
+    /* LIVE */
 
-    .nav-live-header{
+    .live-instruction-bar{
 
-        min-height:118px;
+        min-height:108px;
 
         grid-template-columns:
-            68px 1fr;
+            60px 1fr;
 
-        gap:11px;
+        gap:10px;
 
         padding:
             max(
-                16px,
+                14px,
                 env(safe-area-inset-top)
             )
-            15px
-            15px;
+            14px
+            14px;
     }
 
 
-    .live-maneuver-icon{
+    .live-direction-icon{
 
-        font-size:52px;
+        font-size:47px;
     }
 
 
-    .nav-live-header strong{
+    .live-instruction-bar strong{
 
-        font-size:22px;
+        font-size:20px;
     }
 
 
-    .nav-live-header span{
+    .live-instruction-bar span{
 
-        font-size:12px;
+        font-size:11px;
     }
 
 
-    .live-compass{
+    .live-building-marker label{
 
-        width:48px;
-        height:48px;
+        max-width:105px;
 
-        top:12px;
-        right:12px;
+        white-space:normal;
+
+        font-size:6px;
     }
 
 
@@ -3955,13 +4439,17 @@ and
 
     .route-detail-button{
 
-        min-height:62px;
+        min-height:59px;
+
+        font-size:15px;
     }
 
 
     .end-route-button{
 
-        min-height:60px;
+        min-height:59px;
+
+        font-size:16px;
     }
 
 
@@ -3970,12 +4458,11 @@ and
 
     .directory-heading h1{
 
-        font-size:
-            clamp(
-                19px,
-                5.4vw,
-                23px
-            );
+        font-size:clamp(
+            17px,
+            4.6vw,
+            21px
+        );
 
         white-space:nowrap;
     }
@@ -3984,14 +4471,22 @@ and
     .building-button{
 
         grid-template-columns:
-            54px 1fr auto;
+            55px 1fr auto;
+
+        padding:13px;
+    }
+
+
+    .building-number{
+
+        width:55px;
+        height:55px;
     }
 
 
     .building-content{
 
-        padding:
-            0 12px 14px;
+        padding:0 12px 14px;
     }
 
 
@@ -4025,13 +4520,26 @@ and
 
     .developer-photo-wrap{
 
-        width:
-            min(
-                220px,
-                65vw
-            );
+        width:min(
+            220px,
+            65vw
+        );
 
         margin:auto;
+    }
+
+
+    .developer-content h1{
+
+        gap:6px;
+
+        font-size:29px;
+    }
+
+
+    .developer-role{
+
+        margin-top:16px;
     }
 
 
@@ -4044,29 +4552,34 @@ and
 
 
 
-/* =====================================================
+/* =========================================================
    SMALL MOBILE
-   ===================================================== */
+========================================================= */
 
-@media
-(max-width:420px){
+@media (max-width:390px){
 
     .model-focus-ring{
 
-        width:155px;
-        height:155px;
+        width:150px;
+        height:150px;
     }
 
 
     .directory-heading h1{
 
-        font-size:18px;
+        font-size:16px;
     }
 
 
     .navigation-heading h1{
 
-        font-size:17px;
+        font-size:15px;
+    }
+
+
+    .route-found-actions{
+
+        grid-template-columns:1fr;
     }
 
 }
