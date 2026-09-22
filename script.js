@@ -14,11 +14,11 @@ import {
     getModelVariant,
     getDefaultModelVariant
 
-} from "./data/map-data.js?v=25";
+} from "./data/map-data.js?v=26";
 
 
 /* =========================================================
-   DOM HELPERS
+   DOM
 ========================================================= */
 
 const $ = selector =>
@@ -31,15 +31,12 @@ const byId = id =>
     document.getElementById(id);
 
 
-function on(id,event,handler){
+function on(id,event,handler) {
 
     const element =
         byId(id);
 
-    if(!element){
-        console.warn(
-            `[FT UISU] Element #${id} tidak ditemukan.`
-        );
+    if (!element) {
         return;
     }
 
@@ -51,36 +48,36 @@ function on(id,event,handler){
 }
 
 
-function text(id,value){
+function text(id,value) {
 
     const element =
         byId(id);
 
-    if(element){
+    if (element) {
         element.textContent = value;
     }
 
 }
 
 
-function show(id){
+function show(id) {
 
     const element =
         byId(id);
 
-    if(element){
+    if (element) {
         element.classList.remove("hidden");
     }
 
 }
 
 
-function hide(id){
+function hide(id) {
 
     const element =
         byId(id);
 
-    if(element){
+    if (element) {
         element.classList.add("hidden");
     }
 
@@ -93,27 +90,63 @@ function hide(id){
 
 const state = {
 
-    currentSlide:0,
+    currentPage: "home",
 
-    landingModelIndex:0,
+    pageHistory: [],
 
-    landingModels:[],
+    currentSlide: 0,
 
-    globalSelection:null,
+    landingModelIndex: 0,
 
-    infoLocation:null,
+    globalSelection: null,
 
-    destination:null,
+    infoLocation: null,
 
-    clickedPosition:null,
+    destination: null,
 
-    snappedPosition:null,
+    clickedPosition: null,
 
-    routeResult:null,
+    snappedPosition: null,
 
-    cameraStream:null
+    routeResult: null,
+
+    cameraStream: null
 
 };
+
+
+/* =========================================================
+   LANDING 3D DATABASE
+   HANYA 3 MODEL
+========================================================= */
+
+const landingModels = [
+
+    {
+        name:
+            "Gedung Biro Fakultas Teknik",
+
+        src:
+            "./assets/models/gedung_biro_indoor.glb"
+    },
+
+    {
+        name:
+            "Gedung Perkuliahan Fakultas Teknik",
+
+        src:
+            "./assets/models/gedung_perkuliahan_outdoor.glb"
+    },
+
+    {
+        name:
+            "Gedung Laboratorium Fakultas Teknik",
+
+        src:
+            "./assets/models/gedung_laboratorium.glb"
+    }
+
+];
 
 
 /* =========================================================
@@ -127,19 +160,26 @@ buildings.forEach(building => {
 
     locations.push({
 
-        id:building.id,
+        id:
+            building.id,
 
-        type:"building",
+        type:
+            "building",
 
-        name:building.name,
+        name:
+            building.name,
 
-        buildingId:building.id,
+        buildingId:
+            building.id,
 
-        parent:"Fakultas Teknik UISU",
+        parent:
+            "Fakultas Teknik UISU",
 
-        floor:building.actualFloor,
+        floor:
+            building.actualFloor,
 
-        description:building.description
+        description:
+            building.description
 
     });
 
@@ -157,7 +197,8 @@ rooms.forEach(room => {
 
         ...room,
 
-        type:"room",
+        type:
+            "room",
 
         parent:
             building
@@ -187,68 +228,10 @@ rooms.forEach(room => {
 
 
 /* =========================================================
-   MODEL FILE CHECK
-========================================================= */
-
-const modelAvailabilityCache =
-    new Map();
-
-
-async function modelFileExists(src){
-
-    if(!src){
-        return false;
-    }
-
-    if(
-        modelAvailabilityCache.has(src)
-    ){
-        return modelAvailabilityCache.get(src);
-    }
-
-    try{
-
-        const response =
-            await fetch(
-                src,
-                {
-                    method:"HEAD",
-                    cache:"no-store"
-                }
-            );
-
-        const exists =
-            response.ok;
-
-        modelAvailabilityCache.set(
-            src,
-            exists
-        );
-
-        return exists;
-
-    }
-
-    catch(error){
-
-        console.warn(
-            "Model check gagal:",
-            src,
-            error
-        );
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================================
    SEARCH
 ========================================================= */
 
-function normalizeText(value){
+function normalizeText(value) {
 
     return String(
         value || ""
@@ -259,16 +242,17 @@ function normalizeText(value){
 }
 
 
-function searchLocations(value){
+function searchLocations(value) {
 
     const query =
         normalizeText(value);
 
-    if(!query){
+    if (!query) {
         return [];
     }
 
     return locations
+
         .filter(location =>
 
             normalizeText(
@@ -277,6 +261,7 @@ function searchLocations(value){
             .includes(query)
 
         )
+
         .slice(0,30);
 
 }
@@ -286,15 +271,15 @@ function renderSearchResults(
     results,
     container,
     onSelect
-){
+) {
 
-    if(!container){
+    if (!container) {
         return;
     }
 
     container.innerHTML = "";
 
-    if(!results.length){
+    if (!results.length) {
 
         container.innerHTML = `
             <div class="search-empty">
@@ -308,6 +293,7 @@ function renderSearchResults(
 
         return;
     }
+
 
     results.forEach(location => {
 
@@ -331,7 +317,9 @@ function renderSearchResults(
                 </strong>
 
                 <small>
+
                     ${location.parent}
+
                     ${
                         location.floor
                             ?
@@ -339,11 +327,13 @@ function renderSearchResults(
                             :
                             ""
                     }
+
                 </small>
 
             </span>
 
             <span class="search-type">
+
                 ${
                     location.type === "building"
                         ?
@@ -351,9 +341,11 @@ function renderSearchResults(
                         :
                         "Ruangan"
                 }
+
             </span>
 
         `;
+
 
         button.addEventListener(
             "click",
@@ -366,11 +358,13 @@ function renderSearchResults(
             }
         );
 
+
         container.appendChild(
             button
         );
 
     });
+
 
     container.classList.remove(
         "hidden"
@@ -383,40 +377,27 @@ function renderSearchResults(
    DRAWER
 ========================================================= */
 
-function openDrawer(){
+function openDrawer() {
 
-    const drawer =
-        byId("drawer");
+    byId("drawer")
+    ?.classList
+    .add("open");
 
-    const overlay =
-        byId("drawerOverlay");
+    byId("drawerOverlay")
+    ?.classList
+    .add("show");
 
-    const hamburger =
-        byId("hamburgerButton");
+    byId("drawer")
+    ?.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
-    if(drawer){
-
-        drawer.classList.add("open");
-
-        drawer.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-    }
-
-    if(overlay){
-        overlay.classList.add("show");
-    }
-
-    if(hamburger){
-
-        hamburger.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-    }
+    byId("hamburgerButton")
+    ?.setAttribute(
+        "aria-expanded",
+        "true"
+    );
 
     document.body.style.overflow =
         "hidden";
@@ -424,40 +405,27 @@ function openDrawer(){
 }
 
 
-function closeDrawer(){
+function closeDrawer() {
 
-    const drawer =
-        byId("drawer");
+    byId("drawer")
+    ?.classList
+    .remove("open");
 
-    const overlay =
-        byId("drawerOverlay");
+    byId("drawerOverlay")
+    ?.classList
+    .remove("show");
 
-    const hamburger =
-        byId("hamburgerButton");
+    byId("drawer")
+    ?.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
-    if(drawer){
-
-        drawer.classList.remove("open");
-
-        drawer.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-    }
-
-    if(overlay){
-        overlay.classList.remove("show");
-    }
-
-    if(hamburger){
-
-        hamburger.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    }
+    byId("hamburgerButton")
+    ?.setAttribute(
+        "aria-expanded",
+        "false"
+    );
 
     document.body.style.overflow =
         "";
@@ -485,10 +453,38 @@ on(
 
 
 /* =========================================================
-   PAGE NAVIGATION
+   PAGE HISTORY / BACK FEATURE
 ========================================================= */
 
-function showPage(pageName){
+function showPage(
+    pageName,
+    pushHistory = true
+) {
+
+    const target =
+        byId(
+            `${pageName}Page`
+        );
+
+    if (!target) {
+        return;
+    }
+
+
+    if (
+        pushHistory
+        &&
+        state.currentPage
+        &&
+        state.currentPage !== pageName
+    ) {
+
+        state.pageHistory.push(
+            state.currentPage
+        );
+
+    }
+
 
     $$(".page")
     .forEach(page => {
@@ -499,14 +495,15 @@ function showPage(pageName){
 
     });
 
-    const target =
-        byId(
-            `${pageName}Page`
-        );
 
-    if(target){
-        target.classList.add("active");
-    }
+    target.classList.add(
+        "active"
+    );
+
+
+    state.currentPage =
+        pageName;
+
 
     $$(".header-link")
     .forEach(button => {
@@ -522,28 +519,81 @@ function showPage(pageName){
 
     });
 
-    if(
+
+    if (
         pageName !==
         "arNavigation"
-    ){
+    ) {
+
         stopNavigationCamera();
+
     }
+
 
     closeDrawer();
 
+
     window.scrollTo({
-        top:0,
-        left:0,
-        behavior:"smooth"
+
+        top: 0,
+
+        left: 0,
+
+        behavior: "smooth"
+
     });
 
 }
 
 
+function goBack() {
+
+    if (
+        state.currentPage ===
+        "arNavigation"
+    ) {
+
+        stopNavigationCamera();
+
+    }
+
+
+    const previous =
+        state.pageHistory.pop()
+        ||
+        "home";
+
+
+    showPage(
+        previous,
+        false
+    );
+
+}
+
+
+$$("[data-back]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        event => {
+
+            event.preventDefault();
+
+            goBack();
+
+        }
+    );
+
+});
+
+
 on(
     "logoHome",
     "click",
-    () => showPage("home")
+    () =>
+        showPage("home")
 );
 
 
@@ -567,18 +617,20 @@ $$("[data-page]")
 
 
 /* =========================================================
-   HERO SLIDER
+   MAIN HERO SLIDER
+   TIDAK OTOMATIS
 ========================================================= */
 
 const slides =
     $$(".hero-slide");
 
 
-function showSlide(index){
+function showSlide(index) {
 
-    if(!slides.length){
+    if (!slides.length) {
         return;
     }
+
 
     index =
         (
@@ -588,8 +640,10 @@ function showSlide(index){
         %
         slides.length;
 
+
     state.currentSlide =
         index;
+
 
     slides.forEach(
         (slide,slideIndex) => {
@@ -605,6 +659,7 @@ function showSlide(index){
 
         }
     );
+
 
     $$(".slider-dot")
     .forEach(
@@ -667,146 +722,86 @@ $$(".slider-dot")
 
 
 /* =========================================================
-   LANDING MODEL VIEWER
+   SLIDER 1 — MANUAL 3D MODEL SWITCH
 ========================================================= */
 
-async function buildLandingModelList(){
+function showLandingModel(index) {
 
-    const candidateModels = [];
-
-    for(
-        const building of buildings
-    ){
-
-        const model =
-            getDefaultModelVariant(
-                building.id
-            );
-
-        if(!model){
-            continue;
-        }
-
-        const exists =
-            await modelFileExists(
-                model.src
-            );
-
-        if(exists){
-
-            candidateModels.push({
-                building,
-                model
-            });
-
-        }
-
-    }
-
-    state.landingModels =
-        candidateModels;
-
-    if(
-        !state.landingModels.length
-    ){
-
-        text(
-            "landingModelName",
-            "Model 3D belum tersedia"
-        );
-
-        text(
-            "landingModelCounter",
-            "0 / 0"
-        );
-
+    if (!landingModels.length) {
         return;
     }
 
-    showLandingModel(0);
-
-}
-
-
-function showLandingModel(index){
-
-    const models =
-        state.landingModels;
-
-    if(!models.length){
-        return;
-    }
 
     index =
         (
             index +
-            models.length
+            landingModels.length
         )
         %
-        models.length;
+        landingModels.length;
+
 
     state.landingModelIndex =
         index;
 
-    const item =
-        models[index];
+
+    const model =
+        landingModels[index];
+
 
     const viewer =
         byId(
             "landingModelViewer"
         );
 
-    if(viewer){
+
+    if (viewer) {
 
         viewer.setAttribute(
             "src",
-            item.model.src
+            model.src
         );
 
         viewer.setAttribute(
             "alt",
-            item.model.label
+            model.name
         );
 
     }
 
-    text(
-        "landingModelName",
-        item.building.name
-    );
 
     text(
-        "landingModelMode",
-        item.model.name
+        "landingModelName",
+        model.name
     );
+
 
     text(
         "landingModelCounter",
-        `${index + 1} / ${models.length}`
+        `${index + 1} / ${landingModels.length}`
     );
 
 }
 
 
-buildLandingModelList();
+on(
+    "landingNextModel",
+    "click",
+    event => {
 
+        event.preventDefault();
 
-window.setInterval(
-    () => {
+        event.stopPropagation();
 
-        if(
-            state.landingModels.length > 1
-        ){
+        showLandingModel(
+            state.landingModelIndex + 1
+        );
 
-            showLandingModel(
-                state.landingModelIndex + 1
-            );
-
-        }
-
-    },
-    10000
+    }
 );
+
+
+showLandingModel(0);
 
 
 /* =========================================================
@@ -814,10 +809,12 @@ window.setInterval(
 ========================================================= */
 
 const globalSearch =
-    byId("globalSearch");
+    byId(
+        "globalSearch"
+    );
 
 
-if(globalSearch){
+if (globalSearch) {
 
     globalSearch.addEventListener(
         "input",
@@ -826,14 +823,17 @@ if(globalSearch){
             const value =
                 event.target.value;
 
+
             state.globalSelection =
                 null;
+
 
             hide(
                 "globalSelected"
             );
 
-            if(!value){
+
+            if (!value) {
 
                 hide(
                     "globalSearchResults"
@@ -841,6 +841,7 @@ if(globalSearch){
 
                 return;
             }
+
 
             renderSearchResults(
 
@@ -855,17 +856,21 @@ if(globalSearch){
                     state.globalSelection =
                         location;
 
+
                     globalSearch.value =
                         location.name;
+
 
                     text(
                         "globalSelectedName",
                         location.name
                     );
 
+
                     hide(
                         "globalSearchResults"
                     );
+
 
                     show(
                         "globalSelected"
@@ -886,16 +891,19 @@ on(
     "click",
     () => {
 
-        if(globalSearch){
+        if (globalSearch) {
             globalSearch.value = "";
         }
+
 
         state.globalSelection =
             null;
 
+
         hide(
             "globalSearchResults"
         );
+
 
         hide(
             "globalSelected"
@@ -910,7 +918,7 @@ on(
     "click",
     () => {
 
-        if(state.globalSelection){
+        if (state.globalSelection) {
 
             openInfo(
                 state.globalSelection
@@ -927,7 +935,7 @@ on(
     "click",
     () => {
 
-        if(state.globalSelection){
+        if (state.globalSelection) {
 
             openNavigationWithDestination(
                 state.globalSelection
@@ -940,23 +948,26 @@ on(
 
 
 /* =========================================================
-   INFO
+   INFO MODAL
 ========================================================= */
 
-function openInfo(location){
+function openInfo(location) {
 
     state.infoLocation =
         location;
+
 
     text(
         "infoTitle",
         location.name
     );
 
+
     text(
         "infoParent",
         location.parent
     );
+
 
     text(
 
@@ -968,9 +979,11 @@ function openInfo(location){
 
     );
 
+
     show(
         "infoModal"
     );
+
 
     document.body.style.overflow =
         "hidden";
@@ -978,7 +991,7 @@ function openInfo(location){
 }
 
 
-function closeInfo(){
+function closeInfo() {
 
     hide(
         "infoModal"
@@ -996,6 +1009,7 @@ on(
     closeInfo
 );
 
+
 on(
     "infoBackdrop",
     "click",
@@ -1008,14 +1022,17 @@ on(
     "click",
     () => {
 
-        if(!state.infoLocation){
+        if (!state.infoLocation) {
             return;
         }
+
 
         const location =
             state.infoLocation;
 
+
         closeInfo();
+
 
         openNavigationWithDestination(
             location
@@ -1031,17 +1048,21 @@ on(
 
 function populateBuildingSelect(
     selectElement
-){
+) {
 
-    if(!selectElement){
+    if (!selectElement) {
         return;
     }
 
+
     selectElement.innerHTML = `
+
         <option value="">
             -- Pilih Gedung --
         </option>
+
     `;
+
 
     buildings.forEach(building => {
 
@@ -1050,11 +1071,14 @@ function populateBuildingSelect(
                 "option"
             );
 
+
         option.value =
             building.id;
 
+
         option.textContent =
             building.name;
+
 
         selectElement.appendChild(
             option
@@ -1066,46 +1090,50 @@ function populateBuildingSelect(
 
 
 populateBuildingSelect(
-    byId("viewerBuildingSelect")
+    byId(
+        "viewerBuildingSelect"
+    )
 );
 
+
 populateBuildingSelect(
-    byId("arBuildingSelect")
+    byId(
+        "arBuildingSelect"
+    )
 );
 
 
 /* =========================================================
-   MODEL VARIANT SELECT
+   MODEL VARIANT
 ========================================================= */
 
 function configureModelVariants(
     buildingId,
     variantWrapId,
     variantSelectId
-){
-
-    const wrap =
-        byId(
-            variantWrapId
-        );
+) {
 
     const select =
         byId(
             variantSelectId
         );
 
+
+    if (!select) {
+        return;
+    }
+
+
     const models =
         getBuildingModels(
             buildingId
         );
 
-    if(!select){
-        return;
-    }
 
     select.innerHTML = "";
 
-    if(!models.length){
+
+    if (!models.length) {
 
         hide(
             variantWrapId
@@ -1114,6 +1142,7 @@ function configureModelVariants(
         return;
     }
 
+
     models.forEach(model => {
 
         const option =
@@ -1121,11 +1150,14 @@ function configureModelVariants(
                 "option"
             );
 
+
         option.value =
             model.id;
 
+
         option.textContent =
             model.name;
+
 
         select.appendChild(
             option
@@ -1133,28 +1165,22 @@ function configureModelVariants(
 
     });
 
+
     const building =
         getBuildingById(
             buildingId
         );
 
-    if(
-        building?.defaultModel
-    ){
+
+    if (building?.defaultModel) {
 
         select.value =
             building.defaultModel;
 
     }
 
-    /*
-       Jika ada Outdoor + Indoor,
-       selector ditampilkan.
-       Jika model hanya satu,
-       selector disembunyikan.
-    */
 
-    if(models.length > 1){
+    if (models.length > 1) {
 
         show(
             variantWrapId
@@ -1162,7 +1188,7 @@ function configureModelVariants(
 
     }
 
-    else{
+    else {
 
         hide(
             variantWrapId
@@ -1176,56 +1202,55 @@ function configureModelVariants(
 function resolveSelectedModel(
     buildingSelectId,
     variantSelectId
-){
+) {
 
     const buildingSelect =
         byId(
             buildingSelectId
         );
 
+
     const variantSelect =
         byId(
             variantSelectId
         );
 
-    if(
+
+    if (
         !buildingSelect
         ||
         !buildingSelect.value
-    ){
+    ) {
 
         return {
-            building:null,
-            model:null
+            building: null,
+            model: null
         };
 
     }
+
 
     const building =
         getBuildingById(
             buildingSelect.value
         );
 
-    if(!building){
+
+    if (!building) {
 
         return {
-            building:null,
-            model:null
+            building: null,
+            model: null
         };
 
     }
 
-    let modelId =
-        variantSelect?.value;
 
-    if(
-        !modelId
-    ){
+    const modelId =
+        variantSelect?.value
+        ||
+        building.defaultModel;
 
-        modelId =
-            building.defaultModel;
-
-    }
 
     const model =
 
@@ -1240,6 +1265,7 @@ function resolveSelectedModel(
             building.id
         );
 
+
     return {
         building,
         model
@@ -1249,7 +1275,7 @@ function resolveSelectedModel(
 
 
 /* =========================================================
-   VIEWER SELECT CHANGE
+   3D BUILDING CHANGE
 ========================================================= */
 
 const viewerBuildingSelect =
@@ -1258,7 +1284,7 @@ const viewerBuildingSelect =
     );
 
 
-if(viewerBuildingSelect){
+if (viewerBuildingSelect) {
 
     viewerBuildingSelect.addEventListener(
         "change",
@@ -1274,10 +1300,12 @@ if(viewerBuildingSelect){
 
             );
 
+
             text(
                 "viewerMessage",
                 ""
             );
+
 
             hide(
                 "viewerCard"
@@ -1290,7 +1318,7 @@ if(viewerBuildingSelect){
 
 
 /* =========================================================
-   AR SELECT CHANGE
+   AR BUILDING CHANGE
 ========================================================= */
 
 const arBuildingSelect =
@@ -1299,7 +1327,7 @@ const arBuildingSelect =
     );
 
 
-if(arBuildingSelect){
+if (arBuildingSelect) {
 
     arBuildingSelect.addEventListener(
         "change",
@@ -1315,10 +1343,12 @@ if(arBuildingSelect){
 
             );
 
+
             text(
                 "arMessage",
                 ""
             );
+
 
             hide(
                 "arCard"
@@ -1337,7 +1367,7 @@ if(arBuildingSelect){
 on(
     "show3DModel",
     "click",
-    async () => {
+    () => {
 
         const {
             building,
@@ -1351,7 +1381,8 @@ on(
 
         );
 
-        if(!building){
+
+        if (!building) {
 
             text(
                 "viewerMessage",
@@ -1365,11 +1396,12 @@ on(
             return;
         }
 
-        if(!model){
+
+        if (!model) {
 
             text(
                 "viewerMessage",
-                "Data model 3D gedung ini belum tersedia."
+                "Model 3D belum tersedia."
             );
 
             hide(
@@ -1378,54 +1410,6 @@ on(
 
             return;
         }
-
-
-        text(
-            "viewerMessage",
-            "Memeriksa model 3D..."
-        );
-
-
-        const exists =
-            await modelFileExists(
-                model.src
-            );
-
-
-        if(!exists){
-
-            text(
-
-                "viewerMessage",
-
-                `Model ${model.name} untuk ${building.name} belum ditemukan di folder assets/models.`
-
-            );
-
-            hide(
-                "viewerCard"
-            );
-
-            return;
-        }
-
-
-        text(
-            "viewerMessage",
-            ""
-        );
-
-
-        text(
-            "viewerTitle",
-            building.name
-        );
-
-
-        text(
-            "viewerModeBadge",
-            model.name
-        );
 
 
         const viewer =
@@ -1434,7 +1418,7 @@ on(
             );
 
 
-        if(viewer){
+        if (viewer) {
 
             viewer.setAttribute(
                 "src",
@@ -1449,6 +1433,24 @@ on(
         }
 
 
+        text(
+            "viewerTitle",
+            building.name
+        );
+
+
+        text(
+            "viewerModeBadge",
+            model.name
+        );
+
+
+        text(
+            "viewerMessage",
+            ""
+        );
+
+
         show(
             "viewerCard"
         );
@@ -1461,8 +1463,11 @@ on(
                     "viewerCard"
                 )
                 ?.scrollIntoView({
-                    behavior:"smooth",
-                    block:"start"
+
+                    behavior: "smooth",
+
+                    block: "start"
+
                 });
 
             },
@@ -1474,7 +1479,7 @@ on(
 
 
 /* =========================================================
-   RESET MODEL CAMERA
+   RESET CAMERA
 ========================================================= */
 
 on(
@@ -1487,15 +1492,19 @@ on(
                 "mainModelViewer"
             );
 
-        if(!viewer){
+
+        if (!viewer) {
             return;
         }
+
 
         viewer.cameraOrbit =
             "0deg 75deg 105%";
 
+
         viewer.cameraTarget =
             "auto auto auto";
+
 
         viewer.fieldOfView =
             "auto";
@@ -1511,7 +1520,7 @@ on(
 on(
     "prepareMainAR",
     "click",
-    async () => {
+    () => {
 
         const {
             building,
@@ -1525,7 +1534,8 @@ on(
 
         );
 
-        if(!building){
+
+        if (!building) {
 
             text(
                 "arMessage",
@@ -1539,11 +1549,12 @@ on(
             return;
         }
 
-        if(!model){
+
+        if (!model) {
 
             text(
                 "arMessage",
-                "Data model AR gedung ini belum tersedia."
+                "Model AR belum tersedia."
             );
 
             hide(
@@ -1552,42 +1563,6 @@ on(
 
             return;
         }
-
-
-        text(
-            "arMessage",
-            "Memeriksa model..."
-        );
-
-
-        const exists =
-            await modelFileExists(
-                model.src
-            );
-
-
-        if(!exists){
-
-            text(
-
-                "arMessage",
-
-                `Model ${model.name} untuk ${building.name} belum ditemukan di folder assets/models.`
-
-            );
-
-            hide(
-                "arCard"
-            );
-
-            return;
-        }
-
-
-        text(
-            "arMessage",
-            ""
-        );
 
 
         const viewer =
@@ -1596,7 +1571,7 @@ on(
             );
 
 
-        if(viewer){
+        if (viewer) {
 
             viewer.setAttribute(
                 "src",
@@ -1612,17 +1587,20 @@ on(
 
 
         text(
-
             "mainARStatus",
-
             building.name
-
         );
 
 
         text(
             "arModeBadge",
             model.name
+        );
+
+
+        text(
+            "arMessage",
+            ""
         );
 
 
@@ -1638,8 +1616,11 @@ on(
                     "arCard"
                 )
                 ?.scrollIntoView({
-                    behavior:"smooth",
-                    block:"start"
+
+                    behavior: "smooth",
+
+                    block: "start"
+
                 });
 
             },
@@ -1660,12 +1641,13 @@ on(
                 "mainARViewer"
             );
 
-        if(
+
+        if (
             !viewer
             ||
             typeof viewer.activateAR !==
             "function"
-        ){
+        ) {
 
             toast(
                 "Fitur AR belum siap pada browser ini."
@@ -1674,13 +1656,14 @@ on(
             return;
         }
 
-        try{
+
+        try {
 
             await viewer.activateAR();
 
         }
 
-        catch(error){
+        catch (error) {
 
             console.error(error);
 
@@ -1695,10 +1678,10 @@ on(
 
 
 /* =========================================================
-   ROUTING HELPERS
+   ROUTING UTILITY
 ========================================================= */
 
-function pointDistance(a,b){
+function pointDistance(a,b) {
 
     return Math.hypot(
         a.x - b.x,
@@ -1712,7 +1695,7 @@ function pointsEqual(
     a,
     b,
     epsilon = 0.5
-){
+) {
 
     return pointDistance(
         a,
@@ -1725,7 +1708,7 @@ function pointsEqual(
 
 
 /* =========================================================
-   BUILD GRAPH CACHE
+   ROUTE GRAPH
 ========================================================= */
 
 const routingEdges =
@@ -1739,17 +1722,20 @@ const routingEdges =
                 })
             );
 
+
         const cumulative =
             [0];
+
 
         let total =
             0;
 
-        for(
+
+        for (
             let i = 0;
             i < points.length - 1;
             i += 1
-        ){
+        ) {
 
             total +=
                 pointDistance(
@@ -1757,11 +1743,13 @@ const routingEdges =
                     points[i + 1]
                 );
 
+
             cumulative.push(
                 total
             );
 
         }
+
 
         return {
 
@@ -1771,7 +1759,7 @@ const routingEdges =
 
             cumulative,
 
-            length:total
+            length: total
 
         };
 
@@ -1799,45 +1787,48 @@ Object.keys(
 )
 .forEach(nodeId => {
 
-    routeGraph[nodeId] =
-        [];
+    routeGraph[nodeId] = [];
 
 });
 
 
 routingEdges.forEach(edge => {
 
-    if(
+    if (
         !routeGraph[edge.from]
         ||
         !routeGraph[edge.to]
-    ){
+    ) {
         return;
     }
 
-    routeGraph[
-        edge.from
-    ]
+
+    routeGraph[edge.from]
     .push({
 
-        node:edge.to,
+        node:
+            edge.to,
 
-        edgeId:edge.id,
+        edgeId:
+            edge.id,
 
-        weight:edge.length
+        weight:
+            edge.length
 
     });
 
-    routeGraph[
-        edge.to
-    ]
+
+    routeGraph[edge.to]
     .push({
 
-        node:edge.from,
+        node:
+            edge.from,
 
-        edgeId:edge.id,
+        edgeId:
+            edge.id,
 
-        weight:edge.length
+        weight:
+            edge.length
 
     });
 
@@ -1845,14 +1836,14 @@ routingEdges.forEach(edge => {
 
 
 /* =========================================================
-   SNAP POINT
+   SNAP TO NETWORK
 ========================================================= */
 
 function projectPointToSegment(
     point,
     a,
     b
-){
+) {
 
     const abX =
         b.x - a.x;
@@ -1866,10 +1857,12 @@ function projectPointToSegment(
     const apY =
         point.y - a.y;
 
+
     const lengthSquared =
         abX * abX
         +
         abY * abY;
+
 
     let t =
         lengthSquared === 0
@@ -1884,6 +1877,7 @@ function projectPointToSegment(
             /
             lengthSquared;
 
+
     t =
         Math.max(
             0,
@@ -1892,6 +1886,7 @@ function projectPointToSegment(
                 t
             )
         );
+
 
     const projected = {
 
@@ -1905,9 +1900,11 @@ function projectPointToSegment(
 
     };
 
+
     return {
 
-        point:projected,
+        point:
+            projected,
 
         t,
 
@@ -1922,24 +1919,26 @@ function projectPointToSegment(
 }
 
 
-function snapPointToNetwork(point){
+function snapPointToNetwork(point) {
 
     let best =
         null;
 
+
     routingEdges.forEach(edge => {
 
-        for(
+        for (
             let i = 0;
             i < edge.points.length - 1;
             i += 1
-        ){
+        ) {
 
             const a =
                 edge.points[i];
 
             const b =
                 edge.points[i + 1];
+
 
             const projection =
                 projectPointToSegment(
@@ -1948,11 +1947,13 @@ function snapPointToNetwork(point){
                     b
                 );
 
+
             const segmentLength =
                 pointDistance(
                     a,
                     b
                 );
+
 
             const along =
                 edge.cumulative[i]
@@ -1961,21 +1962,24 @@ function snapPointToNetwork(point){
                 *
                 projection.t;
 
-            if(
+
+            if (
                 !best
                 ||
                 projection.distance
                 <
                 best.distance
-            ){
+            ) {
 
                 best = {
 
                     edge,
 
-                    segmentIndex:i,
+                    segmentIndex:
+                        i,
 
-                    t:projection.t,
+                    t:
+                        projection.t,
 
                     point:
                         projection.point,
@@ -1989,7 +1993,8 @@ function snapPointToNetwork(point){
                         along,
 
                     distanceToTo:
-                        edge.length -
+                        edge.length
+                        -
                         along
 
                 };
@@ -1999,6 +2004,7 @@ function snapPointToNetwork(point){
         }
 
     });
+
 
     return best;
 
@@ -2012,11 +2018,12 @@ function snapPointToNetwork(point){
 function dijkstra(
     startNode,
     targetNode
-){
+) {
 
     const distances = {};
     const previousNode = {};
     const previousEdge = {};
+
 
     const unvisited =
         new Set(
@@ -2024,6 +2031,7 @@ function dijkstra(
                 routeNodes
             )
         );
+
 
     Object.keys(
         routeNodes
@@ -2041,13 +2049,12 @@ function dijkstra(
 
     });
 
+
     distances[startNode] =
         0;
 
 
-    while(
-        unvisited.size
-    ){
+    while (unvisited.size) {
 
         let current =
             null;
@@ -2055,13 +2062,14 @@ function dijkstra(
         let smallest =
             Infinity;
 
+
         unvisited.forEach(nodeId => {
 
-            if(
+            if (
                 distances[nodeId]
                 <
                 smallest
-            ){
+            ) {
 
                 smallest =
                     distances[nodeId];
@@ -2073,44 +2081,50 @@ function dijkstra(
 
         });
 
-        if(current === null){
+
+        if (current === null) {
             break;
         }
 
-        if(
+
+        if (
             current ===
             targetNode
-        ){
+        ) {
             break;
         }
+
 
         unvisited.delete(
             current
         );
 
+
         routeGraph[current]
         .forEach(connection => {
 
-            if(
+            if (
                 !unvisited.has(
                     connection.node
                 )
-            ){
+            ) {
                 return;
             }
+
 
             const candidate =
                 distances[current]
                 +
                 connection.weight;
 
-            if(
+
+            if (
                 candidate
                 <
                 distances[
                     connection.node
                 ]
-            ){
+            ) {
 
                 distances[
                     connection.node
@@ -2118,11 +2132,13 @@ function dijkstra(
                 =
                 candidate;
 
+
                 previousNode[
                     connection.node
                 ]
                 =
                 current;
+
 
                 previousEdge[
                     connection.node
@@ -2137,11 +2153,11 @@ function dijkstra(
     }
 
 
-    if(
+    if (
         !Number.isFinite(
             distances[targetNode]
         )
-    ){
+    ) {
         return null;
     }
 
@@ -2149,26 +2165,30 @@ function dijkstra(
     const nodePath = [];
     const edgePath = [];
 
+
     let cursor =
         targetNode;
 
 
-    while(cursor){
+    while (cursor) {
 
         nodePath.unshift(
             cursor
         );
 
-        if(
+
+        if (
             cursor ===
             startNode
-        ){
+        ) {
             break;
         }
+
 
         edgePath.unshift(
             previousEdge[cursor]
         );
+
 
         cursor =
             previousNode[cursor];
@@ -2176,11 +2196,11 @@ function dijkstra(
     }
 
 
-    if(
+    if (
         nodePath[0]
         !==
         startNode
-    ){
+    ) {
         return null;
     }
 
@@ -2200,16 +2220,17 @@ function dijkstra(
 
 
 /* =========================================================
-   POLYLINE HELPERS
+   POLYLINE
 ========================================================= */
 
-function dedupePolyline(points){
+function dedupePolyline(points) {
 
     const output = [];
 
+
     points.forEach(point => {
 
-        if(
+        if (
             !output.length
             ||
             !pointsEqual(
@@ -2218,16 +2239,22 @@ function dedupePolyline(points){
                 ],
                 point
             )
-        ){
+        ) {
 
             output.push({
-                x:point.x,
-                y:point.y
+
+                x:
+                    point.x,
+
+                y:
+                    point.y
+
             });
 
         }
 
     });
+
 
     return output;
 
@@ -2237,38 +2264,44 @@ function dedupePolyline(points){
 function snapToEndpointPolyline(
     snap,
     endpointNode
-){
+) {
 
     const edge =
         snap.edge;
 
+
     const points =
         edge.points;
+
 
     const i =
         snap.segmentIndex;
 
+
     const result = [
+
         {
             ...snap.point
         }
+
     ];
 
 
-    if(
+    if (
         endpointNode ===
         edge.from
-    ){
+    ) {
 
         result.push(
             points[i]
         );
 
-        for(
+
+        for (
             let j = i - 1;
             j >= 0;
             j -= 1
-        ){
+        ) {
 
             result.push(
                 points[j]
@@ -2278,17 +2311,18 @@ function snapToEndpointPolyline(
 
     }
 
-    else{
+    else {
 
         result.push(
             points[i + 1]
         );
 
-        for(
+
+        for (
             let j = i + 2;
             j < points.length;
             j += 1
-        ){
+        ) {
 
             result.push(
                 points[j]
@@ -2297,6 +2331,7 @@ function snapToEndpointPolyline(
         }
 
     }
+
 
     return dedupePolyline(
         result
@@ -2308,7 +2343,7 @@ function snapToEndpointPolyline(
 function endpointToSnapPolyline(
     snap,
     endpointNode
-){
+) {
 
     return snapToEndpointPolyline(
         snap,
@@ -2322,36 +2357,40 @@ function endpointToSnapPolyline(
 function sameEdgePolyline(
     startSnap,
     targetSnap
-){
+) {
 
     const edge =
         startSnap.edge;
 
+
     const points =
         edge.points;
 
+
     const result = [
+
         {
             ...startSnap.point
         }
+
     ];
 
 
-    if(
+    if (
         startSnap.along
         <=
         targetSnap.along
-    ){
+    ) {
 
-        for(
+        for (
             let j =
                 startSnap.segmentIndex + 1;
 
             j <=
-                targetSnap.segmentIndex;
+            targetSnap.segmentIndex;
 
             j += 1
-        ){
+        ) {
 
             result.push(
                 points[j]
@@ -2361,17 +2400,17 @@ function sameEdgePolyline(
 
     }
 
-    else{
+    else {
 
-        for(
+        for (
             let j =
                 startSnap.segmentIndex;
 
             j >
-                targetSnap.segmentIndex;
+            targetSnap.segmentIndex;
 
             j -= 1
-        ){
+        ) {
 
             result.push(
                 points[j]
@@ -2381,9 +2420,13 @@ function sameEdgePolyline(
 
     }
 
+
     result.push({
+
         ...targetSnap.point
+
     });
+
 
     return dedupePolyline(
         result
@@ -2392,17 +2435,19 @@ function sameEdgePolyline(
 }
 
 
-function middlePolyline(result){
+function middlePolyline(result) {
 
-    if(
+    if (
         !result
         ||
         !result.edgePath.length
-    ){
+    ) {
         return [];
     }
 
+
     const output = [];
+
 
     result.edgePath
     .forEach(
@@ -2413,12 +2458,15 @@ function middlePolyline(result){
                     edgeId
                 );
 
-            if(!edge){
+
+            if (!edge) {
                 return;
             }
 
+
             const fromNode =
                 result.nodePath[index];
+
 
             let points =
                 edge.from ===
@@ -2429,12 +2477,14 @@ function middlePolyline(result){
                     [...edge.points]
                     .reverse();
 
-            if(
-                output.length
-            ){
+
+            if (output.length) {
+
                 points =
                     points.slice(1);
+
             }
+
 
             output.push(
                 ...points
@@ -2442,6 +2492,7 @@ function middlePolyline(result){
 
         }
     );
+
 
     return dedupePolyline(
         output
@@ -2453,15 +2504,16 @@ function middlePolyline(result){
 function routeBetweenSnaps(
     startSnap,
     targetSnap
-){
+) {
 
     const candidates = [];
 
-    if(
+
+    if (
         startSnap.edge.id
         ===
         targetSnap.edge.id
-    ){
+    ) {
 
         candidates.push({
 
@@ -2486,7 +2538,6 @@ function routeBetweenSnaps(
     const startEndpoints = [
 
         startSnap.edge.from,
-
         startSnap.edge.to
 
     ];
@@ -2495,7 +2546,6 @@ function routeBetweenSnaps(
     const targetEndpoints = [
 
         targetSnap.edge.from,
-
         targetSnap.edge.to
 
     ];
@@ -2513,7 +2563,8 @@ function routeBetweenSnaps(
                             targetNode
                         );
 
-                    if(!middle){
+
+                    if (!middle) {
                         return;
                     }
 
@@ -2586,34 +2637,40 @@ function routeBetweenSnaps(
 
 
     return candidates
+
         .sort(
             (a,b) =>
-                a.distance -
+                a.distance
+                -
                 b.distance
         )[0]
+
         ||
+
         null;
 
 }
 
 
 /* =========================================================
-   BUILDING ROUTE
+   BEST ENTRANCE
 ========================================================= */
 
 function findBestEntranceRoute(
     clickedPosition,
     building
-){
+) {
 
     const startSnap =
         snapPointToNetwork(
             clickedPosition
         );
 
-    if(!startSnap){
+
+    if (!startSnap) {
         return null;
     }
+
 
     let best =
         null;
@@ -2627,9 +2684,11 @@ function findBestEntranceRoute(
                 entrance
             );
 
-        if(!targetSnap){
+
+        if (!targetSnap) {
             return;
         }
+
 
         const networkRoute =
             routeBetweenSnaps(
@@ -2637,9 +2696,11 @@ function findBestEntranceRoute(
                 targetSnap
             );
 
-        if(!networkRoute){
+
+        if (!networkRoute) {
             return;
         }
+
 
         const points =
             dedupePolyline([
@@ -2653,6 +2714,7 @@ function findBestEntranceRoute(
                 entrance
 
             ]);
+
 
         const candidate = {
 
@@ -2669,13 +2731,14 @@ function findBestEntranceRoute(
 
         };
 
-        if(
+
+        if (
             !best
             ||
             candidate.distance
             <
             best.distance
-        ){
+        ) {
 
             best =
                 candidate;
@@ -2683,6 +2746,7 @@ function findBestEntranceRoute(
         }
 
     });
+
 
     return best;
 
@@ -2693,11 +2757,12 @@ function findBestEntranceRoute(
    DESTINATION
 ========================================================= */
 
-function getDestinationBuilding(){
+function getDestinationBuilding() {
 
-    if(!state.destination){
+    if (!state.destination) {
         return null;
     }
+
 
     return getBuildingById(
         state.destination.buildingId
@@ -2706,11 +2771,14 @@ function getDestinationBuilding(){
 }
 
 
-function destinationDisplayName(){
+function destinationDisplayName() {
 
-    if(!state.destination){
+    if (!state.destination) {
+
         return "tujuan pilihan Anda";
+
     }
+
 
     return state.destination.name;
 
@@ -2718,21 +2786,22 @@ function destinationDisplayName(){
 
 
 /* =========================================================
-   ELEMENT POSITION
+   MAP ELEMENT POSITION
 ========================================================= */
 
 function setElementPosition(
     element,
     point
-){
+) {
 
-    if(
+    if (
         !element
         ||
         !point
-    ){
+    ) {
         return;
     }
+
 
     element.style.left =
         `${
@@ -2743,6 +2812,7 @@ function setElementPosition(
             *
             100
         }%`;
+
 
     element.style.top =
         `${
@@ -2758,10 +2828,10 @@ function setElementPosition(
 
 
 /* =========================================================
-   PROGRESS
+   NAVIGATION PROGRESS
 ========================================================= */
 
-function updateProgress(stage){
+function updateProgress(stage) {
 
     const steps = [
 
@@ -2775,15 +2845,18 @@ function updateProgress(stage){
 
     ];
 
+
     steps.forEach(
         (id,index) => {
 
             const element =
                 byId(id);
 
-            if(!element){
+
+            if (!element) {
                 return;
             }
+
 
             element.classList.toggle(
 
@@ -2800,10 +2873,10 @@ function updateProgress(stage){
 
 
 /* =========================================================
-   NAVIGATION INSTRUCTION
+   NAV INSTRUCTION
 ========================================================= */
 
-function setNavigationInstruction(){
+function setNavigationInstruction() {
 
     text(
 
@@ -2812,6 +2885,7 @@ function setNavigationInstruction(){
         `Tap pada denah sesuai posisi Anda sekarang, lalu sistem akan memberikan jalur terdekat menuju ${destinationDisplayName()}.`
 
     );
+
 
     show(
         "mapInstructionArea"
@@ -2824,23 +2898,27 @@ function setNavigationInstruction(){
    CLEAR ROUTE
 ========================================================= */
 
-function clearRouteOnly(){
+function clearRouteOnly() {
 
     state.clickedPosition =
         null;
 
+
     state.snappedPosition =
         null;
 
+
     state.routeResult =
         null;
+
 
     const line =
         byId(
             "activeRoute"
         );
 
-    if(line){
+
+    if (line) {
 
         line.setAttribute(
             "points",
@@ -2849,19 +2927,24 @@ function clearRouteOnly(){
 
     }
 
+
     hide(
         "userMarker"
     );
+
 
     hide(
         "entranceMarker"
     );
 
+
     hide(
         "routeFoundBox"
     );
 
+
     setNavigationInstruction();
+
 
     updateProgress(
 
@@ -2880,48 +2963,59 @@ function clearRouteOnly(){
    RESET NAVIGATION
 ========================================================= */
 
-function resetNavigation(){
+function resetNavigation() {
 
     state.destination =
         null;
+
 
     const search =
         byId(
             "navigationSearch"
         );
 
-    if(search){
+
+    if (search) {
         search.value = "";
     }
+
 
     const results =
         byId(
             "navigationSearchResults"
         );
 
-    if(results){
+
+    if (results) {
 
         results.innerHTML = `
+
             <div class="search-empty">
                 Ketik nama gedung atau ruangan tujuan.
             </div>
+
         `;
 
     }
+
 
     hide(
         "selectedDestination"
     );
 
+
     hide(
         "mapSection"
     );
+
 
     hide(
         "destinationHighlight"
     );
 
+
     clearRouteOnly();
+
 
     updateProgress(0);
 
@@ -2934,48 +3028,59 @@ function resetNavigation(){
 
 function selectNavigationDestination(
     location
-){
+) {
 
     state.destination =
         location;
+
 
     const search =
         byId(
             "navigationSearch"
         );
 
-    if(search){
+
+    if (search) {
+
         search.value =
             location.name;
+
     }
+
 
     const results =
         byId(
             "navigationSearchResults"
         );
 
-    if(results){
+
+    if (results) {
         results.innerHTML = "";
     }
+
 
     text(
         "selectedDestinationName",
         location.name
     );
 
+
     text(
         "selectedDestinationParent",
         location.parent
     );
 
+
     show(
         "selectedDestination"
     );
 
+
     const building =
         getDestinationBuilding();
 
-    if(!building){
+
+    if (!building) {
 
         toast(
             "Data gedung tujuan tidak ditemukan."
@@ -2983,6 +3088,7 @@ function selectNavigationDestination(
 
         return;
     }
+
 
     setElementPosition(
 
@@ -2994,19 +3100,25 @@ function selectNavigationDestination(
 
     );
 
+
     show(
         "destinationHighlight"
     );
+
 
     show(
         "mapSection"
     );
 
+
     clearRouteOnly();
+
 
     setNavigationInstruction();
 
+
     updateProgress(1);
+
 
     window.setTimeout(
         () => {
@@ -3016,9 +3128,11 @@ function selectNavigationDestination(
             )
             ?.scrollIntoView({
 
-                behavior:"smooth",
+                behavior:
+                    "smooth",
 
-                block:"start"
+                block:
+                    "start"
 
             });
 
@@ -3035,15 +3149,17 @@ function selectNavigationDestination(
 
 function openNavigationWithDestination(
     location = null
-){
+) {
 
     showPage(
         "navigation"
     );
 
+
     resetNavigation();
 
-    if(location){
+
+    if (location) {
 
         selectNavigationDestination(
             location
@@ -3051,7 +3167,7 @@ function openNavigationWithDestination(
 
     }
 
-    else{
+    else {
 
         window.setTimeout(
             () => {
@@ -3060,7 +3176,8 @@ function openNavigationWithDestination(
                     "navigationSearch"
                 )
                 ?.focus({
-                    preventScroll:true
+                    preventScroll:
+                        true
                 });
 
             },
@@ -3073,7 +3190,7 @@ function openNavigationWithDestination(
 
 
 /* =========================================================
-   NAVIGATION SEARCH
+   NAV SEARCH
 ========================================================= */
 
 const navigationSearch =
@@ -3082,7 +3199,7 @@ const navigationSearch =
     );
 
 
-if(navigationSearch){
+if (navigationSearch) {
 
     navigationSearch.addEventListener(
         "input",
@@ -3091,25 +3208,31 @@ if(navigationSearch){
             const value =
                 event.target.value;
 
+
             const container =
                 byId(
                     "navigationSearchResults"
                 );
 
-            if(!container){
+
+            if (!container) {
                 return;
             }
 
-            if(!value){
+
+            if (!value) {
 
                 container.innerHTML = `
+
                     <div class="search-empty">
                         Ketik nama gedung atau ruangan tujuan.
                     </div>
+
                 `;
 
                 return;
             }
+
 
             renderSearchResults(
 
@@ -3131,21 +3254,24 @@ if(navigationSearch){
    MAP CLICK
 ========================================================= */
 
-function handleMapSelection(event){
+function handleMapSelection(event) {
 
     const map =
         byId(
             "navigationMap"
         );
 
-    if(!map){
+
+    if (!map) {
         return;
     }
+
 
     const building =
         getDestinationBuilding();
 
-    if(!building){
+
+    if (!building) {
 
         toast(
             "Pilih tujuan terlebih dahulu."
@@ -3154,23 +3280,27 @@ function handleMapSelection(event){
         return;
     }
 
+
     const rect =
         map.getBoundingClientRect();
 
-    if(
+
+    if (
         !rect.width
         ||
         !rect.height
-    ){
+    ) {
         return;
     }
+
 
     const clicked = {
 
         x:
             (
                 (
-                    event.clientX -
+                    event.clientX
+                    -
                     rect.left
                 )
                 /
@@ -3182,7 +3312,8 @@ function handleMapSelection(event){
         y:
             (
                 (
-                    event.clientY -
+                    event.clientY
+                    -
                     rect.top
                 )
                 /
@@ -3193,8 +3324,10 @@ function handleMapSelection(event){
 
     };
 
+
     state.clickedPosition =
         clicked;
+
 
     const routeResult =
         findBestEntranceRoute(
@@ -3202,7 +3335,8 @@ function handleMapSelection(event){
             building
         );
 
-    if(!routeResult){
+
+    if (!routeResult) {
 
         toast(
             "Rute tidak ditemukan dari posisi tersebut."
@@ -3211,8 +3345,10 @@ function handleMapSelection(event){
         return;
     }
 
+
     state.routeResult =
         routeResult;
+
 
     state.snappedPosition =
         routeResult
@@ -3231,6 +3367,7 @@ function handleMapSelection(event){
         .point
 
     );
+
 
     show(
         "userMarker"
@@ -3279,7 +3416,7 @@ function handleMapSelection(event){
         );
 
 
-    if(routeLine){
+    if (routeLine) {
 
         routeLine.setAttribute(
             "points",
@@ -3293,9 +3430,11 @@ function handleMapSelection(event){
         "mapInstructionArea"
     );
 
+
     show(
         "routeFoundBox"
     );
+
 
     updateProgress(2);
 
@@ -3308,7 +3447,7 @@ const navigationMap =
     );
 
 
-if(navigationMap){
+if (navigationMap) {
 
     navigationMap.addEventListener(
         "click",
@@ -3324,36 +3463,39 @@ if(navigationMap){
 
 function calculateInitialArrowRotation(
     points
-){
+) {
 
-    if(
+    if (
         !points
         ||
         points.length < 2
-    ){
+    ) {
         return 0;
     }
+
 
     const start =
         points[0];
 
+
     let next =
         points[1];
 
-    for(
+
+    for (
         let i = 1;
         i < points.length;
         i += 1
-    ){
+    ) {
 
-        if(
+        if (
             pointDistance(
                 start,
                 points[i]
             )
             >
             8
-        ){
+        ) {
 
             next =
                 points[i];
@@ -3363,13 +3505,18 @@ function calculateInitialArrowRotation(
 
     }
 
+
     const dx =
-        next.x -
+        next.x
+        -
         start.x;
 
+
     const dy =
-        next.y -
+        next.y
+        -
         start.y;
+
 
     return Math.atan2(
         dx,
@@ -3384,25 +3531,27 @@ function calculateInitialArrowRotation(
 }
 
 
-async function startNavigationCamera(){
+async function startNavigationCamera() {
 
     const video =
         byId(
             "navigationCamera"
         );
 
+
     text(
         "cameraStatus",
         "Meminta izin kamera..."
     );
 
-    if(
+
+    if (
         !video
         ||
         !navigator.mediaDevices
         ||
         !navigator.mediaDevices.getUserMedia
-    ){
+    ) {
 
         text(
             "cameraStatus",
@@ -3412,30 +3561,39 @@ async function startNavigationCamera(){
         return;
     }
 
-    try{
+
+    try {
 
         const stream =
             await navigator
             .mediaDevices
             .getUserMedia({
 
-                video:{
-                    facingMode:{
-                        ideal:"environment"
+                video: {
+
+                    facingMode: {
+                        ideal:
+                            "environment"
                     }
+
                 },
 
-                audio:false
+                audio:
+                    false
 
             });
+
 
         state.cameraStream =
             stream;
 
+
         video.srcObject =
             stream;
 
+
         await video.play();
+
 
         text(
             "cameraStatus",
@@ -3444,9 +3602,10 @@ async function startNavigationCamera(){
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
+
 
         text(
             "cameraStatus",
@@ -3458,11 +3617,9 @@ async function startNavigationCamera(){
 }
 
 
-function stopNavigationCamera(){
+function stopNavigationCamera() {
 
-    if(
-        state.cameraStream
-    ){
+    if (state.cameraStream) {
 
         state.cameraStream
         .getTracks()
@@ -3472,17 +3629,20 @@ function stopNavigationCamera(){
 
         });
 
+
         state.cameraStream =
             null;
 
     }
+
 
     const video =
         byId(
             "navigationCamera"
         );
 
-    if(video){
+
+    if (video) {
         video.srcObject = null;
     }
 
@@ -3494,11 +3654,11 @@ on(
     "click",
     async () => {
 
-        if(
+        if (
             !state.routeResult
             ||
             !state.destination
-        ){
+        ) {
 
             toast(
                 "Tentukan posisi dan rute terlebih dahulu."
@@ -3507,34 +3667,41 @@ on(
             return;
         }
 
+
         const building =
             getDestinationBuilding();
 
-        if(!building){
+
+        if (!building) {
             return;
         }
+
 
         text(
             "arNavigationTitle",
             state.destination.name
         );
 
+
         text(
             "arNavigationDestination",
             `${state.destination.name} • ${building.shortName}`
         );
+
 
         const rotation =
             calculateInitialArrowRotation(
                 state.routeResult.points
             );
 
+
         const arrow =
             byId(
                 "directionArrow"
             );
 
-        if(arrow){
+
+        if (arrow) {
 
             arrow.style.setProperty(
                 "--arrow-rotation",
@@ -3543,16 +3710,14 @@ on(
 
         }
 
-        text(
-            "directionText",
-            "Ikuti arah menuju tujuan"
-        );
 
         updateProgress(3);
+
 
         showPage(
             "arNavigation"
         );
+
 
         await startNavigationCamera();
 
@@ -3567,9 +3732,7 @@ on(
 
         stopNavigationCamera();
 
-        showPage(
-            "navigation"
-        );
+        goBack();
 
     }
 );
@@ -3582,30 +3745,36 @@ on(
 function renderRoomList(
     roomList,
     container
-){
+) {
 
-    if(!container){
+    if (!container) {
         return;
     }
+
 
     container.innerHTML =
         "";
 
-    if(!roomList.length){
+
+    if (!roomList.length) {
 
         container.innerHTML = `
+
             <div class="search-empty">
                 Data ruangan akan dilengkapi kemudian.
             </div>
+
         `;
 
         return;
     }
 
+
     const grid =
         document.createElement(
             "div"
         );
+
 
     grid.className =
         "room-grid";
@@ -3618,8 +3787,10 @@ function renderRoomList(
                 "div"
             );
 
+
         item.className =
             "room-item";
+
 
         item.innerHTML = `
 
@@ -3694,8 +3865,12 @@ function renderRoomList(
             "click",
             () => {
 
-                if(location){
-                    openInfo(location);
+                if (location) {
+
+                    openInfo(
+                        location
+                    );
+
                 }
 
             }
@@ -3709,7 +3884,7 @@ function renderRoomList(
             "click",
             () => {
 
-                if(location){
+                if (location) {
 
                     openNavigationWithDestination(
                         location
@@ -3738,19 +3913,22 @@ function renderRoomList(
 function renderLaboratory(
     buildingRooms,
     container
-){
+) {
 
-    if(!container){
+    if (!container) {
         return;
     }
+
 
     const floorButtons =
         document.createElement(
             "div"
         );
 
+
     floorButtons.className =
         "floor-buttons";
+
 
     const roomArea =
         document.createElement(
@@ -3766,8 +3944,10 @@ function renderLaboratory(
                 "button"
             );
 
+
         button.type =
             "button";
+
 
         button.className =
             `floor-button${
@@ -3777,6 +3957,7 @@ function renderLaboratory(
                     :
                     ""
             }`;
+
 
         button.textContent =
             `Lantai ${floor}`;
@@ -3798,9 +3979,11 @@ function renderLaboratory(
 
                 });
 
+
                 button.classList.add(
                     "active"
                 );
+
 
                 renderRoomList(
 
@@ -3817,6 +4000,7 @@ function renderLaboratory(
             }
         );
 
+
         floorButtons.appendChild(
             button
         );
@@ -3827,6 +4011,7 @@ function renderLaboratory(
     container.appendChild(
         floorButtons
     );
+
 
     container.appendChild(
         roomArea
@@ -3848,16 +4033,18 @@ function renderLaboratory(
 }
 
 
-function renderDirectory(){
+function renderDirectory() {
 
     const container =
         byId(
             "directoryContainer"
         );
 
-    if(!container){
+
+    if (!container) {
         return;
     }
+
 
     container.innerHTML =
         "";
@@ -3873,10 +4060,12 @@ function renderDirectory(){
                         building.id
                 );
 
+
             const article =
                 document.createElement(
                     "article"
                 );
+
 
             article.className =
                 "building-card";
@@ -3890,6 +4079,7 @@ function renderDirectory(){
                 >
 
                     <span class="building-number">
+
                         ${
                             String(
                                 index + 1
@@ -3899,6 +4089,7 @@ function renderDirectory(){
                                 "0"
                             )
                         }
+
                     </span>
 
                     <span>
@@ -3949,10 +4140,10 @@ function renderDirectory(){
                 );
 
 
-            if(
+            if (
                 building.id ===
                 "laboratorium-ft"
-            ){
+            ) {
 
                 renderLaboratory(
                     buildingRooms,
@@ -3961,7 +4152,7 @@ function renderDirectory(){
 
             }
 
-            else{
+            else {
 
                 renderRoomList(
                     buildingRooms,
@@ -3985,20 +4176,23 @@ renderDirectory();
 
 
 /* =========================================================
-   MAIN FEATURE BUTTONS
+   FEATURE BUTTONS
 ========================================================= */
 
 const openViewer =
     () =>
         showPage("viewer");
 
+
 const openAR =
     () =>
         showPage("ar");
 
+
 const openDirectory =
     () =>
         showPage("directory");
+
 
 const openNavigation =
     () =>
@@ -4076,27 +4270,32 @@ const openNavigation =
 let toastTimer;
 
 
-function toast(message){
+function toast(message) {
 
     const element =
         byId(
             "toast"
         );
 
-    if(!element){
+
+    if (!element) {
         return;
     }
 
+
     element.textContent =
         message;
+
 
     element.classList.add(
         "show"
     );
 
+
     window.clearTimeout(
         toastTimer
     );
+
 
     toastTimer =
         window.setTimeout(
@@ -4114,55 +4313,50 @@ function toast(message){
 
 
 /* =========================================================
-   ESC KEY
+   ESCAPE KEY
 ========================================================= */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if(
+        if (
             event.key !==
             "Escape"
-        ){
+        ) {
             return;
         }
 
+
         closeDrawer();
+
 
         const modal =
             byId(
                 "infoModal"
             );
 
-        if(
+
+        if (
             modal
             &&
             !modal.classList.contains(
                 "hidden"
             )
-        ){
+        ) {
+
             closeInfo();
+
+            return;
         }
 
-        const arNavigation =
-            byId(
-                "arNavigationPage"
-            );
 
-        if(
-            arNavigation
-            &&
-            arNavigation.classList.contains(
-                "active"
-            )
-        ){
+        if (
+            state.currentPage !==
+            "home"
+        ) {
 
-            stopNavigationCamera();
-
-            showPage(
-                "navigation"
-            );
+            goBack();
 
         }
 
@@ -4171,7 +4365,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   SAFARI / MOBILE CACHE FIX
+   MOBILE / SAFARI RESTORE
 ========================================================= */
 
 window.addEventListener(
@@ -4183,18 +4377,20 @@ window.addEventListener(
                 "drawerOverlay"
             );
 
+
         const drawer =
             byId(
                 "drawer"
             );
 
-        if(
+
+        if (
             overlay
             &&
             !drawer?.classList.contains(
                 "open"
             )
-        ){
+        ) {
 
             overlay.classList.remove(
                 "show"
@@ -4202,11 +4398,12 @@ window.addEventListener(
 
         }
 
-        if(
+
+        if (
             !document.querySelector(
                 ".page.active"
             )
-        ){
+        ) {
 
             byId(
                 "homePage"
@@ -4215,6 +4412,10 @@ window.addEventListener(
             .add(
                 "active"
             );
+
+
+            state.currentPage =
+                "home";
 
         }
 
