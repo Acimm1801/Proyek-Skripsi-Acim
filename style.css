@@ -34,13 +34,18 @@
 }
 
 html{
+    width:100%;
     min-width:320px;
+
     scroll-behavior:smooth;
+
     -webkit-text-size-adjust:100%;
 }
 
 body{
+    width:100%;
     min-width:320px;
+
     overflow-x:hidden;
 
     font-family:
@@ -49,6 +54,7 @@ body{
         sans-serif;
 
     color:var(--text);
+
     background:var(--bg);
 }
 
@@ -64,7 +70,9 @@ input,
 select,
 [role="button"]{
     touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
 }
 
 button{
@@ -86,11 +94,13 @@ img{
 
 .page{
     display:none !important;
+
     pointer-events:none;
 }
 
 .page.active{
     display:block !important;
+
     pointer-events:auto;
 }
 
@@ -110,13 +120,17 @@ img{
 
     height:var(--header);
 
-    background:rgba(255,255,255,.97);
+    background:
+        rgba(255,255,255,.97);
 
     border-bottom:
         1px solid var(--line);
 
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
 }
 
 .header-inner{
@@ -141,13 +155,17 @@ img{
 
 .brand{
     display:flex;
+
     align-items:center;
+
     gap:12px;
 
     border:0;
+
     background:transparent;
 
     color:var(--text);
+
     text-align:left;
 }
 
@@ -158,11 +176,12 @@ img{
     flex:0 0 48px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:14px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-weight:800;
 
@@ -176,17 +195,21 @@ img{
 
 .brand-copy{
     display:flex;
+
     align-items:center;
 }
 
 .brand-copy strong{
     font-size:15px;
+
+    line-height:1;
 }
 
 .header-nav{
     justify-self:end;
 
     display:flex;
+
     gap:5px;
 }
 
@@ -196,6 +219,7 @@ img{
     padding:0 14px;
 
     border:0;
+
     border-radius:11px;
 
     background:transparent;
@@ -203,6 +227,7 @@ img{
     color:#415a63;
 
     font-size:13px;
+
     font-weight:700;
 
     transition:.2s ease;
@@ -210,6 +235,7 @@ img{
 
 .header-link.active{
     color:var(--green-700);
+
     background:var(--green-100);
 }
 
@@ -218,11 +244,13 @@ img{
     height:48px;
 
     display:grid;
+
     place-content:center;
 
     gap:5px;
 
     border:0;
+
     border-radius:14px;
 
     background:
@@ -239,7 +267,9 @@ img{
 
     display:block;
 
-    background:#fff;
+    pointer-events:none;
+
+    background:#ffffff;
 }
 
 
@@ -255,20 +285,28 @@ img{
     inset:0;
 
     visibility:hidden;
+
     opacity:0;
 
     pointer-events:none;
 
-    background:rgba(0,24,34,.52);
+    background:
+        rgba(0,24,34,.52);
 
-    backdrop-filter:blur(4px);
+    backdrop-filter:
+        blur(4px);
 
-    transition:.25s;
+    -webkit-backdrop-filter:
+        blur(4px);
+
+    transition:.25s ease;
 }
 
 .drawer-overlay.show{
     visibility:visible;
+
     opacity:1;
+
     pointer-events:auto;
 }
 
@@ -281,13 +319,14 @@ img{
     right:0;
 
     width:min(430px,95vw);
+
     height:100dvh;
 
-    overflow:auto;
+    overflow-y:auto;
 
     padding:24px;
 
-    background:#fff;
+    background:#ffffff;
 
     transform:
         translateX(105%);
@@ -303,17 +342,19 @@ img{
 }
 
 .drawer.open{
-    transform:translateX(0);
+    transform:
+        translateX(0);
+
     pointer-events:auto;
 }
 
 .drawer-header{
     display:flex;
 
+    align-items:flex-start;
+
     justify-content:
         space-between;
-
-    align-items:flex-start;
 
     gap:16px;
 
@@ -324,6 +365,7 @@ img{
     color:var(--green-700);
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1px;
@@ -338,6 +380,7 @@ img{
     height:42px;
 
     border:0;
+
     border-radius:12px;
 
     background:#edf3f4;
@@ -349,7 +392,212 @@ img{
 
 
 /* =====================================================
-   DRAWER MENU
+   SEARCH
+===================================================== */
+
+.drawer-search-wrap label,
+.navigation-search-card label,
+.selection-card label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    font-weight:700;
+}
+
+.search-box{
+    min-height:54px;
+
+    display:grid;
+
+    grid-template-columns:
+        auto 1fr auto;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 14px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius:14px;
+
+    background:#f8fbfb;
+}
+
+.search-box:focus-within{
+    border-color:#76c8b9;
+
+    background:#ffffff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(8,127,114,.08);
+}
+
+.search-box input{
+    width:100%;
+
+    min-width:0;
+
+    border:0;
+
+    outline:0;
+
+    background:transparent;
+
+    color:var(--text);
+}
+
+.search-box>span{
+    color:var(--green-700);
+
+    font-size:22px;
+}
+
+.search-box>button{
+    border:0;
+
+    background:transparent;
+
+    color:#81939a;
+
+    font-size:18px;
+}
+
+.search-results{
+    max-height:310px;
+
+    overflow-y:auto;
+
+    margin-top:8px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius:13px;
+
+    background:#ffffff;
+}
+
+.search-result{
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        auto;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:13px;
+
+    border:0;
+
+    border-bottom:
+        1px solid #eaf0f1;
+
+    background:#ffffff;
+
+    color:var(--text);
+
+    text-align:left;
+}
+
+.search-result:last-child{
+    border-bottom:0;
+}
+
+.search-result strong{
+    display:block;
+
+    font-size:12px;
+}
+
+.search-result small{
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--muted);
+
+    font-size:9px;
+}
+
+.search-type{
+    padding:5px 8px;
+
+    border-radius:999px;
+
+    background:var(--green-100);
+
+    color:var(--green-900);
+
+    font-size:8px;
+
+    font-weight:800;
+}
+
+.search-empty{
+    padding:18px;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    text-align:center;
+}
+
+.global-selected{
+    margin-top:9px;
+
+    padding:14px;
+
+    border:
+        1px solid #bfe3da;
+
+    border-radius:13px;
+
+    background:#effaf6;
+}
+
+.global-selected small{
+    color:var(--muted);
+
+    font-size:8px;
+
+    font-weight:800;
+}
+
+.global-selected strong{
+    display:block;
+
+    margin-top:5px;
+}
+
+.global-selected-actions{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:8px;
+
+    margin-top:12px;
+}
+
+
+/* =====================================================
+   DRAWER ITEMS
 ===================================================== */
 
 .drawer-menu{
@@ -383,13 +631,13 @@ img{
 
     border-radius:15px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
     text-align:left;
 
-    transition:.22s;
+    transition:.22s ease;
 }
 
 .drawer-icon{
@@ -397,9 +645,12 @@ img{
     height:52px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:15px;
+
+    pointer-events:none;
 
     background:
         linear-gradient(
@@ -413,145 +664,19 @@ img{
     font-weight:800;
 }
 
+.directory-drawer-icon{
+    font-size:24px;
+}
+
 .drawer-item strong{
     display:block;
 
-    line-height:1.3;
-
     font-size:13px;
+
+    line-height:1.3;
 }
 
 .drawer-item small{
-    display:block;
-
-    margin-top:5px;
-
-    color:var(--muted);
-
-    font-size:9px;
-
-    line-height:1.45;
-}
-
-.drawer-item b{
-    color:#8ba0a7;
-    font-size:22px;
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-.drawer-search-wrap label,
-.navigation-search-card label,
-.selection-card label{
-    display:block;
-
-    margin-bottom:7px;
-
-    color:var(--muted);
-
-    font-size:11px;
-    font-weight:700;
-}
-
-.search-box{
-    min-height:54px;
-
-    display:grid;
-
-    grid-template-columns:
-        auto 1fr auto;
-
-    align-items:center;
-
-    gap:9px;
-
-    padding:0 14px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius:14px;
-
-    background:#f8fbfb;
-}
-
-.search-box input{
-    width:100%;
-    min-width:0;
-
-    border:0;
-    outline:0;
-
-    background:transparent;
-
-    color:var(--text);
-}
-
-.search-box>span{
-    color:var(--green-700);
-
-    font-size:22px;
-}
-
-.search-box>button{
-    border:0;
-    background:transparent;
-
-    color:#81939a;
-
-    font-size:18px;
-}
-
-.search-results{
-    max-height:310px;
-
-    overflow:auto;
-
-    margin-top:8px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius:13px;
-
-    background:#fff;
-}
-
-.search-result{
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        auto;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:13px;
-
-    border:0;
-    border-bottom:
-        1px solid #eaf0f1;
-
-    background:#fff;
-
-    color:var(--text);
-
-    text-align:left;
-}
-
-.search-result strong{
-    display:block;
-    font-size:12px;
-}
-
-.search-result small{
     display:block;
 
     margin-top:4px;
@@ -559,69 +684,19 @@ img{
     color:var(--muted);
 
     font-size:9px;
+
+    line-height:1.4;
 }
 
-.search-type{
-    padding:5px 8px;
+.drawer-item b{
+    color:#8ba0a7;
 
-    border-radius:999px;
-
-    background:var(--green-100);
-    color:var(--green-900);
-
-    font-size:8px;
-    font-weight:800;
-}
-
-.search-empty{
-    padding:18px;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-    text-align:center;
-}
-
-.global-selected{
-    margin-top:9px;
-
-    padding:14px;
-
-    border:
-        1px solid #bfe3da;
-
-    border-radius:13px;
-
-    background:#effaf6;
-}
-
-.global-selected small{
-    color:var(--muted);
-
-    font-size:8px;
-    font-weight:800;
-}
-
-.global-selected strong{
-    display:block;
-    margin-top:5px;
-}
-
-.global-selected-actions{
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:8px;
-
-    margin-top:12px;
+    font-size:22px;
 }
 
 
 /* =====================================================
-   BUTTONS
+   BUTTON
 ===================================================== */
 
 .button{
@@ -630,16 +705,22 @@ img{
     padding:0 17px;
 
     border:0;
+
     border-radius:12px;
 
     font-size:12px;
+
     font-weight:800;
 
-    transition:.25s;
+    transition:
+        color .25s ease,
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
 }
 
 .button-primary{
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -654,6 +735,7 @@ img{
         1px solid var(--line);
 
     background:#f3f7f8;
+
     color:#405b63;
 }
 
@@ -661,10 +743,11 @@ img{
     min-width:140px;
 
     border:
-        2px solid #fff;
+        2px solid #ffffff;
 
     background:var(--green-700);
-    color:#fff;
+
+    color:#ffffff;
 }
 
 .small-button{
@@ -678,9 +761,11 @@ img{
     border-radius:10px;
 
     background:#f3f7f8;
+
     color:#486169;
 
     font-size:10px;
+
     font-weight:700;
 }
 
@@ -690,36 +775,41 @@ img{
 ===================================================== */
 
 .page-back-button{
-    min-height:40px;
-
     display:inline-flex;
 
     align-items:center;
 
-    padding:0 15px;
+    justify-content:center;
+
+    min-height:40px;
 
     margin-bottom:24px;
+
+    padding:0 15px;
 
     border:
         1px solid var(--line);
 
     border-radius:11px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--green-800);
 
     font-size:11px;
+
     font-weight:800;
 
     box-shadow:
         0 5px 16px
         rgba(5,66,72,.06);
+
+    transition:.22s ease;
 }
 
 
 /* =====================================================
-   CONTENT
+   GENERAL CONTENT
 ===================================================== */
 
 main{
@@ -756,6 +846,7 @@ main{
     color:var(--green-700);
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1.4px;
@@ -794,7 +885,7 @@ main{
     background:
         radial-gradient(
             circle at 83% 15%,
-            rgba(50,174,212,.2),
+            rgba(50,174,212,.20),
             transparent 28%
         ),
         linear-gradient(
@@ -821,6 +912,8 @@ main{
 .hero-slide{
     position:absolute;
 
+    z-index:0;
+
     inset:0;
 
     display:grid;
@@ -837,26 +930,31 @@ main{
         40px 0 88px;
 
     visibility:hidden;
-    opacity:0;
 
-    pointer-events:none;
+    opacity:0;
 
     transform:
         translateX(45px);
 
-    transition:.65s ease;
+    pointer-events:none;
+
+    transition:
+        opacity .65s ease,
+        transform .65s ease,
+        visibility .65s ease;
 }
 
 .hero-slide.active{
     z-index:3;
 
     visibility:visible;
-    opacity:1;
 
-    pointer-events:auto;
+    opacity:1;
 
     transform:
         translateX(0);
+
+    pointer-events:auto;
 }
 
 .hero-eyebrow{
@@ -867,6 +965,7 @@ main{
     color:#84e7d8;
 
     font-size:9px;
+
     font-weight:800;
 
     letter-spacing:1.2px;
@@ -878,7 +977,7 @@ main{
     margin:
         0 0 20px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:
         clamp(
@@ -895,7 +994,7 @@ main{
 .hero-title-line{
     display:block;
 
-    color:#fff;
+    color:#ffffff;
 
     white-space:nowrap;
 }
@@ -926,7 +1025,7 @@ main{
 
 
 /* =====================================================
-   LANDING 3D MODEL
+   LANDING MODEL
 ===================================================== */
 
 .landing-model-card{
@@ -934,12 +1033,16 @@ main{
 
     border:
         1px solid
-        rgba(255,255,255,.2);
+        rgba(255,255,255,.20);
 
     border-radius:24px;
 
     background:
         rgba(255,255,255,.08);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,20,30,.20);
 }
 
 .landing-model-header{
@@ -963,7 +1066,7 @@ main{
 }
 
 .landing-model-header strong{
-    color:#fff;
+    color:#ffffff;
 
     font-size:14px;
 }
@@ -976,14 +1079,17 @@ main{
 
 #landingModelViewer{
     width:100%;
+
     height:355px;
 
     display:block;
 
+    touch-action:none;
+
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dae9eb
         );
 }
@@ -997,6 +1103,8 @@ main{
 
     justify-content:
         space-between;
+
+    gap:10px;
 
     padding:
         8px 12px
@@ -1014,6 +1122,7 @@ main{
     height:38px;
 
     display:grid;
+
     place-items:center;
 
     border:
@@ -1023,13 +1132,15 @@ main{
     border-radius:50%;
 
     background:
-        rgba(255,255,255,.1);
+        rgba(255,255,255,.10);
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:17px;
 
-    transition:.25s;
+    font-weight:700;
+
+    transition:.25s ease;
 }
 
 
@@ -1052,12 +1163,16 @@ main{
 
     border:
         1px solid
-        rgba(255,255,255,.2);
+        rgba(255,255,255,.20);
 
     border-radius:22px;
 
     background:
         rgba(255,255,255,.08);
+
+    box-shadow:
+        0 22px 60px
+        rgba(0,20,30,.18);
 }
 
 .landing-map-header{
@@ -1070,8 +1185,14 @@ main{
     justify-content:
         space-between;
 
+    gap:12px;
+
     padding:
         10px 14px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.14);
 }
 
 .landing-map-header small{
@@ -1080,6 +1201,7 @@ main{
     color:#86dfd4;
 
     font-size:7px;
+
     font-weight:800;
 }
 
@@ -1088,7 +1210,7 @@ main{
 
     margin-top:3px;
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:12px;
 }
@@ -1099,10 +1221,19 @@ main{
     font-size:8px;
 }
 
+.landing-map-image{
+    width:100%;
+
+    overflow:hidden;
+
+    line-height:0;
+}
+
 .landing-map-image img{
     display:block;
 
     width:100%;
+
     height:auto;
 }
 
@@ -1110,6 +1241,7 @@ main{
     min-height:38px;
 
     display:flex;
+
     align-items:center;
 
     padding:
@@ -1131,6 +1263,7 @@ main{
     z-index:20;
 
     left:50%;
+
     bottom:18px;
 
     display:flex;
@@ -1148,6 +1281,7 @@ main{
     height:40px;
 
     display:grid;
+
     place-items:center;
 
     border:
@@ -1155,13 +1289,13 @@ main{
 
     border-radius:50%;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--green-800);
 
     font-size:17px;
 
-    transition:.25s;
+    transition:.25s ease;
 }
 
 .slider-dots{
@@ -1183,24 +1317,22 @@ main{
 
     border-radius:999px;
 
-    background:#fff;
+    background:#ffffff;
 
-    transition:.25s;
+    transition:.25s ease;
 }
 
 .slider-dot.active{
     width:27px;
 
-    border-color:
-        var(--green-500);
+    background:var(--green-500);
 
-    background:
-        var(--green-500);
+    border-color:#2fba9d;
 }
 
 
 /* =====================================================
-   FEATURE CARDS
+   MAIN FEATURE CARDS
 ===================================================== */
 
 .feature-section{
@@ -1228,7 +1360,9 @@ main{
 }
 
 .feature-card{
-    min-height:245px;
+    width:100%;
+
+    min-height:270px;
 
     display:grid;
 
@@ -1244,7 +1378,7 @@ main{
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
@@ -1254,7 +1388,11 @@ main{
         0 16px 38px
         rgba(5,66,72,.08);
 
-    transition:.3s;
+    transition:.3s ease;
+}
+
+.feature-card *{
+    pointer-events:none;
 }
 
 .feature-icon{
@@ -1262,6 +1400,7 @@ main{
     height:52px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:15px;
@@ -1275,15 +1414,28 @@ main{
 
     color:var(--green-900);
 
+    font-size:17px;
+
     font-weight:800;
 }
 
+.feature-directory-icon{
+    font-size:25px;
+}
+
+.feature-card-content{
+    align-self:start;
+}
+
 .feature-card h3{
-    margin-bottom:10px;
+    margin:
+        1px 0 12px;
+
+    color:var(--text);
 
     font-size:18px;
 
-    line-height:1.25;
+    line-height:1.3;
 }
 
 .feature-card p{
@@ -1291,10 +1443,18 @@ main{
 
     font-size:12px;
 
-    line-height:1.65;
+    line-height:1.7;
 }
 
-.feature-card>strong{
+.feature-card p em{
+    color:var(--green-800);
+
+    font-style:italic;
+
+    font-weight:700;
+}
+
+.feature-link{
     padding-top:15px;
 
     border-top:
@@ -1318,9 +1478,9 @@ main{
         minmax(180px,.75fr)
         auto;
 
-    align-items:end;
-
     gap:12px;
+
+    align-items:end;
 
     margin-bottom:20px;
 
@@ -1331,7 +1491,11 @@ main{
 
     border-radius:18px;
 
-    background:#fff;
+    background:#ffffff;
+}
+
+.selection-field{
+    min-width:0;
 }
 
 .selection-field select{
@@ -1339,14 +1503,15 @@ main{
 
     min-height:48px;
 
-    padding:0 14px;
+    padding:
+        0 14px;
 
     border:
         1px solid var(--line);
 
     border-radius:12px;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 }
@@ -1376,7 +1541,7 @@ main{
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .viewer-toolbar{
@@ -1421,13 +1586,9 @@ main{
         var(--green-900);
 
     font-size:8px;
+
     font-weight:800;
 }
-
-
-/* =====================================================
-   MODEL VIEWER STAGE
-===================================================== */
 
 .model-viewer-stage{
     position:relative;
@@ -1439,7 +1600,7 @@ main{
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dfecee
         );
 }
@@ -1461,56 +1622,53 @@ main{
     background:
         radial-gradient(
             circle,
-            #fff,
+            #ffffff,
             #dfecee
         );
 }
 
 
 /* =====================================================
-   LARGE FOCUS MAGNIFIER
+   3D CLICK FOCUS RING
 ===================================================== */
 
 .model-focus-ring{
     position:absolute;
 
-    z-index:25;
+    z-index:30;
 
-    width:270px;
-    height:270px;
+    width:300px;
+    height:300px;
 
     transform:
         translate(-50%,-50%)
-        scale(.84);
+        scale(.92);
 
-    overflow:hidden;
+    display:grid;
+
+    place-items:center;
 
     border:
-        5px solid
-        #19c987;
+        5px solid #16cb89;
 
     border-radius:50%;
 
-    background-color:
-        rgba(230,255,248,.18);
-
-    background-repeat:
-        no-repeat;
+    background:
+        rgba(22,203,137,.025);
 
     box-shadow:
-        0 8px 35px
-        rgba(0,77,63,.35),
-        inset
-        0 0 0 4px
-        rgba(255,255,255,.72);
+        0 0 0 3px
+        rgba(255,255,255,.72),
+        0 12px 34px
+        rgba(0,70,55,.22);
 
     opacity:0;
 
     pointer-events:none;
 
     transition:
-        opacity .22s ease,
-        transform .22s ease;
+        opacity .2s ease,
+        transform .2s ease;
 }
 
 .model-focus-ring.focus-visible{
@@ -1521,13 +1679,31 @@ main{
         scale(1);
 }
 
+.model-focus-ring span{
+    width:12px;
+    height:12px;
+
+    display:block;
+
+    border:
+        3px solid #ffffff;
+
+    border-radius:50%;
+
+    background:#16cb89;
+
+    box-shadow:
+        0 1px 6px
+        rgba(0,0,0,.28);
+}
+
 
 /* =====================================================
    MODEL DESCRIPTION
 ===================================================== */
 
 .viewer-model-description{
-    min-height:68px;
+    min-height:70px;
 
     display:flex;
 
@@ -1536,7 +1712,7 @@ main{
     gap:12px;
 
     padding:
-        14px 18px;
+        15px 18px;
 
     border-top:
         1px solid var(--line);
@@ -1548,7 +1724,8 @@ main{
     width:30px;
     height:30px;
 
-    flex:0 0 30px;
+    flex:
+        0 0 30px;
 
     display:grid;
 
@@ -1562,9 +1739,12 @@ main{
     color:
         var(--green-800);
 
-    font-family:Georgia,serif;
+    font-family:
+        Georgia,
+        serif;
 
     font-size:17px;
+
     font-weight:700;
 }
 
@@ -1573,7 +1753,7 @@ main{
 
     font-size:11px;
 
-    line-height:1.6;
+    line-height:1.65;
 }
 
 
@@ -1597,7 +1777,7 @@ main{
 
     border-radius:16px;
 
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -1612,6 +1792,7 @@ main{
     height:68px;
 
     display:grid;
+
     place-items:center;
 
     border:
@@ -1643,7 +1824,8 @@ main{
 
     margin-top:7px;
 
-    padding:4px 8px;
+    padding:
+        4px 8px;
 
     border:
         1px solid
@@ -1652,20 +1834,25 @@ main{
     border-radius:999px;
 
     background:
-        rgba(255,255,255,.1);
+        rgba(255,255,255,.10);
 
     color:#8eeadd;
 
     font-size:8px;
 
     font-style:normal;
+
+    font-weight:800;
 }
 
 #mainARViewer{
     width:100%;
+
     height:390px;
 
     display:block;
+
+    touch-action:none;
 
     background:#edf5f5;
 }
@@ -1678,10 +1865,9 @@ main{
 
     border-radius:12px;
 
-    background:
-        var(--green-700);
+    background:var(--green-700);
 
-    color:#fff;
+    color:#ffffff;
 
     font-weight:800;
 }
@@ -1729,15 +1915,19 @@ main{
     height:36px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:50%;
 
     background:#e9f0f1;
+
+    font-size:11px;
 }
 
 .nav-step span{
     font-size:9px;
+
     font-weight:700;
 }
 
@@ -1751,6 +1941,7 @@ main{
 
 .nav-progress>i{
     height:2px;
+
     background:#dce7e8;
 }
 
@@ -1762,7 +1953,7 @@ main{
 
     border-radius:20px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .navigation-search-box{
@@ -1777,7 +1968,7 @@ main{
 
     border-radius:14px;
 
-    color:#fff;
+    color:#ffffff;
 
     background:
         linear-gradient(
@@ -1819,7 +2010,7 @@ main{
 
     border-radius:22px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .map-instruction-area{
@@ -1827,6 +2018,8 @@ main{
 }
 
 .map-instruction-area h2{
+    color:var(--text);
+
     font-size:15px;
 
     line-height:1.4;
@@ -1842,8 +2035,6 @@ main{
 
     gap:24px;
 
-    margin-bottom:24px;
-
     padding:18px;
 
     border:
@@ -1854,8 +2045,18 @@ main{
     background:#effaf7;
 }
 
+.route-found-top{
+    margin-bottom:24px;
+}
+
+.route-found-box h3{
+    margin-bottom:6px;
+
+    font-size:18px;
+}
+
 .route-found-box p{
-    margin-top:6px;
+    max-width:720px;
 
     color:var(--muted);
 
@@ -1874,6 +2075,9 @@ main{
 
     overflow:hidden;
 
+    border:
+        1px solid #d4e5e5;
+
     border-radius:20px;
 
     background:#eaf3f2;
@@ -1886,9 +2090,12 @@ main{
 .navigation-map img{
     position:absolute;
 
+    z-index:1;
+
     inset:0;
 
     width:100%;
+
     height:100%;
 
     object-fit:fill;
@@ -1902,18 +2109,22 @@ main{
     z-index:6;
 
     width:54px;
+
     height:54px;
 
     transform:
         translate(-50%,-50%);
 
     border:
-        4px solid #1492d0;
+        4px solid
+        rgba(20,146,208,.95);
 
     border-radius:50%;
 
     background:
         rgba(20,146,208,.14);
+
+    pointer-events:none;
 }
 
 .route-svg{
@@ -1924,6 +2135,7 @@ main{
     inset:0;
 
     width:100%;
+
     height:100%;
 
     pointer-events:none;
@@ -1937,6 +2149,7 @@ main{
     stroke-width:5;
 
     stroke-linecap:round;
+
     stroke-linejoin:round;
 
     vector-effect:
@@ -1965,6 +2178,7 @@ main{
 
 .user-marker>span{
     width:28px;
+
     height:28px;
 
     display:block;
@@ -1972,7 +2186,7 @@ main{
     margin:auto;
 
     border:
-        4px solid #fff;
+        4px solid #ffffff;
 
     border-radius:
         50% 50% 50% 8px;
@@ -1987,14 +2201,15 @@ main{
 
     margin-top:5px;
 
-    padding:5px 8px;
+    padding:
+        5px 8px;
 
     border-radius:7px;
 
     background:
         rgba(5,55,63,.92);
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:8px;
 
@@ -2008,6 +2223,7 @@ main{
 
 .entrance-marker>span{
     width:18px;
+
     height:18px;
 
     display:block;
@@ -2015,7 +2231,7 @@ main{
     margin:auto;
 
     border:
-        3px solid #fff;
+        3px solid #ffffff;
 
     border-radius:50%;
 
@@ -2035,20 +2251,36 @@ main{
 
     inset:0;
 
-    background:#000;
+    background:#000000;
+}
+
+.ar-navigation-page:not(.active){
+    display:none !important;
+
+    pointer-events:none !important;
+}
+
+.ar-navigation-page.active{
+    display:block !important;
+
+    pointer-events:auto !important;
 }
 
 .camera-shell{
     position:relative;
 
     width:100%;
+
     height:100dvh;
 
     overflow:hidden;
+
+    background:#000000;
 }
 
 #navigationCamera{
     width:100%;
+
     height:100%;
 
     object-fit:cover;
@@ -2074,13 +2306,14 @@ main{
 
     padding:20px;
 
-    color:#fff;
+    color:#ffffff;
 
     pointer-events:auto;
 }
 
 .camera-topbar button{
     width:44px;
+
     height:44px;
 
     border:
@@ -2092,13 +2325,14 @@ main{
     background:
         rgba(0,0,0,.35);
 
-    color:#fff;
+    color:#ffffff;
 
     font-size:25px;
 }
 
 .direction-hud{
     align-self:center;
+
     justify-self:center;
 }
 
@@ -2112,7 +2346,7 @@ main{
     background:
         rgba(5,30,35,.75);
 
-    color:#fff;
+    color:#ffffff;
 }
 
 
@@ -2134,7 +2368,7 @@ main{
 
     border-radius:17px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .building-button{
@@ -2143,9 +2377,7 @@ main{
     display:grid;
 
     grid-template-columns:
-        54px
-        minmax(0,1fr)
-        auto;
+        54px minmax(0,1fr) auto;
 
     align-items:center;
 
@@ -2155,7 +2387,7 @@ main{
 
     border:0;
 
-    background:#fff;
+    background:#ffffff;
 
     color:var(--text);
 
@@ -2164,9 +2396,11 @@ main{
 
 .building-number{
     width:54px;
+
     height:54px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:14px;
@@ -2223,7 +2457,7 @@ main{
 
     border-radius:9px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .floor-button.active{
@@ -2283,7 +2517,7 @@ main{
 
 
 /* =====================================================
-   HELP REVISION 27
+   HELP
 ===================================================== */
 
 .help-grid{
@@ -2295,11 +2529,11 @@ main{
             minmax(0,1fr)
         );
 
-    gap:15px;
+    gap:16px;
 }
 
 .help-grid article{
-    min-height:235px;
+    min-height:320px;
 
     padding:24px;
 
@@ -2308,35 +2542,91 @@ main{
 
     border-radius:18px;
 
-    background:#fff;
+    background:#ffffff;
+
+    box-shadow:
+        0 12px 30px
+        rgba(5,66,72,.05);
 }
 
 .help-grid h3{
     margin:
-        0 0 18px;
+        0 0 22px;
 
     color:var(--text);
 
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     font-size:20px;
+
+    line-height:1.25;
 }
 
-.help-grid p{
+.help-steps{
+    display:grid;
+
+    gap:14px;
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+}
+
+.help-steps li{
+    position:relative;
+
+    padding-left:21px;
+
     color:#526870;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     font-size:12px;
 
-    line-height:1.7;
+    line-height:1.65;
 }
 
-.help-grid em{
-    color:var(--green-800);
+.help-steps li::before{
+    content:"";
+
+    position:absolute;
+
+    top:.57em;
+
+    left:0;
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:
+        var(--green-500);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(32,184,157,.11);
+}
+
+.help-steps em{
+    color:
+        var(--green-800);
 
     font-weight:700;
 }
 
 
 /* =====================================================
-   ABOUT / DEVELOPER
+   ABOUT
 ===================================================== */
 
 .developer-card{
@@ -2345,12 +2635,12 @@ main{
     display:grid;
 
     grid-template-columns:
-        minmax(240px,340px)
+        270px
         minmax(0,1fr);
 
     align-items:start;
 
-    gap:38px;
+    gap:40px;
 
     margin:auto;
 
@@ -2361,7 +2651,7 @@ main{
 
     border-radius:25px;
 
-    background:#fff;
+    background:#ffffff;
 
     box-shadow:
         0 18px 50px
@@ -2369,12 +2659,16 @@ main{
 }
 
 .developer-photo-wrap{
-    position:relative;
+    width:270px;
 
-    overflow:hidden;
+    max-width:100%;
 
     aspect-ratio:
-        4 / 5;
+        1 / 1;
+
+    justify-self:center;
+
+    overflow:hidden;
 
     border-radius:22px;
 
@@ -2384,19 +2678,34 @@ main{
 
 .developer-photo{
     width:100%;
+
     height:100%;
 
     display:block;
 
     object-fit:cover;
 
-    object-position:center center;
+    object-position:
+        center 38%;
 }
 
-.developer-content>small{
-    color:var(--green-700);
+.developer-content{
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
 
-    font-size:9px;
+.developer-label{
+    display:block;
+
+    margin-bottom:14px;
+
+    color:
+        var(--green-700);
+
+    font-size:10px;
+
     font-weight:800;
 
     letter-spacing:1.2px;
@@ -2404,16 +2713,21 @@ main{
 
 .developer-name{
     margin:
-        8px 0 6px;
+        0 0 14px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     font-size:
         clamp(
-            28px,
+            30px,
             3vw,
             42px
         );
 
-    line-height:1.1;
+    line-height:1.12;
 }
 
 .developer-name strong{
@@ -2425,32 +2739,46 @@ main{
 }
 
 .developer-role{
-    color:var(--green-700) !important;
+    margin:
+        0 0 24px;
 
-    font-size:13px !important;
+    color:
+        var(--green-700);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:14px;
 
     font-weight:700;
+
+    line-height:1.5;
 }
 
 .about-project{
     display:grid;
 
-    gap:14px;
+    gap:15px;
 
-    margin-top:24px;
-
-    padding-top:22px;
+    padding-top:23px;
 
     border-top:
         1px solid var(--line);
 }
 
 .about-project p{
-    color:#536a72;
+    color:#526870;
 
-    font-size:12px;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-    line-height:1.75;
+    font-size:13px;
+
+    line-height:1.8;
 }
 
 .about-project strong{
@@ -2477,7 +2805,7 @@ main{
 
     gap:10px;
 
-    margin-top:26px;
+    margin-top:27px;
 }
 
 .contact-item{
@@ -2502,16 +2830,19 @@ main{
 
     text-decoration:none;
 
-    transition:.22s;
+    transition:.22s ease;
 }
 
 .contact-icon{
     width:37px;
+
     height:37px;
 
-    flex:0 0 37px;
+    flex:
+        0 0 37px;
 
     display:grid;
+
     place-items:center;
 
     border-radius:11px;
@@ -2525,6 +2856,7 @@ main{
 
 .contact-icon svg{
     width:21px;
+
     height:21px;
 
     fill:currentColor;
@@ -2575,7 +2907,7 @@ main{
 }
 
 .site-footer strong{
-    color:#fff;
+    color:#ffffff;
 
     font-size:12px;
 }
@@ -2593,6 +2925,7 @@ main{
     inset:0;
 
     display:grid;
+
     place-items:center;
 
     padding:18px;
@@ -2625,13 +2958,14 @@ main{
 
     border-radius:21px;
 
-    background:#fff;
+    background:#ffffff;
 }
 
 .modal-close{
     position:absolute;
 
     top:14px;
+
     right:14px;
 }
 
@@ -2659,6 +2993,7 @@ main{
     z-index:4000;
 
     left:50%;
+
     bottom:20px;
 
     padding:
@@ -2668,7 +3003,7 @@ main{
 
     background:#073e43;
 
-    color:#fff;
+    color:#ffffff;
 
     opacity:0;
 
@@ -2677,7 +3012,7 @@ main{
 
     pointer-events:none;
 
-    transition:.28s;
+    transition:.28s ease;
 }
 
 .toast.show{
@@ -2689,42 +3024,51 @@ main{
 
 
 /* =====================================================
-   HOVER
+   DESKTOP HOVER
 ===================================================== */
 
 @media (hover:hover) and (pointer:fine){
 
     .header-link:hover{
-        color:var(--green-700);
-        background:var(--green-100);
+        color:
+            var(--green-700);
+
+        background:
+            var(--green-100);
+    }
+
+    .drawer-item:hover{
+        border-color:
+            #75cbbb;
+
+        background:
+            #f4fbf9;
+
+        transform:
+            translateX(-2px);
     }
 
     .page-back-button:hover{
         border-color:#66c6b5;
 
-        background:var(--green-700);
-        color:#fff;
+        background:
+            var(--green-700);
+
+        color:#ffffff;
 
         transform:
             translateX(-3px);
     }
 
     .hero-cta:hover{
-        background:#fff;
-        color:var(--green-800);
+        background:#ffffff;
+
+        color:
+            var(--green-800);
 
         transform:
             translateY(-3px)
             scale(1.025);
-    }
-
-    .slider-arrow:hover,
-    .landing-model-next:hover{
-        background:var(--green-700);
-        color:#fff;
-
-        transform:
-            scale(1.08);
     }
 
     .feature-card:hover{
@@ -2733,11 +3077,31 @@ main{
             scale(1.025);
 
         border-color:
-            var(--green-500);
+            #2fba9d;
 
         box-shadow:
             0 23px 50px
             rgba(8,127,114,.18);
+    }
+
+    .slider-arrow:hover{
+        background:
+            var(--green-700);
+
+        color:#ffffff;
+
+        transform:
+            scale(1.08);
+    }
+
+    .landing-model-next:hover{
+        background:#ffffff;
+
+        color:
+            var(--green-800);
+
+        transform:
+            scale(1.08);
     }
 
     .contact-item:hover{
@@ -2804,7 +3168,8 @@ main{
 
     .selection-card{
         grid-template-columns:
-            1fr 1fr;
+            minmax(0,1fr)
+            minmax(0,1fr);
     }
 
     .selection-card>.button{
@@ -2814,13 +3179,20 @@ main{
 
     .help-grid{
         grid-template-columns:
-            1fr 1fr;
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
     }
 
     .developer-card{
         grid-template-columns:
-            280px
+            240px
             minmax(0,1fr);
+    }
+
+    .developer-photo-wrap{
+        width:240px;
     }
 
     .developer-contacts{
@@ -2841,12 +3213,13 @@ main{
     }
 
 
-    /* HEADER REVISION 24 */
+    /* HEADER */
 
     .header-inner{
         width:100%;
 
-        padding:0 8px;
+        padding:
+            0 8px;
 
         display:grid;
 
@@ -2856,7 +3229,11 @@ main{
                 minmax(0,1fr)
             );
 
+        align-items:center;
+
         gap:0;
+
+        margin:0;
     }
 
     .brand{
@@ -2869,13 +3246,15 @@ main{
 
     .brand-icon{
         width:40px;
+
         height:40px;
 
-        flex:0 0 40px;
-
-        font-size:12px;
+        flex:
+            0 0 40px;
 
         border-radius:11px;
+
+        font-size:12px;
     }
 
     .brand-copy{
@@ -2887,11 +3266,18 @@ main{
     }
 
     .header-link{
+        width:auto;
+
+        min-width:0;
+
         min-height:36px;
 
         justify-self:center;
 
-        padding:0 7px;
+        padding:
+            0 7px;
+
+        border-radius:9px;
 
         font-size:9px;
 
@@ -2916,7 +3302,10 @@ main{
         justify-self:center;
 
         width:41px;
+
         height:41px;
+
+        border-radius:11px;
     }
 
 
@@ -2930,6 +3319,17 @@ main{
     .content-page{
         padding:
             24px 0 52px;
+    }
+
+    .page-back-button{
+        min-height:38px;
+
+        margin-bottom:20px;
+
+        padding:
+            0 13px;
+
+        font-size:10px;
     }
 
     .page-heading{
@@ -2983,6 +3383,8 @@ main{
         margin-bottom:11px;
 
         font-size:8px;
+
+        line-height:1.45;
     }
 
     .hero-copy p{
@@ -3009,23 +3411,33 @@ main{
         min-width:0;
 
         min-height:46px;
+
+        padding:
+            0 12px;
+
+        font-size:11px;
     }
 
 
     /* SLIDER 2 */
 
     .slider-two-slide{
+        display:grid;
+
         grid-template-columns:1fr;
 
         align-content:start;
 
         gap:18px;
 
-        padding:
-            30px 0 86px;
+        padding-top:30px;
+
+        padding-bottom:86px;
     }
 
     .slider-two-title{
+        margin-bottom:14px;
+
         font-size:
             clamp(
                 27px,
@@ -3034,6 +3446,8 @@ main{
             );
 
         line-height:1.08;
+
+        letter-spacing:-.65px;
     }
 
     .slider-two-title
@@ -3043,13 +3457,8 @@ main{
 
     .slider-two-copy p{
         font-size:12px;
-    }
 
-    .slider-two-copy
-    .hero-actions{
-        display:grid;
-
-        grid-template-columns:1fr;
+        line-height:1.55;
     }
 
     .slider-two-map{
@@ -3060,6 +3469,8 @@ main{
             345px
         );
 
+        max-width:345px;
+
         justify-self:center;
 
         border-radius:18px;
@@ -3068,15 +3479,21 @@ main{
     .slider-two-map
     .landing-map-header{
         min-height:46px;
+
+        padding:
+            8px 12px;
     }
 
     .slider-two-map
     .landing-map-footer{
         min-height:32px;
+
+        padding:
+            6px 11px;
     }
 
 
-    /* 3D LANDING */
+    /* LANDING MODEL */
 
     .landing-model-card{
         width:100%;
@@ -3091,7 +3508,12 @@ main{
     }
 
 
-    /* CARDS */
+    /* FEATURE CARDS */
+
+    .feature-section{
+        padding:
+            26px 0 48px;
+    }
 
     .feature-grid{
         width:
@@ -3103,9 +3525,17 @@ main{
     }
 
     .feature-card{
-        min-height:205px;
+        min-height:220px;
 
         padding:19px;
+    }
+
+    .feature-card h3{
+        font-size:18px;
+    }
+
+    .feature-card p{
+        font-size:12px;
     }
 
 
@@ -3124,7 +3554,7 @@ main{
     }
 
 
-    /* MODEL VIEWER */
+    /* 3D */
 
     #mainModelViewer{
         min-height:390px;
@@ -3133,8 +3563,9 @@ main{
     }
 
     .model-focus-ring{
-        width:190px;
-        height:190px;
+        width:185px;
+
+        height:185px;
 
         border-width:4px;
     }
@@ -3150,7 +3581,7 @@ main{
     }
 
 
-    /* NAV */
+    /* NAVIGATION */
 
     .navigation-page-heading h1{
         font-size:
@@ -3169,6 +3600,7 @@ main{
 
     .nav-step b{
         width:31px;
+
         height:31px;
     }
 
@@ -3194,6 +3626,8 @@ main{
         flex-direction:column;
 
         align-items:stretch;
+
+        gap:13px;
     }
 
 
@@ -3223,6 +3657,7 @@ main{
 
     .building-number{
         width:44px;
+
         height:44px;
     }
 
@@ -3252,13 +3687,21 @@ main{
     }
 
     .help-grid h3{
-        margin-bottom:13px;
+        margin-bottom:15px;
 
         font-size:18px;
     }
 
-    .help-grid p{
+    .help-steps{
+        gap:10px;
+    }
+
+    .help-steps li{
+        padding-left:18px;
+
         font-size:11px;
+
+        line-height:1.65;
     }
 
 
@@ -3276,19 +3719,26 @@ main{
 
     .developer-photo-wrap{
         width:min(
-            100%,
-            370px
+            220px,
+            65vw
         );
 
-        justify-self:center;
-
         aspect-ratio:
-            4 / 5;
+            1 / 1;
 
-        border-radius:18px;
+        justify-self:center;
+    }
+
+    .developer-label{
+        margin-bottom:11px;
+
+        font-size:9px;
     }
 
     .developer-name{
+        margin:
+            0 0 11px;
+
         font-size:
             clamp(
                 25px,
@@ -3298,11 +3748,19 @@ main{
     }
 
     .developer-role{
-        font-size:12px !important;
+        margin-bottom:19px;
+
+        font-size:12px;
+    }
+
+    .about-project{
+        padding-top:19px;
     }
 
     .about-project p{
         font-size:11px;
+
+        line-height:1.75;
     }
 
     .developer-contacts{
@@ -3319,24 +3777,32 @@ main{
 @media(max-width:420px){
 
     .header-inner{
-        padding:0 4px;
+        padding:
+            0 4px;
     }
 
     .brand-icon{
         width:38px;
+
         height:38px;
 
         flex-basis:38px;
+
+        font-size:11px;
     }
 
     .header-link{
-        padding:0 4px;
+        min-height:34px;
+
+        padding:
+            0 4px;
 
         font-size:8px;
     }
 
     .hamburger{
         width:39px;
+
         height:39px;
     }
 
@@ -3366,8 +3832,16 @@ main{
     }
 
     .model-focus-ring{
-        width:165px;
-        height:165px;
+        width:155px;
+
+        height:155px;
+    }
+
+    .developer-photo-wrap{
+        width:min(
+            200px,
+            62vw
+        );
     }
 
     .drawer-item{
@@ -3379,503 +3853,8 @@ main{
 
     .drawer-icon{
         width:46px;
+
         height:46px;
-    }
-
-}
-/* =========================================================
-   REVISION 28
-   3D CLICK FOCUS + HELP + DIRECTORY + ABOUT
-========================================================= */
-
-
-/* =========================================================
-   3D OBJECT — CLICK FOCUS
-   BUKAN MAGNIFIER
-========================================================= */
-
-.model-viewer-stage{
-    position:relative;
-    overflow:hidden;
-}
-
-
-/*
-   Lingkaran hanya berfungsi sebagai penanda
-   area yang sedang menjadi pusat zoom.
-*/
-.model-focus-ring{
-    width:clamp(230px,26vw,340px) !important;
-    height:clamp(230px,26vw,340px) !important;
-
-    position:absolute;
-    z-index:30;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.92);
-
-    border:5px solid #18c98b !important;
-
-    border-radius:50%;
-
-    background:
-        rgba(24,201,139,.035) !important;
-
-    background-image:
-        none !important;
-
-    background-size:
-        auto !important;
-
-    background-position:
-        center !important;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255,255,255,.72),
-
-        0 12px 35px
-        rgba(3,84,68,.24) !important;
-
-    pointer-events:none;
-
-    opacity:0;
-
-    transition:
-        opacity .22s ease,
-        transform .22s ease;
-}
-
-
-/*
-   Tidak ada lagi hasil snapshot/model
-   di dalam lingkaran.
-*/
-.model-focus-ring::before{
-    content:"";
-
-    position:absolute;
-
-    inset:50% auto auto 50%;
-
-    width:10px;
-    height:10px;
-
-    transform:
-        translate(-50%,-50%);
-
-    border:3px solid #ffffff;
-
-    border-radius:50%;
-
-    background:#18c98b;
-
-    box-shadow:
-        0 1px 8px
-        rgba(0,0,0,.22);
-}
-
-
-.model-focus-ring.focus-visible{
-    opacity:1;
-
-    transform:
-        translate(-50%,-50%)
-        scale(1);
-}
-
-
-/*
-   Cursor memberi tahu user bahwa
-   bagian objek dapat dipilih sebagai titik fokus.
-*/
-#mainModelViewer{
-    cursor:crosshair;
-}
-
-
-/* =========================================================
-   HELP — LANGKAH PER POIN
-========================================================= */
-
-.help-grid article{
-    min-height:260px;
-}
-
-
-.help-grid h3{
-    margin:0 0 18px;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size:20px;
-
-    line-height:1.2;
-}
-
-
-.help-steps{
-    display:grid;
-
-    gap:12px;
-
-    margin:0;
-
-    padding:0;
-
-    list-style:none;
-}
-
-
-.help-steps li{
-    position:relative;
-
-    padding-left:21px;
-
-    color:#526870;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size:13px;
-
-    line-height:1.65;
-}
-
-
-.help-steps li::before{
-    content:"";
-
-    position:absolute;
-
-    top:.57em;
-    left:0;
-
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:var(--green-500);
-
-    box-shadow:
-        0 0 0 4px
-        rgba(32,184,157,.11);
-}
-
-
-.help-steps em{
-    color:var(--green-800);
-
-    font-style:italic;
-
-    font-weight:700;
-}
-
-
-/* =========================================================
-   FEATURE CARD — DIRECTORY
-========================================================= */
-
-#featureDirectory h3{
-    font-size:17px;
-
-    line-height:1.35;
-}
-
-
-/* =========================================================
-   ABOUT / DEVELOPER
-========================================================= */
-
-.developer-card{
-    grid-template-columns:
-        260px
-        minmax(0,1fr);
-
-    gap:38px;
-
-    align-items:start;
-}
-
-
-/*
-   Foto sekarang benar-benar kotak 1:1,
-   tidak memanjang penuh.
-*/
-.developer-photo-wrap{
-    width:260px;
-
-    max-width:100%;
-
-    aspect-ratio:1 / 1 !important;
-
-    justify-self:center;
-
-    align-self:start;
-
-    overflow:hidden;
-
-    border-radius:22px;
-}
-
-
-.developer-photo{
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    /*
-       Posisi wajah lebih nyaman pada crop kotak.
-    */
-    object-position:center 36%;
-}
-
-
-/*
-   Pastikan bagian Tentang menggunakan
-   font yang sama dengan seluruh website.
-*/
-.developer-card,
-.developer-card *,
-.about-project,
-.about-project *,
-.developer-contacts,
-.developer-contacts *{
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-}
-
-
-/*
-   Developer -> Nama -> Jabatan
-   diberi jarak seimbang.
-*/
-.developer-content > small{
-    display:block;
-
-    margin:0 0 12px;
-
-    color:var(--green-700);
-
-    font-size:10px;
-
-    font-weight:800;
-
-    letter-spacing:1.2px;
-}
-
-
-.developer-name{
-    margin:
-        0 0 12px;
-
-    font-size:
-        clamp(
-            30px,
-            3vw,
-            42px
-        );
-
-    line-height:1.12;
-}
-
-
-.developer-role{
-    margin:0 0 22px;
-
-    color:var(--green-700) !important;
-
-    font-size:14px !important;
-
-    line-height:1.5;
-
-    font-weight:700;
-}
-
-
-.about-project{
-    margin-top:0;
-
-    padding-top:22px;
-}
-
-
-.about-project p{
-    color:#526870;
-
-    font-size:14px;
-
-    line-height:1.78;
-}
-
-
-.contact-item small{
-    font-size:9px;
-}
-
-
-.contact-item strong{
-    font-size:10px;
-}
-
-
-/* =========================================================
-   DRAWER DIRECTORY NAME
-========================================================= */
-
-#menuDirectory strong{
-    font-size:12px;
-
-    line-height:1.35;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:760px){
-
-    /*
-       Ukuran lingkaran fokus menyesuaikan HP.
-    */
-    .model-focus-ring{
-        width:180px !important;
-        height:180px !important;
-
-        border-width:4px !important;
-    }
-
-
-    /* Bantuan tetap nyaman dibaca pada HP */
-
-    .help-grid article{
-        min-height:0;
-    }
-
-
-    .help-grid h3{
-        margin-bottom:14px;
-
-        font-size:18px;
-    }
-
-
-    .help-steps{
-        gap:10px;
-    }
-
-
-    .help-steps li{
-        padding-left:18px;
-
-        font-size:11px;
-
-        line-height:1.6;
-    }
-
-
-    .help-steps li::before{
-        width:6px;
-        height:6px;
-    }
-
-
-    /*
-       Foto developer tetap 1:1,
-       tetapi tidak terlalu besar di mobile.
-    */
-    .developer-card{
-        grid-template-columns:1fr;
-
-        gap:24px;
-    }
-
-
-    .developer-photo-wrap{
-        width:min(
-            220px,
-            65vw
-        );
-
-        aspect-ratio:1 / 1 !important;
-
-        justify-self:center;
-    }
-
-
-    /*
-       Font mobile dipertahankan seperti
-       versi yang sudah Anda suka.
-    */
-    .developer-content > small{
-        margin-bottom:10px;
-
-        font-size:9px;
-    }
-
-
-    .developer-name{
-        margin:
-            0 0 10px;
-
-        font-size:
-            clamp(
-                25px,
-                7vw,
-                34px
-            );
-    }
-
-
-    .developer-role{
-        margin-bottom:18px;
-
-        font-size:12px !important;
-    }
-
-
-    .about-project p{
-        font-size:11px;
-
-        line-height:1.75;
-    }
-
-
-    #featureDirectory h3{
-        font-size:17px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media(max-width:420px){
-
-    .model-focus-ring{
-        width:155px !important;
-        height:155px !important;
-    }
-
-
-    .developer-photo-wrap{
-        width:min(
-            200px,
-            62vw
-        );
     }
 
 }
