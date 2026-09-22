@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
-   DATABASE + MODEL DATABASE + NAVIGATION GRAPH
-   REVISION 26
+   DATABASE
+   REVISION 27
 ========================================================= */
 
 export const MAP_WIDTH = 551;
@@ -9,15 +9,13 @@ export const MAP_HEIGHT = 544;
 
 
 /* =========================================================
-   DATABASE GEDUNG + MODEL 3D
+   DATABASE GEDUNG
 ========================================================= */
 
 export const buildings = [
 
     /* =====================================================
-       GEDUNG BIRO FAKULTAS TEKNIK
-       FT berada di lantai 2.
-       Model 3D: Outdoor + Indoor
+       GEDUNG BIRO FT
     ===================================================== */
 
     {
@@ -60,7 +58,10 @@ export const buildings = [
                     "Gedung Biro Fakultas Teknik - Outdoor",
 
                 src:
-                    "./assets/models/gedung_biro_outdoor.glb"
+                    "./assets/models/gedung_biro_outdoor.glb",
+
+                viewerDescription:
+                    "Gedung Biro Fakultas Teknik berada dilantai 2 pada model 3D diatas."
             },
 
             {
@@ -72,7 +73,10 @@ export const buildings = [
                     "Gedung Biro Fakultas Teknik - Indoor",
 
                 src:
-                    "./assets/models/gedung_biro_indoor.glb"
+                    "./assets/models/gedung_biro_indoor.glb",
+
+                viewerDescription:
+                    "Model diatas menampilkan Interior tampilan ruangan didalam Biro Fakultas Teknik."
             }
 
         ]
@@ -80,9 +84,7 @@ export const buildings = [
 
 
     /* =====================================================
-       PERPUSTAKAAN FAKULTAS TEKNIK
-       Lantai 1
-       Model 3D: Indoor
+       PERPUSTAKAAN
     ===================================================== */
 
     {
@@ -124,10 +126,13 @@ export const buildings = [
                 name: "Indoor",
 
                 label:
-                    "Perpustakaan Fakultas Teknik - Indoor",
+                    "Perpustakaan Fakultas Teknik",
 
                 src:
-                    "./assets/models/perpustakaan_indoor.glb"
+                    "./assets/models/perpustakaan_indoor.glb",
+
+                viewerDescription:
+                    "Model diatas menampilkan Interior ruangan Perpustakaan Fakultas Teknik."
             }
 
         ]
@@ -135,16 +140,14 @@ export const buildings = [
 
 
     /* =====================================================
-       GEDUNG SERBAGUNA FAKULTAS TEKNIK
-       Lantai 1
-       Model 3D: Indoor
+       GEDUNG SERBAGUNA
     ===================================================== */
 
     {
         id: "serbaguna-ft",
 
         name:
-            "Gedung Serbaguna Fakultas Teknik",
+            "Ruang Serbaguna Fakultas Teknik",
 
         shortName:
             "Serbaguna FT",
@@ -179,10 +182,13 @@ export const buildings = [
                 name: "Indoor",
 
                 label:
-                    "Gedung Serbaguna Fakultas Teknik - Indoor",
+                    "Ruang Serbaguna Fakultas Teknik",
 
                 src:
-                    "./assets/models/serbaguna_indoor.glb"
+                    "./assets/models/serbaguna_indoor.glb",
+
+                viewerDescription:
+                    "Model diatas menampilkan Interior ruangan Serbaguna Fakultas Teknik."
             }
 
         ]
@@ -190,9 +196,7 @@ export const buildings = [
 
 
     /* =====================================================
-       GEDUNG PERKULIAHAN FAKULTAS TEKNIK
-       Fakultas Teknik berada di lantai 3.
-       Model 3D: Outdoor + Indoor
+       GEDUNG PERKULIAHAN
     ===================================================== */
 
     {
@@ -237,7 +241,10 @@ export const buildings = [
                     "Gedung Perkuliahan Fakultas Teknik - Outdoor",
 
                 src:
-                    "./assets/models/gedung_perkuliahan_outdoor.glb"
+                    "./assets/models/gedung_perkuliahan_outdoor.glb",
+
+                viewerDescription:
+                    "Ruang Kuliah Fakultas Teknik terletak dilantai 3 pada model 3D diatas."
             },
 
             {
@@ -249,7 +256,10 @@ export const buildings = [
                     "Gedung Perkuliahan Fakultas Teknik - Indoor",
 
                 src:
-                    "./assets/models/gedung_perkuliahan_indoor.glb"
+                    "./assets/models/gedung_perkuliahan_indoor.glb",
+
+                viewerDescription:
+                    "Model diatas menampilkan tampilan Interior Ruang Perkuliahan Teknik dari Ruang 1 s/d Ruang 8."
             }
 
         ]
@@ -257,9 +267,7 @@ export const buildings = [
 
 
     /* =====================================================
-       GEDUNG LABORATORIUM FAKULTAS TEKNIK
-       3 lantai
-       Model 3D: Outdoor
+       GEDUNG LABORATORIUM
     ===================================================== */
 
     {
@@ -315,10 +323,13 @@ export const buildings = [
                 name: "Outdoor",
 
                 label:
-                    "Gedung Laboratorium Fakultas Teknik - Outdoor",
+                    "Gedung Laboratorium Fakultas Teknik",
 
                 src:
-                    "./assets/models/gedung_laboratorium.glb"
+                    "./assets/models/gedung_laboratorium.glb",
+
+                viewerDescription:
+                    "Model diatas menampilkan Gedung Laboratorium yang berisi seluruh Laboratorium yang ada diFakultas Teknik, juga Ruang Perkuliahan dari Ruang 9 s/d Ruang 13."
             }
 
         ]
@@ -333,9 +344,7 @@ export const buildings = [
 
 export const rooms = [
 
-    /* =====================================================
-       GEDUNG BIRO FT — LANTAI 2
-    ===================================================== */
+    /* BIRO FT */
 
     {
         id: "gudang-mini",
@@ -485,363 +494,230 @@ export const rooms = [
     },
 
 
-    /* =====================================================
-       GEDUNG PERKULIAHAN — LANTAI 3
-    ===================================================== */
+    /* PERKULIAHAN */
+
+    ...Array.from(
+        {length:8},
+        (_,i) => ({
+            id:`ruang-kuliah-${i + 1}`,
+            name:`Ruang Kuliah ${i + 1}`,
+            buildingId:"perkuliahan-ft",
+            floor:3
+        })
+    ),
+
+
+    /* LAB LANTAI 1 */
 
     {
-        id: "ruang-kuliah-1",
-        name: "Ruang Kuliah 1",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-foundry",
+        name:"Lab. Foundry",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
     {
-        id: "ruang-kuliah-2",
-        name: "Ruang Kuliah 2",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-teknologi-mekanik",
+        name:"Lab. Teknologi Mekanik",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
     {
-        id: "ruang-kuliah-3",
-        name: "Ruang Kuliah 3",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-beton",
+        name:"Lab. Beton",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
     {
-        id: "ruang-kuliah-4",
-        name: "Ruang Kuliah 4",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-mekanika-tanah",
+        name:"Lab. Mekanika Tanah",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
     {
-        id: "ruang-kuliah-5",
-        name: "Ruang Kuliah 5",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-jalan-raya",
+        name:"Lab. Jalan Raya",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
     {
-        id: "ruang-kuliah-6",
-        name: "Ruang Kuliah 6",
-        buildingId: "perkuliahan-ft",
-        floor: 3
-    },
-
-    {
-        id: "ruang-kuliah-7",
-        name: "Ruang Kuliah 7",
-        buildingId: "perkuliahan-ft",
-        floor: 3
-    },
-
-    {
-        id: "ruang-kuliah-8",
-        name: "Ruang Kuliah 8",
-        buildingId: "perkuliahan-ft",
-        floor: 3
+        id:"lab-hidrolika",
+        name:"Lab. Hidrolika",
+        buildingId:"laboratorium-ft",
+        floor:1
     },
 
 
-    /* =====================================================
-       LABORATORIUM — LANTAI 1
-    ===================================================== */
+    /* LAB LANTAI 2 */
 
     {
-        id: "lab-foundry",
-        name: "Lab. Foundry",
-        buildingId: "laboratorium-ft",
-        floor: 1
+        id:"lab-rangkaian-listrik",
+        name:"Lab. Rangkaian Listrik",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-teknologi-mekanik",
-        name: "Lab. Teknologi Mekanik",
-        buildingId: "laboratorium-ft",
-        floor: 1
+        id:"lab-dasar-elektronika",
+        name:"Lab. Dasar Elektronika",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-beton",
-        name: "Lab. Beton",
-        buildingId: "laboratorium-ft",
-        floor: 1
+        id:"lab-sistem-pengukuran",
+        name:"Lab. Sistem Pengukuran",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-mekanika-tanah",
-        name: "Lab. Mekanika Tanah",
-        buildingId: "laboratorium-ft",
-        floor: 1
+        id:"lab-pengukuran-listrik",
+        name:"Lab. Pengukuran Listrik",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-jalan-raya",
-        name: "Lab. Jalan Raya",
-        buildingId: "laboratorium-ft",
-        floor: 1
+        id:"lab-dasar-telekomunikasi",
+        name:"Lab. Dasar Sistem Telekomunikasi",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-hidrolika",
-        name: "Lab. Hidrolika",
-        buildingId: "laboratorium-ft",
-        floor: 1
-    },
-
-
-    /* =====================================================
-       LABORATORIUM — LANTAI 2
-    ===================================================== */
-
-    {
-        id: "lab-rangkaian-listrik",
-        name: "Lab. Rangkaian Listrik",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"lab-ilmu-ukur-tanah",
+        name:"Lab. Ilmu Ukur Tanah",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-dasar-elektronika",
-        name: "Lab. Dasar Elektronika",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"lab-komputasi",
+        name:"Lab. Komputasi",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-sistem-pengukuran",
-        name: "Lab. Sistem Pengukuran",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"lab-pengukuran-statistik",
+        name:"Lab. Pengukuran & Statistik",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-pengukuran-listrik",
-        name: "Lab. Pengukuran Listrik",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"lab-faktor-manusia",
+        name:"Lab. Teknik Faktor Manusia",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-dasar-telekomunikasi",
-        name: "Lab. Dasar Sistem Telekomunikasi",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"lab-jaringan-komputer-mikro",
+        name:"Lab. Jaringan Komputer Mikro",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-ilmu-ukur-tanah",
-        name: "Lab. Ilmu Ukur Tanah",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"ruang-kuliah-9",
+        name:"Ruang Kuliah 9",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
     {
-        id: "lab-komputasi",
-        name: "Lab. Komputasi",
-        buildingId: "laboratorium-ft",
-        floor: 2
-    },
-
-    {
-        id: "lab-pengukuran-statistik",
-        name: "Lab. Pengukuran & Statistik",
-        buildingId: "laboratorium-ft",
-        floor: 2
-    },
-
-    {
-        id: "lab-faktor-manusia",
-        name: "Lab. Teknik Faktor Manusia",
-        buildingId: "laboratorium-ft",
-        floor: 2
-    },
-
-    {
-        id: "lab-jaringan-komputer-mikro",
-        name: "Lab. Jaringan Komputer Mikro",
-        buildingId: "laboratorium-ft",
-        floor: 2
-    },
-
-    {
-        id: "ruang-kuliah-9",
-        name: "Ruang Kuliah 9",
-        buildingId: "laboratorium-ft",
-        floor: 2
-    },
-
-    {
-        id: "ruang-kuliah-10",
-        name: "Ruang Kuliah 10",
-        buildingId: "laboratorium-ft",
-        floor: 2
+        id:"ruang-kuliah-10",
+        name:"Ruang Kuliah 10",
+        buildingId:"laboratorium-ft",
+        floor:2
     },
 
 
-    /* =====================================================
-       LABORATORIUM — LANTAI 3
-    ===================================================== */
+    /* LAB LANTAI 3 */
 
     {
-        id: "ruang-kuliah-11",
-        name: "Ruang Kuliah 11",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"ruang-kuliah-11",
+        name:"Ruang Kuliah 11",
+        buildingId:"laboratorium-ft",
+        floor:3
     },
 
     {
-        id: "ruang-kuliah-12",
-        name: "Ruang Kuliah 12",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"ruang-kuliah-12",
+        name:"Ruang Kuliah 12",
+        buildingId:"laboratorium-ft",
+        floor:3
     },
 
     {
-        id: "ruang-kuliah-13",
-        name: "Ruang Kuliah 13",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"ruang-kuliah-13",
+        name:"Ruang Kuliah 13",
+        buildingId:"laboratorium-ft",
+        floor:3
     },
 
     {
-        id: "lab-sistem-digital",
-        name: "Lab. Sistem Digital",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"lab-sistem-digital",
+        name:"Lab. Sistem Digital",
+        buildingId:"laboratorium-ft",
+        floor:3
     },
 
     {
-        id: "lab-teknik-produksi",
-        name: "Lab. Teknik Produksi",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"lab-teknik-produksi",
+        name:"Lab. Teknik Produksi",
+        buildingId:"laboratorium-ft",
+        floor:3
     },
 
     {
-        id: "lab-menggambar",
-        name: "Lab. Menggambar",
-        buildingId: "laboratorium-ft",
-        floor: 3
+        id:"lab-menggambar",
+        name:"Lab. Menggambar",
+        buildingId:"laboratorium-ft",
+        floor:3
     }
 
 ];
 
 
 /* =========================================================
-   GRAPH NAVIGASI SEMENTARA
-   TETAP DIPERTAHANKAN SAMPAI DENAH FINAL DIBERIKAN
+   NAVIGATION GRAPH SEMENTARA
 ========================================================= */
 
 export const routeNodes = {
 
-    GATE_IN: {
-        x: 34,
-        y: 286
-    },
+    GATE_IN:{x:34,y:286},
+    GATE_MID:{x:143,y:286},
+    CENTER:{x:278,y:286},
+    TOP_MAIN:{x:282,y:120},
+    GATE_EXIT:{x:282,y:36},
 
-    GATE_MID: {
-        x: 143,
-        y: 286
-    },
+    SERBAGUNA:{x:390,y:120},
+    TOP_RIGHT:{x:535,y:120},
+    LIB_CORNER:{x:535,y:185},
+    LIBRARY:{x:490,y:185},
 
-    CENTER: {
-        x: 278,
-        y: 286
-    },
+    COURT_TOP:{x:355,y:286},
+    BIRO:{x:449,y:290},
+    COURT_BOTTOM:{x:355,y:397},
 
-    TOP_MAIN: {
-        x: 282,
-        y: 120
-    },
+    LAB_RIGHT:{x:418,y:397},
+    LAB_RIGHT_BOTTOM:{x:418,y:507},
+    LAB_SOUTH:{x:360,y:507},
+    LAB_LEFT_BOTTOM:{x:243,y:507},
+    LAB_WEST:{x:243,y:454},
+    LAB_NORTH:{x:243,y:370},
 
-    GATE_EXIT: {
-        x: 282,
-        y: 36
-    },
+    MOSQUE_BRANCH:{x:204,y:370},
 
-    SERBAGUNA: {
-        x: 390,
-        y: 120
-    },
-
-    TOP_RIGHT: {
-        x: 535,
-        y: 120
-    },
-
-    LIB_CORNER: {
-        x: 535,
-        y: 185
-    },
-
-    LIBRARY: {
-        x: 490,
-        y: 185
-    },
-
-    COURT_TOP: {
-        x: 355,
-        y: 286
-    },
-
-    BIRO: {
-        x: 449,
-        y: 290
-    },
-
-    COURT_BOTTOM: {
-        x: 355,
-        y: 397
-    },
-
-    LAB_RIGHT: {
-        x: 418,
-        y: 397
-    },
-
-    LAB_RIGHT_BOTTOM: {
-        x: 418,
-        y: 507
-    },
-
-    LAB_SOUTH: {
-        x: 360,
-        y: 507
-    },
-
-    LAB_LEFT_BOTTOM: {
-        x: 243,
-        y: 507
-    },
-
-    LAB_WEST: {
-        x: 243,
-        y: 454
-    },
-
-    LAB_NORTH: {
-        x: 243,
-        y: 370
-    },
-
-    MOSQUE_BRANCH: {
-        x: 204,
-        y: 370
-    },
-
-    CLASS_JUNCTION: {
-        x: 303,
-        y: 286
-    },
-
-    CLASS_ENTRANCE: {
-        x: 303,
-        y: 307
-    }
+    CLASS_JUNCTION:{x:303,y:286},
+    CLASS_ENTRANCE:{x:303,y:307}
 
 };
 
@@ -849,20 +725,20 @@ export const routeNodes = {
 export const routeEdges = [
 
     {
-        id: "E01",
-        from: "GATE_IN",
-        to: "GATE_MID",
-        points: [
+        id:"E01",
+        from:"GATE_IN",
+        to:"GATE_MID",
+        points:[
             [34,286],
             [143,286]
         ]
     },
 
     {
-        id: "E02",
-        from: "GATE_MID",
-        to: "CENTER",
-        points: [
+        id:"E02",
+        from:"GATE_MID",
+        to:"CENTER",
+        points:[
             [143,286],
             [210,286],
             [278,286]
@@ -870,10 +746,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E03",
-        from: "GATE_MID",
-        to: "MOSQUE_BRANCH",
-        points: [
+        id:"E03",
+        from:"GATE_MID",
+        to:"MOSQUE_BRANCH",
+        points:[
             [143,286],
             [169,318],
             [204,370]
@@ -881,20 +757,20 @@ export const routeEdges = [
     },
 
     {
-        id: "E04",
-        from: "MOSQUE_BRANCH",
-        to: "LAB_NORTH",
-        points: [
+        id:"E04",
+        from:"MOSQUE_BRANCH",
+        to:"LAB_NORTH",
+        points:[
             [204,370],
             [243,370]
         ]
     },
 
     {
-        id: "E05",
-        from: "CENTER",
-        to: "LAB_NORTH",
-        points: [
+        id:"E05",
+        from:"CENTER",
+        to:"LAB_NORTH",
+        points:[
             [278,286],
             [278,329],
             [278,370],
@@ -903,10 +779,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E06",
-        from: "CENTER",
-        to: "TOP_MAIN",
-        points: [
+        id:"E06",
+        from:"CENTER",
+        to:"TOP_MAIN",
+        points:[
             [278,286],
             [280,230],
             [281,175],
@@ -915,20 +791,20 @@ export const routeEdges = [
     },
 
     {
-        id: "E07",
-        from: "TOP_MAIN",
-        to: "GATE_EXIT",
-        points: [
+        id:"E07",
+        from:"TOP_MAIN",
+        to:"GATE_EXIT",
+        points:[
             [282,120],
             [282,36]
         ]
     },
 
     {
-        id: "E08",
-        from: "TOP_MAIN",
-        to: "SERBAGUNA",
-        points: [
+        id:"E08",
+        from:"TOP_MAIN",
+        to:"SERBAGUNA",
+        points:[
             [282,120],
             [335,120],
             [390,120]
@@ -936,10 +812,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E09",
-        from: "SERBAGUNA",
-        to: "TOP_RIGHT",
-        points: [
+        id:"E09",
+        from:"SERBAGUNA",
+        to:"TOP_RIGHT",
+        points:[
             [390,120],
             [455,120],
             [535,120]
@@ -947,10 +823,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E10",
-        from: "TOP_RIGHT",
-        to: "LIB_CORNER",
-        points: [
+        id:"E10",
+        from:"TOP_RIGHT",
+        to:"LIB_CORNER",
+        points:[
             [535,120],
             [535,150],
             [535,185]
@@ -958,10 +834,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E11",
-        from: "LIB_CORNER",
-        to: "LIBRARY",
-        points: [
+        id:"E11",
+        from:"LIB_CORNER",
+        to:"LIBRARY",
+        points:[
             [535,185],
             [515,185],
             [490,185]
@@ -969,10 +845,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E12",
-        from: "CENTER",
-        to: "COURT_TOP",
-        points: [
+        id:"E12",
+        from:"CENTER",
+        to:"COURT_TOP",
+        points:[
             [278,286],
             [316,286],
             [355,286]
@@ -980,10 +856,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E13",
-        from: "COURT_TOP",
-        to: "BIRO",
-        points: [
+        id:"E13",
+        from:"COURT_TOP",
+        to:"BIRO",
+        points:[
             [355,286],
             [405,288],
             [449,290]
@@ -991,10 +867,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E14",
-        from: "COURT_TOP",
-        to: "COURT_BOTTOM",
-        points: [
+        id:"E14",
+        from:"COURT_TOP",
+        to:"COURT_BOTTOM",
+        points:[
             [355,286],
             [355,340],
             [355,397]
@@ -1002,20 +878,20 @@ export const routeEdges = [
     },
 
     {
-        id: "E15",
-        from: "COURT_BOTTOM",
-        to: "LAB_RIGHT",
-        points: [
+        id:"E15",
+        from:"COURT_BOTTOM",
+        to:"LAB_RIGHT",
+        points:[
             [355,397],
             [418,397]
         ]
     },
 
     {
-        id: "E16",
-        from: "LAB_RIGHT",
-        to: "LAB_RIGHT_BOTTOM",
-        points: [
+        id:"E16",
+        from:"LAB_RIGHT",
+        to:"LAB_RIGHT_BOTTOM",
+        points:[
             [418,397],
             [418,450],
             [418,507]
@@ -1023,10 +899,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E17",
-        from: "LAB_RIGHT_BOTTOM",
-        to: "LAB_SOUTH",
-        points: [
+        id:"E17",
+        from:"LAB_RIGHT_BOTTOM",
+        to:"LAB_SOUTH",
+        points:[
             [418,507],
             [390,507],
             [360,507]
@@ -1034,10 +910,10 @@ export const routeEdges = [
     },
 
     {
-        id: "E18",
-        from: "LAB_SOUTH",
-        to: "LAB_LEFT_BOTTOM",
-        points: [
+        id:"E18",
+        from:"LAB_SOUTH",
+        to:"LAB_LEFT_BOTTOM",
+        points:[
             [360,507],
             [300,507],
             [243,507]
@@ -1045,20 +921,20 @@ export const routeEdges = [
     },
 
     {
-        id: "E19",
-        from: "LAB_LEFT_BOTTOM",
-        to: "LAB_WEST",
-        points: [
+        id:"E19",
+        from:"LAB_LEFT_BOTTOM",
+        to:"LAB_WEST",
+        points:[
             [243,507],
             [243,454]
         ]
     },
 
     {
-        id: "E20",
-        from: "LAB_WEST",
-        to: "LAB_NORTH",
-        points: [
+        id:"E20",
+        from:"LAB_WEST",
+        to:"LAB_NORTH",
+        points:[
             [243,454],
             [243,410],
             [243,370]
@@ -1066,20 +942,20 @@ export const routeEdges = [
     },
 
     {
-        id: "E21",
-        from: "CENTER",
-        to: "CLASS_JUNCTION",
-        points: [
+        id:"E21",
+        from:"CENTER",
+        to:"CLASS_JUNCTION",
+        points:[
             [278,286],
             [303,286]
         ]
     },
 
     {
-        id: "E22",
-        from: "CLASS_JUNCTION",
-        to: "CLASS_ENTRANCE",
-        points: [
+        id:"E22",
+        from:"CLASS_JUNCTION",
+        to:"CLASS_ENTRANCE",
+        points:[
             [303,286],
             [303,307]
         ]
@@ -1092,32 +968,27 @@ export const routeEdges = [
    HELPERS
 ========================================================= */
 
-export function getBuildingById(id) {
+export function getBuildingById(id){
 
     return buildings.find(
-        building =>
-            building.id === id
+        building => building.id === id
     ) || null;
 
 }
 
 
-export function getRoomById(id) {
+export function getRoomById(id){
 
     return rooms.find(
-        room =>
-            room.id === id
+        room => room.id === id
     ) || null;
 
 }
 
 
-export function getBuildingModels(buildingId) {
+export function getBuildingModels(buildingId){
 
-    const building =
-        getBuildingById(buildingId);
-
-    return building?.models || [];
+    return getBuildingById(buildingId)?.models || [];
 
 }
 
@@ -1125,50 +996,38 @@ export function getBuildingModels(buildingId) {
 export function getModelVariant(
     buildingId,
     modelId
-) {
+){
 
-    const building =
-        getBuildingById(buildingId);
-
-    if (!building) {
-        return null;
-    }
-
-    return building.models.find(
-        model =>
-            model.id === modelId
-    ) || null;
+    return getBuildingById(buildingId)
+        ?.models
+        ?.find(
+            model => model.id === modelId
+        ) || null;
 
 }
 
 
 export function getDefaultModelVariant(
     buildingId
-) {
+){
 
     const building =
         getBuildingById(buildingId);
 
-    if (!building) {
+    if(!building){
         return null;
     }
 
     return (
-
         building.models.find(
             model =>
                 model.id ===
                 building.defaultModel
         )
-
         ||
-
         building.models[0]
-
         ||
-
         null
-
     );
 
 }
