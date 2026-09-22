@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
-   DATABASE
-   REVISION 27
+   DATABASE + 3D MODEL DATA + NAVIGATION GRAPH
+   REVISION 29
 ========================================================= */
 
 export const MAP_WIDTH = 551;
@@ -9,13 +9,13 @@ export const MAP_HEIGHT = 544;
 
 
 /* =========================================================
-   DATABASE GEDUNG
+   BUILDINGS
 ========================================================= */
 
 export const buildings = [
 
     /* =====================================================
-       GEDUNG BIRO FT
+       GEDUNG BIRO FAKULTAS TEKNIK
     ===================================================== */
 
     {
@@ -90,11 +90,9 @@ export const buildings = [
     {
         id: "perpustakaan-ft",
 
-        name:
-            "Perpustakaan Fakultas Teknik",
+        name: "Perpustakaan Fakultas Teknik",
 
-        shortName:
-            "Perpustakaan FT",
+        shortName: "Perpustakaan FT",
 
         description:
             "Perpustakaan Fakultas Teknik berada di lantai 1 pada gedung yang berbeda dan terletak di sudut seberang lapangan.",
@@ -146,11 +144,9 @@ export const buildings = [
     {
         id: "serbaguna-ft",
 
-        name:
-            "Ruang Serbaguna Fakultas Teknik",
+        name: "Gedung Serbaguna Fakultas Teknik",
 
-        shortName:
-            "Serbaguna FT",
+        shortName: "Serbaguna FT",
 
         description:
             "Gedung Serbaguna Fakultas Teknik berada di lantai 1 pada gedung yang berbeda yaitu gedung Fakultas Hukum.",
@@ -202,11 +198,9 @@ export const buildings = [
     {
         id: "perkuliahan-ft",
 
-        name:
-            "Gedung Perkuliahan Fakultas Teknik",
+        name: "Gedung Perkuliahan Fakultas Teknik",
 
-        shortName:
-            "Perkuliahan FT",
+        shortName: "Perkuliahan FT",
 
         description:
             "Gedung Perkuliahan Fakultas Teknik berada di lantai 3 pada gedung yang terletak di seberang Gedung Biro Fakultas Teknik.",
@@ -273,11 +267,9 @@ export const buildings = [
     {
         id: "laboratorium-ft",
 
-        name:
-            "Gedung Laboratorium Fakultas Teknik",
+        name: "Gedung Laboratorium Fakultas Teknik",
 
-        shortName:
-            "Laboratorium FT",
+        shortName: "Laboratorium FT",
 
         description:
             "Gedung Laboratorium Fakultas Teknik terdiri dari tiga lantai dan berada di dekat Gedung Perkuliahan Fakultas Teknik.",
@@ -339,12 +331,14 @@ export const buildings = [
 
 
 /* =========================================================
-   DATABASE RUANGAN
+   ROOMS
 ========================================================= */
 
 export const rooms = [
 
-    /* BIRO FT */
+    /* =====================================================
+       BIRO FT
+    ===================================================== */
 
     {
         id: "gudang-mini",
@@ -494,230 +488,290 @@ export const rooms = [
     },
 
 
-    /* PERKULIAHAN */
-
-    ...Array.from(
-        {length:8},
-        (_,i) => ({
-            id:`ruang-kuliah-${i + 1}`,
-            name:`Ruang Kuliah ${i + 1}`,
-            buildingId:"perkuliahan-ft",
-            floor:3
-        })
-    ),
-
-
-    /* LAB LANTAI 1 */
+    /* =====================================================
+       GEDUNG PERKULIAHAN
+    ===================================================== */
 
     {
-        id:"lab-foundry",
-        name:"Lab. Foundry",
-        buildingId:"laboratorium-ft",
-        floor:1
+        id: "ruang-kuliah-1",
+        name: "Ruang Kuliah 1",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-teknologi-mekanik",
-        name:"Lab. Teknologi Mekanik",
-        buildingId:"laboratorium-ft",
-        floor:1
+        id: "ruang-kuliah-2",
+        name: "Ruang Kuliah 2",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-beton",
-        name:"Lab. Beton",
-        buildingId:"laboratorium-ft",
-        floor:1
+        id: "ruang-kuliah-3",
+        name: "Ruang Kuliah 3",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-mekanika-tanah",
-        name:"Lab. Mekanika Tanah",
-        buildingId:"laboratorium-ft",
-        floor:1
+        id: "ruang-kuliah-4",
+        name: "Ruang Kuliah 4",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-jalan-raya",
-        name:"Lab. Jalan Raya",
-        buildingId:"laboratorium-ft",
-        floor:1
+        id: "ruang-kuliah-5",
+        name: "Ruang Kuliah 5",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-hidrolika",
-        name:"Lab. Hidrolika",
-        buildingId:"laboratorium-ft",
-        floor:1
-    },
-
-
-    /* LAB LANTAI 2 */
-
-    {
-        id:"lab-rangkaian-listrik",
-        name:"Lab. Rangkaian Listrik",
-        buildingId:"laboratorium-ft",
-        floor:2
+        id: "ruang-kuliah-6",
+        name: "Ruang Kuliah 6",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-dasar-elektronika",
-        name:"Lab. Dasar Elektronika",
-        buildingId:"laboratorium-ft",
-        floor:2
+        id: "ruang-kuliah-7",
+        name: "Ruang Kuliah 7",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
     {
-        id:"lab-sistem-pengukuran",
-        name:"Lab. Sistem Pengukuran",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-pengukuran-listrik",
-        name:"Lab. Pengukuran Listrik",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-dasar-telekomunikasi",
-        name:"Lab. Dasar Sistem Telekomunikasi",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-ilmu-ukur-tanah",
-        name:"Lab. Ilmu Ukur Tanah",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-komputasi",
-        name:"Lab. Komputasi",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-pengukuran-statistik",
-        name:"Lab. Pengukuran & Statistik",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-faktor-manusia",
-        name:"Lab. Teknik Faktor Manusia",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"lab-jaringan-komputer-mikro",
-        name:"Lab. Jaringan Komputer Mikro",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"ruang-kuliah-9",
-        name:"Ruang Kuliah 9",
-        buildingId:"laboratorium-ft",
-        floor:2
-    },
-
-    {
-        id:"ruang-kuliah-10",
-        name:"Ruang Kuliah 10",
-        buildingId:"laboratorium-ft",
-        floor:2
+        id: "ruang-kuliah-8",
+        name: "Ruang Kuliah 8",
+        buildingId: "perkuliahan-ft",
+        floor: 3
     },
 
 
-    /* LAB LANTAI 3 */
+    /* =====================================================
+       LABORATORIUM LANTAI 1
+    ===================================================== */
 
     {
-        id:"ruang-kuliah-11",
-        name:"Ruang Kuliah 11",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-foundry",
+        name: "Lab. Foundry",
+        buildingId: "laboratorium-ft",
+        floor: 1
     },
 
     {
-        id:"ruang-kuliah-12",
-        name:"Ruang Kuliah 12",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-teknologi-mekanik",
+        name: "Lab. Teknologi Mekanik",
+        buildingId: "laboratorium-ft",
+        floor: 1
     },
 
     {
-        id:"ruang-kuliah-13",
-        name:"Ruang Kuliah 13",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-beton",
+        name: "Lab. Beton",
+        buildingId: "laboratorium-ft",
+        floor: 1
     },
 
     {
-        id:"lab-sistem-digital",
-        name:"Lab. Sistem Digital",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-mekanika-tanah",
+        name: "Lab. Mekanika Tanah",
+        buildingId: "laboratorium-ft",
+        floor: 1
     },
 
     {
-        id:"lab-teknik-produksi",
-        name:"Lab. Teknik Produksi",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-jalan-raya",
+        name: "Lab. Jalan Raya",
+        buildingId: "laboratorium-ft",
+        floor: 1
     },
 
     {
-        id:"lab-menggambar",
-        name:"Lab. Menggambar",
-        buildingId:"laboratorium-ft",
-        floor:3
+        id: "lab-hidrolika",
+        name: "Lab. Hidrolika",
+        buildingId: "laboratorium-ft",
+        floor: 1
+    },
+
+
+    /* =====================================================
+       LABORATORIUM LANTAI 2
+    ===================================================== */
+
+    {
+        id: "lab-rangkaian-listrik",
+        name: "Lab. Rangkaian Listrik",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-dasar-elektronika",
+        name: "Lab. Dasar Elektronika",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-sistem-pengukuran",
+        name: "Lab. Sistem Pengukuran",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-pengukuran-listrik",
+        name: "Lab. Pengukuran Listrik",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-dasar-telekomunikasi",
+        name: "Lab. Dasar Sistem Telekomunikasi",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-ilmu-ukur-tanah",
+        name: "Lab. Ilmu Ukur Tanah",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-komputasi",
+        name: "Lab. Komputasi",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-pengukuran-statistik",
+        name: "Lab. Pengukuran & Statistik",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-faktor-manusia",
+        name: "Lab. Teknik Faktor Manusia",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "lab-jaringan-komputer-mikro",
+        name: "Lab. Jaringan Komputer Mikro",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "ruang-kuliah-9",
+        name: "Ruang Kuliah 9",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+    {
+        id: "ruang-kuliah-10",
+        name: "Ruang Kuliah 10",
+        buildingId: "laboratorium-ft",
+        floor: 2
+    },
+
+
+    /* =====================================================
+       LABORATORIUM LANTAI 3
+    ===================================================== */
+
+    {
+        id: "ruang-kuliah-11",
+        name: "Ruang Kuliah 11",
+        buildingId: "laboratorium-ft",
+        floor: 3
+    },
+
+    {
+        id: "ruang-kuliah-12",
+        name: "Ruang Kuliah 12",
+        buildingId: "laboratorium-ft",
+        floor: 3
+    },
+
+    {
+        id: "ruang-kuliah-13",
+        name: "Ruang Kuliah 13",
+        buildingId: "laboratorium-ft",
+        floor: 3
+    },
+
+    {
+        id: "lab-sistem-digital",
+        name: "Lab. Sistem Digital",
+        buildingId: "laboratorium-ft",
+        floor: 3
+    },
+
+    {
+        id: "lab-teknik-produksi",
+        name: "Lab. Teknik Produksi",
+        buildingId: "laboratorium-ft",
+        floor: 3
+    },
+
+    {
+        id: "lab-menggambar",
+        name: "Lab. Menggambar",
+        buildingId: "laboratorium-ft",
+        floor: 3
     }
 
 ];
 
 
 /* =========================================================
-   NAVIGATION GRAPH SEMENTARA
+   TEMPORARY NAVIGATION GRAPH
 ========================================================= */
 
 export const routeNodes = {
 
-    GATE_IN:{x:34,y:286},
-    GATE_MID:{x:143,y:286},
-    CENTER:{x:278,y:286},
-    TOP_MAIN:{x:282,y:120},
-    GATE_EXIT:{x:282,y:36},
+    GATE_IN: {x:34,y:286},
+    GATE_MID: {x:143,y:286},
+    CENTER: {x:278,y:286},
 
-    SERBAGUNA:{x:390,y:120},
-    TOP_RIGHT:{x:535,y:120},
-    LIB_CORNER:{x:535,y:185},
-    LIBRARY:{x:490,y:185},
+    TOP_MAIN: {x:282,y:120},
+    GATE_EXIT: {x:282,y:36},
 
-    COURT_TOP:{x:355,y:286},
-    BIRO:{x:449,y:290},
-    COURT_BOTTOM:{x:355,y:397},
+    SERBAGUNA: {x:390,y:120},
 
-    LAB_RIGHT:{x:418,y:397},
-    LAB_RIGHT_BOTTOM:{x:418,y:507},
-    LAB_SOUTH:{x:360,y:507},
-    LAB_LEFT_BOTTOM:{x:243,y:507},
-    LAB_WEST:{x:243,y:454},
-    LAB_NORTH:{x:243,y:370},
+    TOP_RIGHT: {x:535,y:120},
 
-    MOSQUE_BRANCH:{x:204,y:370},
+    LIB_CORNER: {x:535,y:185},
+    LIBRARY: {x:490,y:185},
 
-    CLASS_JUNCTION:{x:303,y:286},
-    CLASS_ENTRANCE:{x:303,y:307}
+    COURT_TOP: {x:355,y:286},
+    BIRO: {x:449,y:290},
+
+    COURT_BOTTOM: {x:355,y:397},
+
+    LAB_RIGHT: {x:418,y:397},
+    LAB_RIGHT_BOTTOM: {x:418,y:507},
+
+    LAB_SOUTH: {x:360,y:507},
+
+    LAB_LEFT_BOTTOM: {x:243,y:507},
+    LAB_WEST: {x:243,y:454},
+    LAB_NORTH: {x:243,y:370},
+
+    MOSQUE_BRANCH: {x:204,y:370},
+
+    CLASS_JUNCTION: {x:303,y:286},
+    CLASS_ENTRANCE: {x:303,y:307}
 
 };
 
@@ -971,7 +1025,8 @@ export const routeEdges = [
 export function getBuildingById(id){
 
     return buildings.find(
-        building => building.id === id
+        building =>
+            building.id === id
     ) || null;
 
 }
@@ -980,7 +1035,8 @@ export function getBuildingById(id){
 export function getRoomById(id){
 
     return rooms.find(
-        room => room.id === id
+        room =>
+            room.id === id
     ) || null;
 
 }
@@ -988,7 +1044,10 @@ export function getRoomById(id){
 
 export function getBuildingModels(buildingId){
 
-    return getBuildingById(buildingId)?.models || [];
+    return getBuildingById(buildingId)
+        ?.models
+        ||
+        [];
 
 }
 
@@ -1001,8 +1060,11 @@ export function getModelVariant(
     return getBuildingById(buildingId)
         ?.models
         ?.find(
-            model => model.id === modelId
-        ) || null;
+            model =>
+                model.id === modelId
+        )
+        ||
+        null;
 
 }
 
@@ -1014,20 +1076,30 @@ export function getDefaultModelVariant(
     const building =
         getBuildingById(buildingId);
 
+
     if(!building){
+
         return null;
+
     }
 
+
     return (
+
         building.models.find(
             model =>
                 model.id ===
                 building.defaultModel
         )
+
         ||
+
         building.models[0]
+
         ||
+
         null
+
     );
 
 }
