@@ -1488,457 +1488,155 @@ if (arBuildingSelect) {
         );
 }
 
+function showDestinationIn3D(){
 
-/* =========================================================
-   3D VIEWER
-========================================================= */
+    if(
+        !state.destination
+    ){
 
-const mainModelViewer =
-    byId(
-        "mainModelViewer"
-    );
+        return;
+    }
 
 
-function display3DModel(
-    buildingId,
-    variantId
-) {
+    const destination =
+        state.destination;
+
+
+    const buildingId =
+        destination.buildingId
+        ||
+        destination.id;
+
 
     const building =
         getBuildingById(
             buildingId
         );
 
-    if (!building) {
 
-        setText(
-            "viewerMessage",
-            "Gedung belum ditemukan di database."
+    if(!building){
+
+        toast(
+            "Model gedung belum tersedia."
         );
+
 
         return;
     }
 
-    const model =
-        getModelVariant(
-            buildingId,
-            variantId
-        )
-        ||
-        getDefaultModelVariant(
-            buildingId
-        );
 
-    if (!model) {
+    /*
+       Jika tujuan berupa RUANGAN,
+       prioritaskan model Indoor.
+    */
 
-        setText(
-            "viewerMessage",
+    let targetModel =
+        null;
+
+
+    if(
+        destination.type ===
+        "room"
+    ){
+
+        targetModel =
+            getModelVariant(
+                building.id,
+                "indoor"
+            );
+    }
+
+
+    /*
+       Kalau gedung tidak punya Indoor,
+       gunakan default.
+    */
+
+    if(!targetModel){
+
+        targetModel =
+            getDefaultModelVariant(
+                building.id
+            );
+    }
+
+
+    if(!targetModel){
+
+        toast(
             "Model 3D belum tersedia."
         );
 
-        return;
-    }
-
-    if (mainModelViewer) {
-
-        mainModelViewer.setAttribute(
-            "src",
-            model.src
-        );
-    }
-
-    setText(
-        "viewerTitle",
-        building.name
-    );
-
-    setText(
-        "viewerModeBadge",
-        model.name
-    );
-
-    setText(
-        "viewerModelDescription",
-        model.viewerDescription
-    );
-
-    setText(
-        "viewerMessage",
-        ""
-    );
-
-    show(
-        "viewerCard"
-    );
-}
-
-
-on(
-    "show3DModel",
-    "click",
-    () => {
-
-        const buildingId =
-            viewerBuildingSelect
-                ?
-                viewerBuildingSelect.value
-                :
-                "";
-
-        if (!buildingId) {
-
-            setText(
-                "viewerMessage",
-                "Pilih gedung terlebih dahulu."
-            );
-
-            return;
-        }
-
-        const variantSelect =
-            byId(
-                "viewerVariantSelect"
-            );
-
-        display3DModel(
-
-            buildingId,
-
-            variantSelect
-                ?
-                variantSelect.value
-                :
-                ""
-        );
-    }
-);
-
-
-/* =========================================================
-   MODEL FOCUS
-========================================================= */
-
-const focusRing =
-    byId(
-        "modelFocusRing"
-    );
-
-
-function hideFocusRing() {
-
-    if (!focusRing) {
 
         return;
     }
 
-    focusRing.classList.remove(
-        "focus-visible"
-    );
 
-    focusRing.classList.add(
-        "hidden"
-    );
-}
-
-
-if (mainModelViewer) {
-
-    mainModelViewer.addEventListener(
-        "pointerdown",
-        event => {
-
-            hideFocusRing();
-
-            state.modelPointerStart = {
-
-                x:
-                    event.clientX,
-
-                y:
-                    event.clientY
-            };
-
-            state.modelPointerMoved =
-                false;
-        }
+    showPage(
+        "viewer"
     );
 
 
-    mainModelViewer.addEventListener(
-        "pointermove",
-        event => {
+    if(viewerBuildingSelect){
 
-            if (
-                !state.modelPointerStart
-            ) {
-
-                return;
-            }
-
-            const movement =
-                Math.hypot(
-
-                    event.clientX
-                    -
-                    state.modelPointerStart.x,
-
-                    event.clientY
-                    -
-                    state.modelPointerStart.y
-                );
-
-            if (
-                movement > 8
-            ) {
-
-                state.modelPointerMoved =
-                    true;
-
-                hideFocusRing();
-            }
-        }
-    );
-
-
-    mainModelViewer.addEventListener(
-        "wheel",
-        hideFocusRing,
-        {
-            passive: true
-        }
-    );
-
-
-    mainModelViewer.addEventListener(
-        "pointerup",
-        event => {
-
-            if (
-                !state.modelPointerStart
-                ||
-                state.modelPointerMoved
-            ) {
-
-                state.modelPointerStart =
-                    null;
-
-                return;
-            }
-
-            const stage =
-                byId(
-                    "modelViewerStage"
-                );
-
-            if (
-                !stage
-                ||
-                !focusRing
-            ) {
-
-                state.modelPointerStart =
-                    null;
-
-                return;
-            }
-
-            const rect =
-                stage.getBoundingClientRect();
-
-            const localX =
-                event.clientX
-                -
-                rect.left;
-
-            const localY =
-                event.clientY
-                -
-                rect.top;
-
-            focusRing.style.left =
-                localX + "px";
-
-            focusRing.style.top =
-                localY + "px";
-
-            focusRing.classList.remove(
-                "hidden"
-            );
-
-            requestAnimationFrame(
-                () => {
-
-                    focusRing.classList.add(
-                        "focus-visible"
-                    );
-                }
-            );
-
-
-            if (
-                typeof
-                mainModelViewer
-                    .positionAndNormalFromPoint
-                ===
-                "function"
-            ) {
-
-                try {
-
-                    const hit =
-                        mainModelViewer
-                            .positionAndNormalFromPoint(
-                                localX,
-                                localY
-                            );
-
-                    if (
-                        hit
-                        &&
-                        hit.position
-                    ) {
-
-                        mainModelViewer.cameraTarget =
-                            `${hit.position.x}m ${hit.position.y}m ${hit.position.z}m`;
-
-                        if (
-                            typeof
-                            mainModelViewer
-                                .getCameraOrbit
-                            ===
-                            "function"
-                        ) {
-
-                            const orbit =
-                                mainModelViewer
-                                    .getCameraOrbit();
-
-                            if (orbit) {
-
-                                mainModelViewer.cameraOrbit =
-                                    `${orbit.theta}rad ${orbit.phi}rad ${Math.max(orbit.radius * .57, .08)}m`;
-                            }
-                        }
-                    }
-                }
-
-                catch (error) {
-
-                    console.warn(
-                        "3D focus:",
-                        error
-                    );
-                }
-            }
-
-            state.modelPointerStart =
-                null;
-        }
-    );
-}
-
-
-on(
-    "resetCamera",
-    "click",
-    () => {
-
-        hideFocusRing();
-
-        if (!mainModelViewer) {
-
-            return;
-        }
-
-        mainModelViewer.cameraOrbit =
-            "auto auto auto";
-
-        mainModelViewer.cameraTarget =
-            "auto auto auto";
+        viewerBuildingSelect.value =
+            building.id;
     }
-);
 
 
-/* =========================================================
-   AR
-========================================================= */
+    /*
+       Viewer yang sama.
+       Tidak membuka halaman model baru.
+    */
 
-on(
-    "prepareMainAR",
-    "click",
-    () => {
+    loadViewerModel(
+        building.id,
+        targetModel.id
+    );
 
-        if (!arBuildingSelect) {
 
-            return;
-        }
+    /*
+       Marker ruangan nantinya aktif
+       ketika modelMarker sudah Anda isi.
+    */
 
-        const buildingId =
-            arBuildingSelect.value;
+    const hotspot =
+        byId(
+            "destination3DHotspot"
+        );
 
-        if (!buildingId) {
 
-            setText(
-                "arMessage",
-                "Pilih gedung terlebih dahulu."
-            );
+    if(
+        hotspot
+        &&
+        destination.modelMarker
+    ){
 
-            return;
-        }
+        const marker =
+            destination.modelMarker;
 
-        const variantSelect =
-            byId(
-                "arVariantSelect"
-            );
 
-        const model =
-            getModelVariant(
-                buildingId,
-                variantSelect
-                    ?
-                    variantSelect.value
-                    :
-                    ""
-            )
-            ||
-            getDefaultModelVariant(
-                buildingId
-            );
+        hotspot.dataset.position =
+            `${marker.x}m ${marker.y}m ${marker.z}m`;
 
-        if (!model) {
-
-            setText(
-                "arMessage",
-                "Model AR belum tersedia."
-            );
-
-            return;
-        }
-
-        const viewer =
-            byId(
-                "mainARViewer"
-            );
-
-        if (viewer) {
-
-            viewer.setAttribute(
-                "src",
-                model.src
-            );
-        }
 
         setText(
-            "arMessage",
-            ""
+            "destination3DLabel",
+            destination.name
         );
+
 
         show(
-            "arViewerCard"
+            "destination3DHotspot"
         );
     }
-);
+    else{
 
+        hide(
+            "destination3DHotspot"
+        );
+    }
+}
 
 /* =========================================================
    DIRECTORY
