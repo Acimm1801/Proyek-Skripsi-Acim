@@ -18,32 +18,27 @@
 
     <link
         rel="stylesheet"
-        href="./style.css?v=31"
+        href="./style.css?v=34"
     >
 
-    <!-- 3D Viewer -->
     <script
         type="module"
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
     </script>
 
-    <!--
-        MAP DATA HARUS DIBACA DULU.
-        Keduanya sengaja BUKAN type="module".
-    -->
     <script
         defer
-        src="./data/map-data.js?v=31">
+        src="./data/map-data.js?v=34">
     </script>
 
     <script
         defer
-        src="./script.js?v=31">
+        src="./script.js?v=34">
     </script>
 </head>
 
-
 <body>
+
 
 <!-- =========================================================
      HEADER
@@ -103,11 +98,9 @@
             type="button"
             aria-label="Buka Menu"
         >
-
             <span></span>
             <span></span>
             <span></span>
-
         </button>
 
     </div>
@@ -115,10 +108,6 @@
 </header>
 
 
-
-<!-- =========================================================
-     DRAWER OVERLAY
-========================================================= -->
 
 <div
     id="drawerOverlay"
@@ -128,7 +117,7 @@
 
 
 <!-- =========================================================
-     DRAWER / HAMBURGER
+     HAMBURGER DRAWER
 ========================================================= -->
 
 <aside
@@ -139,28 +128,19 @@
     <div class="drawer-header">
 
         <div>
-
             <small>MENU UTAMA</small>
-
-            <h2>
-                FT UISU Explorer
-            </h2>
-
+            <h2>FT UISU Explorer</h2>
         </div>
-
 
         <button
             id="closeDrawer"
             class="close-button"
-            type="button"
-            aria-label="Tutup menu">
+            type="button">
             ×
         </button>
 
     </div>
 
-
-    <!-- Search global -->
 
     <div class="drawer-search-wrap">
 
@@ -168,12 +148,9 @@
             Cari Gedung / Ruangan
         </label>
 
-
         <div class="search-box">
 
-            <span class="search-symbol">
-                ⌕
-            </span>
+            <span class="search-symbol">⌕</span>
 
             <input
                 id="globalSearch"
@@ -184,13 +161,11 @@
 
             <button
                 id="clearGlobalSearch"
-                type="button"
-                aria-label="Hapus pencarian">
+                type="button">
                 ×
             </button>
 
         </div>
-
 
         <div
             id="globalSearchResults"
@@ -203,14 +178,11 @@
             class="global-selected hidden"
         >
 
-            <small>
-                LOKASI DIPILIH
-            </small>
+            <small>LOKASI DIPILIH</small>
 
             <strong id="globalSelectedName">
                 -
             </strong>
-
 
             <div class="global-selected-actions">
 
@@ -235,9 +207,6 @@
     </div>
 
 
-
-    <!-- Menu drawer -->
-
     <nav class="drawer-menu">
 
         <button
@@ -246,26 +215,16 @@
             type="button"
         >
 
-            <span class="drawer-icon">
-                3D
-            </span>
+            <span class="drawer-icon">3D</span>
 
             <span>
-
-                <strong>
-                    3D Objek
-                </strong>
-
-                <small>
-                    3D Model Viewer Fakultas Teknik
-                </small>
-
+                <strong>3D Objek</strong>
+                <small>3D Model Viewer Fakultas Teknik</small>
             </span>
 
             <b>›</b>
 
         </button>
-
 
 
         <button
@@ -274,26 +233,16 @@
             type="button"
         >
 
-            <span class="drawer-icon">
-                AR
-            </span>
+            <span class="drawer-icon">AR</span>
 
             <span>
-
-                <strong>
-                    AR (Markerless)
-                </strong>
-
-                <small>
-                    Augmented Reality Markerless
-                </small>
-
+                <strong>AR (Markerless)</strong>
+                <small>Augmented Reality Markerless</small>
             </span>
 
             <b>›</b>
 
         </button>
-
 
 
         <button
@@ -302,26 +251,16 @@
             type="button"
         >
 
-            <span class="drawer-icon">
-                ↗
-            </span>
+            <span class="drawer-icon">↗</span>
 
             <span>
-
-                <strong>
-                    Navigasi
-                </strong>
-
-                <small>
-                    Denah & Petunjuk Arah
-                </small>
-
+                <strong>Navigasi</strong>
+                <small>Denah & Petunjuk Arah</small>
             </span>
 
             <b>›</b>
 
         </button>
-
 
 
         <button
@@ -335,15 +274,8 @@
             </span>
 
             <span>
-
-                <strong>
-                    Direktori
-                </strong>
-
-                <small>
-                    Gedung, Ruangan, Civitas Akademik
-                </small>
-
+                <strong>Direktori</strong>
+                <small>Gedung, Ruangan, Civitas Akademik</small>
             </span>
 
             <b>›</b>
@@ -356,15 +288,11 @@
 
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <main>
 
 
 <!-- =========================================================
-     BERANDA
+     HOME
 ========================================================= -->
 
 <section
@@ -372,17 +300,12 @@
     class="page active"
 >
 
-
-    <!-- HERO / SLIDER -->
-
     <section class="hero">
 
         <div class="hero-inner">
 
 
-            <!-- =================================================
-                 SLIDER 1
-            ================================================== -->
+            <!-- SLIDER 1 -->
 
             <article
                 class="hero-slide active"
@@ -398,13 +321,8 @@
 
                     <h1 class="hero-title">
 
-                        <span>
-                            Jelajahi Fakultas
-                        </span>
-
-                        <span>
-                            Teknik UISU
-                        </span>
+                        <span>Jelajahi Fakultas</span>
+                        <span>Teknik UISU</span>
 
                         <span class="accent">
                             dengan 3D dan AR
@@ -442,8 +360,6 @@
                 </div>
 
 
-                <!-- Kontainer 3D slider -->
-
                 <div class="landing-model-card">
 
                     <div class="landing-card-head">
@@ -480,8 +396,7 @@
                         <button
                             id="landingNextModel"
                             class="landing-next-button"
-                            type="button"
-                            aria-label="Model berikutnya">
+                            type="button">
                             →
                         </button>
 
@@ -493,9 +408,7 @@
 
 
 
-            <!-- =================================================
-                 SLIDER 2
-            ================================================== -->
+            <!-- SLIDER 2 -->
 
             <article
                 class="hero-slide slider-two"
@@ -554,8 +467,6 @@
                 </div>
 
 
-                <!-- Denah Slider 2 -->
-
                 <div class="landing-map-card">
 
                     <div class="landing-card-head">
@@ -596,16 +507,12 @@
         </div>
 
 
-
-        <!-- Slider controls -->
-
         <div class="slider-controls">
 
             <button
                 id="prevSlide"
                 class="slider-arrow"
-                type="button"
-                aria-label="Slider sebelumnya">
+                type="button">
                 ←
             </button>
 
@@ -615,15 +522,13 @@
                 <button
                     class="slider-dot active"
                     data-slide="0"
-                    type="button"
-                    aria-label="Slider 1">
+                    type="button">
                 </button>
 
                 <button
                     class="slider-dot"
                     data-slide="1"
-                    type="button"
-                    aria-label="Slider 2">
+                    type="button">
                 </button>
 
             </div>
@@ -632,8 +537,7 @@
             <button
                 id="nextSlide"
                 class="slider-arrow"
-                type="button"
-                aria-label="Slider berikutnya">
+                type="button">
                 →
             </button>
 
@@ -643,16 +547,11 @@
 
 
 
-    <!-- =====================================================
-         4 BUTTON CARD
-    ====================================================== -->
+    <!-- 4 CARD -->
 
     <section class="feature-section">
 
         <div class="feature-grid">
-
-
-            <!-- 3D -->
 
             <button
                 id="feature3D"
@@ -660,15 +559,11 @@
                 type="button"
             >
 
-                <span class="feature-icon">
-                    3D
-                </span>
+                <span class="feature-icon">3D</span>
 
                 <div>
 
-                    <h3>
-                        3D OBJEK
-                    </h3>
+                    <h3>3D OBJEK</h3>
 
                     <p>
                         Lihat Bangunan Fakultas Teknik melalui
@@ -685,24 +580,17 @@
             </button>
 
 
-
-            <!-- AR -->
-
             <button
                 id="featureAR"
                 class="feature-card"
                 type="button"
             >
 
-                <span class="feature-icon">
-                    AR
-                </span>
+                <span class="feature-icon">AR</span>
 
                 <div>
 
-                    <h3>
-                        AR (Markerless)
-                    </h3>
+                    <h3>AR (Markerless)</h3>
 
                     <p>
                         Rasakan pengalaman baru melihat objek 3D
@@ -718,24 +606,17 @@
             </button>
 
 
-
-            <!-- Navigasi -->
-
             <button
                 id="featureNav"
                 class="feature-card"
                 type="button"
             >
 
-                <span class="feature-icon">
-                    ↗
-                </span>
+                <span class="feature-icon">↗</span>
 
                 <div>
 
-                    <h3>
-                        NAVIGASI
-                    </h3>
+                    <h3>NAVIGASI</h3>
 
                     <p>
                         Dapatkan arah menuju Ruang Kelas,
@@ -752,9 +633,6 @@
             </button>
 
 
-
-            <!-- Direktori -->
-
             <button
                 id="featureDirectory"
                 class="feature-card"
@@ -767,9 +645,7 @@
 
                 <div>
 
-                    <h3>
-                        DIREKTORI
-                    </h3>
+                    <h3>DIREKTORI</h3>
 
                     <p>
                         Informasi mengenai Bangunan & Civitas Akademik
@@ -793,7 +669,7 @@
 
 
 <!-- =========================================================
-     3D OBJEK
+     3D OBJEK - REVISION 34
 ========================================================= -->
 
 <section
@@ -813,9 +689,7 @@
 
         <div class="page-heading">
 
-            <small>
-                3D OBJEK
-            </small>
+            <small>3D OBJEK</small>
 
             <h1>
                 3D Model Viewer
@@ -829,8 +703,13 @@
         </div>
 
 
+        <!--
+            REV34:
+            hanya pilih GEDUNG.
+            Indoor / Outdoor tidak dipilih di sini.
+        -->
 
-        <div class="selection-card">
+        <div class="selection-card single-selection-card">
 
             <div class="selection-field">
 
@@ -839,21 +718,6 @@
                 </label>
 
                 <select id="viewerBuildingSelect">
-                </select>
-
-            </div>
-
-
-            <div
-                id="viewerVariantWrap"
-                class="selection-field hidden"
-            >
-
-                <label for="viewerVariantSelect">
-                    Pilih Tampilan
-                </label>
-
-                <select id="viewerVariantSelect">
                 </select>
 
             </div>
@@ -876,39 +740,99 @@
 
 
 
-        <!-- Viewer -->
+        <!-- 3D VIEWER -->
 
         <div
             id="viewerCard"
             class="viewer-card hidden"
         >
 
+
+            <!-- TOOLBAR -->
+
             <div class="viewer-toolbar">
 
-                <div>
+                <div class="viewer-heading-inline">
 
                     <strong id="viewerTitle">
                         Model 3D
                     </strong>
 
+                    <!--
+                        Untuk model tunggal.
+                    -->
                     <span
-                        id="viewerModeBadge"
-                        class="model-mode-badge">
+                        id="viewerSingleModeBadge"
+                        class="model-mode-badge hidden">
                         Outdoor
                     </span>
 
                 </div>
 
 
-                <button
-                    id="resetCamera"
-                    class="small-button reset-camera-button"
-                    type="button">
-                    Reset Kamera
-                </button>
+                <div class="viewer-toolbar-right">
+
+                    <!--
+                        REV34:
+                        tombol Indoor / Outdoor
+                        dibuat otomatis oleh JS.
+                    -->
+
+                    <div
+                        id="viewerModelSwitch"
+                        class="model-mode-switch hidden">
+                    </div>
+
+
+                    <button
+                        id="resetCamera"
+                        class="small-button reset-camera-button"
+                        type="button">
+                        Reset Kamera
+                    </button>
+
+                </div>
 
             </div>
 
+
+
+            <!--
+                REV34:
+                Deskripsi tampil SEBELUM model.
+                Saat loading juga sudah terlihat.
+            -->
+
+            <div class="viewer-preload-info">
+
+                <div class="viewer-preload-status">
+
+                    <span
+                        id="viewerLoadingDot"
+                        class="loading-dot">
+                    </span>
+
+                    <small id="viewerLoadStatus">
+                        MEMUAT MODEL 3D...
+                    </small>
+
+                </div>
+
+
+                <h3 id="viewerCurrentModelName">
+                    Model 3D
+                </h3>
+
+
+                <p id="viewerPreloadDescription">
+                    Memuat informasi model...
+                </p>
+
+            </div>
+
+
+
+            <!-- VIEWER -->
 
             <div
                 id="modelViewerStage"
@@ -918,12 +842,16 @@
                 <model-viewer
                     id="mainModelViewer"
                     camera-controls
+                    loading="eager"
                     shadow-intensity="1"
                     environment-image="neutral"
                     interpolation-decay="120"
-                    alt="Model 3D Fakultas Teknik">
+                    alt="Model 3D Fakultas Teknik"
+                >
 
-                    <!-- Marker tujuan 3D -->
+                    <!--
+                        Marker tujuan dari Navigasi.
+                    -->
 
                     <button
                         id="destination3DHotspot"
@@ -945,30 +873,78 @@
                 </model-viewer>
 
 
-                <!-- Lingkaran focus -->
+
+                <!-- LOADING OVERLAY -->
+
+                <div
+                    id="viewerLoadingOverlay"
+                    class="model-state-overlay hidden"
+                >
+
+                    <div class="model-loader">
+                    </div>
+
+                    <strong>
+                        Memuat Model 3D...
+                    </strong>
+
+                </div>
+
+
+
+                <!-- MODEL BELUM ADA -->
+
+                <div
+                    id="viewerUnavailable"
+                    class="model-state-overlay model-unavailable hidden"
+                >
+
+                    <div class="unavailable-3d-icon">
+                        3D
+                    </div>
+
+                    <strong>
+                        Model 3D sedang dalam tahap penyelesaian
+                    </strong>
+
+                    <p>
+                        Model akan tersedia setelah proses desain selesai.
+                    </p>
+
+                </div>
+
+
+
+                <!-- FOCUS RING -->
 
                 <div
                     id="modelFocusRing"
                     class="model-focus-ring hidden"
                 >
-
                     <span></span>
-
                 </div>
 
             </div>
 
 
 
-            <div class="viewer-description">
+            <div class="viewer-interaction-info">
 
                 <span>
-                    i
+                    DRAG
                 </span>
 
-                <p id="viewerModelDescription">
-                    Informasi model.
-                </p>
+                <span>
+                    ROTATE
+                </span>
+
+                <span>
+                    PINCH / SCROLL
+                </span>
+
+                <span>
+                    KLIK UNTUK FOKUS
+                </span>
 
             </div>
 
@@ -981,7 +957,7 @@
 
 
 <!-- =========================================================
-     AR MARKERLESS
+     AR MARKERLESS - DATABASE SUDAH DISIAPKAN REV34
 ========================================================= -->
 
 <section
@@ -1001,9 +977,7 @@
 
         <div class="page-heading">
 
-            <small>
-                AUGMENTED REALITY
-            </small>
+            <small>AUGMENTED REALITY</small>
 
             <h1>
                 AR (Markerless)
@@ -1018,7 +992,7 @@
 
 
 
-        <div class="selection-card">
+        <div class="selection-card single-selection-card">
 
             <div class="selection-field">
 
@@ -1027,21 +1001,6 @@
                 </label>
 
                 <select id="arBuildingSelect">
-                </select>
-
-            </div>
-
-
-            <div
-                id="arVariantWrap"
-                class="selection-field hidden"
-            >
-
-                <label for="arVariantSelect">
-                    Pilih Tampilan
-                </label>
-
-                <select id="arVariantSelect">
                 </select>
 
             </div>
@@ -1069,24 +1028,122 @@
             class="ar-viewer-card hidden"
         >
 
-            <model-viewer
-                id="mainARViewer"
-                camera-controls
-                ar
-                ar-placement="floor"
-                ar-modes="webxr scene-viewer quick-look"
-                shadow-intensity="1"
-                environment-image="neutral"
-                alt="AR Fakultas Teknik"
-            >
 
-                <button
-                    slot="ar-button"
-                    class="native-ar-button">
-                    Buka Kamera AR
-                </button>
+            <div class="viewer-toolbar">
 
-            </model-viewer>
+                <div>
+
+                    <strong id="arViewerTitle">
+                        AR Fakultas Teknik
+                    </strong>
+
+                    <span
+                        id="arSingleModeBadge"
+                        class="model-mode-badge hidden">
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="arModelSwitch"
+                    class="model-mode-switch hidden">
+                </div>
+
+            </div>
+
+
+
+            <div class="viewer-preload-info">
+
+                <div class="viewer-preload-status">
+
+                    <span
+                        id="arLoadingDot"
+                        class="loading-dot">
+                    </span>
+
+                    <small id="arLoadStatus">
+                        MEMUAT MODEL 3D...
+                    </small>
+
+                </div>
+
+
+                <h3 id="arCurrentModelName">
+                    Model AR
+                </h3>
+
+
+                <p id="arPreloadDescription">
+                    Memuat informasi model...
+                </p>
+
+            </div>
+
+
+
+            <div class="ar-model-stage">
+
+                <model-viewer
+                    id="mainARViewer"
+                    camera-controls
+                    loading="eager"
+                    ar
+                    ar-placement="floor"
+                    ar-modes="webxr scene-viewer quick-look"
+                    shadow-intensity="1"
+                    environment-image="neutral"
+                    alt="AR Fakultas Teknik"
+                >
+
+                    <button
+                        slot="ar-button"
+                        class="native-ar-button">
+                        Buka Kamera AR
+                    </button>
+
+                </model-viewer>
+
+
+
+                <div
+                    id="arLoadingOverlay"
+                    class="model-state-overlay hidden"
+                >
+
+                    <div class="model-loader">
+                    </div>
+
+                    <strong>
+                        Memuat Model AR...
+                    </strong>
+
+                </div>
+
+
+
+                <div
+                    id="arUnavailable"
+                    class="model-state-overlay model-unavailable hidden"
+                >
+
+                    <div class="unavailable-3d-icon">
+                        AR
+                    </div>
+
+                    <strong>
+                        Model 3D sedang dalam tahap penyelesaian
+                    </strong>
+
+                    <p>
+                        Model AR akan aktif otomatis setelah
+                        file 3D tersedia.
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -1097,7 +1154,8 @@
 
 
 <!-- =========================================================
-     NAVIGASI - PEMILIHAN
+     NAVIGASI
+     STRUKTUR REV32 TETAP
 ========================================================= -->
 
 <section
@@ -1115,12 +1173,9 @@
         </button>
 
 
-
         <div class="page-heading navigation-heading">
 
-            <small>
-                NAVIGASI
-            </small>
+            <small>NAVIGASI</small>
 
             <h1>
                 Denah dan Petunjuk Arah
@@ -1135,60 +1190,45 @@
 
 
 
-        <!-- Progress -->
-
         <div class="nav-progress">
 
             <div
                 id="stepTarget"
                 class="nav-step active">
-
                 <b>1</b>
                 <span>Tujuan</span>
-
             </div>
 
             <i></i>
-
 
             <div
                 id="stepPosition"
                 class="nav-step">
-
                 <b>2</b>
                 <span>Posisi</span>
-
             </div>
 
             <i></i>
-
 
             <div
                 id="stepRoute"
                 class="nav-step">
-
                 <b>3</b>
                 <span>Rute</span>
-
             </div>
 
             <i></i>
 
-
             <div
                 id="stepNavigation"
                 class="nav-step">
-
                 <b>4</b>
                 <span>Navigasi</span>
-
             </div>
 
         </div>
 
 
-
-        <!-- Search -->
 
         <div class="navigation-search-card">
 
@@ -1217,13 +1257,10 @@
                 id="navigationSearchResults"
                 class="search-results"
             >
-
                 <div class="search-empty">
                     Ketik nama gedung atau ruangan tujuan.
                 </div>
-
             </div>
-
 
 
             <div
@@ -1231,9 +1268,7 @@
                 class="destination-card hidden"
             >
 
-                <small>
-                    TUJUAN DIPILIH
-                </small>
+                <small>TUJUAN DIPILIH</small>
 
                 <h3 id="selectedDestinationName">
                     -
@@ -1249,15 +1284,10 @@
 
 
 
-        <!-- Map section -->
-
         <div
             id="mapSection"
             class="map-section hidden"
         >
-
-
-            <!-- Sebelum posisi dipilih -->
 
             <div
                 id="mapInstructionArea"
@@ -1271,9 +1301,6 @@
             </div>
 
 
-
-            <!-- Setelah rute ditemukan
-                 PINDAH KE ATAS MAP -->
 
             <div
                 id="routeFoundBox"
@@ -1316,9 +1343,6 @@
 
 
 
-            <!-- DENAH PEMILIHAN
-                 WAJIB DENAH V1 -->
-
             <div
                 id="navigationMap"
                 class="navigation-map"
@@ -1336,7 +1360,6 @@
                     class="route-svg"
                     viewBox="0 0 768 1024"
                     preserveAspectRatio="xMidYMid meet"
-                    aria-hidden="true"
                 >
 
                     <polyline
@@ -1347,37 +1370,23 @@
                 </svg>
 
 
-
-                <!-- Posisi user -->
-
                 <div
                     id="userMarker"
                     class="user-marker hidden"
                 >
-
                     <span></span>
-
-                    <label>
-                        Posisi Anda
-                    </label>
-
+                    <label>Posisi Anda</label>
                 </div>
 
-
-
-                <!-- HANYA entrance tujuan -->
 
                 <div
                     id="entranceMarker"
                     class="entrance-marker hidden"
                 >
-
                     <span></span>
-
                 </div>
 
             </div>
-
 
 
             <button
@@ -1396,7 +1405,7 @@
 
 
 <!-- =========================================================
-     MODE NAVIGASI AKTIF
+     LIVE NAVIGATION REV32
 ========================================================= -->
 
 <section
@@ -1405,9 +1414,6 @@
 >
 
     <div class="navigation-live-shell">
-
-
-        <!-- Petunjuk atas -->
 
         <div class="live-instruction-bar">
 
@@ -1420,9 +1426,7 @@
 
             <div>
 
-                <small>
-                    PETUNJUK BERIKUTNYA
-                </small>
+                <small>PETUNJUK BERIKUTNYA</small>
 
                 <strong id="liveNextInstruction">
                     Ikuti jalur
@@ -1438,16 +1442,12 @@
 
 
 
-        <!-- MAP AKTIF -->
-
         <div class="live-map-viewport">
 
             <div
                 id="liveMapContent"
                 class="live-map-content"
             >
-
-                <!-- Tetap denah V1 -->
 
                 <img
                     class="live-map-background"
@@ -1457,25 +1457,16 @@
                 >
 
 
-                <!-- HANYA RUTE AKTIF -->
-
                 <svg
                     class="live-route-svg"
                     viewBox="0 0 768 1024"
-                    preserveAspectRatio="xMidYMid meet"
-                    aria-hidden="true"
                 >
-
                     <polyline
                         id="liveRoute"
                         points="">
                     </polyline>
-
                 </svg>
 
-
-
-                <!-- Marker 5 gedung FT dibuat via JS -->
 
                 <div
                     id="liveBuildingMarkers"
@@ -1483,21 +1474,13 @@
                 </div>
 
 
-
-                <!-- GPS user -->
-
                 <div
                     id="liveUserMarker"
                     class="live-user-marker hidden"
                 >
-
                     <span></span>
-
                 </div>
 
-
-
-                <!-- END MARKER -->
 
                 <div
                     id="liveDestinationMarker"
@@ -1518,21 +1501,16 @@
 
 
 
-        <!-- Bottom menu -->
-
         <div class="navigation-bottom-sheet">
 
-            <div class="bottom-sheet-handle">
-            </div>
+            <div class="bottom-sheet-handle"></div>
 
 
             <div class="live-route-summary">
 
                 <div>
 
-                    <small>
-                        MENUJU
-                    </small>
+                    <small>MENUJU</small>
 
                     <h2 id="liveRouteDestination">
                         Tujuan
@@ -1547,7 +1525,6 @@
             </div>
 
 
-
             <button
                 id="toggleRouteDetail"
                 class="route-detail-button"
@@ -1556,17 +1533,12 @@
             </button>
 
 
-
             <div
                 id="routeDetailPanel"
                 class="route-detail-panel hidden"
             >
-
-                <div id="routeInstructionList">
-                </div>
-
+                <div id="routeInstructionList"></div>
             </div>
-
 
 
             <button
@@ -1585,7 +1557,7 @@
 
 
 <!-- =========================================================
-     DIREKTORI
+     DIRECTORY
 ========================================================= -->
 
 <section
@@ -1633,7 +1605,7 @@
 
 
 <!-- =========================================================
-     BANTUAN
+     HELP
 ========================================================= -->
 
 <section
@@ -1653,9 +1625,7 @@
 
         <div class="page-heading">
 
-            <small>
-                BANTUAN
-            </small>
+            <small>BANTUAN</small>
 
             <h1>
                 Cara Menggunakan Website
@@ -1664,129 +1634,60 @@
         </div>
 
 
-
         <div class="help-grid">
 
-
             <article>
 
-                <h3>
-                    3D Objek
-                </h3>
+                <h3>3D Objek</h3>
 
                 <ul>
-
-                    <li>
-                        Pilih Gedung atau Ruangan yang ingin anda lihat.
-                    </li>
-
-                    <li>
-                        Klik tombol "Tampilkan 3D Objek".
-                    </li>
-
-                    <li>
-                        Sistem akan menampilkan Model 3D sesuai pilihan anda.
-                    </li>
-
-                    <li>
-                        Model dapat di-<em>drag</em>,
-                        <em>zoom</em>, dan <em>rotate</em>.
-                    </li>
-
+                    <li>Pilih Gedung atau Ruangan yang ingin anda lihat.</li>
+                    <li>Klik tombol "Tampilkan 3D Objek".</li>
+                    <li>Sistem akan menampilkan Model 3D sesuai pilihan anda.</li>
+                    <li>Untuk Biro dan Perkuliahan, mode Indoor dan Outdoor dapat diganti pada viewer yang sama.</li>
+                    <li>Model dapat di-<em>drag</em>, <em>zoom</em>, dan <em>rotate</em>.</li>
                 </ul>
 
             </article>
 
 
-
             <article>
 
-                <h3>
-                    AR Markerless
-                </h3>
+                <h3>AR Markerless</h3>
 
                 <ul>
-
-                    <li>
-                        Pilih Gedung atau Ruangan yang ingin anda lihat.
-                    </li>
-
-                    <li>
-                        Sistem akan meminta akses izin kamera terlebih dahulu.
-                    </li>
-
-                    <li>
-                        Arahkan kamera ke bidang datar seperti lantai
-                        atau permukaan meja.
-                    </li>
-
-                    <li>
-                        Augmented Reality Model 3D sesuai pilihan
-                        akan muncul.
-                    </li>
-
+                    <li>Pilih Gedung atau Ruangan yang ingin anda lihat.</li>
+                    <li>Sistem akan meminta akses izin kamera terlebih dahulu.</li>
+                    <li>Arahkan kamera ke bidang datar seperti lantai atau permukaan meja.</li>
+                    <li>Augmented Reality Model 3D sesuai pilihan akan muncul.</li>
                 </ul>
 
             </article>
 
 
-
             <article>
 
-                <h3>
-                    Navigasi
-                </h3>
+                <h3>Navigasi</h3>
 
                 <ul>
-
-                    <li>
-                        Pilih tujuan dengan mengetik nama Gedung atau Ruangan.
-                    </li>
-
-                    <li>
-                        Sistem akan menampilkan denah 2D UISU.
-                    </li>
-
-                    <li>
-                        Tentukan posisi anda dengan mengklik denah.
-                    </li>
-
-                    <li>
-                        Sistem menghitung rute outdoor menuju entrance
-                        yang sesuai.
-                    </li>
-
-                    <li>
-                        Klik "Mulai Navigasi" untuk membuka mode navigasi.
-                    </li>
-
+                    <li>Pilih tujuan dengan mengetik nama Gedung atau Ruangan.</li>
+                    <li>Sistem akan menampilkan denah 2D UISU.</li>
+                    <li>Tentukan posisi anda dengan mengklik denah.</li>
+                    <li>Sistem menghitung rute outdoor menuju entrance yang sesuai.</li>
+                    <li>Klik "Mulai Navigasi" untuk membuka mode navigasi.</li>
                 </ul>
 
             </article>
 
 
-
             <article>
 
-                <h3>
-                    Direktori
-                </h3>
+                <h3>Direktori</h3>
 
                 <ul>
-
-                    <li>
-                        Ketik atau pilih Gedung, Ruangan,
-                        atau Civitas Akademik yang anda cari.
-                    </li>
-
-                    <li>
-                        Sistem akan menampilkan informasi lokasi.
-                    </li>
-
-                    <li>
-                        Pilih Petunjuk Arah jika ingin membuka Navigasi.
-                    </li>
-
+                    <li>Ketik atau pilih Gedung, Ruangan, atau Civitas Akademik yang anda cari.</li>
+                    <li>Sistem akan menampilkan informasi lokasi.</li>
+                    <li>Pilih Petunjuk Arah jika ingin membuka Navigasi.</li>
                 </ul>
 
             </article>
@@ -1800,7 +1701,7 @@
 
 
 <!-- =========================================================
-     TENTANG
+     ABOUT
 ========================================================= -->
 
 <section
@@ -1818,7 +1719,6 @@
         </button>
 
 
-
         <div class="developer-card">
 
             <div class="developer-photo-wrap">
@@ -1829,7 +1729,6 @@
                 >
 
             </div>
-
 
 
             <div class="developer-content">
@@ -1855,7 +1754,6 @@
                 <p class="developer-role">
                     Mahasiswa Teknik Informatika FT-UISU
                 </p>
-
 
 
                 <div class="about-text">
@@ -1886,13 +1784,7 @@
                 </div>
 
 
-
-                <!-- KONTAK -->
-
                 <div class="developer-contacts">
-
-
-                    <!-- EMAIL -->
 
                     <a
                         href="mailto:arifrahim1801@gmail.com"
@@ -1901,9 +1793,7 @@
 
                         <span class="contact-icon">
 
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
 
                                 <path
                                     d="M3 5h18v14H3V5zm2 2v.5l7 5 7-5V7H5zm14 10V10l-7 5-7-5v7h14z">
@@ -1913,12 +1803,9 @@
 
                         </span>
 
-
                         <div>
 
-                            <small>
-                                E-mail
-                            </small>
+                            <small>E-mail</small>
 
                             <strong>
                                 arifrahim1801@gmail.com
@@ -1929,9 +1816,6 @@
                     </a>
 
 
-
-                    <!-- WHATSAPP -->
-
                     <a
                         href="https://wa.me/6281263185492"
                         target="_blank"
@@ -1941,9 +1825,7 @@
 
                         <span class="contact-icon">
 
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
 
                                 <path
                                     d="M12 2a9.6 9.6 0 0 0-8.2 14.6L2.5 22l5.5-1.3A9.7 9.7 0 1 0 12 2zm0 17.4a7.4 7.4 0 0 1-3.8-1l-.3-.2-3.3.8.9-3.2-.2-.3A7.5 7.5 0 1 1 12 19.4zm4.1-5.6c-.2-.1-1.3-.7-1.5-.7-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8.9-.1.2-.3.2-.5.1-1.4-.7-2.4-1.3-3.3-2.9-.2-.3.2-.3.6-1 .1-.2 0-.4 0-.5l-.7-1.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.5 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.7.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1-.2-.2-.4-.3-.9-.4z">
@@ -1953,12 +1835,9 @@
 
                         </span>
 
-
                         <div>
 
-                            <small>
-                                WhatsApp
-                            </small>
+                            <small>WhatsApp</small>
 
                             <strong>
                                 081263185492
@@ -1969,9 +1848,6 @@
                     </a>
 
 
-
-                    <!-- INSTAGRAM -->
-
                     <a
                         href="https://instagram.com/ar.chimm"
                         target="_blank"
@@ -1981,9 +1857,7 @@
 
                         <span class="contact-icon">
 
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
 
                                 <path
                                     d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm10.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z">
@@ -1993,12 +1867,9 @@
 
                         </span>
 
-
                         <div>
 
-                            <small>
-                                Instagram
-                            </small>
+                            <small>Instagram</small>
 
                             <strong>
                                 ar.chimm
@@ -2018,14 +1889,9 @@
 
 </section>
 
-
 </main>
 
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 
 <footer class="site-footer">
 
@@ -2041,9 +1907,7 @@
 
 
 
-<!-- =========================================================
-     INFO MODAL
-========================================================= -->
+<!-- INFO MODAL -->
 
 <div
     id="infoModal"
@@ -2065,27 +1929,20 @@
             ×
         </button>
 
-
-        <small>
-            INFORMASI
-        </small>
-
+        <small>INFORMASI</small>
 
         <h2 id="infoTitle">
             -
         </h2>
 
-
         <p id="infoParent">
             -
         </p>
-
 
         <div
             id="infoDescription"
             class="info-description">
         </div>
-
 
         <button
             id="infoNavigationButton"
@@ -2098,9 +1955,6 @@
 
 </div>
 
-
-
-<!-- Toast -->
 
 <div
     id="toast"
