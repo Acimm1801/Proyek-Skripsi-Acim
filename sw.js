@@ -1,15 +1,15 @@
 /* =========================================================
    FT UISU EXPLORER
    SERVICE WORKER
-   REVISION 36
+   REVISION 37
 ========================================================= */
 
 const MODEL_CACHE =
-    "ft-uisu-models-v36";
+    "ft-uisu-models-v37";
 
 
 const STATIC_CACHE =
-    "ft-uisu-static-v36";
+    "ft-uisu-static-v37";
 
 
 
@@ -126,10 +126,6 @@ self.addEventListener(
             );
 
 
-        /*
-           Range request tidak diintersep.
-        */
-
         if(
             request.headers.has(
                 "range"
@@ -141,11 +137,10 @@ self.addEventListener(
         }
 
 
-        /*
-           GLB:
-           cache langsung,
-           kemudian refresh cache di background.
-        */
+
+        /* =====================================================
+           MODEL .GLB
+        ====================================================== */
 
         if(
             url.pathname
@@ -169,10 +164,13 @@ self.addEventListener(
         }
 
 
-        /*
-           Static:
-           network-first.
-        */
+
+        /* =====================================================
+           STATIC FILES
+
+           .jpeg sudah termasuk sehingga gambar Slider 2
+           yang baru dapat di-cache.
+        ====================================================== */
 
         if(
             url.pathname.endsWith(
@@ -216,7 +214,7 @@ self.addEventListener(
 
 
 /* =========================================================
-   MODEL
+   MODEL CACHE
 ========================================================= */
 
 async function modelStaleWhileRevalidate(
@@ -245,14 +243,6 @@ async function modelStaleWhileRevalidate(
             .then(
                 async response => {
 
-                    /*
-                       404 tidak disimpan.
-
-                       Jadi model yang belum selesai
-                       tetap bisa langsung aktif nanti
-                       setelah file diupload.
-                    */
-
                     if(
                         response
                         &&
@@ -278,14 +268,7 @@ async function modelStaleWhileRevalidate(
 
     if(cached){
 
-        /*
-           Browser menerima cache sekarang.
-           Network memperbarui cache untuk
-           kunjungan berikutnya.
-        */
-
         networkPromise;
-
 
         return cached;
 
@@ -316,7 +299,7 @@ async function modelStaleWhileRevalidate(
 
 
 /* =========================================================
-   STATIC
+   STATIC CACHE
 ========================================================= */
 
 async function staticNetworkFirst(
