@@ -486,11 +486,11 @@ function getNavigationEntrance(
 
 /* =========================================================
    MODEL CACHE
-   REVISION 36
+   REVISION 37
 ========================================================= */
 
 const MODEL_CACHE_NAME =
-    "ft-uisu-models-v36";
+    "ft-uisu-models-v37";
 
 
 const PRIORITY_MODELS = [
@@ -525,7 +525,7 @@ async function registerServiceWorker(){
         await navigator
             .serviceWorker
             .register(
-                "./sw.js?v=36",
+                "./sw.js?v=37",
                 {
                     scope:"./"
                 }
@@ -8219,7 +8219,7 @@ async function startApp(){
 
 
     console.log(
-        "FT UISU Explorer Revision 36 loaded"
+        "FT UISU Explorer Revision 37 loaded"
     );
 
 }
