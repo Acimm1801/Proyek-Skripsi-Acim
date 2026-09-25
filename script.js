@@ -495,16 +495,27 @@ const MODEL_CACHE_NAME =
 
 const PRIORITY_MODELS = [
 
-    "./assets/models/gedung_biro_indoor.glb",
+    /*
+       Slider 1 - model utama
+    */
+
+    "./assets/models/gedung_biro_outdoor.glb",
 
     "./assets/models/gedung_perkuliahan_outdoor.glb",
 
-    "./assets/models/gedung_perkuliahan_indoor.glb",
+    "./assets/models/gedung_laboratorium.glb",
 
-    "./assets/models/gedung_laboratorium.glb"
+
+    /*
+       Model yang dipersiapkan untuk
+       pergantian Indoor / Outdoor.
+    */
+
+    "./assets/models/gedung_biro_indoor.glb",
+
+    "./assets/models/gedung_perkuliahan_indoor.glb"
 
 ];
-
 
 async function registerServiceWorker(){
 
