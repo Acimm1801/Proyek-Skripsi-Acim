@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
    SCRIPT.JS
-   REVISION 36
+   REVISION 37 - LATEST
 ========================================================= */
 
 (function(){
@@ -87,7 +87,7 @@ const mapCalibration =
 
 
 /* =========================================================
-   DOM HELPERS
+   DOM
 ========================================================= */
 
 function byId(id){
@@ -194,7 +194,7 @@ function setText(
 
 
 /* =========================================================
-   APP STATE
+   STATE
 ========================================================= */
 
 const state = {
@@ -334,10 +334,10 @@ function getBuildingModels(
 
     return (
         building
-            ?
-            building.models || []
-            :
-            []
+        ?
+        building.models || []
+        :
+        []
     );
 
 }
@@ -486,17 +486,16 @@ function getNavigationEntrance(
 
 /* =========================================================
    MODEL CACHE
-   REVISION 37
 ========================================================= */
 
 const MODEL_CACHE_NAME =
-    "ft-uisu-models-v37";
+    "ft-uisu-models-v37.1";
 
 
 const PRIORITY_MODELS = [
 
     /*
-       Slider 1 - model utama
+       MODEL SLIDER 1
     */
 
     "./assets/models/gedung_biro_outdoor.glb",
@@ -507,8 +506,7 @@ const PRIORITY_MODELS = [
 
 
     /*
-       Model yang dipersiapkan untuk
-       pergantian Indoor / Outdoor.
+       MODEL INDOOR PERSISTENT VIEWER
     */
 
     "./assets/models/gedung_biro_indoor.glb",
@@ -516,6 +514,8 @@ const PRIORITY_MODELS = [
     "./assets/models/gedung_perkuliahan_indoor.glb"
 
 ];
+
+
 
 async function registerServiceWorker(){
 
@@ -536,7 +536,7 @@ async function registerServiceWorker(){
         await navigator
             .serviceWorker
             .register(
-                "./sw.js?v=37",
+                "./sw.js?v=37.1",
                 {
                     scope:"./"
                 }
@@ -649,11 +649,6 @@ async function cacheModel(
 
 async function preloadPriorityModels(){
 
-    /*
-       Batasi concurrency agar HP tidak terlalu
-       terbebani ketika halaman pertama dibuka.
-    */
-
     const queue =
         PRIORITY_MODELS.slice();
 
@@ -717,7 +712,7 @@ function preloadBuildingModels(
 
 
 /* =========================================================
-   SEARCH DATABASE
+   LOCATION SEARCH DATABASE
 ========================================================= */
 
 const locations = [];
@@ -789,10 +784,10 @@ rooms.forEach(
 
             parent:
                 building
-                    ?
-                    building.name
-                    :
-                    "Fakultas Teknik UISU",
+                ?
+                building.name
+                :
+                "Fakultas Teknik UISU",
 
             navigationEntranceId:
                 room.navigationEntranceId,
@@ -812,20 +807,20 @@ rooms.forEach(
                     +
                     (
                         building
-                            ?
-                            building.name
-                            :
-                            "Fakultas Teknik UISU"
+                        ?
+                        building.name
+                        :
+                        "Fakultas Teknik UISU"
                     )
                     +
                     (
                         room.floor
-                            ?
-                            ", lantai "
-                            +
-                            room.floor
-                            :
-                            ""
+                        ?
+                        ", lantai "
+                        +
+                        room.floor
+                        :
+                        ""
                     )
                     +
                     "."
@@ -854,7 +849,7 @@ people.forEach(
 
 
 /* =========================================================
-   PAGE SYSTEM
+   PAGE
 ========================================================= */
 
 function updateHeaderActive(
@@ -1126,7 +1121,7 @@ on(
 
 
 /* =========================================================
-   HERO SLIDER
+   SLIDER
 ========================================================= */
 
 const slides =
@@ -1157,8 +1152,7 @@ function showSlide(index){
         slides.length
     ){
 
-        index =
-            0;
+        index = 0;
 
     }
 
@@ -1244,10 +1238,6 @@ all(".slider-dot")
 
 /* =========================================================
    LANDING MODEL
-   REV36
-
-   Model tidak lagi diganti SRC.
-   Ketiganya tetap hidup.
 ========================================================= */
 
 const landingModels = [
@@ -1307,8 +1297,7 @@ function showLandingModel(index){
         landingModels.length
     ){
 
-        index =
-            0;
+        index = 0;
 
     }
 
@@ -1350,7 +1339,6 @@ function showLandingModel(index){
     );
 
 }
-
 
 
 on(
@@ -1428,6 +1416,7 @@ function searchLocations(
         );
 
 }
+
 
 
 function renderSearchResults(
@@ -1635,7 +1624,6 @@ if(globalSearch){
     );
 
 }
-
 
 
 on(
@@ -1876,8 +1864,7 @@ populateBuildingSelect(
 
 
 /* =========================================================
-   MAIN MODEL VIEWER SLOTS
-   REV36
+   PERSISTENT MODEL SLOTS
 ========================================================= */
 
 const viewerSlots = [
@@ -1951,7 +1938,7 @@ function getActiveModelViewer(){
 
 
 /* =========================================================
-   MODEL SWITCH UI
+   MODEL SWITCH
 ========================================================= */
 
 function renderModelSwitch({
@@ -2101,15 +2088,7 @@ function renderModelSwitch({
 
 
 /* =========================================================
-   FOCUS / ZOOM
-   REVISION 36
-
-   Konsep:
-   - klik pertama = fokus titik
-   - klik lagi di area layar yang sama =
-     tetap target lama, zoom lebih dalam
-   - tidak melakukan raycast baru sehingga
-     tidak meloncat ke permukaan di samping
+   PROGRESSIVE CLICK ZOOM
 ========================================================= */
 
 const focusRing =
@@ -2288,15 +2267,6 @@ function progressiveFocusZoom(
         rect.top;
 
 
-    /*
-       Apakah user klik dekat titik layar
-       sebelumnya?
-
-       Jika YA:
-       jangan raycast ulang.
-       Pertahankan world target lama.
-    */
-
     const sameScreenTarget =
 
         focusSession.viewer
@@ -2419,10 +2389,6 @@ function progressiveFocusZoom(
     }
 
 
-    /*
-       Pertahankan target titik yang sama.
-    */
-
     viewer.cameraTarget =
         `${target.x}m ${target.y}m ${target.z}m`;
 
@@ -2434,17 +2400,6 @@ function progressiveFocusZoom(
 
 
         if(orbit){
-
-            /*
-               Klik pertama:
-               62% radius sekarang.
-
-               Klik selanjutnya:
-               56% radius sekarang.
-
-               Jadi klik berulang:
-               semakin dalam.
-            */
 
             const zoomFactor =
                 sameScreenTarget
@@ -2487,11 +2442,6 @@ function progressiveFocusZoom(
     }
 
 
-    /*
-       Update posisi screen click terakhir.
-       Target world tetap sama.
-    */
-
     focusSession.screenX =
         localX;
 
@@ -2509,7 +2459,7 @@ function progressiveFocusZoom(
 
 
 /* =========================================================
-   MODEL POINTER CONTROLS
+   MODEL POINTER
 ========================================================= */
 
 function attachModelPointerControls(
@@ -2549,6 +2499,7 @@ function attachModelPointerControls(
             pointerState.start = {
 
                 x:event.clientX,
+
                 y:event.clientY
 
             };
@@ -2560,11 +2511,6 @@ function attachModelPointerControls(
 
             hideFocusRing();
 
-
-            /*
-               Lebih dari 1 pointer =
-               pinch / gesture.
-            */
 
             if(
                 pointerState
@@ -2797,15 +2743,21 @@ function updateViewerText(
     model
 ){
 
+    const modelTitle =
+        model.viewerTitle
+        ||
+        building.name;
+
+
     setText(
         "viewerTitle",
-        building.name
+        modelTitle
     );
 
 
     setText(
         "viewerCurrentModelName",
-        building.name
+        modelTitle
         +
         " - "
         +
@@ -2819,6 +2771,7 @@ function updateViewerText(
     );
 
 }
+
 
 
 function setViewerLoading(
@@ -2864,6 +2817,7 @@ function setViewerLoading(
 }
 
 
+
 function setViewerReady(
     building,
     model
@@ -2907,20 +2861,27 @@ function setViewerReady(
 }
 
 
+
 function setViewerUnavailable(
     building,
     model
 ){
 
+    const modelTitle =
+        model.viewerTitle
+        ||
+        building.name;
+
+
     setText(
         "viewerTitle",
-        building.name
+        modelTitle
     );
 
 
     setText(
         "viewerCurrentModelName",
-        building.name
+        modelTitle
         +
         " - "
         +
@@ -2968,7 +2929,7 @@ function setViewerUnavailable(
 
 
 /* =========================================================
-   VIEWER SLOT LOAD EVENTS
+   SLOT EVENTS
 ========================================================= */
 
 viewerSlots.forEach(
@@ -3086,7 +3047,7 @@ viewerSlots.forEach(
 
 
 /* =========================================================
-   ASSIGN MODEL TO SLOT
+   SLOT ASSIGNMENT
 ========================================================= */
 
 function clearSlot(
@@ -3135,6 +3096,7 @@ function clearSlot(
 }
 
 
+
 function assignModelToSlot(
     slot,
     building,
@@ -3155,11 +3117,6 @@ function assignModelToSlot(
 
     }
 
-
-    /*
-       Model yang sama sudah berada
-       pada slot ini.
-    */
 
     if(
         slot.buildingId
@@ -3207,7 +3164,7 @@ function assignModelToSlot(
 
 
 /* =========================================================
-   ACTIVATE VIEWER MODEL
+   ACTIVATE VIEWER
 ========================================================= */
 
 function activateViewerModel(
@@ -3375,7 +3332,7 @@ function activateViewerModel(
 
 
 /* =========================================================
-   PREPARE VIEWER BUILDING
+   PREPARE BUILDING
 ========================================================= */
 
 function prepareViewerBuilding(
@@ -3428,13 +3385,6 @@ function prepareViewerBuilding(
     );
 
 
-    /*
-       Assign maksimal 2 model.
-       Sesuai konsep:
-       Biro dan Perkuliahan = 2.
-       Gedung lain = 1.
-    */
-
     assignModelToSlot(
         viewerSlots[0],
         building,
@@ -3485,7 +3435,7 @@ function prepareViewerBuilding(
 
 
 /* =========================================================
-   TAMPILKAN 3D
+   SHOW 3D
 ========================================================= */
 
 on(
@@ -3520,6 +3470,10 @@ on(
             "viewerMessage",
             ""
         );
+
+
+        state.pending3DMarker =
+            null;
 
 
         prepareViewerBuilding(
@@ -3632,7 +3586,7 @@ function applyDestinationMarker(){
 
 
 /* =========================================================
-   AR SYSTEM
+   AR
 ========================================================= */
 
 const mainARViewer =
@@ -3646,15 +3600,21 @@ function setARLoading(
     model
 ){
 
+    const modelTitle =
+        model.viewerTitle
+        ||
+        building.name;
+
+
     setText(
         "arViewerTitle",
-        building.name
+        modelTitle
     );
 
 
     setText(
         "arCurrentModelName",
-        building.name
+        modelTitle
         +
         " - "
         +
@@ -3700,20 +3660,27 @@ function setARLoading(
 }
 
 
+
 function setARReady(
     building,
     model
 ){
 
+    const modelTitle =
+        model.viewerTitle
+        ||
+        building.name;
+
+
     setText(
-        "arLoadStatus",
-        "MODEL AR SIAP"
+        "arViewerTitle",
+        modelTitle
     );
 
 
     setText(
         "arCurrentModelName",
-        building.name
+        modelTitle
         +
         " - "
         +
@@ -3724,6 +3691,12 @@ function setARReady(
     setText(
         "arPreloadDescription",
         model.viewerDescription
+    );
+
+
+    setText(
+        "arLoadStatus",
+        "MODEL AR SIAP"
     );
 
 
@@ -3753,20 +3726,27 @@ function setARReady(
 }
 
 
+
 function setARUnavailable(
     building,
     model
 ){
 
+    const modelTitle =
+        model.viewerTitle
+        ||
+        building.name;
+
+
     setText(
-        "arLoadStatus",
-        "MODEL BELUM TERSEDIA"
+        "arViewerTitle",
+        modelTitle
     );
 
 
     setText(
         "arCurrentModelName",
-        building.name
+        modelTitle
         +
         " - "
         +
@@ -3777,6 +3757,12 @@ function setARUnavailable(
     setText(
         "arPreloadDescription",
         "Model 3D sedang dalam tahap penyelesaian"
+    );
+
+
+    setText(
+        "arLoadStatus",
+        "MODEL BELUM TERSEDIA"
     );
 
 
@@ -3987,7 +3973,7 @@ on(
 
         const buildingId =
             arBuildingSelect
-            ?.value;
+                ?.value;
 
 
         if(!buildingId){
@@ -4073,6 +4059,7 @@ function locationForRoom(
     );
 
 }
+
 
 
 function renderRoomList(
@@ -4564,7 +4551,7 @@ function renderDirectory(){
 
 
 /* =========================================================
-   NAVIGATION STEPS
+   NAV STEPS
 ========================================================= */
 
 function setStep(
@@ -4614,7 +4601,6 @@ function setStep(
 
 /* =========================================================
    MAP GEOMETRY
-   REVISION 32
 ========================================================= */
 
 function getImageContentBox(
@@ -5003,7 +4989,6 @@ function syncAllMapGeometry(){
 
     syncNavigationMapGeometry();
 
-
     syncLiveMapGeometry();
 
 }
@@ -5011,7 +4996,7 @@ function syncAllMapGeometry(){
 
 
 /* =========================================================
-   MARKER POSITION
+   MAP ELEMENT POSITION
 ========================================================= */
 
 function positionElementOnImage(
@@ -5149,7 +5134,7 @@ function positionLiveMapElement(
 
 
 /* =========================================================
-   RESET NAVIGATION
+   RESET NAV
 ========================================================= */
 
 function resetNavigation(){
@@ -5398,7 +5383,7 @@ function selectDestination(
 
 
 /* =========================================================
-   NAVIGATION SEARCH
+   NAV SEARCH
 ========================================================= */
 
 const navigationSearch =
@@ -6442,7 +6427,7 @@ function buildRoute(
 
 
 /* =========================================================
-   CLICK MAP
+   MAP CLICK
 ========================================================= */
 
 const navigationMap =
@@ -6964,7 +6949,7 @@ function createNavigationInstructions(){
 
 
 /* =========================================================
-   LIVE BUILDING MARKERS
+   LIVE BUILDINGS
 ========================================================= */
 
 function renderLiveBuildingMarkers(){
@@ -7633,7 +7618,6 @@ on(
 );
 
 
-
 on(
     "toggleRouteDetail",
     "click",
@@ -7649,7 +7633,6 @@ on(
 
     }
 );
-
 
 
 on(
@@ -7683,7 +7666,7 @@ on(
 
 
 /* =========================================================
-   NAVIGATION -> 3D
+   NAVIGATION → 3D
 ========================================================= */
 
 function showDestinationIn3D(){
@@ -7766,6 +7749,7 @@ function showDestinationIn3D(){
     state.pending3DMarker =
 
         destination.modelMarker
+
         ?
 
         {
@@ -7792,6 +7776,13 @@ function showDestinationIn3D(){
     );
 
 }
+
+
+on(
+    "showDestination3D",
+    "click",
+    showDestinationIn3D
+);
 
 
 
@@ -7987,7 +7978,7 @@ function toast(
 
 
 /* =========================================================
-   ESCAPE
+   ESC
 ========================================================= */
 
 document.addEventListener(
@@ -8152,7 +8143,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   START
+   START APP
 ========================================================= */
 
 async function startApp(){
@@ -8179,17 +8170,8 @@ async function startApp(){
     registerMapImageEvents();
 
 
-    /*
-       Service worker.
-    */
-
     registerServiceWorker();
 
-
-    /*
-       Setelah browser selesai menampilkan
-       halaman utama, cache model penting.
-    */
 
     const warmCache =
         () => {
@@ -8230,7 +8212,7 @@ async function startApp(){
 
 
     console.log(
-        "FT UISU Explorer Revision 37 loaded"
+        "FT UISU Explorer Revision 37 latest build loaded"
     );
 
 }
