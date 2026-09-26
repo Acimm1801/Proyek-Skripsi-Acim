@@ -1,15 +1,15 @@
 /* =========================================================
    FT UISU EXPLORER
    SERVICE WORKER
-   REVISION 37
+   REVISION 37 - BUILD 37.1
 ========================================================= */
 
 const MODEL_CACHE =
-    "ft-uisu-models-v37";
+    "ft-uisu-models-v37.1";
 
 
 const STATIC_CACHE =
-    "ft-uisu-static-v37";
+    "ft-uisu-static-v37.1";
 
 
 
@@ -19,7 +19,7 @@ const STATIC_CACHE =
 
 self.addEventListener(
     "install",
-    event => {
+    () => {
 
         self.skipWaiting();
 
@@ -126,6 +126,10 @@ self.addEventListener(
             );
 
 
+        /*
+           Jangan intersep range requests.
+        */
+
         if(
             request.headers.has(
                 "range"
@@ -139,7 +143,7 @@ self.addEventListener(
 
 
         /* =====================================================
-           MODEL .GLB
+           GLB MODEL
         ====================================================== */
 
         if(
@@ -166,10 +170,7 @@ self.addEventListener(
 
 
         /* =====================================================
-           STATIC FILES
-
-           .jpeg sudah termasuk sehingga gambar Slider 2
-           yang baru dapat di-cache.
+           STATIC FILE
         ====================================================== */
 
         if(
@@ -268,7 +269,12 @@ async function modelStaleWhileRevalidate(
 
     if(cached){
 
+        /*
+           Update cache di background.
+        */
+
         networkPromise;
+
 
         return cached;
 
