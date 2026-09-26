@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
    MAP + DATABASE
-   REVISION 36
+   REVISION 37 - LATEST MODEL DESCRIPTIONS
 ========================================================= */
 
 (function(){
@@ -23,7 +23,7 @@ const FULL_DETAIL_REFERENCE =
 
 
 /* =========================================================
-   BUILDING DATABASE
+   BUILDINGS + 7 MODEL DATABASE
 ========================================================= */
 
 const buildings = [
@@ -52,12 +52,6 @@ const buildings = [
     defaultEntranceId:
         "biro-main-e1",
 
-    /*
-       Default menggunakan Indoor,
-       karena saat ini merupakan model
-       yang sudah tersedia.
-    */
-
     defaultModel:
         "indoor",
 
@@ -73,11 +67,14 @@ const buildings = [
 
             name:"Outdoor",
 
+            viewerTitle:
+                "Gedung Biro Fakultas Teknik",
+
             src:
                 "./assets/models/gedung_biro_outdoor.glb",
 
             viewerDescription:
-                "Gedung Biro Fakultas Teknik berada dilantai 2 pada model 3D diatas."
+                "Biro Fakultas Teknik berada di lantai 2 pada model 3D berikut."
         },
 
         {
@@ -85,11 +82,14 @@ const buildings = [
 
             name:"Indoor",
 
+            viewerTitle:
+                "Biro Fakultas Teknik",
+
             src:
                 "./assets/models/gedung_biro_indoor.glb",
 
             viewerDescription:
-                "Model diatas menampilkan Interior tampilan ruangan didalam Biro Fakultas Teknik."
+                "Model berikut menampilkan interior ruangan di dalam Biro Fakultas Teknik."
         }
 
     ]
@@ -135,11 +135,14 @@ const buildings = [
 
             name:"Indoor",
 
+            viewerTitle:
+                "Perpustakaan Fakultas Teknik",
+
             src:
                 "./assets/models/perpustakaan_indoor.glb",
 
             viewerDescription:
-                "Model diatas menampilkan Interior ruangan Perpustakaan Fakultas Teknik."
+                "Model berikut menampilkan interior Ruangan Perpustakaan Fakultas Teknik."
         }
 
     ]
@@ -185,11 +188,14 @@ const buildings = [
 
             name:"Indoor",
 
+            viewerTitle:
+                "Ruang Serbaguna Fakultas Teknik",
+
             src:
                 "./assets/models/serbaguna_indoor.glb",
 
             viewerDescription:
-                "Model diatas menampilkan Interior ruangan Serbaguna Fakultas Teknik."
+                "Model berikut menampilkan interior Ruang Serbaguna Fakultas Teknik."
         }
 
     ]
@@ -235,11 +241,14 @@ const buildings = [
 
             name:"Outdoor",
 
+            viewerTitle:
+                "Gedung Perkuliahan Fakultas Teknik",
+
             src:
                 "./assets/models/gedung_perkuliahan_outdoor.glb",
 
             viewerDescription:
-                "Ruang Kuliah Fakultas Teknik terletak dilantai 3 pada model 3D diatas."
+                "Ruang Kuliah Fakultas Teknik terletak di lantai 3 pada model 3D berikut."
         },
 
         {
@@ -247,11 +256,14 @@ const buildings = [
 
             name:"Indoor",
 
+            viewerTitle:
+                "Ruang Perkuliahan Fakultas Teknik",
+
             src:
                 "./assets/models/gedung_perkuliahan_indoor.glb",
 
             viewerDescription:
-                "Model diatas menampilkan tampilan Interior Ruang Perkuliahan Teknik dari Ruang 1 s/d Ruang 8."
+                "Model berikut menampilkan interior Ruang Perkuliahan Fakultas Teknik dari Ruang 1 s/d Ruang 8."
         }
 
     ]
@@ -297,11 +309,14 @@ const buildings = [
 
             name:"Outdoor",
 
+            viewerTitle:
+                "Gedung Laboratorium Fakultas Teknik",
+
             src:
                 "./assets/models/gedung_laboratorium.glb",
 
             viewerDescription:
-                "Model diatas menampilkan Gedung Laboratorium yang berisi seluruh Laboratorium yang ada diFakultas Teknik, juga Ruang Perkuliahan dari Ruang 9 s/d Ruang 13."
+                "Model berikut menampilkan Gedung Laboratorium yang berisi seluruh laboratorium di Fakultas Teknik, beserta Ruang Perkuliahan dari Ruang 9 s/d Ruang 10 yang terletak di lantai 2, serta Ruang Kuliah 11 s/d Ruang 13 yang terletak di lantai 3."
         }
 
     ]
@@ -319,7 +334,6 @@ const entrances = [
 
 {
     id:"serbaguna-e1",
-
     buildingId:"serbaguna-ft",
 
     name:
@@ -338,7 +352,6 @@ const entrances = [
 
 {
     id:"library-e1",
-
     buildingId:"perpustakaan-ft",
 
     name:
@@ -357,7 +370,6 @@ const entrances = [
 
 {
     id:"biro-main-e1",
-
     buildingId:"biro-ft",
 
     name:
@@ -376,7 +388,6 @@ const entrances = [
 
 {
     id:"class-main-e1",
-
     buildingId:"perkuliahan-ft",
 
     name:
@@ -395,7 +406,6 @@ const entrances = [
 
 {
     id:"lab-main-e1",
-
     buildingId:"laboratorium-ft",
 
     name:
@@ -414,7 +424,6 @@ const entrances = [
 
 {
     id:"lab-west-e1",
-
     buildingId:"laboratorium-ft",
 
     name:
@@ -438,7 +447,6 @@ const entrances = [
 
 {
     id:"lab-south-e1",
-
     buildingId:"laboratorium-ft",
 
     name:
@@ -471,9 +479,7 @@ const entrances = [
 const rooms = [
 
 
-/* =========================================================
-   BIRO FT
-========================================================= */
+/* BIRO */
 
 {
     id:"gudang-mini",
@@ -666,9 +672,7 @@ const rooms = [
 
 
 
-/* =========================================================
-   PERKULIAHAN
-========================================================= */
+/* PERKULIAHAN */
 
 {
     id:"ruang-kuliah-1",
@@ -744,9 +748,7 @@ const rooms = [
 
 
 
-/* =========================================================
-   LAB LANTAI 1
-========================================================= */
+/* LAB LANTAI 1 */
 
 {
     id:"lab-foundry",
@@ -804,9 +806,7 @@ const rooms = [
 
 
 
-/* =========================================================
-   LAB LANTAI 2
-========================================================= */
+/* LAB LANTAI 2 */
 
 {
     id:"lab-rangkaian-listrik",
@@ -918,9 +918,7 @@ const rooms = [
 
 
 
-/* =========================================================
-   LAB LANTAI 3
-========================================================= */
+/* LAB LANTAI 3 */
 
 {
     id:"ruang-kuliah-11",
@@ -979,177 +977,77 @@ const rooms = [
 ];
 
 
-
-/* =========================================================
-   CIVITAS
-   BELUM DIISI
-========================================================= */
-
 const people = [];
 
 
 
 /* =========================================================
    NAVIGATION GRAPH
-   REVISION 32 LOCKED
 ========================================================= */
 
 const mapNodes = {
 
-    GATE_MAIN:{
-        x:61,
-        y:488
-    },
+    GATE_MAIN:{x:61,y:488},
 
-    NORTH_WEST:{
-        x:97,
-        y:198
-    },
+    NORTH_WEST:{x:97,y:198},
 
-    NORTH_JUNCTION_A:{
-        x:333,
-        y:222
-    },
+    NORTH_JUNCTION_A:{x:333,y:222},
 
-    NORTH_JUNCTION_B:{
-        x:397,
-        y:217
-    },
+    NORTH_JUNCTION_B:{x:397,y:217},
 
-    GATE_EXIT:{
-        x:390,
-        y:31
-    },
+    GATE_EXIT:{x:390,y:31},
 
-    NORTH_RIGHT:{
-        x:744,
-        y:230
-    },
+    NORTH_RIGHT:{x:744,y:230},
 
-    PARKING_WEST:{
-        x:165,
-        y:492
-    },
+    PARKING_WEST:{x:165,y:492},
 
-    PARKING_CENTER:{
-        x:326,
-        y:505
-    },
+    PARKING_CENTER:{x:326,y:505},
 
-    PARKING_SOUTHWEST:{
-        x:283,
-        y:555
-    },
+    PARKING_SOUTHWEST:{x:283,y:555},
 
-    PARKING_SOUTHEAST:{
-        x:350,
-        y:562
-    },
+    PARKING_SOUTHEAST:{x:350,y:562},
 
-    PARKING_EAST:{
-        x:400,
-        y:527
-    },
+    PARKING_EAST:{x:400,y:527},
 
-    MOSQUE_EAST:{
-        x:283,
-        y:683
-    },
+    MOSQUE_EAST:{x:283,y:683},
 
-    MOSQUE_SOUTHWEST:{
-        x:198,
-        y:817
-    },
+    MOSQUE_SOUTHWEST:{x:198,y:817},
 
-    MOSQUE_WEST:{
-        x:83,
-        y:804
-    },
+    MOSQUE_WEST:{x:83,y:804},
 
-    COURT_TOP_LEFT:{
-        x:505,
-        y:356
-    },
+    COURT_TOP_LEFT:{x:505,y:356},
 
-    COURT_TOP_RIGHT:{
-        x:630,
-        y:356
-    },
+    COURT_TOP_RIGHT:{x:630,y:356},
 
-    COURT_CENTER_LEFT:{
-        x:495,
-        y:527
-    },
+    COURT_CENTER_LEFT:{x:495,y:527},
 
-    COURT_CENTER_RIGHT:{
-        x:631,
-        y:527
-    },
+    COURT_CENTER_RIGHT:{x:631,y:527},
 
-    COURT_BOTTOM_LEFT:{
-        x:494,
-        y:730
-    },
+    COURT_BOTTOM_LEFT:{x:494,y:730},
 
-    COURT_BOTTOM_RIGHT:{
-        x:603,
-        y:730
-    },
+    COURT_BOTTOM_RIGHT:{x:603,y:730},
 
-    CLASS_LAB_WEST:{
-        x:341,
-        y:684
-    },
+    CLASS_LAB_WEST:{x:341,y:684},
 
-    CLASS_LAB_CENTER:{
-        x:421,
-        y:686
-    },
+    CLASS_LAB_CENTER:{x:421,y:686},
 
-    LAB_WEST_LOWER:{
-        x:341,
-        y:944
-    },
+    LAB_WEST_LOWER:{x:341,y:944},
 
-    LAB_SOUTH_CENTER:{
-        x:460,
-        y:944
-    },
+    LAB_SOUTH_CENTER:{x:460,y:944},
 
-    E_SERBAGUNA:{
-        x:644,
-        y:210
-    },
+    E_SERBAGUNA:{x:644,y:210},
 
-    E_LIBRARY:{
-        x:691,
-        y:356
-    },
+    E_LIBRARY:{x:691,y:356},
 
-    E_BIRO:{
-        x:640,
-        y:527
-    },
+    E_BIRO:{x:640,y:527},
 
-    E_CLASS:{
-        x:462,
-        y:685
-    },
+    E_CLASS:{x:462,y:685},
 
-    E_LAB_MAIN:{
-        x:384,
-        y:686
-    },
+    E_LAB_MAIN:{x:384,y:686},
 
-    E_LAB_WEST:{
-        x:341,
-        y:805
-    },
+    E_LAB_WEST:{x:341,y:805},
 
-    E_LAB_SOUTH:{
-        x:460,
-        y:953
-    }
+    E_LAB_SOUTH:{x:460,y:953}
 
 };
 
@@ -1161,440 +1059,284 @@ const mapEdges = [
     id:"R01",
     from:"GATE_MAIN",
     to:"PARKING_WEST",
-    points:[
-        [61,488],
-        [112,488],
-        [165,492]
-    ]
+    points:[[61,488],[112,488],[165,492]]
 },
 
 {
     id:"R02",
     from:"PARKING_WEST",
     to:"PARKING_CENTER",
-    points:[
-        [165,492],
-        [245,498],
-        [326,505]
-    ]
+    points:[[165,492],[245,498],[326,505]]
 },
 
 {
     id:"R03",
     from:"PARKING_WEST",
     to:"PARKING_SOUTHWEST",
-    points:[
-        [165,492],
-        [218,523],
-        [283,555]
-    ]
+    points:[[165,492],[218,523],[283,555]]
 },
 
 {
     id:"R04",
     from:"PARKING_SOUTHWEST",
     to:"PARKING_CENTER",
-    points:[
-        [283,555],
-        [326,505]
-    ]
+    points:[[283,555],[326,505]]
 },
 
 {
     id:"R05",
     from:"PARKING_CENTER",
     to:"PARKING_SOUTHEAST",
-    points:[
-        [326,505],
-        [350,562]
-    ]
+    points:[[326,505],[350,562]]
 },
 
 {
     id:"R06",
     from:"PARKING_SOUTHEAST",
     to:"PARKING_EAST",
-    points:[
-        [350,562],
-        [400,527]
-    ]
+    points:[[350,562],[400,527]]
 },
 
 {
     id:"R07",
     from:"PARKING_CENTER",
     to:"PARKING_EAST",
-    points:[
-        [326,505],
-        [400,527]
-    ]
+    points:[[326,505],[400,527]]
 },
 
 {
     id:"R08",
     from:"NORTH_WEST",
     to:"NORTH_JUNCTION_A",
-    points:[
-        [97,198],
-        [214,211],
-        [333,222]
-    ]
+    points:[[97,198],[214,211],[333,222]]
 },
 
 {
     id:"R09",
     from:"NORTH_JUNCTION_A",
     to:"NORTH_JUNCTION_B",
-    points:[
-        [333,222],
-        [397,217]
-    ]
+    points:[[333,222],[397,217]]
 },
 
 {
     id:"R10",
     from:"NORTH_JUNCTION_B",
     to:"NORTH_RIGHT",
-    points:[
-        [397,217],
-        [520,219],
-        [644,210],
-        [744,230]
-    ]
+    points:[[397,217],[520,219],[644,210],[744,230]]
 },
 
 {
     id:"R11",
     from:"GATE_EXIT",
     to:"NORTH_JUNCTION_B",
-    points:[
-        [390,31],
-        [393,111],
-        [397,217]
-    ]
+    points:[[390,31],[393,111],[397,217]]
 },
 
 {
     id:"R12",
     from:"NORTH_JUNCTION_A",
     to:"PARKING_CENTER",
-    points:[
-        [333,222],
-        [332,350],
-        [326,505]
-    ]
+    points:[[333,222],[332,350],[326,505]]
 },
 
 {
     id:"R13",
     from:"NORTH_JUNCTION_B",
     to:"PARKING_EAST",
-    points:[
-        [397,217],
-        [399,370],
-        [400,527]
-    ]
+    points:[[397,217],[399,370],[400,527]]
 },
 
 {
     id:"R14",
     from:"NORTH_JUNCTION_B",
     to:"E_SERBAGUNA",
-    points:[
-        [397,217],
-        [520,217],
-        [644,210]
-    ]
+    points:[[397,217],[520,217],[644,210]]
 },
 
 {
     id:"R15",
     from:"E_SERBAGUNA",
     to:"NORTH_RIGHT",
-    points:[
-        [644,210],
-        [700,219],
-        [744,230]
-    ]
+    points:[[644,210],[700,219],[744,230]]
 },
 
 {
     id:"R16",
     from:"NORTH_RIGHT",
     to:"E_LIBRARY",
-    points:[
-        [744,230],
-        [744,300],
-        [744,356],
-        [691,356]
-    ]
+    points:[[744,230],[744,300],[744,356],[691,356]]
 },
 
 {
     id:"R17",
     from:"COURT_TOP_LEFT",
     to:"COURT_TOP_RIGHT",
-    points:[
-        [505,356],
-        [568,356],
-        [630,356]
-    ]
+    points:[[505,356],[568,356],[630,356]]
 },
 
 {
     id:"R18",
     from:"COURT_TOP_RIGHT",
     to:"E_LIBRARY",
-    points:[
-        [630,356],
-        [691,356]
-    ]
+    points:[[630,356],[691,356]]
 },
 
 {
     id:"R19",
     from:"PARKING_EAST",
     to:"COURT_TOP_LEFT",
-    points:[
-        [400,527],
-        [449,441],
-        [505,356]
-    ]
+    points:[[400,527],[449,441],[505,356]]
 },
 
 {
     id:"R20",
     from:"PARKING_EAST",
     to:"COURT_TOP_RIGHT",
-    points:[
-        [400,527],
-        [518,442],
-        [630,356]
-    ]
+    points:[[400,527],[518,442],[630,356]]
 },
 
 {
     id:"R21",
     from:"PARKING_EAST",
     to:"COURT_CENTER_LEFT",
-    points:[
-        [400,527],
-        [495,527]
-    ]
+    points:[[400,527],[495,527]]
 },
 
 {
     id:"R22",
     from:"COURT_CENTER_LEFT",
     to:"COURT_CENTER_RIGHT",
-    points:[
-        [495,527],
-        [564,527],
-        [631,527]
-    ]
+    points:[[495,527],[564,527],[631,527]]
 },
 
 {
     id:"R23",
     from:"COURT_CENTER_RIGHT",
     to:"E_BIRO",
-    points:[
-        [631,527],
-        [640,527]
-    ]
+    points:[[631,527],[640,527]]
 },
 
 {
     id:"R24",
     from:"COURT_TOP_LEFT",
     to:"COURT_CENTER_LEFT",
-    points:[
-        [505,356],
-        [500,442],
-        [495,527]
-    ]
+    points:[[505,356],[500,442],[495,527]]
 },
 
 {
     id:"R25",
     from:"COURT_TOP_RIGHT",
     to:"COURT_CENTER_RIGHT",
-    points:[
-        [630,356],
-        [631,441],
-        [631,527]
-    ]
+    points:[[630,356],[631,441],[631,527]]
 },
 
 {
     id:"R26",
     from:"COURT_CENTER_LEFT",
     to:"COURT_BOTTOM_LEFT",
-    points:[
-        [495,527],
-        [495,625],
-        [494,730]
-    ]
+    points:[[495,527],[495,625],[494,730]]
 },
 
 {
     id:"R27",
     from:"COURT_CENTER_RIGHT",
     to:"COURT_BOTTOM_RIGHT",
-    points:[
-        [631,527],
-        [620,626],
-        [603,730]
-    ]
+    points:[[631,527],[620,626],[603,730]]
 },
 
 {
     id:"R28",
     from:"COURT_BOTTOM_LEFT",
     to:"COURT_BOTTOM_RIGHT",
-    points:[
-        [494,730],
-        [550,730],
-        [603,730]
-    ]
+    points:[[494,730],[550,730],[603,730]]
 },
 
 {
     id:"R29",
     from:"PARKING_SOUTHWEST",
     to:"MOSQUE_EAST",
-    points:[
-        [283,555],
-        [283,621],
-        [283,683]
-    ]
+    points:[[283,555],[283,621],[283,683]]
 },
 
 {
     id:"R30",
     from:"PARKING_WEST",
     to:"MOSQUE_EAST",
-    points:[
-        [165,492],
-        [222,580],
-        [283,683]
-    ]
+    points:[[165,492],[222,580],[283,683]]
 },
 
 {
     id:"R31",
     from:"MOSQUE_EAST",
     to:"MOSQUE_SOUTHWEST",
-    points:[
-        [283,683],
-        [241,751],
-        [198,817]
-    ]
+    points:[[283,683],[241,751],[198,817]]
 },
 
 {
     id:"R32",
     from:"MOSQUE_SOUTHWEST",
     to:"MOSQUE_WEST",
-    points:[
-        [198,817],
-        [138,812],
-        [83,804]
-    ]
+    points:[[198,817],[138,812],[83,804]]
 },
 
 {
     id:"R33",
     from:"MOSQUE_EAST",
     to:"CLASS_LAB_WEST",
-    points:[
-        [283,683],
-        [341,684]
-    ]
+    points:[[283,683],[341,684]]
 },
 
 {
     id:"R34",
     from:"CLASS_LAB_WEST",
     to:"CLASS_LAB_CENTER",
-    points:[
-        [341,684],
-        [381,685],
-        [421,686]
-    ]
+    points:[[341,684],[381,685],[421,686]]
 },
 
 {
     id:"R35",
     from:"CLASS_LAB_CENTER",
     to:"E_CLASS",
-    points:[
-        [421,686],
-        [462,685]
-    ]
+    points:[[421,686],[462,685]]
 },
 
 {
     id:"R36",
     from:"CLASS_LAB_CENTER",
     to:"E_LAB_MAIN",
-    points:[
-        [421,686],
-        [384,686]
-    ]
+    points:[[421,686],[384,686]]
 },
 
 {
     id:"R37",
     from:"CLASS_LAB_WEST",
     to:"E_LAB_WEST",
-    points:[
-        [341,684],
-        [341,744],
-        [341,805]
-    ]
+    points:[[341,684],[341,744],[341,805]]
 },
 
 {
     id:"R38",
     from:"CLASS_LAB_WEST",
     to:"LAB_WEST_LOWER",
-    points:[
-        [341,684],
-        [341,815],
-        [341,944]
-    ]
+    points:[[341,684],[341,815],[341,944]]
 },
 
 {
     id:"R39",
     from:"LAB_WEST_LOWER",
     to:"LAB_SOUTH_CENTER",
-    points:[
-        [341,944],
-        [400,944],
-        [460,944]
-    ]
+    points:[[341,944],[400,944],[460,944]]
 },
 
 {
     id:"R40",
     from:"LAB_SOUTH_CENTER",
     to:"E_LAB_SOUTH",
-    points:[
-        [460,944],
-        [460,953]
-    ]
+    points:[[460,944],[460,953]]
 }
 
 ];
 
-
-
-/*
-   Koordinat GPS nyata akan dimasukkan
-   setelah data kalibrasi tersedia.
-*/
 
 const mapCalibration = [];
 
@@ -1658,10 +1400,10 @@ function getBuildingModels(
 
     return (
         building
-            ?
-            building.models || []
-            :
-            []
+        ?
+        building.models || []
+        :
+        []
     );
 
 }
@@ -1766,7 +1508,7 @@ function getNavigationEntranceForLocation(
 
 
 /* =========================================================
-   EXPOSE DATABASE
+   GLOBAL DATABASE
 ========================================================= */
 
 window.FT_DATA = {
