@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
    STYLE.CSS
-   REVISION 36
+   REVISION 37 - LATEST
 ========================================================= */
 
 :root{
@@ -82,6 +82,10 @@ select{
 button{
 
     cursor:pointer;
+
+    touch-action:manipulation;
+
+    -webkit-tap-highlight-color:transparent;
 
 }
 
@@ -831,14 +835,18 @@ a{
 
 .page{
 
-    display:none;
+    display:none !important;
+
+    pointer-events:none !important;
 
 }
 
 
 .page.active{
 
-    display:block;
+    display:block !important;
+
+    pointer-events:auto !important;
 
 }
 
@@ -1227,11 +1235,6 @@ a{
 }
 
 
-/*
-   REV36:
-   Semua landing viewer tetap hidup.
-*/
-
 .landing-model-stage{
 
     position:relative;
@@ -1467,7 +1470,7 @@ a{
 
 
 /* =========================================================
-   FEATURE CARDS
+   FEATURE
 ========================================================= */
 
 .feature-section{
@@ -2022,7 +2025,7 @@ a{
 
 
 /* =========================================================
-   PERSISTENT MODEL VIEWER
+   MODEL STAGE
 ========================================================= */
 
 .model-viewer-stage{
@@ -2305,7 +2308,7 @@ a{
 
 
 /* =========================================================
-   VIEWER INFO
+   INTERACTION
 ========================================================= */
 
 .viewer-interaction-info{
@@ -2777,8 +2780,7 @@ a{
 
     fill:none;
 
-    stroke:
-        #168ed1;
+    stroke:#168ed1;
 
     stroke-width:5;
 
