@@ -20,7 +20,7 @@
 
     <link
         rel="stylesheet"
-        href="./style.css?v=37.1"
+        href="./style.css?v=37.2"
     >
 
 
@@ -32,13 +32,13 @@
 
     <script
         defer
-        src="./data/map-data.js?v=37.1">
+        src="./data/map-data.js?v=37.2">
     </script>
 
 
     <script
         defer
-        src="./script.js?v=37.1">
+        src="./script.js?v=37.2">
     </script>
 
 </head>
@@ -484,12 +484,6 @@
                         class="landing-model-stage"
                     >
 
-
-                        <!--
-                            MODEL 1
-                            BIRO OUTDOOR
-                        -->
-
                         <model-viewer
                             id="landingModel0"
                             class="landing-model-viewer active"
@@ -503,9 +497,6 @@
                         </model-viewer>
 
 
-
-                        <!-- MODEL 2 -->
-
                         <model-viewer
                             id="landingModel1"
                             class="landing-model-viewer"
@@ -518,9 +509,6 @@
                         >
                         </model-viewer>
 
-
-
-                        <!-- MODEL 3 -->
 
                         <model-viewer
                             id="landingModel2"
@@ -1020,94 +1008,106 @@
 
 
 
-<div
-    id="modelViewerStage"
-    class="model-viewer-stage"
->
+            <!-- =====================================================
+                 SINGLE MODEL VIEWER
+                 INI BAGIAN PENTING
+            ====================================================== -->
 
-    <model-viewer
-        id="main3DViewer"
-        class="main-model-viewer-single"
-        camera-controls
-        loading="eager"
+            <div
+                id="modelViewerStage"
+                class="model-viewer-stage"
+            >
 
-        shadow-intensity="0.7"
-        shadow-softness="1"
+                <model-viewer
+                    id="main3DViewer"
+                    class="main-model-viewer-single"
 
-        environment-image="neutral"
+                    camera-controls
+                    loading="eager"
 
-        camera-orbit="auto auto auto"
-        camera-target="auto auto auto"
+                    shadow-intensity="0.7"
+                    shadow-softness="1"
 
-        min-camera-orbit="auto auto 0.01m"
-        max-camera-orbit="auto auto auto"
+                    environment-image="neutral"
 
-        min-field-of-view="5deg"
-        max-field-of-view="90deg"
+                    camera-orbit="auto auto auto"
+                    camera-target="auto auto auto"
 
-        field-of-view="35deg"
+                    min-camera-orbit="auto auto 0.01m"
+                    max-camera-orbit="auto auto auto"
 
-        interpolation-decay="40"
+                    min-field-of-view="5deg"
+                    max-field-of-view="90deg"
 
-        interaction-prompt="none"
+                    field-of-view="35deg"
 
-        alt="Model 3D Fakultas Teknik"
-    >
+                    interpolation-decay="40"
 
-        <button
-            id="destination3DHotspot"
-            class="destination-3d-hotspot hidden"
-            slot="hotspot-destination"
-            data-position="0m 0m 0m"
-            data-normal="0m 1m 0m"
-            type="button"
-        >
+                    interaction-prompt="none"
 
-            <span></span>
+                    alt="Model 3D Fakultas Teknik"
+                >
 
-            <strong id="destination3DLabel">
-                Tujuan
-            </strong>
+                    <button
+                        id="destination3DHotspot"
+                        class="destination-3d-hotspot hidden"
+                        slot="hotspot-destination"
+                        data-position="0m 0m 0m"
+                        data-normal="0m 1m 0m"
+                        type="button"
+                    >
 
-        </button>
+                        <span></span>
 
-    </model-viewer>
+                        <strong id="destination3DLabel">
+                            Tujuan
+                        </strong>
 
+                    </button>
 
-    <div
-        id="viewerLoadingOverlay"
-        class="model-state-overlay hidden"
-    >
-
-        <div class="model-loader"></div>
-
-        <strong>
-            Memuat Model 3D...
-        </strong>
-
-    </div>
+                </model-viewer>
 
 
-    <div
-        id="viewerUnavailable"
-        class="model-state-overlay model-unavailable hidden"
-    >
 
-        <div class="unavailable-3d-icon">
-            3D
-        </div>
+                <div
+                    id="viewerLoadingOverlay"
+                    class="model-state-overlay hidden"
+                >
 
-        <strong>
-            Model 3D sedang dalam tahap penyelesaian
-        </strong>
+                    <div class="model-loader">
+                    </div>
 
-        <p>
-            Model akan tersedia setelah proses desain selesai.
-        </p>
+                    <strong>
+                        Memuat Model 3D...
+                    </strong>
 
-    </div>
+                </div>
 
-</div>
+
+
+                <div
+                    id="viewerUnavailable"
+                    class="model-state-overlay model-unavailable hidden"
+                >
+
+                    <div class="unavailable-3d-icon">
+                        3D
+                    </div>
+
+
+                    <strong>
+                        Model 3D sedang dalam tahap penyelesaian
+                    </strong>
+
+
+                    <p>
+                        Model akan tersedia setelah proses desain selesai.
+                    </p>
+
+                </div>
+
+            </div>
+
 
 
             <div class="viewer-interaction-info">
@@ -1121,11 +1121,11 @@
                 </span>
 
                 <span>
-                    PINCH / SCROLL
+                    SCROLL / PINCH
                 </span>
 
                 <span>
-                    KLIK BERULANG UNTUK ZOOM
+                    ZOOM BEBAS
                 </span>
 
             </div>
@@ -1917,8 +1917,8 @@
                     </li>
 
                     <li>
-                        Model dapat di-drag, zoom, rotate, dan diklik berulang
-                        untuk memperbesar titik yang sama.
+                        Model dapat di-drag, rotate, serta diperbesar atau
+                        diperkecil menggunakan scroll mouse atau pinch pada layar.
                     </li>
 
                 </ul>
@@ -2227,6 +2227,10 @@
 
 
 
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer class="site-footer">
 
     <p>
@@ -2240,6 +2244,10 @@
 </footer>
 
 
+
+<!-- =========================================================
+     INFORMATION MODAL
+========================================================= -->
 
 <div
     id="infoModal"
@@ -2297,6 +2305,10 @@
 </div>
 
 
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
 
 <div
     id="toast"
