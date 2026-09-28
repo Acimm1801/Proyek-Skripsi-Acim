@@ -1,7 +1,8 @@
 /* =========================================================
    FT UISU EXPLORER
    STYLE.CSS
-   REVISION 37 - LATEST
+   REVISION 37
+   NATIVE 3D VIEWER CONTROL
 ========================================================= */
 
 :root{
@@ -2026,6 +2027,8 @@ a{
 
 /* =========================================================
    MODEL STAGE
+   HANYA BAGIAN INI YANG DISESUAIKAN UNTUK
+   SINGLE MODEL VIEWER + NATIVE CAMERA CONTROL
 ========================================================= */
 
 .model-viewer-stage{
@@ -2043,41 +2046,33 @@ a{
 }
 
 
-.main-model-viewer{
-
-    position:absolute;
-
-    z-index:1;
-
-    inset:0;
+.main-model-viewer-single{
 
     width:100%;
-    height:100%;
+
+    height:520px;
 
     min-height:520px;
 
-    opacity:0;
-
-    pointer-events:none;
+    display:block;
 
     background:#e6efef;
 
-    transition:
-        opacity .18s ease;
+    outline:none;
 
 }
 
 
-.main-model-viewer.active{
+.main-model-viewer-single:focus{
 
-    z-index:2;
-
-    opacity:1;
-
-    pointer-events:auto;
+    outline:none;
 
 }
 
+
+/* =========================================================
+   AR
+========================================================= */
 
 .ar-model-stage{
 
@@ -2222,93 +2217,7 @@ a{
 
 
 /* =========================================================
-   FOCUS RING
-========================================================= */
-
-.model-focus-ring{
-
-    position:absolute;
-
-    z-index:30;
-
-    width:105px;
-    height:105px;
-
-    margin:
-        -52.5px 0 0
-        -52.5px;
-
-    pointer-events:none;
-
-    opacity:0;
-
-    border:
-        2px solid
-        rgba(19,166,133,.85);
-
-    border-radius:50%;
-
-    background:
-        rgba(19,166,133,.05);
-
-    transform:
-        scale(.75);
-
-    transition:
-        opacity .18s ease,
-        transform .18s ease;
-
-}
-
-
-.model-focus-ring::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:9px;
-
-    border:
-        1px solid
-        rgba(19,166,133,.35);
-
-    border-radius:50%;
-
-}
-
-
-.model-focus-ring.focus-visible{
-
-    opacity:1;
-
-    transform:scale(1);
-
-}
-
-
-.model-focus-ring span{
-
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:var(--green);
-
-    transform:
-        translate(-50%,-50%);
-
-}
-
-
-/* =========================================================
-   INTERACTION
+   INTERACTION INFO
 ========================================================= */
 
 .viewer-interaction-info{
@@ -4367,7 +4276,9 @@ a{
     }
 
 
-    .main-model-viewer{
+    .main-model-viewer-single{
+
+        height:390px;
 
         min-height:390px;
 
@@ -4386,18 +4297,6 @@ a{
         min-height:390px;
 
         height:58vh;
-
-    }
-
-
-    .model-focus-ring{
-
-        width:90px;
-        height:90px;
-
-        margin:
-            -45px 0 0
-            -45px;
 
     }
 
