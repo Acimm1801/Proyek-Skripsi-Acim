@@ -1,7 +1,8 @@
 /* =========================================================
    FT UISU EXPLORER
    SCRIPT.JS
-   REVISION 37 - LATEST
+   REVISION 37
+   NATIVE 3D VIEWER CONTROL
 ========================================================= */
 
 (function(){
@@ -83,7 +84,6 @@ const mapCalibration =
     DATA.mapCalibration
     :
     [];
-
 
 
 /* =========================================================
@@ -192,7 +192,6 @@ function setText(
 }
 
 
-
 /* =========================================================
    STATE
 ========================================================= */
@@ -248,7 +247,6 @@ const state = {
         null
 
 };
-
 
 
 /* =========================================================
@@ -483,7 +481,6 @@ function getNavigationEntrance(
 }
 
 
-
 /* =========================================================
    MODEL CACHE
 ========================================================= */
@@ -494,27 +491,17 @@ const MODEL_CACHE_NAME =
 
 const PRIORITY_MODELS = [
 
-    /*
-       MODEL SLIDER 1
-    */
-
     "./assets/models/gedung_biro_outdoor.glb",
 
     "./assets/models/gedung_perkuliahan_outdoor.glb",
 
     "./assets/models/gedung_laboratorium.glb",
 
-
-    /*
-       MODEL INDOOR PERSISTENT VIEWER
-    */
-
     "./assets/models/gedung_biro_indoor.glb",
 
     "./assets/models/gedung_perkuliahan_indoor.glb"
 
 ];
-
 
 
 async function registerServiceWorker(){
@@ -547,11 +534,6 @@ async function registerServiceWorker(){
             .serviceWorker
             .ready;
 
-
-        console.log(
-            "FT UISU cache service worker aktif."
-        );
-
     }
 
     catch(error){
@@ -564,7 +546,6 @@ async function registerServiceWorker(){
     }
 
 }
-
 
 
 async function cacheModel(
@@ -646,7 +627,6 @@ async function cacheModel(
 }
 
 
-
 async function preloadPriorityModels(){
 
     const queue =
@@ -678,7 +658,6 @@ async function preloadPriorityModels(){
 }
 
 
-
 function preloadBuildingModels(
     building
 ){
@@ -708,7 +687,6 @@ function preloadBuildingModels(
         );
 
 }
-
 
 
 /* =========================================================
@@ -847,7 +825,6 @@ people.forEach(
 );
 
 
-
 /* =========================================================
    PAGE
 ========================================================= */
@@ -883,7 +860,6 @@ function updateHeaderActive(
     }
 
 }
-
 
 
 function showPage(
@@ -971,7 +947,6 @@ function showPage(
 }
 
 
-
 function goBack(){
 
     stopGpsTracking();
@@ -993,7 +968,6 @@ function goBack(){
 }
 
 
-
 all("[data-back]")
     .forEach(
         button => {
@@ -1005,7 +979,6 @@ all("[data-back]")
 
         }
     );
-
 
 
 on(
@@ -1029,7 +1002,6 @@ on(
 );
 
 
-
 all("[data-page]")
     .forEach(
         button => {
@@ -1047,7 +1019,6 @@ all("[data-page]")
 
         }
     );
-
 
 
 /* =========================================================
@@ -1117,7 +1088,6 @@ on(
     "click",
     closeDrawer
 );
-
 
 
 /* =========================================================
@@ -1233,7 +1203,6 @@ all(".slider-dot")
 
         }
     );
-
 
 
 /* =========================================================
@@ -1354,7 +1323,6 @@ on(
 );
 
 
-
 /* =========================================================
    SEARCH
 ========================================================= */
@@ -1416,7 +1384,6 @@ function searchLocations(
         );
 
 }
-
 
 
 function renderSearchResults(
@@ -1544,7 +1511,6 @@ function renderSearchResults(
 }
 
 
-
 /* =========================================================
    GLOBAL SEARCH
 ========================================================= */
@@ -1654,7 +1620,6 @@ on(
 
     }
 );
-
 
 
 /* =========================================================
@@ -1789,7 +1754,6 @@ on(
 );
 
 
-
 /* =========================================================
    BUILDING SELECT
 ========================================================= */
@@ -1860,81 +1824,6 @@ populateBuildingSelect(
 populateBuildingSelect(
     arBuildingSelect
 );
-
-
-
-/* =========================================================
-   PERSISTENT MODEL SLOTS
-========================================================= */
-
-const viewerSlots = [
-
-    {
-        id:"A",
-
-        viewer:
-            byId(
-                "viewerSlotA"
-            ),
-
-        buildingId:null,
-
-        modelId:null,
-
-        src:null,
-
-        status:"empty"
-    },
-
-    {
-        id:"B",
-
-        viewer:
-            byId(
-                "viewerSlotB"
-            ),
-
-        buildingId:null,
-
-        modelId:null,
-
-        src:null,
-
-        status:"empty"
-    }
-
-];
-
-
-function getActiveViewerSlot(){
-
-    return (
-        viewerSlots.find(
-            slot =>
-                slot.modelId ===
-                state.viewerModelId
-                &&
-                slot.buildingId ===
-                state.viewerBuildingId
-        )
-        ||
-        null
-    );
-
-}
-
-
-function getActiveModelViewer(){
-
-    return (
-        getActiveViewerSlot()
-            ?.viewer
-        ||
-        null
-    );
-
-}
-
 
 
 /* =========================================================
@@ -2086,656 +1975,29 @@ function renderModelSwitch({
 }
 
 
-
 /* =========================================================
-   PROGRESSIVE CLICK ZOOM
+   SINGLE / NATIVE 3D VIEWER
 ========================================================= */
 
-const focusRing =
+const main3DViewer =
     byId(
-        "modelFocusRing"
+        "main3DViewer"
     );
 
 
-let focusSession = {
-
-    viewer:null,
+let current3DModel = {
 
     buildingId:null,
 
     modelId:null,
 
-    screenX:null,
-
-    screenY:null,
-
-    target:null
+    src:null
 
 };
 
 
-function resetFocusSession(){
-
-    focusSession = {
-
-        viewer:null,
-
-        buildingId:null,
-
-        modelId:null,
-
-        screenX:null,
-
-        screenY:null,
-
-        target:null
-
-    };
-
-}
-
-
-function hideFocusRing(){
-
-    if(!focusRing){
-
-        return;
-
-    }
-
-
-    focusRing
-        .classList
-        .remove(
-            "focus-visible"
-        );
-
-
-    focusRing
-        .classList
-        .add(
-            "hidden"
-        );
-
-}
-
-
-function displayFocusRing(
-    event
-){
-
-    if(!focusRing){
-
-        return;
-
-    }
-
-
-    const stage =
-        byId(
-            "modelViewerStage"
-        );
-
-
-    if(!stage){
-
-        return;
-
-    }
-
-
-    const rect =
-        stage
-            .getBoundingClientRect();
-
-
-    focusRing.style.left =
-        (
-            event.clientX
-            -
-            rect.left
-        )
-        +
-        "px";
-
-
-    focusRing.style.top =
-        (
-            event.clientY
-            -
-            rect.top
-        )
-        +
-        "px";
-
-
-    focusRing
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-    requestAnimationFrame(
-        () => {
-
-            focusRing
-                .classList
-                .add(
-                    "focus-visible"
-                );
-
-        }
-    );
-
-}
-
-
-
-function progressiveFocusZoom(
-    viewer,
-    event
-){
-
-    if(
-        !viewer
-        ||
-        typeof viewer.positionAndNormalFromPoint
-        !==
-        "function"
-    ){
-
-        return;
-
-    }
-
-
-    const rect =
-        viewer
-            .getBoundingClientRect();
-
-
-    const localX =
-        event.clientX
-        -
-        rect.left;
-
-
-    const localY =
-        event.clientY
-        -
-        rect.top;
-
-
-    const sameScreenTarget =
-
-        focusSession.viewer
-        ===
-        viewer
-
-        &&
-
-        focusSession.buildingId
-        ===
-        state.viewerBuildingId
-
-        &&
-
-        focusSession.modelId
-        ===
-        state.viewerModelId
-
-        &&
-
-        focusSession.target
-
-        &&
-
-        Math.hypot(
-
-            localX
-            -
-            focusSession.screenX,
-
-            localY
-            -
-            focusSession.screenY
-
-        )
-        <=
-        65;
-
-
-    let target;
-
-
-    if(
-        sameScreenTarget
-    ){
-
-        target =
-            focusSession.target;
-
-    }
-
-    else{
-
-        let hit;
-
-
-        try{
-
-            hit =
-                viewer
-                    .positionAndNormalFromPoint(
-                        localX,
-                        localY
-                    );
-
-        }
-
-        catch(error){
-
-            return;
-
-        }
-
-
-        if(
-            !hit
-            ||
-            !hit.position
-        ){
-
-            return;
-
-        }
-
-
-        target = {
-
-            x:
-                hit.position.x,
-
-            y:
-                hit.position.y,
-
-            z:
-                hit.position.z
-
-        };
-
-
-        focusSession = {
-
-            viewer,
-
-            buildingId:
-                state.viewerBuildingId,
-
-            modelId:
-                state.viewerModelId,
-
-            screenX:
-                localX,
-
-            screenY:
-                localY,
-
-            target
-
-        };
-
-    }
-
-
-    viewer.cameraTarget =
-        `${target.x}m ${target.y}m ${target.z}m`;
-
-
-    try{
-
-        const orbit =
-            viewer.getCameraOrbit();
-
-
-        if(orbit){
-
-            const zoomFactor =
-                sameScreenTarget
-                ?
-                0.56
-                :
-                0.62;
-
-
-            const minimumRadius =
-                0.025;
-
-
-            const newRadius =
-                Math.max(
-
-                    minimumRadius,
-
-                    orbit.radius
-                    *
-                    zoomFactor
-
-                );
-
-
-            viewer.cameraOrbit =
-                `${orbit.theta}rad ${orbit.phi}rad ${newRadius}m`;
-
-        }
-
-    }
-
-    catch(error){
-
-        console.warn(
-            "Progressive Zoom:",
-            error
-        );
-
-    }
-
-
-    focusSession.screenX =
-        localX;
-
-
-    focusSession.screenY =
-        localY;
-
-
-    displayFocusRing(
-        event
-    );
-
-}
-
-
-
 /* =========================================================
-   MODEL POINTER
-========================================================= */
-
-function attachModelPointerControls(
-    viewer
-){
-
-    if(!viewer){
-
-        return;
-
-    }
-
-
-    const pointerState = {
-
-        start:null,
-
-        moved:false,
-
-        activePointers:
-            new Set()
-
-    };
-
-
-    viewer.addEventListener(
-        "pointerdown",
-        event => {
-
-            pointerState
-                .activePointers
-                .add(
-                    event.pointerId
-                );
-
-
-            pointerState.start = {
-
-                x:event.clientX,
-
-                y:event.clientY
-
-            };
-
-
-            pointerState.moved =
-                false;
-
-
-            hideFocusRing();
-
-
-            if(
-                pointerState
-                    .activePointers
-                    .size > 1
-            ){
-
-                resetFocusSession();
-
-            }
-
-        }
-    );
-
-
-    viewer.addEventListener(
-        "pointermove",
-        event => {
-
-            if(
-                !pointerState.start
-            ){
-
-                return;
-
-            }
-
-
-            const movement =
-                Math.hypot(
-
-                    event.clientX
-                    -
-                    pointerState.start.x,
-
-                    event.clientY
-                    -
-                    pointerState.start.y
-
-                );
-
-
-            if(
-                movement > 8
-            ){
-
-                pointerState.moved =
-                    true;
-
-
-                hideFocusRing();
-
-
-                resetFocusSession();
-
-            }
-
-        }
-    );
-
-
-    viewer.addEventListener(
-        "pointerup",
-        event => {
-
-            pointerState
-                .activePointers
-                .delete(
-                    event.pointerId
-                );
-
-
-            const isActiveViewer =
-                viewer
-                ===
-                getActiveModelViewer();
-
-
-            if(
-                isActiveViewer
-                &&
-                !pointerState.moved
-                &&
-                pointerState
-                    .activePointers
-                    .size === 0
-            ){
-
-                progressiveFocusZoom(
-                    viewer,
-                    event
-                );
-
-            }
-
-
-            pointerState.start =
-                null;
-
-
-            pointerState.moved =
-                false;
-
-        }
-    );
-
-
-    viewer.addEventListener(
-        "pointercancel",
-        event => {
-
-            pointerState
-                .activePointers
-                .delete(
-                    event.pointerId
-                );
-
-
-            pointerState.start =
-                null;
-
-
-            pointerState.moved =
-                false;
-
-
-            resetFocusSession();
-
-
-            hideFocusRing();
-
-        }
-    );
-
-
-    viewer.addEventListener(
-        "wheel",
-        () => {
-
-            resetFocusSession();
-
-
-            hideFocusRing();
-
-        },
-        {
-            passive:true
-        }
-    );
-
-}
-
-
-viewerSlots
-    .forEach(
-        slot => {
-
-            attachModelPointerControls(
-                slot.viewer
-            );
-
-        }
-    );
-
-
-
-/* =========================================================
-   RESET CAMERA
-========================================================= */
-
-function reset3DCamera(){
-
-    const viewer =
-        getActiveModelViewer();
-
-
-    if(!viewer){
-
-        return;
-
-    }
-
-
-    resetFocusSession();
-
-
-    hideFocusRing();
-
-
-    try{
-
-        viewer.cameraOrbit =
-            "auto auto auto";
-
-
-        viewer.cameraTarget =
-            "auto auto auto";
-
-
-        viewer.fieldOfView =
-            "auto";
-
-    }
-
-    catch(error){
-
-        console.warn(
-            error
-        );
-
-    }
-
-}
-
-
-on(
-    "resetCamera",
-    "click",
-    reset3DCamera
-);
-
-
-
-/* =========================================================
-   VIEWER STATUS
+   VIEWER TEXT
 ========================================================= */
 
 function updateViewerText(
@@ -2773,6 +2035,9 @@ function updateViewerText(
 }
 
 
+/* =========================================================
+   VIEWER LOADING
+========================================================= */
 
 function setViewerLoading(
     building,
@@ -2817,6 +2082,9 @@ function setViewerLoading(
 }
 
 
+/* =========================================================
+   VIEWER READY
+========================================================= */
 
 function setViewerReady(
     building,
@@ -2861,6 +2129,9 @@ function setViewerReady(
 }
 
 
+/* =========================================================
+   VIEWER UNAVAILABLE
+========================================================= */
 
 function setViewerUnavailable(
     building,
@@ -2927,285 +2198,73 @@ function setViewerUnavailable(
 }
 
 
-
 /* =========================================================
-   SLOT EVENTS
+   RESET CAMERA
+
+   TIDAK ADA CUSTOM CLICK-ZOOM.
+   DRAG / ROTATE / SCROLL / PINCH DIKELOLA
+   LANGSUNG OLEH MODEL-VIEWER.
 ========================================================= */
 
-viewerSlots.forEach(
-    slot => {
+function reset3DCamera(){
 
-        if(!slot.viewer){
-
-            return;
-
-        }
-
-
-        slot.viewer.addEventListener(
-            "load",
-            () => {
-
-                slot.status =
-                    "ready";
-
-
-                if(
-                    slot.buildingId
-                    ===
-                    state.viewerBuildingId
-                    &&
-                    slot.modelId
-                    ===
-                    state.viewerModelId
-                ){
-
-                    const building =
-                        getBuildingById(
-                            slot.buildingId
-                        );
-
-
-                    const model =
-                        getModelVariant(
-                            slot.buildingId,
-                            slot.modelId
-                        );
-
-
-                    if(
-                        building
-                        &&
-                        model
-                    ){
-
-                        setViewerReady(
-                            building,
-                            model
-                        );
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        slot.viewer.addEventListener(
-            "error",
-            () => {
-
-                slot.status =
-                    "error";
-
-
-                if(
-                    slot.buildingId
-                    ===
-                    state.viewerBuildingId
-                    &&
-                    slot.modelId
-                    ===
-                    state.viewerModelId
-                ){
-
-                    const building =
-                        getBuildingById(
-                            slot.buildingId
-                        );
-
-
-                    const model =
-                        getModelVariant(
-                            slot.buildingId,
-                            slot.modelId
-                        );
-
-
-                    if(
-                        building
-                        &&
-                        model
-                    ){
-
-                        setViewerUnavailable(
-                            building,
-                            model
-                        );
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   SLOT ASSIGNMENT
-========================================================= */
-
-function clearSlot(
-    slot
-){
-
-    if(
-        !slot
-        ||
-        !slot.viewer
-    ){
+    if(!main3DViewer){
 
         return;
 
     }
 
 
-    slot.buildingId =
-        null;
+    main3DViewer.cameraOrbit =
+        "auto auto auto";
 
 
-    slot.modelId =
-        null;
+    main3DViewer.cameraTarget =
+        "auto auto auto";
 
 
-    slot.src =
-        null;
+    main3DViewer.fieldOfView =
+        "35deg";
 
 
-    slot.status =
-        "empty";
+    if(
+        typeof
+        main3DViewer.jumpCameraToGoal
+        ===
+        "function"
+    ){
 
+        main3DViewer
+            .jumpCameraToGoal();
 
-    slot.viewer
-        .removeAttribute(
-            "src"
-        );
-
-
-    slot.viewer
-        .classList
-        .remove(
-            "active"
-        );
+    }
 
 }
 
 
+on(
+    "resetCamera",
+    "click",
+    reset3DCamera
+);
 
-function assignModelToSlot(
-    slot,
+
+/* =========================================================
+   LOAD 3D MODEL
+========================================================= */
+
+function load3DModel(
     building,
     model
 ){
 
     if(
-        !slot
-        ||
-        !slot.viewer
-        ||
         !building
         ||
         !model
+        ||
+        !main3DViewer
     ){
-
-        return;
-
-    }
-
-
-    if(
-        slot.buildingId
-        ===
-        building.id
-        &&
-        slot.modelId
-        ===
-        model.id
-        &&
-        slot.src
-        ===
-        model.src
-    ){
-
-        return;
-
-    }
-
-
-    slot.buildingId =
-        building.id;
-
-
-    slot.modelId =
-        model.id;
-
-
-    slot.src =
-        model.src;
-
-
-    slot.status =
-        "loading";
-
-
-    slot.viewer
-        .setAttribute(
-            "src",
-            model.src
-        );
-
-}
-
-
-
-/* =========================================================
-   ACTIVATE VIEWER
-========================================================= */
-
-function activateViewerModel(
-    building,
-    modelId,
-    scroll = false
-){
-
-    const model =
-        getModelVariant(
-            building.id,
-            modelId
-        );
-
-
-    if(!model){
-
-        return;
-
-    }
-
-
-    const slot =
-        viewerSlots.find(
-            item => {
-
-                return (
-                    item.buildingId
-                    ===
-                    building.id
-                    &&
-                    item.modelId
-                    ===
-                    model.id
-                );
-
-            }
-        );
-
-
-    if(!slot){
 
         return;
 
@@ -3220,24 +2279,18 @@ function activateViewerModel(
         model.id;
 
 
-    viewerSlots.forEach(
-        item => {
+    current3DModel = {
 
-            item.viewer
-                ?.classList
-                .toggle(
-                    "active",
-                    item === slot
-                );
+        buildingId:
+            building.id,
 
-        }
-    );
+        modelId:
+            model.id,
 
+        src:
+            model.src
 
-    resetFocusSession();
-
-
-    hideFocusRing();
+    };
 
 
     renderModelSwitch({
@@ -3256,70 +2309,67 @@ function activateViewerModel(
         onChange:
             nextModelId => {
 
-                activateViewerModel(
-                    building,
-                    nextModelId
-                );
+                const nextModel =
+                    getModelVariant(
+                        building.id,
+                        nextModelId
+                    );
+
+
+                if(nextModel){
+
+                    load3DModel(
+                        building,
+                        nextModel
+                    );
+
+                }
 
             }
 
     });
 
 
+    setViewerLoading(
+        building,
+        model
+    );
+
+
+    /*
+       Tetap gunakan cache model yang sudah kita siapkan.
+    */
+
+    cacheModel(
+        model.src
+    );
+
+
+    const currentSrc =
+        main3DViewer
+            .getAttribute(
+                "src"
+            );
+
+
     if(
-        slot.status ===
-        "ready"
+        currentSrc !==
+        model.src
     ){
+
+        main3DViewer
+            .setAttribute(
+                "src",
+                model.src
+            );
+
+    }
+
+    else{
 
         setViewerReady(
             building,
             model
-        );
-
-    }
-
-
-    else if(
-        slot.status ===
-        "error"
-    ){
-
-        setViewerUnavailable(
-            building,
-            model
-        );
-
-    }
-
-
-    else{
-
-        setViewerLoading(
-            building,
-            model
-        );
-
-    }
-
-
-    if(scroll){
-
-        setTimeout(
-            () => {
-
-                byId(
-                    "viewerCard"
-                )
-                    ?.scrollIntoView({
-
-                        behavior:"smooth",
-
-                        block:"start"
-
-                    });
-
-            },
-            50
         );
 
     }
@@ -3330,9 +2380,98 @@ function activateViewerModel(
 }
 
 
+/* =========================================================
+   VIEWER EVENTS
+========================================================= */
+
+if(main3DViewer){
+
+    main3DViewer
+        .addEventListener(
+            "load",
+            () => {
+
+                const building =
+                    getBuildingById(
+                        current3DModel
+                            .buildingId
+                    );
+
+
+                const model =
+                    getModelVariant(
+
+                        current3DModel
+                            .buildingId,
+
+                        current3DModel
+                            .modelId
+
+                    );
+
+
+                if(
+                    building
+                    &&
+                    model
+                ){
+
+                    setViewerReady(
+                        building,
+                        model
+                    );
+
+                }
+
+            }
+        );
+
+
+    main3DViewer
+        .addEventListener(
+            "error",
+            () => {
+
+                const building =
+                    getBuildingById(
+                        current3DModel
+                            .buildingId
+                    );
+
+
+                const model =
+                    getModelVariant(
+
+                        current3DModel
+                            .buildingId,
+
+                        current3DModel
+                            .modelId
+
+                    );
+
+
+                if(
+                    building
+                    &&
+                    model
+                ){
+
+                    setViewerUnavailable(
+                        building,
+                        model
+                    );
+
+                }
+
+            }
+        );
+
+}
+
 
 /* =========================================================
-   PREPARE BUILDING
+   PREPARE VIEWER BUILDING
 ========================================================= */
 
 function prepareViewerBuilding(
@@ -3364,7 +2503,9 @@ function prepareViewerBuilding(
         [];
 
 
-    if(!models.length){
+    if(
+        !models.length
+    ){
 
         toast(
             "Model belum terdaftar."
@@ -3385,57 +2526,59 @@ function prepareViewerBuilding(
     );
 
 
-    assignModelToSlot(
-        viewerSlots[0],
-        building,
-        models[0]
-    );
-
-
-    if(models[1]){
-
-        assignModelToSlot(
-            viewerSlots[1],
-            building,
-            models[1]
-        );
-
-    }
-
-    else{
-
-        clearSlot(
-            viewerSlots[1]
-        );
-
-    }
-
-
-    const preferred =
+    const model =
         getModelVariant(
+
             building.id,
+
             preferredModelId
+
         )
+
         ||
+
         getDefaultModelVariant(
             building.id
         )
+
         ||
+
         models[0];
 
 
-    activateViewerModel(
+    load3DModel(
         building,
-        preferred.id,
-        scroll
+        model
     );
+
+
+    if(scroll){
+
+        setTimeout(
+            () => {
+
+                byId(
+                    "viewerCard"
+                )
+                    ?.scrollIntoView({
+
+                        behavior:"smooth",
+
+                        block:"start"
+
+                    });
+
+            },
+            50
+        );
+
+    }
 
 }
 
 
-
 /* =========================================================
-   SHOW 3D
+   SHOW 3D BUTTON
 ========================================================= */
 
 on(
@@ -3486,20 +2629,14 @@ on(
 );
 
 
-
 /* =========================================================
-   3D HOTSPOT
+   DESTINATION 3D HOTSPOT
 ========================================================= */
 
-function hideAllDestinationHotspots(){
+function hideDestinationHotspot(){
 
     hide(
-        "destination3DHotspotA"
-    );
-
-
-    hide(
-        "destination3DHotspotB"
+        "destination3DHotspot"
     );
 
 }
@@ -3507,56 +2644,14 @@ function hideAllDestinationHotspots(){
 
 function applyDestinationMarker(){
 
-    hideAllDestinationHotspots();
+    hideDestinationHotspot();
 
 
     if(
         !state.pending3DMarker
-    ){
-
-        return;
-
-    }
-
-
-    const slot =
-        getActiveViewerSlot();
-
-
-    if(
-        !slot
         ||
-        !slot.viewer
+        !main3DViewer
     ){
-
-        return;
-
-    }
-
-
-    const hotspotId =
-        slot.id === "A"
-        ?
-        "destination3DHotspotA"
-        :
-        "destination3DHotspotB";
-
-
-    const labelId =
-        slot.id === "A"
-        ?
-        "destination3DLabelA"
-        :
-        "destination3DLabelB";
-
-
-    const hotspot =
-        byId(
-            hotspotId
-        );
-
-
-    if(!hotspot){
 
         return;
 
@@ -3567,22 +2662,34 @@ function applyDestinationMarker(){
         state.pending3DMarker.marker;
 
 
+    const hotspot =
+        byId(
+            "destination3DHotspot"
+        );
+
+
+    if(!hotspot){
+
+        return;
+
+    }
+
+
     hotspot.dataset.position =
         `${marker.x}m ${marker.y}m ${marker.z}m`;
 
 
     setText(
-        labelId,
+        "destination3DLabel",
         state.pending3DMarker.label
     );
 
 
     show(
-        hotspotId
+        "destination3DHotspot"
     );
 
 }
-
 
 
 /* =========================================================
@@ -3660,7 +2767,6 @@ function setARLoading(
 }
 
 
-
 function setARReady(
     building,
     model
@@ -3726,7 +2832,6 @@ function setARReady(
 }
 
 
-
 function setARUnavailable(
     building,
     model
@@ -3790,7 +2895,6 @@ function setARUnavailable(
     );
 
 }
-
 
 
 function loadARModel(
@@ -3892,7 +2996,6 @@ function loadARModel(
 }
 
 
-
 if(mainARViewer){
 
     mainARViewer.addEventListener(
@@ -3965,7 +3068,6 @@ if(mainARViewer){
 }
 
 
-
 on(
     "prepareMainAR",
     "click",
@@ -4016,7 +3118,6 @@ on(
 );
 
 
-
 /* =========================================================
    DIRECTORY
 ========================================================= */
@@ -4059,7 +3160,6 @@ function locationForRoom(
     );
 
 }
-
 
 
 function renderRoomList(
@@ -4226,7 +3326,6 @@ function renderRoomList(
 }
 
 
-
 function renderLaboratory(
     roomList,
     container
@@ -4332,7 +3431,6 @@ function renderLaboratory(
         ?.click();
 
 }
-
 
 
 function renderDirectory(){
@@ -4549,7 +3647,6 @@ function renderDirectory(){
 }
 
 
-
 /* =========================================================
    NAV STEPS
 ========================================================= */
@@ -4596,7 +3693,6 @@ function setStep(
     );
 
 }
-
 
 
 /* =========================================================
@@ -4719,7 +3815,6 @@ function getImageContentBox(
 }
 
 
-
 function fitContainerToImage(
     container,
     image
@@ -4744,7 +3839,6 @@ function fitContainerToImage(
         `${image.naturalWidth} / ${image.naturalHeight}`;
 
 }
-
 
 
 function fitSvgToImage(
@@ -4822,7 +3916,6 @@ function fitSvgToImage(
 }
 
 
-
 function syncNavigationMapGeometry(){
 
     const container =
@@ -4898,7 +3991,6 @@ function syncNavigationMapGeometry(){
     }
 
 }
-
 
 
 function syncLiveMapGeometry(){
@@ -4984,7 +4076,6 @@ function syncLiveMapGeometry(){
 }
 
 
-
 function syncAllMapGeometry(){
 
     syncNavigationMapGeometry();
@@ -4992,7 +4083,6 @@ function syncAllMapGeometry(){
     syncLiveMapGeometry();
 
 }
-
 
 
 /* =========================================================
@@ -5071,7 +4161,6 @@ function positionElementOnImage(
 }
 
 
-
 function positionSelectionMapElement(
     element,
     point
@@ -5094,7 +4183,6 @@ function positionSelectionMapElement(
     );
 
 }
-
 
 
 function positionLiveMapElement(
@@ -5130,7 +4218,6 @@ function positionLiveMapElement(
     );
 
 }
-
 
 
 /* =========================================================
@@ -5235,7 +4322,6 @@ function resetNavigation(){
     }
 
 }
-
 
 
 /* =========================================================
@@ -5381,7 +4467,6 @@ function selectDestination(
 }
 
 
-
 /* =========================================================
    NAV SEARCH
 ========================================================= */
@@ -5438,7 +4523,6 @@ if(navigationSearch){
     );
 
 }
-
 
 
 /* =========================================================
@@ -5598,7 +4682,6 @@ preparedEdges.forEach(
 );
 
 
-
 /* =========================================================
    SNAP
 ========================================================= */
@@ -5696,7 +4779,6 @@ function projectPointToSegment(
 }
 
 
-
 function snapToRoute(
     point
 ){
@@ -5791,7 +4873,6 @@ function snapToRoute(
     return best;
 
 }
-
 
 
 /* =========================================================
@@ -6033,7 +5114,6 @@ function dijkstra(
 }
 
 
-
 /* =========================================================
    ROUTE POLYLINE
 ========================================================= */
@@ -6122,7 +5202,6 @@ function pointsFromSnapToEndpoint(
 }
 
 
-
 function routeNodePolyline(
     route
 ){
@@ -6201,7 +5280,6 @@ function routeNodePolyline(
 }
 
 
-
 function dedupePoints(
     points
 ){
@@ -6243,7 +5321,6 @@ function dedupePoints(
     return output;
 
 }
-
 
 
 /* =========================================================
@@ -6423,7 +5500,6 @@ function buildRoute(
     };
 
 }
-
 
 
 /* =========================================================
@@ -6635,7 +5711,6 @@ if(navigationMap){
 }
 
 
-
 /* =========================================================
    RESET POSITION
 ========================================================= */
@@ -6695,7 +5770,6 @@ on(
 );
 
 
-
 /* =========================================================
    TURN INSTRUCTIONS
 ========================================================= */
@@ -6746,7 +5820,6 @@ function turnAngle(
     );
 
 }
-
 
 
 function simplifyInstructionPoints(
@@ -6819,7 +5892,6 @@ function simplifyInstructionPoints(
     return output;
 
 }
-
 
 
 function createNavigationInstructions(){
@@ -6947,7 +6019,6 @@ function createNavigationInstructions(){
 }
 
 
-
 /* =========================================================
    LIVE BUILDINGS
 ========================================================= */
@@ -7019,7 +6090,6 @@ function renderLiveBuildingMarkers(){
 }
 
 
-
 /* =========================================================
    ROUTE DETAIL
 ========================================================= */
@@ -7085,7 +6155,6 @@ function renderRouteDetail(){
         );
 
 }
-
 
 
 /* =========================================================
@@ -7221,7 +6290,6 @@ function renderLiveNavigation(){
     }
 
 }
-
 
 
 /* =========================================================
@@ -7444,7 +6512,6 @@ function solveAffine(
 }
 
 
-
 function stopGpsTracking(){
 
     if(
@@ -7465,7 +6532,6 @@ function stopGpsTracking(){
         null;
 
 }
-
 
 
 function startGpsTracking(){
@@ -7562,7 +6628,6 @@ function startGpsTracking(){
             );
 
 }
-
 
 
 /* =========================================================
@@ -7662,7 +6727,6 @@ on(
 
     }
 );
-
 
 
 /* =========================================================
@@ -7785,7 +6849,6 @@ on(
 );
 
 
-
 /* =========================================================
    PAGE OPENERS
 ========================================================= */
@@ -7824,7 +6887,6 @@ function openDirectory(){
 }
 
 
-
 function openNavigationWithDestination(
     location = null
 ){
@@ -7846,7 +6908,6 @@ function openNavigationWithDestination(
     }
 
 }
-
 
 
 [
@@ -7921,7 +6982,6 @@ function openNavigationWithDestination(
     );
 
 
-
 /* =========================================================
    TOAST
 ========================================================= */
@@ -7976,7 +7036,6 @@ function toast(
 }
 
 
-
 /* =========================================================
    ESC
 ========================================================= */
@@ -8026,7 +7085,6 @@ document.addEventListener(
 
     }
 );
-
 
 
 /* =========================================================
@@ -8100,7 +7158,6 @@ function registerMapImageEvents(){
 }
 
 
-
 /* =========================================================
    RESIZE
 ========================================================= */
@@ -8139,7 +7196,6 @@ window.addEventListener(
 
     }
 );
-
 
 
 /* =========================================================
@@ -8212,7 +7268,7 @@ async function startApp(){
 
 
     console.log(
-        "FT UISU Explorer Revision 37 latest build loaded"
+        "FT UISU Explorer Revision 37 - Native 3D Viewer loaded"
     );
 
 }
