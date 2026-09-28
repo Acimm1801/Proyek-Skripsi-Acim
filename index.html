@@ -1020,124 +1020,94 @@
 
 
 
-            <div
-                id="modelViewerStage"
-                class="model-viewer-stage"
-            >
+<div
+    id="modelViewerStage"
+    class="model-viewer-stage"
+>
+
+    <model-viewer
+        id="main3DViewer"
+        class="main-model-viewer-single"
+        camera-controls
+        loading="eager"
+
+        shadow-intensity="0.7"
+        shadow-softness="1"
+
+        environment-image="neutral"
+
+        camera-orbit="auto auto auto"
+        camera-target="auto auto auto"
+
+        min-camera-orbit="auto auto 0.01m"
+        max-camera-orbit="auto auto auto"
+
+        min-field-of-view="5deg"
+        max-field-of-view="90deg"
+
+        field-of-view="35deg"
+
+        interpolation-decay="40"
+
+        interaction-prompt="none"
+
+        alt="Model 3D Fakultas Teknik"
+    >
+
+        <button
+            id="destination3DHotspot"
+            class="destination-3d-hotspot hidden"
+            slot="hotspot-destination"
+            data-position="0m 0m 0m"
+            data-normal="0m 1m 0m"
+            type="button"
+        >
+
+            <span></span>
+
+            <strong id="destination3DLabel">
+                Tujuan
+            </strong>
+
+        </button>
+
+    </model-viewer>
 
 
-                <model-viewer
-                    id="viewerSlotA"
-                    class="main-model-viewer viewer-slot active"
-                    camera-controls
-                    loading="eager"
-                    shadow-intensity="1"
-                    environment-image="neutral"
-                    interpolation-decay="120"
-                    alt="Model 3D Fakultas Teknik"
-                >
+    <div
+        id="viewerLoadingOverlay"
+        class="model-state-overlay hidden"
+    >
 
-                    <button
-                        id="destination3DHotspotA"
-                        class="destination-3d-hotspot hidden"
-                        slot="hotspot-destination-a"
-                        data-position="0m 0m 0m"
-                        data-normal="0m 1m 0m"
-                        type="button"
-                    >
+        <div class="model-loader"></div>
 
-                        <span></span>
+        <strong>
+            Memuat Model 3D...
+        </strong>
 
-                        <strong id="destination3DLabelA">
-                            Tujuan
-                        </strong>
-
-                    </button>
-
-                </model-viewer>
+    </div>
 
 
+    <div
+        id="viewerUnavailable"
+        class="model-state-overlay model-unavailable hidden"
+    >
 
-                <model-viewer
-                    id="viewerSlotB"
-                    class="main-model-viewer viewer-slot"
-                    camera-controls
-                    loading="eager"
-                    shadow-intensity="1"
-                    environment-image="neutral"
-                    interpolation-decay="120"
-                    alt="Model 3D Fakultas Teknik"
-                >
+        <div class="unavailable-3d-icon">
+            3D
+        </div>
 
-                    <button
-                        id="destination3DHotspotB"
-                        class="destination-3d-hotspot hidden"
-                        slot="hotspot-destination-b"
-                        data-position="0m 0m 0m"
-                        data-normal="0m 1m 0m"
-                        type="button"
-                    >
+        <strong>
+            Model 3D sedang dalam tahap penyelesaian
+        </strong>
 
-                        <span></span>
+        <p>
+            Model akan tersedia setelah proses desain selesai.
+        </p>
 
-                        <strong id="destination3DLabelB">
-                            Tujuan
-                        </strong>
+    </div>
 
-                    </button>
-
-                </model-viewer>
-
-
-
-                <div
-                    id="viewerLoadingOverlay"
-                    class="model-state-overlay hidden"
-                >
-
-                    <div class="model-loader">
-                    </div>
-
-                    <strong>
-                        Memuat Model 3D...
-                    </strong>
-
-                </div>
-
-
-
-                <div
-                    id="viewerUnavailable"
-                    class="model-state-overlay model-unavailable hidden"
-                >
-
-                    <div class="unavailable-3d-icon">
-                        3D
-                    </div>
-
-
-                    <strong>
-                        Model 3D sedang dalam tahap penyelesaian
-                    </strong>
-
-
-                    <p>
-                        Model akan tersedia setelah proses desain selesai.
-                    </p>
-
-                </div>
-
-
-
-                <div
-                    id="modelFocusRing"
-                    class="model-focus-ring hidden"
-                >
-                    <span></span>
-                </div>
-
-            </div>
-
+</div>
 
 
             <div class="viewer-interaction-info">
