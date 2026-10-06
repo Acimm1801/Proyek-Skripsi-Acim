@@ -1,7 +1,7 @@
 /* =========================================================
    FT UISU EXPLORER
    MAP + DATABASE
-   REVISION 37 - REVISI 1: MODEL MENU + DESCRIPTIONS
+   REVISION 41 - LABORATORIUM MODEL + DEFAULT CAMERA + ROOM DATABASE
 ========================================================= */
 
 (function(){
@@ -83,6 +83,15 @@ const buildings = [
             src:
                 "./assets/models/gedung_biro_outdoor.glb",
 
+            defaultCameraOrbit:
+                "0deg 72deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
+
             viewerDescription:
                 "Model outdoor menampilkan bangunan tempat Biro Fakultas Teknik berada di lantai 2, dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3."
         },
@@ -98,6 +107,15 @@ const buildings = [
 
             src:
                 "./assets/models/gedung_biro_indoor.glb",
+
+            defaultCameraOrbit:
+                "-35deg 68deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
 
             viewerDescription:
                 "Model indoor menampilkan interior Biro Fakultas Teknik di lantai 2 beserta susunan ruangannya."
@@ -158,6 +176,15 @@ const buildings = [
             src:
                 "./assets/models/perpustakaan_indoor.glb",
 
+            defaultCameraOrbit:
+                "-18deg 68deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
+
             viewerDescription:
                 "Model indoor menampilkan interior Perpustakaan Fakultas Teknik yang berada di lantai 1, pada gedung di sudut seberang lapangan."
         }
@@ -216,6 +243,15 @@ const buildings = [
 
             src:
                 "./assets/models/serbaguna_indoor.glb",
+
+            defaultCameraOrbit:
+                "-12deg 70deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
 
             viewerDescription:
                 "Model indoor menampilkan interior Ruang Serbaguna FT yang berada di lantai 1 pada gedung Fakultas Hukum."
@@ -276,6 +312,15 @@ const buildings = [
             src:
                 "./assets/models/gedung_perkuliahan_outdoor.glb",
 
+            defaultCameraOrbit:
+                "0deg 72deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
+
             viewerDescription:
                 "Model outdoor menampilkan bangunan tempat Ruang Perkuliahan FT berada di lantai 3, di seberang Gedung Biro Fakultas Teknik."
         },
@@ -291,6 +336,15 @@ const buildings = [
 
             src:
                 "./assets/models/gedung_perkuliahan_indoor.glb",
+
+            defaultCameraOrbit:
+                "0deg 75deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
 
             viewerDescription:
                 "Model indoor menampilkan interior Ruang Perkuliahan FT di lantai 3, dari Ruang Kuliah 1 sampai Ruang Kuliah 8."
@@ -349,10 +403,19 @@ const buildings = [
                 "Gedung Laboratorium Fakultas Teknik",
 
             src:
-                "./assets/models/gedung_laboratorium.glb",
+                "./assets/models/laboratorium_outdoor.glb",
+
+            defaultCameraOrbit:
+                "32deg 66deg auto",
+
+            defaultCameraTarget:
+                "auto auto auto",
+
+            defaultFieldOfView:
+                "35deg",
 
             viewerDescription:
-                "Model outdoor menampilkan bangunan Laboratorium Fakultas Teknik yang terdiri dari tiga lantai, termasuk Ruang Kuliah 9 sampai Ruang Kuliah 10 di lantai 2 serta Ruang Kuliah 11 sampai Ruang Kuliah 13 di lantai 3."
+                "Model outdoor menampilkan Gedung Laboratorium Fakultas Teknik tiga lantai beserta area laboratorium dan ruang kuliah di dalamnya."
         }
 
     ]
@@ -506,9 +569,9 @@ const entrances = [
 
     accessOnly:[
 
-        "lab-foundry",
+        "lab-hidrolika",
 
-        "lab-hidrolika"
+        "lab-teknologi-mekanik"
 
     ]
 
@@ -541,7 +604,9 @@ const entrances = [
 
         "lab-beton",
 
-        "lab-mekanika-tanah"
+        "lab-mekanika-tanah",
+
+        "lab-ilmu-ukur-tanah"
 
     ]
 
@@ -559,8 +624,27 @@ const rooms = [
 
 
 /* =========================================================
-   BIRO
+   BIRO FAKULTAS TEKNIK
 ========================================================= */
+
+{
+    id:"ruang-dosen",
+
+    name:
+        "Ruang Dosen",
+
+    buildingId:
+        "biro-ft",
+
+    floor:2,
+
+    navigationEntranceId:
+        "biro-main-e1",
+
+    modelMarker:null
+
+},
+
 
 {
     id:"gudang-mini",
@@ -639,25 +723,6 @@ const rooms = [
 
 
 {
-    id:"prodi-informatika",
-
-    name:
-        "Program Studi Teknik Informatika",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
     id:"prodi-elektro",
 
     name:
@@ -677,10 +742,29 @@ const rooms = [
 
 
 {
+    id:"prodi-informatika",
+
+    name:
+        "Program Studi Teknik Informatika",
+
+    buildingId:
+        "biro-ft",
+
+    floor:2,
+
+    navigationEntranceId:
+        "biro-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
     id:"lpmf",
 
     name:
-        "LPMF",
+        "Lembaga Penjamin Mutu Fakultas-LPMF",
 
     buildingId:
         "biro-ft",
@@ -696,10 +780,10 @@ const rooms = [
 
 
 {
-    id:"wd3-kak",
+    id:"wakil-dekan-adi",
 
     name:
-        "WD3-KAK",
+        "Wakil Dekan ADI",
 
     buildingId:
         "biro-ft",
@@ -715,10 +799,10 @@ const rooms = [
 
 
 {
-    id:"wd2-stk",
+    id:"wakil-dekan-stk",
 
     name:
-        "WD2-STK",
+        "Wakil Dekan STK",
 
     buildingId:
         "biro-ft",
@@ -734,10 +818,10 @@ const rooms = [
 
 
 {
-    id:"wd1-adi",
+    id:"wakil-dekan-kak",
 
     name:
-        "WD1-ADI",
+        "Wakil Dekan KAK - Kewirausahaan, Alumni dan Kemahasiswaan",
 
     buildingId:
         "biro-ft",
@@ -753,10 +837,10 @@ const rooms = [
 
 
 {
-    id:"ruang-dekan",
+    id:"dekan",
 
     name:
-        "Ruang Dekan",
+        "Dekan",
 
     buildingId:
         "biro-ft",
@@ -791,10 +875,10 @@ const rooms = [
 
 
 {
-    id:"kasubbag-akademik",
+    id:"kasubbag-keuangan",
 
     name:
-        "KaSubBag Akademik IT dan Kerjasama",
+        "KaSubBag Keuangan",
 
     buildingId:
         "biro-ft",
@@ -810,10 +894,10 @@ const rooms = [
 
 
 {
-    id:"kasubbag-keuangan",
+    id:"kasubbag-akademik",
 
     name:
-        "KaSubBag Keuangan",
+        "KaSubBag Akademik IT dan Kerjasama",
 
     buildingId:
         "biro-ft",
@@ -867,29 +951,10 @@ const rooms = [
 
 
 {
-    id:"ktu",
-
-    name:
-        "KTU",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
     id:"kasubbag-umum",
 
     name:
-        "KaSubBag Umum Perlengkapan Kerumahtanggaan",
+        "KaSubBag Umum dan Perlengkapan Kerumahtanggaan",
 
     buildingId:
         "biro-ft",
@@ -905,48 +970,10 @@ const rooms = [
 
 
 {
-    id:"mushola",
+    id:"kepala-tata-usaha-ktu",
 
     name:
-        "Mushola",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"dapur",
-
-    name:
-        "Dapur",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"toilet-biro",
-
-    name:
-        "Toilet",
+        "Kepala Tata Usaha-KTU",
 
     buildingId:
         "biro-ft",
@@ -963,7 +990,7 @@ const rooms = [
 
 
 /* =========================================================
-   PERKULIAHAN
+   GEDUNG PERKULIAHAN FAKULTAS TEKNIK
 ========================================================= */
 
 {
@@ -1120,19 +1147,22 @@ const rooms = [
 
 
 /* =========================================================
-   LAB LANTAI 1
+   LABORATORIUM - LANTAI 1
 ========================================================= */
 
 {
-    id:"lab-foundry",
+    id:"lab-hidrolika",
 
     name:
-        "Lab. Foundry",
+        "Lab. Hidrolika",
 
     buildingId:
         "laboratorium-ft",
 
     floor:1,
+
+    sharedLocationGroup:
+        "lab-l1-hidrolika-teknologi-mekanik",
 
     navigationEntranceId:
         "lab-west-e1",
@@ -1153,8 +1183,11 @@ const rooms = [
 
     floor:1,
 
+    sharedLocationGroup:
+        "lab-l1-hidrolika-teknologi-mekanik",
+
     navigationEntranceId:
-        "lab-main-e1",
+        "lab-west-e1",
 
     modelMarker:null
 
@@ -1172,24 +1205,8 @@ const rooms = [
 
     floor:1,
 
-    navigationEntranceId:
-        "lab-south-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-mekanika-tanah",
-
-    name:
-        "Lab. Mekanika Tanah",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
+    sharedLocationGroup:
+        "lab-l1-beton-jalan-raya",
 
     navigationEntranceId:
         "lab-south-e1",
@@ -1210,6 +1227,9 @@ const rooms = [
 
     floor:1,
 
+    sharedLocationGroup:
+        "lab-l1-beton-jalan-raya",
+
     navigationEntranceId:
         "lab-south-e1",
 
@@ -1219,118 +1239,21 @@ const rooms = [
 
 
 {
-    id:"lab-hidrolika",
+    id:"lab-mekanika-tanah",
 
     name:
-        "Lab. Hidrolika",
+        "Lab. Mekanika Tanah",
 
     buildingId:
         "laboratorium-ft",
 
     floor:1,
 
-    navigationEntranceId:
-        "lab-west-e1",
-
-    modelMarker:null
-
-},
-
-
-
-/* =========================================================
-   LAB LANTAI 2
-========================================================= */
-
-{
-    id:"lab-rangkaian-listrik",
-
-    name:
-        "Lab. Rangkaian Listrik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
+    sharedLocationGroup:
+        "lab-l1-mekanika-tanah-ilmu-ukur-tanah",
 
     navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-dasar-elektronika",
-
-    name:
-        "Lab. Dasar Elektronika",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-sistem-pengukuran",
-
-    name:
-        "Lab. Sistem Pengukuran",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-pengukuran-listrik",
-
-    name:
-        "Lab. Pengukuran Listrik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-dasar-telekomunikasi",
-
-    name:
-        "Lab. Dasar Sistem Telekomunikasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
+        "lab-south-e1",
 
     modelMarker:null
 
@@ -1346,91 +1269,23 @@ const rooms = [
     buildingId:
         "laboratorium-ft",
 
-    floor:2,
+    floor:1,
+
+    sharedLocationGroup:
+        "lab-l1-mekanika-tanah-ilmu-ukur-tanah",
 
     navigationEntranceId:
-        "lab-main-e1",
+        "lab-south-e1",
 
     modelMarker:null
 
 },
 
 
-{
-    id:"lab-komputasi",
 
-    name:
-        "Lab. Komputasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-pengukuran-statistik",
-
-    name:
-        "Lab. Pengukuran & Statistik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-faktor-manusia",
-
-    name:
-        "Lab. Teknik Faktor Manusia",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-jaringan-komputer-mikro",
-
-    name:
-        "Lab. Jaringan Komputer Mikro",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
+/* =========================================================
+   LABORATORIUM - LANTAI 2
+========================================================= */
 
 {
     id:"ruang-kuliah-9",
@@ -1470,9 +1325,292 @@ const rooms = [
 },
 
 
+{
+    id:"lab-fondry",
+
+    name:
+        "Lab. Fondry",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-komputasi",
+
+    name:
+        "Lab. Komputasi",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-komputasi-sistem-digital",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-sistem-digital",
+
+    name:
+        "Lab. Sistem Digital",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-komputasi-sistem-digital",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-terintegrasi",
+
+    name:
+        "Lab. Terintegrasi",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-faktor-manusia",
+
+    name:
+        "Lab. Teknik Faktor Manusia",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-sistem-produksi",
+
+    name:
+        "Lab. Sistem Produksi",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-rangkaian-listrik",
+
+    name:
+        "Lab. Rangkaian Listrik",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-dasar-telekomunikasi",
+
+    name:
+        "Lab. Dasar Sistem Telekomunikasi",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-pengukur-listrik",
+
+    name:
+        "Lab. Pengukur Listrik",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-kontrol",
+
+    name:
+        "Lab. Kontrol",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-dasar-elektronika",
+
+    name:
+        "Lab. Dasar Elektronika",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-plc",
+
+    name:
+        "Lab. PLC",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
+{
+    id:"lab-instalasi",
+
+    name:
+        "Lab. Instalasi",
+
+    buildingId:
+        "laboratorium-ft",
+
+    floor:2,
+
+    sharedLocationGroup:
+        "lab-l2-elektro",
+
+    navigationEntranceId:
+        "lab-main-e1",
+
+    modelMarker:null
+
+},
+
+
 
 /* =========================================================
-   LAB LANTAI 3
+   LABORATORIUM - LANTAI 3
 ========================================================= */
 
 {
@@ -1533,10 +1671,10 @@ const rooms = [
 
 
 {
-    id:"lab-sistem-digital",
+    id:"lab-fisika-dasar",
 
     name:
-        "Lab. Sistem Digital",
+        "Lab. Fisika Dasar",
 
     buildingId:
         "laboratorium-ft",
@@ -1552,10 +1690,10 @@ const rooms = [
 
 
 {
-    id:"lab-teknik-produksi",
+    id:"lab-komputer-jaringan-mikro",
 
     name:
-        "Lab. Teknik Produksi",
+        "Lab. Komputer Jaringan Mikro",
 
     buildingId:
         "laboratorium-ft",
