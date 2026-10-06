@@ -1,39 +1,24 @@
-/* =========================================================
-   FT UISU EXPLORER
-   SCRIPT.JS
-   REVISION 37
-   NATIVE 3D VIEWER CONTROL
-========================================================= */
-
 (function(){
 
 "use strict";
 
 
-/* =========================================================
-   DATABASE
-========================================================= */
-
 const DATA =
-    window.FT_DATA
-    ||
-    {};
+    window.FT_DATA || {};
 
 
 const MAP_WIDTH =
-    DATA.MAP_WIDTH
-    ||
-    768;
+    DATA.MAP_WIDTH || 768;
 
 
 const MAP_HEIGHT =
-    DATA.MAP_HEIGHT
-    ||
-    1024;
+    DATA.MAP_HEIGHT || 1024;
 
 
 const buildings =
-    Array.isArray(DATA.buildings)
+    Array.isArray(
+        DATA.buildings
+    )
     ?
     DATA.buildings
     :
@@ -41,7 +26,9 @@ const buildings =
 
 
 const rooms =
-    Array.isArray(DATA.rooms)
+    Array.isArray(
+        DATA.rooms
+    )
     ?
     DATA.rooms
     :
@@ -49,7 +36,9 @@ const rooms =
 
 
 const people =
-    Array.isArray(DATA.people)
+    Array.isArray(
+        DATA.people
+    )
     ?
     DATA.people
     :
@@ -57,7 +46,9 @@ const people =
 
 
 const entrances =
-    Array.isArray(DATA.entrances)
+    Array.isArray(
+        DATA.entrances
+    )
     ?
     DATA.entrances
     :
@@ -65,13 +56,13 @@ const entrances =
 
 
 const mapNodes =
-    DATA.mapNodes
-    ||
-    {};
+    DATA.mapNodes || {};
 
 
 const mapEdges =
-    Array.isArray(DATA.mapEdges)
+    Array.isArray(
+        DATA.mapEdges
+    )
     ?
     DATA.mapEdges
     :
@@ -79,16 +70,15 @@ const mapEdges =
 
 
 const mapCalibration =
-    Array.isArray(DATA.mapCalibration)
+    Array.isArray(
+        DATA.mapCalibration
+    )
     ?
     DATA.mapCalibration
     :
     [];
 
 
-/* =========================================================
-   DOM
-========================================================= */
 
 function byId(id){
 
@@ -183,81 +173,56 @@ function setText(
     if(element){
 
         element.textContent =
-            value
-            ??
-            "";
+            value ?? "";
 
     }
 
 }
 
 
-/* =========================================================
-   STATE
-========================================================= */
 
 const state = {
 
-    currentPage:
-        "home",
+    currentPage:"home",
 
-    pageHistory:
-        [],
+    pageHistory:[],
 
-    currentSlide:
-        0,
+    currentSlide:0,
 
-    landingModelIndex:
-        0,
+    landingModelIndex:0,
 
-    globalSelection:
-        null,
+    globalSelection:null,
 
-    infoLocation:
-        null,
+    infoLocation:null,
 
-    destination:
-        null,
+    destination:null,
 
-    clickedPosition:
-        null,
+    clickedPosition:null,
 
-    routeResult:
-        null,
+    routeResult:null,
 
-    liveInstructions:
-        [],
+    liveInstructions:[],
 
-    gpsWatchId:
-        null,
+    gpsWatchId:null,
 
-    viewerBuildingId:
-        null,
+    viewerBuildingId:null,
 
-    viewerModelId:
-        null,
+    viewerModelId:null,
 
-    arBuildingId:
-        null,
+    arBuildingId:null,
 
-    arModelId:
-        null,
+    arModelId:null,
 
-    pending3DMarker:
-        null
+    pending3DMarker:null
 
 };
 
 
-/* =========================================================
-   DATABASE HELPERS
-========================================================= */
 
 function getBuildingById(id){
 
     if(
-        typeof DATA.getBuildingById
-        ===
+        typeof DATA.getBuildingById ===
         "function"
     ){
 
@@ -283,8 +248,7 @@ function getBuildingById(id){
 function getEntranceById(id){
 
     if(
-        typeof DATA.getEntranceById
-        ===
+        typeof DATA.getEntranceById ===
         "function"
     ){
 
@@ -312,8 +276,7 @@ function getBuildingModels(
 ){
 
     if(
-        typeof DATA.getBuildingModels
-        ===
+        typeof DATA.getBuildingModels ===
         "function"
     ){
 
@@ -347,8 +310,7 @@ function getModelVariant(
 ){
 
     if(
-        typeof DATA.getModelVariant
-        ===
+        typeof DATA.getModelVariant ===
         "function"
     ){
 
@@ -364,10 +326,10 @@ function getModelVariant(
         getBuildingModels(
             buildingId
         )
-            .find(
-                model =>
-                    model.id === modelId
-            )
+        .find(
+            model =>
+                model.id === modelId
+        )
         ||
         null
     );
@@ -380,8 +342,7 @@ function getDefaultModelVariant(
 ){
 
     if(
-        typeof DATA.getDefaultModelVariant
-        ===
+        typeof DATA.getDefaultModelVariant ===
         "function"
     ){
 
@@ -424,16 +385,13 @@ function getNavigationEntrance(
 ){
 
     if(
-        typeof
-        DATA.getNavigationEntranceForLocation
-        ===
+        typeof DATA.getNavigationEntranceForLocation ===
         "function"
     ){
 
-        return DATA
-            .getNavigationEntranceForLocation(
-                location
-            );
+        return DATA.getNavigationEntranceForLocation(
+            location
+        );
 
     }
 
@@ -446,8 +404,7 @@ function getNavigationEntrance(
 
 
     if(
-        location.type ===
-        "room"
+        location.type === "room"
         &&
         location.navigationEntranceId
     ){
@@ -481,8 +438,9 @@ function getNavigationEntrance(
 }
 
 
+
 /* =========================================================
-   MODEL CACHE
+   CACHE + SERVICE WORKER
 ========================================================= */
 
 const MODEL_CACHE_NAME =
@@ -509,7 +467,8 @@ async function registerServiceWorker(){
     if(
         !(
             "serviceWorker"
-            in navigator
+            in
+            navigator
         )
     ){
 
@@ -523,7 +482,7 @@ async function registerServiceWorker(){
         await navigator
             .serviceWorker
             .register(
-                "./sw.js?v=37.1",
+                "./sw.js?v=rev1",
                 {
                     scope:"./"
                 }
@@ -548,16 +507,15 @@ async function registerServiceWorker(){
 }
 
 
-async function cacheModel(
-    url
-){
+async function cacheModel(url){
 
     if(
         !url
         ||
         !(
             "caches"
-            in window
+            in
+            window
         )
     ){
 
@@ -599,9 +557,7 @@ async function cacheModel(
             );
 
 
-        if(
-            !response.ok
-        ){
+        if(!response.ok){
 
             return false;
 
@@ -635,7 +591,9 @@ async function preloadPriorityModels(){
 
     async function worker(){
 
-        while(queue.length){
+        while(
+            queue.length
+        ){
 
             const url =
                 queue.shift();
@@ -650,10 +608,12 @@ async function preloadPriorityModels(){
     }
 
 
-    await Promise.all([
-        worker(),
-        worker()
-    ]);
+    await Promise.all(
+        [
+            worker(),
+            worker()
+        ]
+    );
 
 }
 
@@ -675,22 +635,22 @@ function preloadBuildingModels(
     }
 
 
-    building.models
-        .forEach(
-            model => {
+    building.models.forEach(
+        model => {
 
-                cacheModel(
-                    model.src
-                );
+            cacheModel(
+                model.src
+            );
 
-            }
-        );
+        }
+    );
 
 }
 
 
+
 /* =========================================================
-   LOCATION SEARCH DATABASE
+   LOCATION DATABASE
 ========================================================= */
 
 const locations = [];
@@ -699,36 +659,38 @@ const locations = [];
 buildings.forEach(
     building => {
 
-        locations.push({
+        locations.push(
+            {
 
-            id:
-                building.id,
+                id:
+                    building.id,
 
-            type:
-                "building",
+                type:
+                    "building",
 
-            name:
-                building.name,
+                name:
+                    building.name,
 
-            buildingId:
-                building.id,
+                buildingId:
+                    building.id,
 
-            floor:
-                building.actualFloor,
+                floor:
+                    building.actualFloor,
 
-            parent:
-                "Fakultas Teknik UISU",
+                parent:
+                    "Fakultas Teknik UISU",
 
-            description:
-                building.description,
+                description:
+                    building.description,
 
-            navigationEntranceId:
-                building.defaultEntranceId,
+                navigationEntranceId:
+                    building.defaultEntranceId,
 
-            modelMarker:
-                null
+                modelMarker:
+                    null
 
-        });
+            }
+        );
 
     }
 );
@@ -743,68 +705,70 @@ rooms.forEach(
             );
 
 
-        locations.push({
+        locations.push(
+            {
 
-            id:
-                room.id,
+                id:
+                    room.id,
 
-            type:
-                "room",
+                type:
+                    "room",
 
-            name:
-                room.name,
+                name:
+                    room.name,
 
-            buildingId:
-                room.buildingId,
+                buildingId:
+                    room.buildingId,
 
-            floor:
-                room.floor,
+                floor:
+                    room.floor,
 
-            parent:
-                building
-                ?
-                building.name
-                :
-                "Fakultas Teknik UISU",
+                parent:
+                    building
+                    ?
+                    building.name
+                    :
+                    "Fakultas Teknik UISU",
 
-            navigationEntranceId:
-                room.navigationEntranceId,
+                navigationEntranceId:
+                    room.navigationEntranceId,
 
-            modelMarker:
-                room.modelMarker
-                ||
-                null,
+                modelMarker:
+                    room.modelMarker
+                    ||
+                    null,
 
-            description:
-                room.description
-                ||
-                (
-                    room.name
-                    +
-                    " berada di "
-                    +
+                description:
+                    room.description
+                    ||
                     (
-                        building
-                        ?
-                        building.name
-                        :
-                        "Fakultas Teknik UISU"
-                    )
-                    +
-                    (
-                        room.floor
-                        ?
-                        ", lantai "
+                        room.name
                         +
-                        room.floor
-                        :
-                        ""
+                        " berada di "
+                        +
+                        (
+                            building
+                            ?
+                            building.name
+                            :
+                            "Fakultas Teknik UISU"
+                        )
+                        +
+                        (
+                            room.floor
+                            ?
+                            ", lantai "
+                            +
+                            room.floor
+                            :
+                            ""
+                        )
+                        +
+                        "."
                     )
-                    +
-                    "."
-                )
 
-        });
+            }
+        );
 
     }
 );
@@ -813,36 +777,38 @@ rooms.forEach(
 people.forEach(
     person => {
 
-        locations.push({
-
-            ...person,
-
-            type:"person"
-
-        });
+        locations.push(
+            {
+                ...person,
+                type:"person"
+            }
+        );
 
     }
 );
 
 
+
 /* =========================================================
-   PAGE
+   PAGE NAVIGATION
 ========================================================= */
 
 function updateHeaderActive(
     pageName
 ){
 
-    all(".header-link")
-        .forEach(
-            button => {
+    all(
+        ".header-link"
+    )
+    .forEach(
+        button => {
 
-                button.classList.remove(
-                    "active"
-                );
+            button.classList.remove(
+                "active"
+            );
 
-            }
-        );
+        }
+    );
 
 
     const button =
@@ -869,9 +835,7 @@ function showPage(
 
     const page =
         byId(
-            pageName
-            +
-            "Page"
+            pageName + "Page"
         );
 
 
@@ -887,7 +851,8 @@ function showPage(
         &&
         state.currentPage
         &&
-        state.currentPage !== pageName
+        state.currentPage !==
+            pageName
     ){
 
         state.pageHistory.push(
@@ -897,16 +862,18 @@ function showPage(
     }
 
 
-    all(".page")
-        .forEach(
-            item => {
+    all(
+        ".page"
+    )
+    .forEach(
+        item => {
 
-                item.classList.remove(
-                    "active"
-                );
+            item.classList.remove(
+                "active"
+            );
 
-            }
-        );
+        }
+    );
 
 
     page.classList.add(
@@ -931,10 +898,12 @@ function showPage(
         "navigationActive"
     ){
 
-        window.scrollTo({
-            top:0,
-            behavior:"auto"
-        });
+        window.scrollTo(
+            {
+                top:0,
+                behavior:"auto"
+            }
+        );
 
     }
 
@@ -968,17 +937,19 @@ function goBack(){
 }
 
 
-all("[data-back]")
-    .forEach(
-        button => {
+all(
+    "[data-back]"
+)
+.forEach(
+    button => {
 
-            button.addEventListener(
-                "click",
-                goBack
-            );
+        button.addEventListener(
+            "click",
+            goBack
+        );
 
-        }
-    );
+    }
+);
 
 
 on(
@@ -988,10 +959,7 @@ on(
 
         stopGpsTracking();
 
-
-        state.pageHistory =
-            [];
-
+        state.pageHistory = [];
 
         showPage(
             "home",
@@ -1002,23 +970,26 @@ on(
 );
 
 
-all("[data-page]")
-    .forEach(
-        button => {
+all(
+    "[data-page]"
+)
+.forEach(
+    button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-                    showPage(
-                        button.dataset.page
-                    );
+                showPage(
+                    button.dataset.page
+                );
 
-                }
-            );
+            }
+        );
 
-        }
-    );
+    }
+);
+
 
 
 /* =========================================================
@@ -1027,18 +998,20 @@ all("[data-page]")
 
 function openDrawer(){
 
-    byId("drawer")
-        ?.classList
-        .add(
-            "open"
-        );
+    byId(
+        "drawer"
+    )
+    ?.classList.add(
+        "open"
+    );
 
 
-    byId("drawerOverlay")
-        ?.classList
-        .add(
-            "show"
-        );
+    byId(
+        "drawerOverlay"
+    )
+    ?.classList.add(
+        "show"
+    );
 
 
     document.body.style.overflow =
@@ -1049,18 +1022,20 @@ function openDrawer(){
 
 function closeDrawer(){
 
-    byId("drawer")
-        ?.classList
-        .remove(
-            "open"
-        );
+    byId(
+        "drawer"
+    )
+    ?.classList.remove(
+        "open"
+    );
 
 
-    byId("drawerOverlay")
-        ?.classList
-        .remove(
-            "show"
-        );
+    byId(
+        "drawerOverlay"
+    )
+    ?.classList.remove(
+        "show"
+    );
 
 
     document.body.style.overflow =
@@ -1090,8 +1065,9 @@ on(
 );
 
 
+
 /* =========================================================
-   SLIDER
+   HERO SLIDER
 ========================================================= */
 
 const slides =
@@ -1102,14 +1078,18 @@ const slides =
 
 function showSlide(index){
 
-    if(!slides.length){
+    if(
+        !slides.length
+    ){
 
         return;
 
     }
 
 
-    if(index < 0){
+    if(
+        index < 0
+    ){
 
         index =
             slides.length - 1;
@@ -1132,7 +1112,10 @@ function showSlide(index){
 
 
     slides.forEach(
-        (slide,i) => {
+        (
+            slide,
+            i
+        ) => {
 
             slide.classList.toggle(
                 "active",
@@ -1143,17 +1126,22 @@ function showSlide(index){
     );
 
 
-    all(".slider-dot")
-        .forEach(
-            (dot,i) => {
+    all(
+        ".slider-dot"
+    )
+    .forEach(
+        (
+            dot,
+            i
+        ) => {
 
-                dot.classList.toggle(
-                    "active",
-                    i === index
-                );
+            dot.classList.toggle(
+                "active",
+                i === index
+            );
 
-            }
-        );
+        }
+    );
 
 }
 
@@ -1184,29 +1172,32 @@ on(
 );
 
 
-all(".slider-dot")
-    .forEach(
-        dot => {
+all(
+    ".slider-dot"
+)
+.forEach(
+    dot => {
 
-            dot.addEventListener(
-                "click",
-                () => {
+        dot.addEventListener(
+            "click",
+            () => {
 
-                    showSlide(
-                        Number(
-                            dot.dataset.slide
-                        )
-                    );
+                showSlide(
+                    Number(
+                        dot.dataset.slide
+                    )
+                );
 
-                }
-            );
+            }
+        );
 
-        }
-    );
+    }
+);
+
 
 
 /* =========================================================
-   LANDING MODEL
+   LANDING 3D
 ========================================================= */
 
 const landingModels = [
@@ -1246,14 +1237,18 @@ const landingModels = [
 
 function showLandingModel(index){
 
-    if(!landingModels.length){
+    if(
+        !landingModels.length
+    ){
 
         return;
 
     }
 
 
-    if(index < 0){
+    if(
+        index < 0
+    ){
 
         index =
             landingModels.length - 1;
@@ -1276,21 +1271,24 @@ function showLandingModel(index){
 
 
     landingModels.forEach(
-        (item,i) => {
+        (
+            item,
+            i
+        ) => {
 
-            if(!item.viewer){
+            if(
+                !item.viewer
+            ){
 
                 return;
 
             }
 
 
-            item.viewer
-                .classList
-                .toggle(
-                    "active",
-                    i === index
-                );
+            item.viewer.classList.toggle(
+                "active",
+                i === index
+            );
 
         }
     );
@@ -1323,6 +1321,7 @@ on(
 );
 
 
+
 /* =========================================================
    SEARCH
 ========================================================= */
@@ -1330,12 +1329,10 @@ on(
 function normalize(value){
 
     return String(
-        value
-        ||
-        ""
+        value || ""
     )
-        .toLowerCase()
-        .trim();
+    .toLowerCase()
+    .trim();
 
 }
 
@@ -1357,7 +1354,8 @@ function searchLocations(
     }
 
 
-    return locations
+    return (
+        locations
         .filter(
             location => {
 
@@ -1372,16 +1370,17 @@ function searchLocations(
                         ""
                     )
                 )
-                    .includes(
-                        query
-                    );
+                .includes(
+                    query
+                );
 
             }
         )
         .slice(
             0,
             40
-        );
+        )
+    );
 
 }
 
@@ -1403,7 +1402,9 @@ function renderSearchResults(
         "";
 
 
-    if(!results.length){
+    if(
+        !results.length
+    ){
 
         container.innerHTML =
             `
@@ -1411,6 +1412,7 @@ function renderSearchResults(
                 Lokasi tidak ditemukan.
             </div>
             `;
+
 
         return;
 
@@ -1448,7 +1450,6 @@ function renderSearchResults(
 
             }
 
-
             else if(
                 location.type ===
                 "person"
@@ -1463,13 +1464,17 @@ function renderSearchResults(
             button.innerHTML =
                 `
                 <span>
-
                     <strong>
                         ${location.name}
                     </strong>
 
                     <small>
-                        ${location.parent || "Fakultas Teknik UISU"}
+                        ${
+                            location.parent
+                            ||
+                            "Fakultas Teknik UISU"
+                        }
+
                         ${
                             location.floor
                             ?
@@ -1480,7 +1485,6 @@ function renderSearchResults(
                             ""
                         }
                     </small>
-
                 </span>
 
                 <span class="search-type">
@@ -1511,9 +1515,6 @@ function renderSearchResults(
 }
 
 
-/* =========================================================
-   GLOBAL SEARCH
-========================================================= */
 
 const globalSearch =
     byId(
@@ -1531,7 +1532,9 @@ if(globalSearch){
                 event.target.value;
 
 
-            if(!value.trim()){
+            if(
+                !value.trim()
+            ){
 
                 hide(
                     "globalSearchResults"
@@ -1543,7 +1546,6 @@ if(globalSearch){
 
 
             renderSearchResults(
-
                 searchLocations(
                     value
                 ),
@@ -1578,7 +1580,6 @@ if(globalSearch){
                     );
 
                 }
-
             );
 
 
@@ -1597,7 +1598,9 @@ on(
     "click",
     () => {
 
-        if(globalSearch){
+        if(
+            globalSearch
+        ){
 
             globalSearch.value =
                 "";
@@ -1622,8 +1625,9 @@ on(
 );
 
 
+
 /* =========================================================
-   INFO
+   INFORMATION MODAL
 ========================================================= */
 
 function openInfo(
@@ -1725,37 +1729,9 @@ on(
 );
 
 
-on(
-    "infoNavigationButton",
-    "click",
-    () => {
-
-        if(
-            !state.infoLocation
-        ){
-
-            return;
-
-        }
-
-
-        const location =
-            state.infoLocation;
-
-
-        closeInfo();
-
-
-        openNavigationWithDestination(
-            location
-        );
-
-    }
-);
-
 
 /* =========================================================
-   BUILDING SELECT
+   BUILDING MODEL SELECT
 ========================================================= */
 
 function populateBuildingSelect(
@@ -1777,7 +1753,26 @@ function populateBuildingSelect(
         `;
 
 
-    buildings.forEach(
+    buildings
+    .slice()
+    .sort(
+        (
+            a,
+            b
+        ) =>
+            (
+                a.modelMenuOrder
+                ??
+                99
+            )
+            -
+            (
+                b.modelMenuOrder
+                ??
+                99
+            )
+    )
+    .forEach(
         building => {
 
             const option =
@@ -1791,6 +1786,8 @@ function populateBuildingSelect(
 
 
             option.textContent =
+                building.modelMenuName
+                ||
                 building.name;
 
 
@@ -1826,23 +1823,16 @@ populateBuildingSelect(
 );
 
 
-/* =========================================================
-   MODEL SWITCH
-========================================================= */
 
-function renderModelSwitch({
-
-    building,
-
-    activeModelId,
-
-    containerId,
-
-    singleBadgeId,
-
-    onChange
-
-}){
+function renderModelSwitch(
+    {
+        building,
+        activeModelId,
+        containerId,
+        singleBadgeId,
+        onChange
+    }
+){
 
     const container =
         byId(
@@ -1949,7 +1939,8 @@ function renderModelSwitch({
 
             button.classList.toggle(
                 "active",
-                model.id === activeModelId
+                model.id ===
+                    activeModelId
             );
 
 
@@ -1975,8 +1966,9 @@ function renderModelSwitch({
 }
 
 
+
 /* =========================================================
-   SINGLE / NATIVE 3D VIEWER
+   MAIN 3D VIEWER
 ========================================================= */
 
 const main3DViewer =
@@ -1995,10 +1987,6 @@ let current3DModel = {
 
 };
 
-
-/* =========================================================
-   VIEWER TEXT
-========================================================= */
 
 function updateViewerText(
     building,
@@ -2034,10 +2022,6 @@ function updateViewerText(
 
 }
 
-
-/* =========================================================
-   VIEWER LOADING
-========================================================= */
 
 function setViewerLoading(
     building,
@@ -2082,10 +2066,6 @@ function setViewerLoading(
 }
 
 
-/* =========================================================
-   VIEWER READY
-========================================================= */
-
 function setViewerReady(
     building,
     model
@@ -2128,10 +2108,6 @@ function setViewerReady(
 
 }
 
-
-/* =========================================================
-   VIEWER UNAVAILABLE
-========================================================= */
 
 function setViewerUnavailable(
     building,
@@ -2198,17 +2174,11 @@ function setViewerUnavailable(
 }
 
 
-/* =========================================================
-   RESET CAMERA
-
-   TIDAK ADA CUSTOM CLICK-ZOOM.
-   DRAG / ROTATE / SCROLL / PINCH DIKELOLA
-   LANGSUNG OLEH MODEL-VIEWER.
-========================================================= */
-
 function reset3DCamera(){
 
-    if(!main3DViewer){
+    if(
+        !main3DViewer
+    ){
 
         return;
 
@@ -2228,9 +2198,7 @@ function reset3DCamera(){
 
 
     if(
-        typeof
-        main3DViewer.jumpCameraToGoal
-        ===
+        typeof main3DViewer.jumpCameraToGoal ===
         "function"
     ){
 
@@ -2249,9 +2217,6 @@ on(
 );
 
 
-/* =========================================================
-   LOAD 3D MODEL
-========================================================= */
 
 function load3DModel(
     building,
@@ -2293,41 +2258,45 @@ function load3DModel(
     };
 
 
-    renderModelSwitch({
+    renderModelSwitch(
+        {
 
-        building,
+            building,
 
-        activeModelId:
-            model.id,
+            activeModelId:
+                model.id,
 
-        containerId:
-            "viewerModelSwitch",
+            containerId:
+                "viewerModelSwitch",
 
-        singleBadgeId:
-            "viewerSingleModeBadge",
+            singleBadgeId:
+                "viewerSingleModeBadge",
 
-        onChange:
-            nextModelId => {
+            onChange:
+                nextModelId => {
 
-                const nextModel =
-                    getModelVariant(
-                        building.id,
-                        nextModelId
-                    );
+                    const nextModel =
+                        getModelVariant(
+                            building.id,
+                            nextModelId
+                        );
 
 
-                if(nextModel){
-
-                    load3DModel(
-                        building,
+                    if(
                         nextModel
-                    );
+                    ){
+
+                        load3DModel(
+                            building,
+                            nextModel
+                        );
+
+                    }
 
                 }
 
-            }
-
-    });
+        }
+    );
 
 
     setViewerLoading(
@@ -2336,10 +2305,6 @@ function load3DModel(
     );
 
 
-    /*
-       Tetap gunakan cache model yang sudah kita siapkan.
-    */
-
     cacheModel(
         model.src
     );
@@ -2347,9 +2312,9 @@ function load3DModel(
 
     const currentSrc =
         main3DViewer
-            .getAttribute(
-                "src"
-            );
+        .getAttribute(
+            "src"
+        );
 
 
     if(
@@ -2380,99 +2345,87 @@ function load3DModel(
 }
 
 
-/* =========================================================
-   VIEWER EVENTS
-========================================================= */
 
 if(main3DViewer){
 
-    main3DViewer
-        .addEventListener(
-            "load",
-            () => {
+    main3DViewer.addEventListener(
+        "load",
+        () => {
 
-                const building =
-                    getBuildingById(
-                        current3DModel
-                            .buildingId
-                    );
-
-
-                const model =
-                    getModelVariant(
-
-                        current3DModel
-                            .buildingId,
-
-                        current3DModel
-                            .modelId
-
-                    );
+            const building =
+                getBuildingById(
+                    current3DModel
+                    .buildingId
+                );
 
 
-                if(
-                    building
-                    &&
+            const model =
+                getModelVariant(
+                    current3DModel
+                    .buildingId,
+
+                    current3DModel
+                    .modelId
+                );
+
+
+            if(
+                building
+                &&
+                model
+            ){
+
+                setViewerReady(
+                    building,
                     model
-                ){
-
-                    setViewerReady(
-                        building,
-                        model
-                    );
-
-                }
+                );
 
             }
-        );
+
+        }
+    );
 
 
-    main3DViewer
-        .addEventListener(
-            "error",
-            () => {
+    main3DViewer.addEventListener(
+        "error",
+        () => {
 
-                const building =
-                    getBuildingById(
-                        current3DModel
-                            .buildingId
-                    );
-
-
-                const model =
-                    getModelVariant(
-
-                        current3DModel
-                            .buildingId,
-
-                        current3DModel
-                            .modelId
-
-                    );
+            const building =
+                getBuildingById(
+                    current3DModel
+                    .buildingId
+                );
 
 
-                if(
-                    building
-                    &&
+            const model =
+                getModelVariant(
+                    current3DModel
+                    .buildingId,
+
+                    current3DModel
+                    .modelId
+                );
+
+
+            if(
+                building
+                &&
+                model
+            ){
+
+                setViewerUnavailable(
+                    building,
                     model
-                ){
-
-                    setViewerUnavailable(
-                        building,
-                        model
-                    );
-
-                }
+                );
 
             }
-        );
+
+        }
+    );
 
 }
 
 
-/* =========================================================
-   PREPARE VIEWER BUILDING
-========================================================= */
 
 function prepareViewerBuilding(
     buildingId,
@@ -2528,21 +2481,14 @@ function prepareViewerBuilding(
 
     const model =
         getModelVariant(
-
             building.id,
-
             preferredModelId
-
         )
-
         ||
-
         getDefaultModelVariant(
             building.id
         )
-
         ||
-
         models[0];
 
 
@@ -2560,13 +2506,12 @@ function prepareViewerBuilding(
                 byId(
                     "viewerCard"
                 )
-                    ?.scrollIntoView({
-
+                ?.scrollIntoView(
+                    {
                         behavior:"smooth",
-
                         block:"start"
-
-                    });
+                    }
+                );
 
             },
             50
@@ -2577,16 +2522,14 @@ function prepareViewerBuilding(
 }
 
 
-/* =========================================================
-   SHOW 3D BUTTON
-========================================================= */
-
 on(
     "show3DModel",
     "click",
     () => {
 
-        if(!viewerBuildingSelect){
+        if(
+            !viewerBuildingSelect
+        ){
 
             return;
 
@@ -2594,7 +2537,8 @@ on(
 
 
         const buildingId =
-            viewerBuildingSelect.value;
+            viewerBuildingSelect
+            .value;
 
 
         if(!buildingId){
@@ -2629,9 +2573,6 @@ on(
 );
 
 
-/* =========================================================
-   DESTINATION 3D HOTSPOT
-========================================================= */
 
 function hideDestinationHotspot(){
 
@@ -2659,7 +2600,8 @@ function applyDestinationMarker(){
 
 
     const marker =
-        state.pending3DMarker.marker;
+        state.pending3DMarker
+        .marker;
 
 
     const hotspot =
@@ -2681,7 +2623,8 @@ function applyDestinationMarker(){
 
     setText(
         "destination3DLabel",
-        state.pending3DMarker.label
+        state.pending3DMarker
+        .label
     );
 
 
@@ -2692,8 +2635,9 @@ function applyDestinationMarker(){
 }
 
 
+
 /* =========================================================
-   AR
+   AR VIEWER
 ========================================================= */
 
 const mainARViewer =
@@ -2897,6 +2841,7 @@ function setARUnavailable(
 }
 
 
+
 function loadARModel(
     buildingId,
     modelId
@@ -2951,30 +2896,32 @@ function loadARModel(
     );
 
 
-    renderModelSwitch({
+    renderModelSwitch(
+        {
 
-        building,
+            building,
 
-        activeModelId:
-            model.id,
+            activeModelId:
+                model.id,
 
-        containerId:
-            "arModelSwitch",
+            containerId:
+                "arModelSwitch",
 
-        singleBadgeId:
-            "arSingleModeBadge",
+            singleBadgeId:
+                "arSingleModeBadge",
 
-        onChange:
-            nextModelId => {
+            onChange:
+                nextModelId => {
 
-                loadARModel(
-                    building.id,
-                    nextModelId
-                );
+                    loadARModel(
+                        building.id,
+                        nextModelId
+                    );
 
-            }
+                }
 
-    });
+        }
+    );
 
 
     setARLoading(
@@ -2994,6 +2941,7 @@ function loadARModel(
     }
 
 }
+
 
 
 if(mainARViewer){
@@ -3068,6 +3016,7 @@ if(mainARViewer){
 }
 
 
+
 on(
     "prepareMainAR",
     "click",
@@ -3075,7 +3024,7 @@ on(
 
         const buildingId =
             arBuildingSelect
-                ?.value;
+            ?.value;
 
 
         if(!buildingId){
@@ -3118,6 +3067,7 @@ on(
 );
 
 
+
 /* =========================================================
    DIRECTORY
 ========================================================= */
@@ -3130,10 +3080,10 @@ function locationForBuilding(
         locations.find(
             location =>
                 location.type ===
-                "building"
+                    "building"
                 &&
                 location.id ===
-                building.id
+                    building.id
         )
         ||
         null
@@ -3150,16 +3100,17 @@ function locationForRoom(
         locations.find(
             location =>
                 location.type ===
-                "room"
+                    "room"
                 &&
                 location.id ===
-                room.id
+                    room.id
         )
         ||
         null
     );
 
 }
+
 
 
 function renderRoomList(
@@ -3178,7 +3129,9 @@ function renderRoomList(
         "";
 
 
-    if(!roomList.length){
+    if(
+        !roomList.length
+    ){
 
         container.innerHTML =
             `
@@ -3186,6 +3139,7 @@ function renderRoomList(
                 Data ruangan akan dilengkapi kemudian.
             </div>
             `;
+
 
         return;
 
@@ -3217,29 +3171,36 @@ function renderRoomList(
                 );
 
 
+            const actionsId =
+                `directory-room-actions-${room.id}`;
+
+
             item.className =
                 "room-item";
 
 
             item.innerHTML =
                 `
-                <div class="room-row">
+                <button
+                    type="button"
+                    class="room-row room-toggle-button"
+                    aria-expanded="false"
+                    aria-controls="${actionsId}"
+                >
+                    <span class="room-name"></span>
 
-                    <span>
-                        ${room.name}
-                    </span>
-
-                    <button
-                        type="button"
-                        class="room-select-button"
+                    <span
+                        class="room-chevron"
+                        aria-hidden="true"
                     >
-                        Pilih
-                    </button>
+                        ›
+                    </span>
+                </button>
 
-                </div>
-
-                <div class="room-actions hidden">
-
+                <div
+                    id="${actionsId}"
+                    class="room-actions hidden"
+                >
                     <button
                         type="button"
                         class="room-info"
@@ -3253,9 +3214,22 @@ function renderRoomList(
                     >
                         Petunjuk Arah
                     </button>
-
                 </div>
                 `;
+
+
+            item
+                .querySelector(
+                    ".room-name"
+                )
+                .textContent =
+                    room.name;
+
+
+            const toggle =
+                item.querySelector(
+                    ".room-toggle-button"
+                );
 
 
             const actions =
@@ -3264,27 +3238,50 @@ function renderRoomList(
                 );
 
 
-            item.querySelector(
-                ".room-select-button"
-            )
-                ?.addEventListener(
-                    "click",
-                    () => {
+            toggle.addEventListener(
+                "click",
+                () => {
 
-                        actions
-                            ?.classList
-                            .toggle(
-                                "hidden"
-                            );
-
-                    }
-                );
+                    const expanded =
+                        toggle.getAttribute(
+                            "aria-expanded"
+                        )
+                        !==
+                        "true";
 
 
-            item.querySelector(
-                ".room-info"
-            )
-                ?.addEventListener(
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        String(
+                            expanded
+                        )
+                    );
+
+
+                    actions
+                        .classList
+                        .toggle(
+                            "hidden",
+                            !expanded
+                        );
+
+
+                    item
+                        .classList
+                        .toggle(
+                            "open",
+                            expanded
+                        );
+
+                }
+            );
+
+
+            item
+                .querySelector(
+                    ".room-info"
+                )
+                .addEventListener(
                     "click",
                     () => {
 
@@ -3296,10 +3293,11 @@ function renderRoomList(
                 );
 
 
-            item.querySelector(
-                ".room-nav"
-            )
-                ?.addEventListener(
+            item
+                .querySelector(
+                    ".room-nav"
+                )
+                .addEventListener(
                     "click",
                     () => {
 
@@ -3326,6 +3324,7 @@ function renderRoomList(
 }
 
 
+
 function renderLaboratory(
     roomList,
     container
@@ -3347,73 +3346,75 @@ function renderLaboratory(
         );
 
 
-    [1,2,3]
-        .forEach(
-            floor => {
+    [
+        1,
+        2,
+        3
+    ]
+    .forEach(
+        floor => {
 
-                const button =
-                    document.createElement(
-                        "button"
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "floor-button";
+
+
+            button.textContent =
+                `Lantai ${floor}`;
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    Array
+                    .from(
+                        floorButtons.children
+                    )
+                    .forEach(
+                        item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
                     );
 
 
-                button.type =
-                    "button";
+                    button.classList.add(
+                        "active"
+                    );
 
 
-                button.className =
-                    "floor-button";
+                    renderRoomList(
+                        roomList.filter(
+                            room =>
+                                room.floor ===
+                                floor
+                        ),
+                        roomContainer
+                    );
+
+                }
+            );
 
 
-                button.textContent =
-                    `Lantai ${floor}`;
+            floorButtons.appendChild(
+                button
+            );
 
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        Array.from(
-                            floorButtons.children
-                        )
-                            .forEach(
-                                item => {
-
-                                    item.classList.remove(
-                                        "active"
-                                    );
-
-                                }
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        renderRoomList(
-
-                            roomList.filter(
-                                room =>
-                                    room.floor ===
-                                    floor
-                            ),
-
-                            roomContainer
-
-                        );
-
-                    }
-                );
-
-
-                floorButtons.appendChild(
-                    button
-                );
-
-            }
-        );
+        }
+    );
 
 
     container.appendChild(
@@ -3431,6 +3432,7 @@ function renderLaboratory(
         ?.click();
 
 }
+
 
 
 function renderDirectory(){
@@ -3453,13 +3455,15 @@ function renderDirectory(){
 
 
     buildings.forEach(
-        (building,index) => {
+        (
+            building,
+            index
+        ) => {
 
             const buildingRooms =
                 rooms.filter(
                     room =>
-                        room.buildingId
-                        ===
+                        room.buildingId ===
                         building.id
                 );
 
@@ -3485,6 +3489,8 @@ function renderDirectory(){
                 <button
                     class="building-button"
                     type="button"
+                    aria-expanded="false"
+                    aria-controls="directory-building-content-${building.id}"
                 >
 
                     <span class="building-number">
@@ -3492,7 +3498,6 @@ function renderDirectory(){
                     </span>
 
                     <span>
-
                         <strong>
                             ${building.name}
                         </strong>
@@ -3500,7 +3505,6 @@ function renderDirectory(){
                         <p>
                             ${building.description || ""}
                         </p>
-
                     </span>
 
                     <span>
@@ -3509,7 +3513,10 @@ function renderDirectory(){
 
                 </button>
 
-                <div class="building-content">
+                <div
+                    id="directory-building-content-${building.id}"
+                    class="building-content"
+                >
                 </div>
                 `;
 
@@ -3527,16 +3534,25 @@ function renderDirectory(){
 
 
             header
-                ?.addEventListener(
-                    "click",
-                    () => {
+            ?.addEventListener(
+                "click",
+                () => {
 
+                    const expanded =
                         article.classList.toggle(
                             "open"
                         );
 
-                    }
-                );
+
+                    header.setAttribute(
+                        "aria-expanded",
+                        String(
+                            expanded
+                        )
+                    );
+
+                }
+            );
 
 
             const actions =
@@ -3647,8 +3663,9 @@ function renderDirectory(){
 }
 
 
+
 /* =========================================================
-   NAV STEPS
+   NAVIGATION UI
 ========================================================= */
 
 function setStep(
@@ -3669,10 +3686,15 @@ function setStep(
 
 
     ids.forEach(
-        (id,index) => {
+        (
+            id,
+            index
+        ) => {
 
             const element =
-                byId(id);
+                byId(
+                    id
+                );
 
 
             if(!element){
@@ -3684,15 +3706,15 @@ function setStep(
 
             element.classList.toggle(
                 "active",
-                index + 1
-                <=
-                stepNumber
+                index + 1 <=
+                    stepNumber
             );
 
         }
     );
 
 }
+
 
 
 /* =========================================================
@@ -3752,34 +3774,27 @@ function getImageContentBox(
 
     const scale =
         Math.min(
-
-            containerWidth
-            /
+            containerWidth /
             naturalWidth,
 
-            containerHeight
-            /
+            containerHeight /
             naturalHeight
-
         );
 
 
     const width =
-        naturalWidth
-        *
+        naturalWidth *
         scale;
 
 
     const height =
-        naturalHeight
-        *
+        naturalHeight *
         scale;
 
 
     const left =
         (
-            containerWidth
-            -
+            containerWidth -
             width
         )
         /
@@ -3788,8 +3803,7 @@ function getImageContentBox(
 
     const top =
         (
-            containerHeight
-            -
+            containerHeight -
             height
         )
         /
@@ -3813,6 +3827,7 @@ function getImageContentBox(
     };
 
 }
+
 
 
 function fitContainerToImage(
@@ -3839,6 +3854,7 @@ function fitContainerToImage(
         `${image.naturalWidth} / ${image.naturalHeight}`;
 
 }
+
 
 
 function fitSvgToImage(
@@ -3879,27 +3895,19 @@ function fitSvgToImage(
 
 
     svg.style.left =
-        box.left
-        +
-        "px";
+        box.left + "px";
 
 
     svg.style.top =
-        box.top
-        +
-        "px";
+        box.top + "px";
 
 
     svg.style.width =
-        box.width
-        +
-        "px";
+        box.width + "px";
 
 
     svg.style.height =
-        box.height
-        +
-        "px";
+        box.height + "px";
 
 
     svg.setAttribute(
@@ -3914,6 +3922,7 @@ function fitSvgToImage(
     );
 
 }
+
 
 
 function syncNavigationMapGeometry(){
@@ -3948,15 +3957,11 @@ function syncNavigationMapGeometry(){
 
 
     fitSvgToImage(
-
         container.querySelector(
             ".route-svg"
         ),
-
         container,
-
         image
-
     );
 
 
@@ -3965,32 +3970,27 @@ function syncNavigationMapGeometry(){
     ){
 
         positionSelectionMapElement(
-
             byId(
                 "userMarker"
             ),
-
             state.routeResult
-                .startSnap
-                .point
-
+            .startSnap
+            .point
         );
 
 
         positionSelectionMapElement(
-
             byId(
                 "entranceMarker"
             ),
-
             state.routeResult
-                .entrance
-
+            .entrance
         );
 
     }
 
 }
+
 
 
 function syncLiveMapGeometry(){
@@ -4028,15 +4028,11 @@ function syncLiveMapGeometry(){
 
 
     fitSvgToImage(
-
         container.querySelector(
             ".live-route-svg"
         ),
-
         container,
-
         image
-
     );
 
 
@@ -4045,27 +4041,21 @@ function syncLiveMapGeometry(){
     ){
 
         positionLiveMapElement(
-
             byId(
                 "liveUserMarker"
             ),
-
             state.routeResult
-                .startSnap
-                .point
-
+            .startSnap
+            .point
         );
 
 
         positionLiveMapElement(
-
             byId(
                 "liveDestinationMarker"
             ),
-
             state.routeResult
-                .entrance
-
+            .entrance
         );
 
 
@@ -4074,6 +4064,7 @@ function syncLiveMapGeometry(){
     }
 
 }
+
 
 
 function syncAllMapGeometry(){
@@ -4085,9 +4076,6 @@ function syncAllMapGeometry(){
 }
 
 
-/* =========================================================
-   MAP ELEMENT POSITION
-========================================================= */
 
 function positionElementOnImage(
     element,
@@ -4126,13 +4114,11 @@ function positionElementOnImage(
 
 
     element.style.left =
-
         (
             box.left
             +
             (
-                point.x
-                /
+                point.x /
                 MAP_WIDTH
             )
             *
@@ -4143,13 +4129,11 @@ function positionElementOnImage(
 
 
     element.style.top =
-
         (
             box.top
             +
             (
-                point.y
-                /
+                point.y /
                 MAP_HEIGHT
             )
             *
@@ -4161,15 +4145,14 @@ function positionElementOnImage(
 }
 
 
+
 function positionSelectionMapElement(
     element,
     point
 ){
 
     positionElementOnImage(
-
         element,
-
         point,
 
         byId(
@@ -4179,10 +4162,10 @@ function positionSelectionMapElement(
         byId(
             "navigationMapImage"
         )
-
     );
 
 }
+
 
 
 function positionLiveMapElement(
@@ -4204,24 +4187,20 @@ function positionLiveMapElement(
 
 
     positionElementOnImage(
-
         element,
-
         point,
-
         container,
-
         container.querySelector(
             ".live-map-background"
         )
-
     );
 
 }
 
 
+
 /* =========================================================
-   RESET NAV
+   RESET NAVIGATION
 ========================================================= */
 
 function resetNavigation(){
@@ -4258,10 +4237,10 @@ function resetNavigation(){
     byId(
         "activeRoute"
     )
-        ?.setAttribute(
-            "points",
-            ""
-        );
+    ?.setAttribute(
+        "points",
+        ""
+    );
 
 
     hide(
@@ -4322,6 +4301,7 @@ function resetNavigation(){
     }
 
 }
+
 
 
 /* =========================================================
@@ -4391,11 +4371,9 @@ function selectDestination(
 
 
     setText(
-
         "mapHeadingTitle",
 
         `Tap pada denah sesuai posisi Anda sekarang, lalu sistem akan memberikan jalur terdekat menuju ${location.name}.`
-
     );
 
 
@@ -4432,10 +4410,10 @@ function selectDestination(
     byId(
         "activeRoute"
     )
-        ?.setAttribute(
-            "points",
-            ""
-        );
+    ?.setAttribute(
+        "points",
+        ""
+    );
 
 
     setStep(
@@ -4452,13 +4430,12 @@ function selectDestination(
             byId(
                 "mapSection"
             )
-                ?.scrollIntoView({
-
+            ?.scrollIntoView(
+                {
                     behavior:"smooth",
-
                     block:"start"
-
-                });
+                }
+            );
 
         },
         80
@@ -4467,9 +4444,6 @@ function selectDestination(
 }
 
 
-/* =========================================================
-   NAV SEARCH
-========================================================= */
 
 const navigationSearch =
     byId(
@@ -4493,7 +4467,9 @@ if(navigationSearch){
                 );
 
 
-            if(!value.trim()){
+            if(
+                !value.trim()
+            ){
 
                 container.innerHTML =
                     `
@@ -4502,13 +4478,13 @@ if(navigationSearch){
                     </div>
                     `;
 
+
                 return;
 
             }
 
 
             renderSearchResults(
-
                 searchLocations(
                     value
                 ),
@@ -4516,7 +4492,6 @@ if(navigationSearch){
                 container,
 
                 selectDestination
-
             );
 
         }
@@ -4525,8 +4500,9 @@ if(navigationSearch){
 }
 
 
+
 /* =========================================================
-   ROUTE GRAPH
+   DIJKSTRA GRAPH
 ========================================================= */
 
 function pointDistance(
@@ -4535,14 +4511,12 @@ function pointDistance(
 ){
 
     return Math.hypot(
-
         a.x - b.x,
-
         a.y - b.y
-
     );
 
 }
+
 
 
 const graph = {};
@@ -4551,14 +4525,15 @@ const graph = {};
 Object.keys(
     mapNodes
 )
-    .forEach(
-        nodeId => {
+.forEach(
+    nodeId => {
 
-            graph[nodeId] =
-                [];
+        graph[nodeId] =
+            [];
 
-        }
-    );
+    }
+);
+
 
 
 const preparedEdges =
@@ -4567,20 +4542,16 @@ const preparedEdges =
 
             const points =
                 edge.points.map(
-                    point => ({
-
-                        x:
-                            point[0],
-
-                        y:
-                            point[1]
-
-                    })
+                    point => (
+                        {
+                            x:point[0],
+                            y:point[1]
+                        }
+                    )
                 );
 
 
-            let length =
-                0;
+            let length = 0;
 
 
             const cumulative =
@@ -4595,11 +4566,8 @@ const preparedEdges =
 
                 length +=
                     pointDistance(
-
                         points[i],
-
                         points[i + 1]
-
                     );
 
 
@@ -4633,6 +4601,7 @@ const preparedEdges =
     );
 
 
+
 const edgeById = {};
 
 
@@ -4641,15 +4610,14 @@ preparedEdges.forEach(
 
         edgeById[
             edge.id
-        ] =
-            edge;
+        ] = edge;
 
 
         graph[
             edge.from
         ]
-            .push({
-
+        .push(
+            {
                 node:
                     edge.to,
 
@@ -4658,15 +4626,15 @@ preparedEdges.forEach(
 
                 weight:
                     edge.length
-
-            });
+            }
+        );
 
 
         graph[
             edge.to
         ]
-            .push({
-
+        .push(
+            {
                 node:
                     edge.from,
 
@@ -4675,15 +4643,16 @@ preparedEdges.forEach(
 
                 weight:
                     edge.length
-
-            });
+            }
+        );
 
     }
 );
 
 
+
 /* =========================================================
-   SNAP
+   SNAP POINT TO ROUTE
 ========================================================= */
 
 function projectPointToSegment(
@@ -4779,6 +4748,7 @@ function projectPointToSegment(
 }
 
 
+
 function snapToRoute(
     point
 ){
@@ -4801,9 +4771,7 @@ function snapToRoute(
 
 
                 const b =
-                    edge.points[
-                        i + 1
-                    ];
+                    edge.points[i + 1];
 
 
                 const projection =
@@ -4832,8 +4800,7 @@ function snapToRoute(
                 if(
                     !best
                     ||
-                    projection.distance
-                    <
+                    projection.distance <
                     best.distance
                 ){
 
@@ -4856,8 +4823,7 @@ function snapToRoute(
                             along,
 
                         distanceToTo:
-                            edge.length
-                            -
+                            edge.length -
                             along
 
                     };
@@ -4873,6 +4839,7 @@ function snapToRoute(
     return best;
 
 }
+
 
 
 /* =========================================================
@@ -4999,63 +4966,63 @@ function dijkstra(
         );
 
 
-        graph[current]
-            .forEach(
-                connection => {
+        graph[
+            current
+        ]
+        .forEach(
+            connection => {
 
-                    if(
-                        !unvisited.has(
-                            connection.node
-                        )
-                    ){
+                if(
+                    !unvisited.has(
+                        connection.node
+                    )
+                ){
 
-                        return;
-
-                    }
-
-
-                    const candidate =
-                        distances[current]
-                        +
-                        connection.weight;
-
-
-                    if(
-                        candidate
-                        <
-                        distances[
-                            connection.node
-                        ]
-                    ){
-
-                        distances[
-                            connection.node
-                        ] =
-                            candidate;
-
-
-                        previous[
-                            connection.node
-                        ] =
-                            current;
-
-
-                        previousEdge[
-                            connection.node
-                        ] =
-                            connection.edgeId;
-
-                    }
+                    return;
 
                 }
-            );
+
+
+                const candidate =
+                    distances[current]
+                    +
+                    connection.weight;
+
+
+                if(
+                    candidate <
+                    distances[
+                        connection.node
+                    ]
+                ){
+
+                    distances[
+                        connection.node
+                    ] =
+                        candidate;
+
+
+                    previous[
+                        connection.node
+                    ] =
+                        current;
+
+
+                    previousEdge[
+                        connection.node
+                    ] =
+                        connection.edgeId;
+
+                }
+
+            }
+        );
 
     }
 
 
     if(
-        distances[target]
-        ===
+        distances[target] ===
         Infinity
     ){
 
@@ -5081,7 +5048,8 @@ function dijkstra(
 
 
         if(
-            cursor === start
+            cursor ===
+            start
         ){
 
             break;
@@ -5090,12 +5058,16 @@ function dijkstra(
 
 
         edges.unshift(
-            previousEdge[cursor]
+            previousEdge[
+                cursor
+            ]
         );
 
 
         cursor =
-            previous[cursor];
+            previous[
+                cursor
+            ];
 
     }
 
@@ -5112,6 +5084,7 @@ function dijkstra(
     };
 
 }
+
 
 
 /* =========================================================
@@ -5182,8 +5155,7 @@ function pointsFromSnapToEndpoint(
             let i =
                 snap.segmentIndex + 2;
 
-            i <
-            points.length;
+            i < points.length;
 
             i++
         ){
@@ -5202,6 +5174,7 @@ function pointsFromSnapToEndpoint(
 }
 
 
+
 function routeNodePolyline(
     route
 ){
@@ -5211,7 +5184,10 @@ function routeNodePolyline(
 
 
     route.edges.forEach(
-        (edgeId,index) => {
+        (
+            edgeId,
+            index
+        ) => {
 
             const edge =
                 edgeById[
@@ -5249,8 +5225,8 @@ function routeNodePolyline(
 
                 points =
                     edge.points
-                        .slice()
-                        .reverse();
+                    .slice()
+                    .reverse();
 
             }
 
@@ -5278,6 +5254,7 @@ function routeNodePolyline(
     return output;
 
 }
+
 
 
 function dedupePoints(
@@ -5323,9 +5300,6 @@ function dedupePoints(
 }
 
 
-/* =========================================================
-   BUILD ROUTE
-========================================================= */
 
 function buildRoute(
     clickedPoint
@@ -5390,40 +5364,44 @@ function buildRoute(
 
     if(fromRoute){
 
-        candidates.push({
+        candidates.push(
+            {
 
-            endpoint:
-                snap.edge.from,
+                endpoint:
+                    snap.edge.from,
 
-            route:
-                fromRoute,
+                route:
+                    fromRoute,
 
-            cost:
-                snap.distanceToFrom
-                +
-                fromRoute.distance
+                cost:
+                    snap.distanceToFrom
+                    +
+                    fromRoute.distance
 
-        });
+            }
+        );
 
     }
 
 
     if(toRoute){
 
-        candidates.push({
+        candidates.push(
+            {
 
-            endpoint:
-                snap.edge.to,
+                endpoint:
+                    snap.edge.to,
 
-            route:
-                toRoute,
+                route:
+                    toRoute,
 
-            cost:
-                snap.distanceToTo
-                +
-                toRoute.distance
+                cost:
+                    snap.distanceToTo
+                    +
+                    toRoute.distance
 
-        });
+            }
+        );
 
     }
 
@@ -5438,8 +5416,12 @@ function buildRoute(
 
 
     candidates.sort(
-        (a,b) =>
-            a.cost - b.cost
+        (
+            a,
+            b
+        ) =>
+            a.cost -
+            b.cost
     );
 
 
@@ -5462,15 +5444,12 @@ function buildRoute(
 
     const routePoints =
         dedupePoints(
-
             startPart
-
-                .concat(
-                    graphPart
-                )
-
-                .concat([
-
+            .concat(
+                graphPart
+            )
+            .concat(
+                [
                     {
                         x:
                             entrance.x,
@@ -5478,9 +5457,8 @@ function buildRoute(
                         y:
                             entrance.y
                     }
-
-                ])
-
+                ]
+            )
         );
 
 
@@ -5500,6 +5478,7 @@ function buildRoute(
     };
 
 }
+
 
 
 /* =========================================================
@@ -5539,7 +5518,7 @@ if(navigationMap){
 
             const rect =
                 navigationMap
-                    .getBoundingClientRect();
+                .getBoundingClientRect();
 
 
             const box =
@@ -5557,25 +5536,28 @@ if(navigationMap){
 
 
             const clickX =
-                event.clientX
-                -
+                event.clientX -
                 rect.left;
 
 
             const clickY =
-                event.clientY
-                -
+                event.clientY -
                 rect.top;
 
 
             if(
                 clickX < box.left
                 ||
-                clickX > box.left + box.width
+                clickX >
+                box.left +
+                box.width
                 ||
-                clickY < box.top
+                clickY <
+                box.top
                 ||
-                clickY > box.top + box.height
+                clickY >
+                box.top +
+                box.height
             ){
 
                 return;
@@ -5588,7 +5570,8 @@ if(navigationMap){
                 x:
                     (
                         (
-                            clickX - box.left
+                            clickX -
+                            box.left
                         )
                         /
                         box.width
@@ -5599,7 +5582,8 @@ if(navigationMap){
                 y:
                     (
                         (
-                            clickY - box.top
+                            clickY -
+                            box.top
                         )
                         /
                         box.height
@@ -5638,41 +5622,34 @@ if(navigationMap){
             byId(
                 "activeRoute"
             )
-                ?.setAttribute(
+            ?.setAttribute(
+                "points",
 
-                    "points",
-
-                    route.points
-                        .map(
-                            point =>
-                                `${point.x},${point.y}`
-                        )
-                        .join(
-                            " "
-                        )
-
-                );
-
-
-            positionSelectionMapElement(
-
-                byId(
-                    "userMarker"
-                ),
-
-                route.startSnap.point
-
+                route.points
+                .map(
+                    point =>
+                        `${point.x},${point.y}`
+                )
+                .join(
+                    " "
+                )
             );
 
 
             positionSelectionMapElement(
+                byId(
+                    "userMarker"
+                ),
+                route.startSnap
+                .point
+            );
 
+
+            positionSelectionMapElement(
                 byId(
                     "entranceMarker"
                 ),
-
                 route.entrance
-
             );
 
 
@@ -5711,9 +5688,6 @@ if(navigationMap){
 }
 
 
-/* =========================================================
-   RESET POSITION
-========================================================= */
 
 on(
     "resetPosition",
@@ -5731,10 +5705,10 @@ on(
         byId(
             "activeRoute"
         )
-            ?.setAttribute(
-                "points",
-                ""
-            );
+        ?.setAttribute(
+            "points",
+            ""
+        );
 
 
         hide(
@@ -5770,8 +5744,9 @@ on(
 );
 
 
+
 /* =========================================================
-   TURN INSTRUCTIONS
+   NAVIGATION INSTRUCTIONS
 ========================================================= */
 
 function turnAngle(
@@ -5797,14 +5772,12 @@ function turnAngle(
 
 
     const cross =
-        ax * by
-        -
+        ax * by -
         ay * bx;
 
 
     const dot =
-        ax * bx
-        +
+        ax * bx +
         ay * by;
 
 
@@ -5822,6 +5795,7 @@ function turnAngle(
 }
 
 
+
 function simplifyInstructionPoints(
     points
 ){
@@ -5832,11 +5806,13 @@ function simplifyInstructionPoints(
         points.length <= 2
     ){
 
-        return points
-        ?
-        points.slice()
-        :
-        [];
+        return (
+            points
+            ?
+            points.slice()
+            :
+            []
+        );
 
     }
 
@@ -5855,13 +5831,9 @@ function simplifyInstructionPoints(
 
         const angle =
             turnAngle(
-
                 points[i - 1],
-
                 points[i],
-
                 points[i + 1]
-
             );
 
 
@@ -5894,6 +5866,7 @@ function simplifyInstructionPoints(
 }
 
 
+
 function createNavigationInstructions(){
 
     if(
@@ -5909,13 +5882,15 @@ function createNavigationInstructions(){
 
     const points =
         simplifyInstructionPoints(
-            state.routeResult.points
+            state.routeResult
+            .points
         );
 
 
     const instructions = [
 
         {
+
             icon:"●",
 
             title:
@@ -5923,6 +5898,7 @@ function createNavigationInstructions(){
 
             description:
                 "Mulai dari posisi yang Anda tandai pada denah."
+
         }
 
     ];
@@ -5936,13 +5912,9 @@ function createNavigationInstructions(){
 
         const angle =
             turnAngle(
-
                 points[i - 1],
-
                 points[i],
-
                 points[i + 1]
-
             );
 
 
@@ -5950,68 +5922,75 @@ function createNavigationInstructions(){
             angle > 28
         ){
 
-            instructions.push({
+            instructions.push(
+                {
 
-                icon:"↱",
+                    icon:"↱",
 
-                title:
-                    "Belok kanan",
+                    title:
+                        "Belok kanan",
 
-                description:
-                    "Ikuti jalur hingga persimpangan berikutnya."
+                    description:
+                        "Ikuti jalur hingga persimpangan berikutnya."
 
-            });
+                }
+            );
 
         }
-
 
         else if(
             angle < -28
         ){
 
-            instructions.push({
+            instructions.push(
+                {
 
-                icon:"↰",
+                    icon:"↰",
 
-                title:
-                    "Belok kiri",
+                    title:
+                        "Belok kiri",
 
-                description:
-                    "Ikuti jalur hingga persimpangan berikutnya."
+                    description:
+                        "Ikuti jalur hingga persimpangan berikutnya."
 
-            });
+                }
+            );
 
         }
 
     }
 
 
-    instructions.push({
+    instructions.push(
+        {
 
-        icon:"◎",
+            icon:"◎",
 
-        title:
-            "Entrance tujuan di depan",
+            title:
+                "Entrance tujuan di depan",
 
-        description:
-            state.routeResult
+            description:
+                state.routeResult
                 .entrance
                 .name
 
-    });
+        }
+    );
 
 
-    instructions.push({
+    instructions.push(
+        {
 
-        icon:"✓",
+            icon:"✓",
 
-        title:
-            "Anda sudah tiba",
+            title:
+                "Anda sudah tiba",
 
-        description:
-            `Anda sudah tiba di entrance menuju ${state.destination.name}.`
+            description:
+                `Anda sudah tiba di entrance menuju ${state.destination.name}.`
 
-    });
+        }
+    );
 
 
     return instructions;
@@ -6019,9 +5998,6 @@ function createNavigationInstructions(){
 }
 
 
-/* =========================================================
-   LIVE BUILDINGS
-========================================================= */
 
 function renderLiveBuildingMarkers(){
 
@@ -6090,9 +6066,6 @@ function renderLiveBuildingMarkers(){
 }
 
 
-/* =========================================================
-   ROUTE DETAIL
-========================================================= */
 
 function renderRouteDetail(){
 
@@ -6114,52 +6087,49 @@ function renderRouteDetail(){
 
 
     state.liveInstructions
-        .forEach(
-            step => {
+    .forEach(
+        step => {
 
-                const item =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                item.className =
-                    "route-instruction-item";
-
-
-                item.innerHTML =
-                    `
-                    <div class="route-step-icon">
-                        ${step.icon}
-                    </div>
-
-                    <div class="route-step-copy">
-
-                        <strong>
-                            ${step.title}
-                        </strong>
-
-                        <span>
-                            ${step.description}
-                        </span>
-
-                    </div>
-                    `;
-
-
-                container.appendChild(
-                    item
+            const item =
+                document.createElement(
+                    "div"
                 );
 
-            }
-        );
+
+            item.className =
+                "route-instruction-item";
+
+
+            item.innerHTML =
+                `
+                <div class="route-step-icon">
+                    ${step.icon}
+                </div>
+
+                <div class="route-step-copy">
+
+                    <strong>
+                        ${step.title}
+                    </strong>
+
+                    <span>
+                        ${step.description}
+                    </span>
+
+                </div>
+                `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
 
 }
 
 
-/* =========================================================
-   LIVE NAVIGATION
-========================================================= */
 
 function renderLiveNavigation(){
 
@@ -6181,33 +6151,29 @@ function renderLiveNavigation(){
     byId(
         "liveRoute"
     )
-        ?.setAttribute(
+    ?.setAttribute(
+        "points",
 
-            "points",
-
-            route.points
-                .map(
-                    point =>
-                        `${point.x},${point.y}`
-                )
-                .join(
-                    " "
-                )
-
-        );
+        route.points
+        .map(
+            point =>
+                `${point.x},${point.y}`
+        )
+        .join(
+            " "
+        )
+    );
 
 
     syncLiveMapGeometry();
 
 
     positionLiveMapElement(
-
         byId(
             "liveUserMarker"
         ),
-
-        route.startSnap.point
-
+        route.startSnap
+        .point
     );
 
 
@@ -6217,13 +6183,10 @@ function renderLiveNavigation(){
 
 
     positionLiveMapElement(
-
         byId(
             "liveDestinationMarker"
         ),
-
         route.entrance
-
     );
 
 
@@ -6267,7 +6230,8 @@ function renderLiveNavigation(){
 
 
     const next =
-        state.liveInstructions.find(
+        state.liveInstructions
+        .find(
             item =>
                 item.title !==
                 "Lokasi Anda saat ini"
@@ -6292,8 +6256,9 @@ function renderLiveNavigation(){
 }
 
 
+
 /* =========================================================
-   GPS
+   GPS CALIBRATION
 ========================================================= */
 
 function solveAffine(
@@ -6329,26 +6294,30 @@ function solveAffine(
 
     const determinant =
 
-        p1.lon
-        *
+        p1.lon *
         (
-            p2.lat - p3.lat
+            p2.lat -
+            p3.lat
         )
 
         -
 
-        p1.lat
-        *
+        p1.lat *
         (
-            p2.lon - p3.lon
+            p2.lon -
+            p3.lon
         )
 
         +
 
         (
-            p2.lon * p3.lat
+            p2.lon *
+            p3.lat
+
             -
-            p3.lon * p2.lat
+
+            p3.lon *
+            p2.lat
         );
 
 
@@ -6371,97 +6340,106 @@ function solveAffine(
         v3
     ){
 
-        const a =
+        const a = (
 
+            v1 *
             (
-                v1
-                *
-                (
-                    p2.lat - p3.lat
-                )
-
-                +
-
-                v2
-                *
-                (
-                    p3.lat - p1.lat
-                )
-
-                +
-
-                v3
-                *
-                (
-                    p1.lat - p2.lat
-                )
+                p2.lat -
+                p3.lat
             )
-            /
-            determinant;
 
+            +
 
-        const b =
-
+            v2 *
             (
-                v1
-                *
-                (
-                    p3.lon - p2.lon
-                )
-
-                +
-
-                v2
-                *
-                (
-                    p1.lon - p3.lon
-                )
-
-                +
-
-                v3
-                *
-                (
-                    p2.lon - p1.lon
-                )
+                p3.lat -
+                p1.lat
             )
-            /
-            determinant;
 
+            +
 
-        const c =
-
+            v3 *
             (
-                v1
-                *
-                (
-                    p2.lon * p3.lat
-                    -
-                    p3.lon * p2.lat
-                )
-
-                +
-
-                v2
-                *
-                (
-                    p3.lon * p1.lat
-                    -
-                    p1.lon * p3.lat
-                )
-
-                +
-
-                v3
-                *
-                (
-                    p1.lon * p2.lat
-                    -
-                    p2.lon * p1.lat
-                )
+                p1.lat -
+                p2.lat
             )
-            /
-            determinant;
+
+        )
+        /
+        determinant;
+
+
+        const b = (
+
+            v1 *
+            (
+                p3.lon -
+                p2.lon
+            )
+
+            +
+
+            v2 *
+            (
+                p1.lon -
+                p3.lon
+            )
+
+            +
+
+            v3 *
+            (
+                p2.lon -
+                p1.lon
+            )
+
+        )
+        /
+        determinant;
+
+
+        const c = (
+
+            v1 *
+            (
+                p2.lon *
+                p3.lat
+
+                -
+
+                p3.lon *
+                p2.lat
+            )
+
+            +
+
+            v2 *
+            (
+                p3.lon *
+                p1.lat
+
+                -
+
+                p1.lon *
+                p3.lat
+            )
+
+            +
+
+            v3 *
+            (
+                p1.lon *
+                p2.lat
+
+                -
+
+                p2.lon *
+                p1.lat
+            )
+
+        )
+        /
+        determinant;
 
 
         return {
@@ -6512,15 +6490,23 @@ function solveAffine(
 }
 
 
+
+/* =========================================================
+   GPS TRACKING
+========================================================= */
+
 function stopGpsTracking(){
 
     if(
-        state.gpsWatchId !== null
+        state.gpsWatchId !==
+        null
+
         &&
         navigator.geolocation
     ){
 
-        navigator.geolocation
+        navigator
+            .geolocation
             .clearWatch(
                 state.gpsWatchId
             );
@@ -6532,6 +6518,7 @@ function stopGpsTracking(){
         null;
 
 }
+
 
 
 function startGpsTracking(){
@@ -6562,72 +6549,83 @@ function startGpsTracking(){
 
 
     state.gpsWatchId =
-        navigator.geolocation
-            .watchPosition(
+        navigator
+        .geolocation
+        .watchPosition(
 
-                position => {
+            position => {
 
-                    const projected =
-                        solveAffine(
+                const projected =
+                    solveAffine(
 
-                            mapCalibration,
+                        mapCalibration,
 
-                            position.coords.latitude,
+                        position
+                            .coords
+                            .latitude,
 
-                            position.coords.longitude
-
-                        );
-
-
-                    if(!projected){
-
-                        return;
-
-                    }
-
-
-                    const snap =
-                        snapToRoute(
-                            projected
-                        );
-
-
-                    positionLiveMapElement(
-
-                        byId(
-                            "liveUserMarker"
-                        ),
-
-                        snap
-                        ?
-                        snap.point
-                        :
-                        projected
+                        position
+                            .coords
+                            .longitude
 
                     );
 
-                },
 
-                error => {
+                if(!projected){
 
-                    console.warn(
-                        "GPS:",
-                        error
-                    );
+                    return;
 
-                },
-
-                {
-                    enableHighAccuracy:true,
-
-                    maximumAge:1000,
-
-                    timeout:10000
                 }
 
-            );
+
+                const snap =
+                    snapToRoute(
+                        projected
+                    );
+
+
+                positionLiveMapElement(
+
+                    byId(
+                        "liveUserMarker"
+                    ),
+
+                    snap
+                    ?
+                    snap.point
+                    :
+                    projected
+
+                );
+
+            },
+
+            error => {
+
+                console.warn(
+                    "GPS:",
+                    error
+                );
+
+            },
+
+            {
+
+                enableHighAccuracy:
+                    true,
+
+                maximumAge:
+                    1000,
+
+                timeout:
+                    10000
+
+            }
+
+        );
 
 }
+
 
 
 /* =========================================================
@@ -6664,9 +6662,7 @@ on(
 
                 syncLiveMapGeometry();
 
-
                 renderLiveNavigation();
-
 
                 startGpsTracking();
 
@@ -6683,6 +6679,7 @@ on(
 );
 
 
+
 on(
     "toggleRouteDetail",
     "click",
@@ -6691,13 +6688,13 @@ on(
         byId(
             "routeDetailPanel"
         )
-            ?.classList
-            .toggle(
-                "hidden"
-            );
+        ?.classList.toggle(
+            "hidden"
+        );
 
     }
 );
+
 
 
 on(
@@ -6707,19 +6704,14 @@ on(
 
         stopGpsTracking();
 
-
         resetNavigation();
 
-
-        state.pageHistory =
-            [];
-
+        state.pageHistory = [];
 
         showPage(
             "navigation",
             false
         );
-
 
         toast(
             "Navigasi telah diakhiri."
@@ -6729,8 +6721,9 @@ on(
 );
 
 
+
 /* =========================================================
-   NAVIGATION → 3D
+   SHOW DESTINATION IN 3D
 ========================================================= */
 
 function showDestinationIn3D(){
@@ -6811,7 +6804,6 @@ function showDestinationIn3D(){
 
 
     state.pending3DMarker =
-
         destination.modelMarker
 
         ?
@@ -6830,13 +6822,9 @@ function showDestinationIn3D(){
 
 
     prepareViewerBuilding(
-
         building.id,
-
         model?.id,
-
         false
-
     );
 
 }
@@ -6849,8 +6837,9 @@ on(
 );
 
 
+
 /* =========================================================
-   PAGE OPENERS
+   MAIN MENU
 ========================================================= */
 
 function openViewer(){
@@ -6912,74 +6901,71 @@ function openNavigationWithDestination(
 
 [
     "menu3D",
-    "feature3D",
-    "hero3DButton"
+    "feature3D"
 ]
-    .forEach(
-        id => {
+.forEach(
+    id => {
 
-            on(
-                id,
-                "click",
-                openViewer
-            );
+        on(
+            id,
+            "click",
+            openViewer
+        );
 
-        }
-    );
+    }
+);
 
 
 [
     "menuAR",
-    "featureAR",
-    "heroARButton"
+    "featureAR"
 ]
-    .forEach(
-        id => {
+.forEach(
+    id => {
 
-            on(
-                id,
-                "click",
-                openAR
-            );
+        on(
+            id,
+            "click",
+            openAR
+        );
 
-        }
-    );
+    }
+);
 
 
 [
     "menuNavigation",
-    "featureNav",
-    "heroNavigationButton"
+    "featureNav"
 ]
-    .forEach(
-        id => {
+.forEach(
+    id => {
 
-            on(
-                id,
-                "click",
-                openNavigation
-            );
+        on(
+            id,
+            "click",
+            openNavigation
+        );
 
-        }
-    );
+    }
+);
 
 
 [
     "menuDirectory",
-    "featureDirectory",
-    "heroDirectoryButton"
+    "featureDirectory"
 ]
-    .forEach(
-        id => {
+.forEach(
+    id => {
 
-            on(
-                id,
-                "click",
-                openDirectory
-            );
+        on(
+            id,
+            "click",
+            openDirectory
+        );
 
-        }
-    );
+    }
+);
+
 
 
 /* =========================================================
@@ -7036,8 +7022,9 @@ function toast(
 }
 
 
+
 /* =========================================================
-   ESC
+   ESCAPE
 ========================================================= */
 
 document.addEventListener(
@@ -7061,10 +7048,10 @@ document.addEventListener(
             !byId(
                 "infoModal"
             )
-                ?.classList
-                .contains(
-                    "hidden"
-                )
+            ?.classList
+            .contains(
+                "hidden"
+            )
         ){
 
             closeInfo();
@@ -7087,8 +7074,9 @@ document.addEventListener(
 );
 
 
+
 /* =========================================================
-   MAP IMAGE EVENTS
+   IMAGE EVENTS
 ========================================================= */
 
 function registerMapImageEvents(){
@@ -7127,9 +7115,9 @@ function registerMapImageEvents(){
         byId(
             "liveMapContent"
         )
-            ?.querySelector(
-                ".live-map-background"
-            );
+        ?.querySelector(
+            ".live-map-background"
+        );
 
 
     if(liveImage){
@@ -7158,9 +7146,6 @@ function registerMapImageEvents(){
 }
 
 
-/* =========================================================
-   RESIZE
-========================================================= */
 
 let resizeTimer =
     null;
@@ -7198,6 +7183,7 @@ window.addEventListener(
 );
 
 
+
 /* =========================================================
    START APP
 ========================================================= */
@@ -7206,25 +7192,20 @@ async function startApp(){
 
     renderDirectory();
 
-
     showSlide(
         0
     );
 
-
     showLandingModel(
         0
     );
-
 
     showPage(
         "home",
         false
     );
 
-
     registerMapImageEvents();
-
 
     registerServiceWorker();
 
@@ -7239,7 +7220,8 @@ async function startApp(){
 
     if(
         "requestIdleCallback"
-        in window
+        in
+        window
     ){
 
         requestIdleCallback(
@@ -7275,6 +7257,892 @@ async function startApp(){
 
 
 startApp();
+
+
+})();
+
+
+
+/* =========================================================
+   REVISI 40
+   FULLSCREEN KHUSUS 3D OBJEK
+========================================================= */
+
+(function(){
+
+"use strict";
+
+
+const card =
+    document.getElementById(
+        "viewerCard"
+    );
+
+
+const page =
+    document.getElementById(
+        "viewerPage"
+    );
+
+
+const viewer =
+    document.getElementById(
+        "main3DViewer"
+    );
+
+
+const status =
+    document.getElementById(
+        "viewerLoadingDot"
+    );
+
+
+const openButton =
+    document.getElementById(
+        "viewerFullscreenButton"
+    );
+
+
+const closeButton =
+    document.getElementById(
+        "viewerFullscreenExit"
+    );
+
+
+if(
+    !card
+    ||
+    !page
+    ||
+    !viewer
+    ||
+    !status
+    ||
+    !openButton
+    ||
+    !closeButton
+){
+
+    return;
+
+}
+
+
+if(
+    card.dataset
+    .fullscreenInitialized
+){
+
+    return;
+
+}
+
+
+card.dataset
+.fullscreenInitialized =
+    "true";
+
+
+let session =
+    null;
+
+
+const root =
+    document.documentElement;
+
+
+const nativeElement =
+    () => (
+
+        document.fullscreenElement
+
+        ||
+
+        document.webkitFullscreenElement
+
+    );
+
+
+const visible =
+    () => (
+
+        page.classList.contains(
+            "active"
+        )
+
+        &&
+
+        !card.classList.contains(
+            "hidden"
+        )
+
+    );
+
+
+const ready =
+    () => (
+
+        visible()
+
+        &&
+
+        status.classList.contains(
+            "ready"
+        )
+
+    );
+
+
+
+function updateButtons(){
+
+    if(
+        session
+        &&
+        !visible()
+    ){
+
+        closeFullscreen(
+            false
+        );
+
+        return;
+
+    }
+
+
+    openButton
+        .classList
+        .toggle(
+
+            "hidden",
+
+            !ready()
+            ||
+            !!session
+
+        );
+
+
+    closeButton
+        .classList
+        .toggle(
+
+            "hidden",
+
+            !session
+
+        );
+
+
+    closeButton.disabled =
+        !!session?.closing;
+
+}
+
+
+
+function finish(
+    current
+){
+
+    if(
+        session !==
+        current
+    ){
+
+        return;
+
+    }
+
+
+    session =
+        null;
+
+
+    card.classList.remove(
+        "viewer-is-fullscreen"
+    );
+
+
+    root.classList.remove(
+        "viewer-fullscreen-open"
+    );
+
+
+    root.style.removeProperty(
+        "--viewer-fullscreen-scroll-top"
+    );
+
+
+    card.removeAttribute(
+        "role"
+    );
+
+
+    card.removeAttribute(
+        "aria-modal"
+    );
+
+
+    card.removeAttribute(
+        "aria-labelledby"
+    );
+
+
+    updateButtons();
+
+
+    if(
+        current.restore
+        &&
+        visible()
+    ){
+
+        window.scrollTo(
+            {
+
+                left:
+                    current.x,
+
+                top:
+                    current.y,
+
+                behavior:
+                    "instant"
+
+            }
+        );
+
+
+        (
+            ready()
+            ?
+            openButton
+            :
+            viewer
+        )
+        .focus(
+            {
+                preventScroll:true
+            }
+        );
+
+    }
+
+}
+
+
+
+function exitNativeQuietly(){
+
+    const exit =
+
+        document.exitFullscreen
+
+        ||
+
+        document.webkitExitFullscreen;
+
+
+    if(
+        exit
+        &&
+        nativeElement() ===
+        card
+    ){
+
+        try{
+
+            Promise.resolve(
+
+                exit.call(
+                    document
+                )
+
+            )
+            .catch(
+                () => {}
+            );
+
+        }
+
+        catch(_){
+
+        }
+
+    }
+
+}
+
+
+
+async function openFullscreen(){
+
+    if(
+        session
+        ||
+        !ready()
+        ||
+        nativeElement()
+    ){
+
+        return;
+
+    }
+
+
+    const current = {
+
+        x:
+            window.scrollX,
+
+        y:
+            window.scrollY,
+
+        pending:
+            true,
+
+        fallback:
+            false,
+
+        closing:
+            false,
+
+        restore:
+            true
+
+    };
+
+
+    session =
+        current;
+
+
+    root.style.setProperty(
+
+        "--viewer-fullscreen-scroll-top",
+
+        `${-current.y}px`
+
+    );
+
+
+    root.classList.add(
+        "viewer-fullscreen-open"
+    );
+
+
+    card.classList.add(
+        "viewer-is-fullscreen"
+    );
+
+
+    card.setAttribute(
+        "role",
+        "dialog"
+    );
+
+
+    card.setAttribute(
+        "aria-modal",
+        "true"
+    );
+
+
+    card.setAttribute(
+        "aria-labelledby",
+        "viewerTitle"
+    );
+
+
+    updateButtons();
+
+
+    closeButton.focus(
+        {
+            preventScroll:true
+        }
+    );
+
+
+    const request =
+
+        card.requestFullscreen
+
+        ||
+
+        card.webkitRequestFullscreen;
+
+
+    const enabled =
+
+        document.fullscreenEnabled
+
+        ??
+
+        document.webkitFullscreenEnabled
+
+        ??
+
+        true;
+
+
+    if(
+        !request
+        ||
+        !enabled
+    ){
+
+        current.pending =
+            false;
+
+
+        current.fallback =
+            true;
+
+
+        return;
+
+    }
+
+
+    try{
+
+        await request.call(
+            card
+        );
+
+
+        if(
+            session !==
+            current
+        ){
+
+            if(
+                !session
+            ){
+
+                exitNativeQuietly();
+
+            }
+
+
+            return;
+
+        }
+
+
+        current.pending =
+            false;
+
+
+        current.fallback =
+            nativeElement()
+            !==
+            card;
+
+    }
+
+    catch(_){
+
+        if(
+            session !==
+            current
+        ){
+
+            return;
+
+        }
+
+
+        current.pending =
+            false;
+
+
+        current.fallback =
+            true;
+
+    }
+
+
+    closeButton.focus(
+        {
+            preventScroll:true
+        }
+    );
+
+
+    updateButtons();
+
+}
+
+
+
+async function closeFullscreen(
+    restore = true
+){
+
+    const current =
+        session;
+
+
+    if(!current){
+
+        return;
+
+    }
+
+
+    if(
+        !restore
+    ){
+
+        current.restore =
+            false;
+
+    }
+
+
+    if(
+        current.closing
+    ){
+
+        return;
+
+    }
+
+
+    current.closing =
+        true;
+
+
+    updateButtons();
+
+
+    if(
+        nativeElement() ===
+        card
+    ){
+
+        const exit =
+
+            document.exitFullscreen
+
+            ||
+
+            document.webkitExitFullscreen;
+
+
+        try{
+
+            if(!exit){
+
+                throw new Error(
+                    "Fullscreen exit unavailable"
+                );
+
+            }
+
+
+            await exit.call(
+                document
+            );
+
+        }
+
+        catch(_){
+
+            if(
+                session ===
+                current
+
+                &&
+
+                nativeElement() ===
+                card
+            ){
+
+                current.closing =
+                    false;
+
+
+                closeButton.disabled =
+                    false;
+
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    finish(
+        current
+    );
+
+}
+
+
+
+function onNativeChange(){
+
+    if(
+        nativeElement() ===
+        card
+    ){
+
+        if(
+            !session
+        ){
+
+            exitNativeQuietly();
+
+            return;
+
+        }
+
+
+        session.pending =
+            false;
+
+
+        session.fallback =
+            false;
+
+    }
+
+    else if(
+        session
+        &&
+        !session.pending
+        &&
+        !session.fallback
+    ){
+
+        if(
+            !visible()
+        ){
+
+            session.restore =
+                false;
+
+        }
+
+
+        finish(
+            session
+        );
+
+    }
+
+}
+
+
+
+openButton.addEventListener(
+    "click",
+    openFullscreen
+);
+
+
+closeButton.addEventListener(
+    "click",
+    () => {
+
+        closeFullscreen();
+
+    }
+);
+
+
+document.addEventListener(
+    "fullscreenchange",
+    onNativeChange
+);
+
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    onNativeChange
+);
+
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            !session
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            event.key ===
+            "Escape"
+        ){
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            closeFullscreen();
+
+        }
+
+        else if(
+            event.key ===
+            "Tab"
+        ){
+
+            const controls =
+
+                Array.from(
+
+                    card.querySelectorAll(
+
+                        "button:not([disabled]), select:not([disabled]), a[href], [tabindex], model-viewer"
+
+                    )
+
+                )
+                .filter(
+                    element =>
+
+                        element.tabIndex >= 0
+
+                        &&
+
+                        element
+                        .getClientRects()
+                        .length
+                );
+
+
+            if(
+                !controls.length
+            ){
+
+                return;
+
+            }
+
+
+            const first =
+                controls[0];
+
+
+            const last =
+                controls[
+                    controls.length - 1
+                ];
+
+
+            if(
+                event.shiftKey
+
+                &&
+
+                document.activeElement ===
+                first
+            ){
+
+                event.preventDefault();
+
+                last.focus();
+
+            }
+
+            else if(
+                !event.shiftKey
+
+                &&
+
+                document.activeElement ===
+                last
+            ){
+
+                event.preventDefault();
+
+                first.focus();
+
+            }
+
+            else if(
+                !card.contains(
+                    document.activeElement
+                )
+            ){
+
+                event.preventDefault();
+
+                closeButton.focus();
+
+            }
+
+        }
+
+    },
+
+    true
+);
+
+
+
+const observer =
+    new MutationObserver(
+        updateButtons
+    );
+
+
+[
+    page,
+    card,
+    status
+]
+.forEach(
+    element => {
+
+        observer.observe(
+            element,
+            {
+
+                attributes:
+                    true,
+
+                attributeFilter:
+                    [
+                        "class"
+                    ]
+
+            }
+        );
+
+    }
+);
+
+
+viewer.addEventListener(
+    "load",
+    updateButtons
+);
+
+
+viewer.addEventListener(
+    "error",
+    updateButtons
+);
+
+
+updateButtons();
 
 
 })();
