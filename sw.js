@@ -1,15 +1,15 @@
 /* =========================================================
    FT UISU EXPLORER
    SERVICE WORKER
-   REVISION 37 - BUILD 37.1
+   REVISION 41
 ========================================================= */
 
 const MODEL_CACHE =
-    "ft-uisu-models-v37.1";
+    "ft-uisu-models-v41";
 
 
 const STATIC_CACHE =
-    "ft-uisu-static-rev1";
+    "ft-uisu-static-v41";
 
 
 
