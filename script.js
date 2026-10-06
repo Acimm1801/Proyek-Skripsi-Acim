@@ -444,7 +444,7 @@ function getNavigationEntrance(
 ========================================================= */
 
 const MODEL_CACHE_NAME =
-    "ft-uisu-models-v37.1";
+    "ft-uisu-models-v41";
 
 
 const PRIORITY_MODELS = [
@@ -453,7 +453,7 @@ const PRIORITY_MODELS = [
 
     "./assets/models/gedung_perkuliahan_outdoor.glb",
 
-    "./assets/models/gedung_laboratorium.glb",
+    "./assets/models/laboratorium_outdoor.glb",
 
     "./assets/models/gedung_biro_indoor.glb",
 
@@ -482,7 +482,7 @@ async function registerServiceWorker(){
         await navigator
             .serviceWorker
             .register(
-                "./sw.js?v=rev1",
+                "./sw.js?v=41",
                 {
                     scope:"./"
                 }
@@ -2174,6 +2174,55 @@ function setViewerUnavailable(
 }
 
 
+function applyModelDefaultCamera(
+    model,
+    jump = true
+){
+
+    if(
+        !main3DViewer
+        ||
+        !model
+    ){
+
+        return;
+
+    }
+
+
+    main3DViewer.cameraOrbit =
+        model.defaultCameraOrbit
+        ||
+        "0deg 75deg auto";
+
+
+    main3DViewer.cameraTarget =
+        model.defaultCameraTarget
+        ||
+        "auto auto auto";
+
+
+    main3DViewer.fieldOfView =
+        model.defaultFieldOfView
+        ||
+        "35deg";
+
+
+    if(
+        jump
+        &&
+        typeof main3DViewer.jumpCameraToGoal ===
+        "function"
+    ){
+
+        main3DViewer
+            .jumpCameraToGoal();
+
+    }
+
+}
+
+
 function reset3DCamera(){
 
     if(
@@ -2185,25 +2234,19 @@ function reset3DCamera(){
     }
 
 
-    main3DViewer.cameraOrbit =
-        "auto auto auto";
+    const model =
+        getModelVariant(
+            current3DModel.buildingId,
+            current3DModel.modelId
+        );
 
 
-    main3DViewer.cameraTarget =
-        "auto auto auto";
+    if(model){
 
-
-    main3DViewer.fieldOfView =
-        "35deg";
-
-
-    if(
-        typeof main3DViewer.jumpCameraToGoal ===
-        "function"
-    ){
-
-        main3DViewer
-            .jumpCameraToGoal();
+        applyModelDefaultCamera(
+            model,
+            true
+        );
 
     }
 
@@ -2256,6 +2299,12 @@ function load3DModel(
             model.src
 
     };
+
+
+    applyModelDefaultCamera(
+        model,
+        true
+    );
 
 
     renderModelSwitch(
@@ -2337,6 +2386,12 @@ function load3DModel(
             model
         );
 
+
+        applyModelDefaultCamera(
+            model,
+            true
+        );
+
     }
 
 
@@ -2378,6 +2433,12 @@ if(main3DViewer){
                 setViewerReady(
                     building,
                     model
+                );
+
+
+                applyModelDefaultCamera(
+                    model,
+                    true
                 );
 
             }
@@ -7250,7 +7311,7 @@ async function startApp(){
 
 
     console.log(
-        "FT UISU Explorer Revision 37 - Native 3D Viewer loaded"
+        "FT UISU Explorer Revision 41 loaded"
     );
 
 }
