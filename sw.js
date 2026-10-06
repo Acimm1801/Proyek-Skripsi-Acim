@@ -9,7 +9,7 @@ const MODEL_CACHE =
 
 
 const STATIC_CACHE =
-    "ft-uisu-static-v37.1";
+    "ft-uisu-static-rev1";
 
 
 
@@ -54,7 +54,8 @@ self.addEventListener(
                                     "ft-uisu-models-"
                                 )
                                 &&
-                                name !== MODEL_CACHE
+                                name !==
+                                MODEL_CACHE
                             ){
 
                                 return caches.delete(
@@ -69,7 +70,8 @@ self.addEventListener(
                                     "ft-uisu-static-"
                                 )
                                 &&
-                                name !== STATIC_CACHE
+                                name !==
+                                STATIC_CACHE
                             ){
 
                                 return caches.delete(
@@ -241,30 +243,30 @@ async function modelStaleWhileRevalidate(
         fetch(
             request
         )
-            .then(
-                async response => {
+        .then(
+            async response => {
 
-                    if(
-                        response
-                        &&
-                        response.ok
-                    ){
+                if(
+                    response
+                    &&
+                    response.ok
+                ){
 
-                        await cache.put(
-                            request,
-                            response.clone()
-                        );
-
-                    }
-
-
-                    return response;
+                    await cache.put(
+                        request,
+                        response.clone()
+                    );
 
                 }
-            )
-            .catch(
-                () => null
-            );
+
+
+                return response;
+
+            }
+        )
+        .catch(
+            () => null
+        );
 
 
     if(cached){
@@ -296,7 +298,8 @@ async function modelStaleWhileRevalidate(
         "",
         {
             status:504,
-            statusText:"Model unavailable"
+            statusText:
+                "Model unavailable"
         }
     );
 
