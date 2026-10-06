@@ -1,2795 +1,1594 @@
-/* =========================================================
-   FT UISU EXPLORER
-   MAP + DATABASE
-   REVISION 41 - LABORATORIUM MODEL + DEFAULT CAMERA + ROOM DATABASE
-========================================================= */
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#075f59">
+<title>FT UISU Explorer</title>
+<link rel="stylesheet" href="./style.css?v=41">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+<script defer src="./data/map-data.js?v=41"></script>
+<script defer src="./script.js?v=41"></script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <button id="logoHome" class="brand" type="button"
+                aria-label="Kembali ke Beranda">
+            <span class="brand-icon revision39-brand-icon" aria-hidden="true">
+                <img class="r39-logo-img"
+                     src="./assets/images/logo-ft-uisu.png?v=39-fix1"
+                     alt=""
+                     width="1200"
+                     height="1200"
+                     loading="eager"
+                     decoding="sync"
+                     fetchpriority="high">
+            </span>
+            <span class="brand-copy">
+                <strong>FT UISU Explorer</strong>
+            </span>
+        </button>
+
+        <nav class="header-nav">
+            <button class="header-link active"
+                    data-page="home"
+                    type="button">Beranda</button>
+
+            <button class="header-link"
+                    data-page="help"
+                    type="button">Bantuan</button>
+
+            <button class="header-link"
+                    data-page="about"
+                    type="button">Tentang</button>
+        </nav>
+
+        <button id="hamburgerButton" class="hamburger" type="button"
+                aria-label="Buka Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<div id="drawerOverlay" class="drawer-overlay"></div>
+
+<aside id="drawer" class="drawer">
+    <div class="drawer-header">
+        <div>
+            <small>MENU UTAMA</small>
+            <h2>FT UISU Explorer</h2>
+        </div>
+        <button id="closeDrawer" class="close-button" type="button">×</button>
+    </div>
+
+    <div class="drawer-search-wrap">
+        <label for="globalSearch">Cari Gedung / Ruangan</label>
+
+        <div class="search-box">
+            <span class="search-symbol">⌕</span>
+            <input id="globalSearch"
+                   type="search"
+                   placeholder="Contoh: Teknik Informatika"
+                   autocomplete="off">
+            <button id="clearGlobalSearch" type="button">×</button>
+        </div>
+
+        <div id="globalSearchResults"
+             class="search-results hidden"></div>
+
+        <div id="globalSelected" class="global-selected hidden">
+            <small>LOKASI DIPILIH</small>
+            <strong id="globalSelectedName">-</strong>
+
+            <div class="global-selected-actions">
+                <button id="globalInfoButton"
+                        class="button button-primary"
+                        type="button">Informasi</button>
+
+                <button id="globalNavButton"
+                        class="button button-primary"
+                        type="button">Petunjuk Arah</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="drawer-menu">
+        <button id="menu3D" class="drawer-item" type="button">
+            <span class="drawer-icon" aria-hidden="true">
+                <img class="r39-logo-img"
+                     src="./assets/images/logo_3d.png?v=39-fix1"
+                     alt=""
+                     width="1920"
+                     height="1080"
+                     loading="eager"
+                     decoding="sync">
+            </span>
+            <span>
+                <strong>3D Objek</strong>
+                <small>3D Model Viewer Fakultas Teknik</small>
+            </span>
+            <b>›</b>
+        </button>
+
+        <button id="menuAR" class="drawer-item" type="button">
+            <span class="drawer-icon" aria-hidden="true">
+                <img class="r39-logo-img"
+                     src="./assets/images/logo_ar.png?v=39-fix1"
+                     alt=""
+                     width="1920"
+                     height="1080"
+                     loading="eager"
+                     decoding="sync">
+            </span>
+            <span>
+                <strong>AR (Markerless)</strong>
+                <small>Augmented Reality Markerless</small>
+            </span>
+            <b>›</b>
+        </button>
+
+        <button id="menuNavigation" class="drawer-item" type="button">
+            <span class="drawer-icon" aria-hidden="true">
+                <img class="r39-logo-img"
+                     src="./assets/images/logo_navigasi.png?v=39-fix1"
+                     alt=""
+                     width="1000"
+                     height="1000"
+                     loading="eager"
+                     decoding="sync">
+            </span>
+            <span>
+                <strong>Navigasi</strong>
+                <small>Denah & Petunjuk Arah</small>
+            </span>
+            <b>›</b>
+        </button>
+
+        <button id="menuDirectory" class="drawer-item" type="button">
+            <span class="drawer-icon directory-icon" aria-hidden="true">
+                <img class="r39-logo-img"
+                     src="./assets/images/logo_direktori.png?v=39-fix1"
+                     alt=""
+                     width="1254"
+                     height="1254"
+                     loading="eager"
+                     decoding="sync">
+            </span>
+            <span>
+                <strong>Direktori</strong>
+                <small>Gedung, Ruangan, Civitas Akademik</small>
+            </span>
+            <b>›</b>
+        </button>
+    </nav>
+</aside>
+
+<main>
+
+<section id="homePage" class="page active">
+
+<section class="hero">
+<div class="hero-inner">
+
+<article class="hero-slide active" data-slide-index="0">
+
+<div class="hero-copy">
+<small class="hero-eyebrow">TEKNIK INFORMATIKA • FAKULTAS TEKNIK • UISU</small>
+
+<h1 class="hero-title">
+<span>Jelajahi Fakultas</span>
+<span>Teknik UISU</span>
+<span class="accent">dengan 3D dan AR</span>
+</h1>
+
+<p>
+Lihat Gedung Fakultas Teknik melalui objek 3 Dimensi Kompatibilitas 360°,
+melalui fitur "3D Objek" & Augmented Reality melalui fitur
+"AR Markerless" dengan kamera Smartphone anda.
+</p>
+</div>
+
+<div class="landing-model-card">
+
+<div class="landing-card-head">
+<strong id="landingModelName">Gedung Biro Fakultas Teknik</strong>
+<span id="landingModelCounter" class="landing-model-counter">1 / 3</span>
+</div>
+
+<div id="landingModelStage" class="landing-model-stage">
+
+<model-viewer
+id="landingModel0"
+class="landing-model-viewer active"
+src="./assets/models/gedung_biro_outdoor.glb"
+loading="eager"
+camera-controls
+shadow-intensity="1"
+environment-image="neutral"
+alt="Gedung Biro Fakultas Teknik">
+</model-viewer>
+
+<model-viewer
+id="landingModel1"
+class="landing-model-viewer"
+src="./assets/models/gedung_perkuliahan_outdoor.glb"
+loading="eager"
+camera-controls
+shadow-intensity="1"
+environment-image="neutral"
+alt="Gedung Perkuliahan Fakultas Teknik">
+</model-viewer>
+
+<model-viewer
+id="landingModel2"
+class="landing-model-viewer"
+src="./assets/models/laboratorium_outdoor.glb"
+loading="eager"
+camera-controls
+shadow-intensity="1"
+environment-image="neutral"
+alt="Gedung Laboratorium Fakultas Teknik">
+</model-viewer>
+
+</div>
+
+<div class="landing-model-footer">
+<span>DRAG • ROTATE • ZOOM</span>
+<button id="landingNextModel"
+        class="landing-next-button"
+        type="button">→</button>
+</div>
+
+</div>
+</article>
+
+<article class="hero-slide slider-two" data-slide-index="1">
+
+<div class="hero-copy">
+<small class="hero-eyebrow">
+TEKNIK INFORMATIKA • FAKULTAS TEKNIK • UISU
+</small>
+
+<h1 class="hero-title slider-two-title">
+<span>Kesulitan mencari Ruangan</span>
+<span>atau Civitas Akademik</span>
+<span class="accent">Di Fakultas Teknik UISU?</span>
+</h1>
+
+<p>
+Lihat Daftar Gedung & Ruangan untuk mendapatkan Informasi yang anda cari,
+pilih fitur Navigasi untuk melihat arah menuju ruangan.
+</p>
+</div>
+
+<div class="landing-map-card">
+
+<div class="landing-card-head">
+<span>
+<small>DENAH FAKULTAS TEKNIK UISU</small>
+<strong>Informasi & Navigasi</strong>
+</span>
+
+<span class="map-label">2D MAP</span>
+</div>
+
+<img src="./assets/maps/denah-slider-v2.jpeg"
+     alt="Denah Fakultas Teknik UISU">
+
+<div class="landing-map-footer">
+Cari Gedung • Ruangan • Petunjuk Arah
+</div>
+
+</div>
+</article>
+
+</div>
+
+<div class="slider-controls">
+<button id="prevSlide"
+        class="slider-arrow"
+        type="button">←</button>
+
+<div class="slider-dots">
+<button class="slider-dot active"
+        data-slide="0"
+        type="button"
+        aria-label="Slider 1">
+</button>
+
+<button class="slider-dot"
+        data-slide="1"
+        type="button"
+        aria-label="Slider 2">
+</button>
+</div>
+
+<button id="nextSlide"
+        class="slider-arrow"
+        type="button">→</button>
+</div>
+
+</section>
+
+<section class="feature-section">
+
+<div class="feature-grid">
+
+<button id="feature3D"
+        class="feature-card"
+        type="button">
+
+<span class="feature-icon" aria-hidden="true">
+<img class="r39-logo-img"
+     src="./assets/images/logo_3d.png?v=39-fix1"
+     alt=""
+     width="1920"
+     height="1080"
+     loading="eager"
+     decoding="sync">
+</span>
+
+<div>
+<h3>3D OBJEK</h3>
+<p>
+Lihat Bangunan Fakultas Teknik melalui 3D Model Viewer
+yang bisa di-<em>drag</em>, <em>pinch</em> dan <em>zoom</em>.
+</p>
+</div>
+
+<strong>Buka 3D →</strong>
+</button>
+
+<button id="featureAR"
+        class="feature-card"
+        type="button">
+
+<span class="feature-icon" aria-hidden="true">
+<img class="r39-logo-img"
+     src="./assets/images/logo_ar.png?v=39-fix1"
+     alt=""
+     width="1920"
+     height="1080"
+     loading="eager"
+     decoding="sync">
+</span>
+
+<div>
+<h3>AR (Markerless)</h3>
+
+<p>
+Rasakan pengalaman baru melihat objek 3D dengan
+Teknologi Augmented Reality Markerless.
+</p>
+</div>
+
+<strong>Buka AR →</strong>
+</button>
+
+<button id="featureNav"
+        class="feature-card"
+        type="button">
+
+<span class="feature-icon" aria-hidden="true">
+<img class="r39-logo-img"
+     src="./assets/images/logo_navigasi.png?v=39-fix1"
+     alt=""
+     width="1000"
+     height="1000"
+     loading="eager"
+     decoding="sync">
+</span>
+
+<div>
+<h3>NAVIGASI</h3>
+
+<p>
+Dapatkan arah menuju Ruang Kelas, Laboratorium,
+atau Ruangan lainnya dengan memilih tujuan anda.
+</p>
+</div>
+
+<strong>Buka Navigasi →</strong>
+</button>
+
+<button id="featureDirectory"
+        class="feature-card"
+        type="button">
+
+<span class="feature-icon directory-feature-icon"
+      aria-hidden="true">
+
+<img class="r39-logo-img"
+     src="./assets/images/logo_direktori.png?v=39-fix1"
+     alt=""
+     width="1254"
+     height="1254"
+     loading="eager"
+     decoding="sync">
+
+</span>
+
+<div>
+<h3>DIREKTORI</h3>
+
+<p>
+Informasi mengenai Bangunan & Civitas Akademik
+dilingkungan Fakultas Teknik UISU.
+</p>
+</div>
+
+<strong>Buka Direktori →</strong>
+</button>
+
+</div>
+
+</section>
+
+</section>
+
+
+<section id="viewerPage"
+         class="page content-page">
+
+<div class="content-container">
+
+<button class="page-back-button"
+        data-back
+        type="button">
+← Kembali
+</button>
+
+<div class="page-heading">
+<small>3D OBJEK</small>
+<h1>3D Model Viewer</h1>
+
+<p>
+Pilih Gedung atau Ruangan Fakultas Teknik
+yang ingin ditampilkan.
+</p>
+</div>
+
+<div class="selection-card single-selection-card">
+
+<div class="selection-field">
+<label for="viewerBuildingSelect">
+Pilih Gedung
+</label>
+
+<select id="viewerBuildingSelect">
+<option value="">-- Pilih Gedung --</option>
+</select>
+</div>
+
+<button id="show3DModel"
+        class="button button-primary"
+        type="button">
+Tampilkan 3D Objek
+</button>
+
+<p id="viewerMessage"
+   class="form-message">
+</p>
+
+</div>
+
+
+<div id="viewerCard"
+     class="viewer-card hidden">
+
+<div class="viewer-toolbar">
+
+<div class="viewer-heading-inline">
+<strong id="viewerTitle">
+Model 3D
+</strong>
+
+<span id="viewerSingleModeBadge"
+      class="model-mode-badge hidden">
+</span>
+</div>
+
+<div class="viewer-toolbar-right">
+
+<div id="viewerModelSwitch"
+     class="model-mode-switch hidden">
+</div>
+
+<button id="resetCamera"
+        class="small-button reset-camera-button"
+        type="button">
+Reset Kamera
+</button>
+
+<button id="viewerFullscreenButton"
+        class="viewer-fullscreen-button hidden"
+        type="button"
+        aria-controls="viewerCard"
+        aria-label="Tampilkan viewer 3D dalam layar penuh">
+
+<span aria-hidden="true">⛶</span>
+Fullscreen
+</button>
+
+<button id="viewerFullscreenExit"
+        class="viewer-fullscreen-exit hidden"
+        type="button"
+        aria-controls="viewerCard"
+        aria-label="Keluar dari layar penuh"
+        title="Keluar dari layar penuh">
+
+<span aria-hidden="true">×</span>
+
+</button>
+
+</div>
+</div>
+
+
+<div class="viewer-preload-info">
+
+<div class="viewer-preload-status">
+<span id="viewerLoadingDot"
+      class="loading-dot">
+</span>
+
+<small id="viewerLoadStatus">
+MEMUAT MODEL 3D...
+</small>
+</div>
+
+<h3 id="viewerCurrentModelName">
+Model 3D
+</h3>
+
+<p id="viewerPreloadDescription">
+Memuat informasi model...
+</p>
+
+</div>
+
+
+<div id="modelViewerStage"
+     class="model-viewer-stage">
+
+<model-viewer
+id="main3DViewer"
+class="main-model-viewer-single"
+camera-controls
+loading="eager"
+shadow-intensity="0.7"
+shadow-softness="1"
+environment-image="neutral"
+camera-orbit="auto auto auto"
+camera-target="auto auto auto"
+min-camera-orbit="auto auto 0.01m"
+max-camera-orbit="auto auto auto"
+min-field-of-view="5deg"
+max-field-of-view="90deg"
+field-of-view="35deg"
+interpolation-decay="40"
+interaction-prompt="none"
+alt="Model 3D Fakultas Teknik">
+
+<button id="destination3DHotspot"
+        class="destination-3d-hotspot hidden"
+        slot="hotspot-destination"
+        data-position="0m 0m 0m"
+        data-normal="0m 1m 0m"
+        type="button">
+
+<span></span>
+<strong id="destination3DLabel">
+Tujuan
+</strong>
+
+</button>
+
+</model-viewer>
+
+<div id="viewerLoadingOverlay"
+     class="model-state-overlay hidden">
+
+<div class="model-loader"></div>
+
+<strong>
+Memuat Model 3D...
+</strong>
+
+</div>
+
+
+<div id="viewerUnavailable"
+     class="model-state-overlay model-unavailable hidden">
+
+<div class="unavailable-3d-icon">
+3D
+</div>
+
+<strong>
+Model 3D sedang dalam tahap penyelesaian
+</strong>
+
+<p>
+Model akan tersedia setelah proses desain selesai.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="viewer-interaction-info">
+<span>GESER</span>
+<span>PUTAR</span>
+<span>ZOOM</span>
+<span>RESET</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<section id="arPage"
+         class="page content-page">
+
+<div class="content-container">
+
+<button class="page-back-button"
+        data-back
+        type="button">
+← Kembali
+</button>
+
+<div class="page-heading">
+<small>AUGMENTED REALITY</small>
+<h1>AR (Markerless)</h1>
+
+<p>
+Pilih Gedung atau Ruangan yang ingin ditampilkan
+menggunakan Augmented Reality.
+</p>
+</div>
+
+<div class="selection-card single-selection-card">
+
+<div class="selection-field">
+
+<label for="arBuildingSelect">
+Pilih Gedung
+</label>
+
+<select id="arBuildingSelect">
+<option value="">
+-- Pilih Gedung --
+</option>
+</select>
+
+</div>
+
+<button id="prepareMainAR"
+        class="button button-primary"
+        type="button">
+Tampilkan AR
+</button>
+
+<p id="arMessage"
+   class="form-message">
+</p>
+
+</div>
+
+
+<div id="arViewerCard"
+     class="ar-viewer-card hidden">
+
+<div class="viewer-toolbar">
+
+<div class="viewer-heading-inline">
+
+<strong id="arViewerTitle">
+AR Fakultas Teknik
+</strong>
+
+<span id="arSingleModeBadge"
+      class="model-mode-badge hidden">
+</span>
+
+</div>
+
+<div id="arModelSwitch"
+     class="model-mode-switch hidden">
+</div>
+
+</div>
+
+
+<div class="viewer-preload-info">
+
+<div class="viewer-preload-status">
+
+<span id="arLoadingDot"
+      class="loading-dot">
+</span>
+
+<small id="arLoadStatus">
+MEMUAT MODEL AR...
+</small>
+
+</div>
+
+<h3 id="arCurrentModelName">
+Model AR
+</h3>
+
+<p id="arPreloadDescription">
+Memuat informasi model...
+</p>
+
+</div>
+
+
+<div class="ar-model-stage">
+
+<model-viewer
+id="mainARViewer"
+camera-controls
+loading="eager"
+ar
+ar-placement="floor"
+ar-modes="webxr scene-viewer quick-look"
+shadow-intensity="1"
+environment-image="neutral"
+alt="AR Fakultas Teknik">
 
-(function(){
+<button slot="ar-button"
+        class="native-ar-button">
+Buka Kamera AR
+</button>
 
-"use strict";
+</model-viewer>
 
 
-const MAP_WIDTH =
-    768;
+<div id="arLoadingOverlay"
+     class="model-state-overlay hidden">
 
+<div class="model-loader"></div>
 
-const MAP_HEIGHT =
-    1024;
+<strong>
+Memuat Model AR...
+</strong>
 
+</div>
 
-const NAVIGATION_MAP =
-    "./assets/maps/denah-v1.png";
 
+<div id="arUnavailable"
+     class="model-state-overlay model-unavailable hidden">
 
-const FULL_DETAIL_REFERENCE =
-    "./assets/maps/denah-full-detail.png";
+<div class="unavailable-3d-icon">
+AR
+</div>
 
+<strong>
+Model 3D sedang dalam tahap penyelesaian
+</strong>
 
+<p>
+Model AR akan aktif otomatis setelah file 3D tersedia.
+</p>
 
-/* =========================================================
-   BUILDINGS + 7 MODEL DATABASE
-========================================================= */
+</div>
 
-const buildings = [
+</div>
 
+</div>
 
-/* =========================================================
-   BIRO FT
-========================================================= */
+</div>
+</section>
 
-{
-    id:"biro-ft",
 
-    modelMenuName:
-        "Biro Fakultas Teknik",
+<section id="navigationPage"
+         class="page content-page">
 
-    modelMenuOrder:1,
+<div class="content-container">
 
-    name:
-        "Gedung Biro Fakultas Teknik",
+<button class="page-back-button"
+        data-back
+        type="button">
+← Kembali
+</button>
 
-    shortName:
-        "Biro FT",
+<div class="page-heading navigation-heading">
 
-    description:
-        "Gedung Biro Fakultas Teknik berada di lantai 2 pada gedung yang sama dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3.",
+<small>NAVIGASI</small>
 
-    actualFloor:2,
+<h1>
+Denah dan Petunjuk Arah
+</h1>
 
-    floorCount:1,
+<p>
+Cari gedung atau ruangan tujuan,
+lalu tandai posisi Anda pada denah.
+</p>
 
-    defaultEntranceId:
-        "biro-main-e1",
+</div>
 
-    defaultModel:
-        "indoor",
 
-    liveMarker:{
-        x:666,
-        y:532
-    },
+<div class="nav-progress">
 
-    models:[
+<div id="stepTarget"
+     class="nav-step active">
 
-        {
-            id:"outdoor",
+<b>1</b>
+<span>Tujuan</span>
 
-            name:
-                "Outdoor",
+</div>
 
-            viewerTitle:
-                "Gedung Biro Fakultas Teknik",
+<i></i>
 
-            src:
-                "./assets/models/gedung_biro_outdoor.glb",
+<div id="stepPosition"
+     class="nav-step">
 
-            defaultCameraOrbit:
-                "0deg 72deg auto",
+<b>2</b>
+<span>Posisi</span>
 
-            defaultCameraTarget:
-                "auto auto auto",
+</div>
 
-            defaultFieldOfView:
-                "35deg",
+<i></i>
 
-            viewerDescription:
-                "Model outdoor menampilkan bangunan tempat Biro Fakultas Teknik berada di lantai 2, dengan Fakultas Agama Islam di lantai 1 dan Fakultas Sastra di lantai 3."
-        },
+<div id="stepRoute"
+     class="nav-step">
 
-        {
-            id:"indoor",
+<b>3</b>
+<span>Rute</span>
 
-            name:
-                "Indoor",
+</div>
 
-            viewerTitle:
-                "Biro Fakultas Teknik",
+<i></i>
 
-            src:
-                "./assets/models/gedung_biro_indoor.glb",
+<div id="stepNavigation"
+     class="nav-step">
 
-            defaultCameraOrbit:
-                "-35deg 68deg auto",
+<b>4</b>
+<span>Navigasi</span>
 
-            defaultCameraTarget:
-                "auto auto auto",
+</div>
 
-            defaultFieldOfView:
-                "35deg",
+</div>
 
-            viewerDescription:
-                "Model indoor menampilkan interior Biro Fakultas Teknik di lantai 2 beserta susunan ruangannya."
-        }
 
-    ]
-},
+<div class="navigation-search-card">
 
+<label for="navigationSearch">
+Cari Gedung / Ruangan Tujuan
+</label>
 
+<div class="search-box">
 
-/* =========================================================
-   PERPUSTAKAAN
-========================================================= */
+<span class="search-symbol">
+⌕
+</span>
 
-{
-    id:"perpustakaan-ft",
+<input
+id="navigationSearch"
+type="search"
+placeholder="Contoh: Perpustakaan atau Ruang Dekan"
+autocomplete="off">
 
-    modelMenuName:
-        "Perpustakaan Fakultas Teknik",
+</div>
 
-    modelMenuOrder:5,
 
-    name:
-        "Perpustakaan Fakultas Teknik",
+<div id="navigationSearchResults"
+     class="search-results">
 
-    shortName:
-        "Perpustakaan FT",
+<div class="search-empty">
+Ketik nama gedung atau ruangan tujuan.
+</div>
 
-    description:
-        "Perpustakaan Fakultas Teknik berada di lantai 1 pada gedung yang berbeda dan terletak di sudut seberang lapangan.",
+</div>
 
-    actualFloor:1,
 
-    floorCount:1,
+<div id="selectedDestination"
+     class="destination-card hidden">
 
-    defaultEntranceId:
-        "library-e1",
+<small>
+TUJUAN DIPILIH
+</small>
 
-    defaultModel:
-        "indoor",
+<h3 id="selectedDestinationName">
+-
+</h3>
 
-    liveMarker:{
-        x:686,
-        y:249
-    },
+<p id="selectedDestinationParent">
+-
+</p>
 
-    models:[
+</div>
 
-        {
-            id:"indoor",
+</div>
 
-            name:
-                "Indoor",
 
-            viewerTitle:
-                "Perpustakaan Fakultas Teknik",
+<div id="mapSection"
+     class="map-section hidden">
 
-            src:
-                "./assets/models/perpustakaan_indoor.glb",
 
-            defaultCameraOrbit:
-                "-18deg 68deg auto",
+<div id="mapInstructionArea"
+     class="map-instruction">
 
-            defaultCameraTarget:
-                "auto auto auto",
+<h2 id="mapHeadingTitle">
+Tap pada denah sesuai posisi Anda sekarang.
+</h2>
 
-            defaultFieldOfView:
-                "35deg",
+</div>
 
-            viewerDescription:
-                "Model indoor menampilkan interior Perpustakaan Fakultas Teknik yang berada di lantai 1, pada gedung di sudut seberang lapangan."
-        }
 
-    ]
-},
+<div id="routeFoundBox"
+     class="route-found-box hidden">
 
+<div>
 
+<h3>
+Rute ditemukan
+</h3>
 
-/* =========================================================
-   SERBAGUNA
-========================================================= */
+<p>
+Garis biru adalah jalur tercepat yang bisa anda lalui,
+klik "Mulai Navigasi" untuk Navigasi selanjutnya.
+</p>
 
-{
-    id:"serbaguna-ft",
+</div>
 
-    modelMenuName:
-        "Ruang Serbaguna FT",
 
-    modelMenuOrder:4,
+<div class="route-found-actions">
 
-    name:
-        "Gedung Serbaguna Fakultas Teknik",
+<button id="showDestination3D"
+        class="button button-primary"
+        type="button">
 
-    shortName:
-        "Serbaguna FT",
+Tampilkan dalam 3D
 
-    description:
-        "Gedung Serbaguna Fakultas Teknik berada di lantai 1 pada gedung yang berbeda yaitu gedung Fakultas Hukum.",
+</button>
 
-    actualFloor:1,
+<button id="startNavigation"
+        class="button button-primary"
+        type="button">
 
-    floorCount:1,
+Mulai Navigasi
 
-    defaultEntranceId:
-        "serbaguna-e1",
+</button>
 
-    defaultModel:
-        "indoor",
+</div>
 
-    liveMarker:{
-        x:644,
-        y:121
-    },
+</div>
 
-    models:[
 
-        {
-            id:"indoor",
+<div id="navigationMap"
+     class="navigation-map">
 
-            name:
-                "Indoor",
+<img
+id="navigationMapImage"
+src="./assets/maps/denah-v1.png"
+alt="Denah Fakultas Teknik UISU"
+draggable="false">
 
-            viewerTitle:
-                "Ruang Serbaguna FT",
+<svg class="route-svg"
+     viewBox="0 0 768 1024"
+     preserveAspectRatio="none">
 
-            src:
-                "./assets/models/serbaguna_indoor.glb",
+<polyline id="activeRoute"
+          points="">
+</polyline>
 
-            defaultCameraOrbit:
-                "-12deg 70deg auto",
+</svg>
 
-            defaultCameraTarget:
-                "auto auto auto",
 
-            defaultFieldOfView:
-                "35deg",
+<div id="userMarker"
+     class="user-marker hidden">
 
-            viewerDescription:
-                "Model indoor menampilkan interior Ruang Serbaguna FT yang berada di lantai 1 pada gedung Fakultas Hukum."
-        }
+<span></span>
 
-    ]
-},
+<label>
+Posisi Anda
+</label>
 
+</div>
 
 
-/* =========================================================
-   PERKULIAHAN
-========================================================= */
+<div id="entranceMarker"
+     class="entrance-marker hidden">
 
-{
-    id:"perkuliahan-ft",
+<span></span>
 
-    modelMenuName:
-        "Ruang Perkuliahan FT",
+</div>
 
-    modelMenuOrder:2,
+</div>
 
-    name:
-        "Gedung Perkuliahan Fakultas Teknik",
 
-    shortName:
-        "Perkuliahan FT",
+<button id="resetPosition"
+        class="reset-position-button hidden"
+        type="button">
 
-    description:
-        "Gedung Perkuliahan Fakultas Teknik berada di lantai 3 pada gedung di seberang Gedung Biro Fakultas Teknik.",
+Ulangi Posisi
 
-    actualFloor:3,
+</button>
 
-    floorCount:1,
+</div>
 
-    defaultEntranceId:
-        "class-main-e1",
+</div>
+</section>
 
-    defaultModel:
-        "outdoor",
 
-    liveMarker:{
-        x:465,
-        y:755
-    },
+<section id="navigationActivePage"
+         class="page navigation-live-page">
 
-    models:[
+<div class="navigation-live-shell">
 
-        {
-            id:"outdoor",
 
-            name:
-                "Outdoor",
+<div class="live-instruction-bar">
 
-            viewerTitle:
-                "Gedung Perkuliahan Fakultas Teknik",
+<div id="liveDirectionIcon"
+     class="live-direction-icon">
 
-            src:
-                "./assets/models/gedung_perkuliahan_outdoor.glb",
+↑
 
-            defaultCameraOrbit:
-                "0deg 72deg auto",
+</div>
 
-            defaultCameraTarget:
-                "auto auto auto",
+<div>
 
-            defaultFieldOfView:
-                "35deg",
+<small>
+PETUNJUK BERIKUTNYA
+</small>
 
-            viewerDescription:
-                "Model outdoor menampilkan bangunan tempat Ruang Perkuliahan FT berada di lantai 3, di seberang Gedung Biro Fakultas Teknik."
-        },
+<strong id="liveNextInstruction">
+Ikuti jalur
+</strong>
 
-        {
-            id:"indoor",
+<span id="liveTargetName">
+Tujuan
+</span>
 
-            name:
-                "Indoor",
+</div>
 
-            viewerTitle:
-                "Ruang Perkuliahan FT",
+</div>
 
-            src:
-                "./assets/models/gedung_perkuliahan_indoor.glb",
 
-            defaultCameraOrbit:
-                "0deg 75deg auto",
+<div class="live-map-viewport">
 
-            defaultCameraTarget:
-                "auto auto auto",
+<div id="liveMapContent"
+     class="live-map-content">
 
-            defaultFieldOfView:
-                "35deg",
+<img
+class="live-map-background"
+src="./assets/maps/denah-v1.png"
+alt="Navigasi Fakultas Teknik UISU"
+draggable="false">
 
-            viewerDescription:
-                "Model indoor menampilkan interior Ruang Perkuliahan FT di lantai 3, dari Ruang Kuliah 1 sampai Ruang Kuliah 8."
-        }
+<svg class="live-route-svg"
+     viewBox="0 0 768 1024"
+     preserveAspectRatio="none">
 
-    ]
-},
+<polyline id="liveRoute"
+          points="">
+</polyline>
 
+</svg>
 
+<div id="liveBuildingMarkers"
+     class="live-building-markers">
+</div>
 
-/* =========================================================
-   LABORATORIUM
-========================================================= */
+<div id="liveUserMarker"
+     class="live-user-marker hidden">
 
-{
-    id:"laboratorium-ft",
+<span></span>
 
-    modelMenuName:
-        "Laboratorium Fakultas Teknik",
+</div>
 
-    modelMenuOrder:3,
 
-    name:
-        "Gedung Laboratorium Fakultas Teknik",
+<div id="liveDestinationMarker"
+     class="live-destination-marker hidden">
 
-    shortName:
-        "Laboratorium FT",
+<span></span>
 
-    description:
-        "Gedung Laboratorium Fakultas Teknik terdiri dari tiga lantai dan berada di dekat Gedung Perkuliahan Fakultas Teknik.",
+<label id="liveDestinationMarkerLabel">
+Tujuan
+</label>
 
-    actualFloor:null,
+</div>
 
-    floorCount:3,
+</div>
 
-    defaultEntranceId:
-        "lab-main-e1",
+</div>
 
-    defaultModel:
-        "outdoor",
 
-    liveMarker:{
-        x:386,
-        y:850
-    },
+<div class="navigation-bottom-sheet">
 
-    models:[
+<div class="bottom-sheet-handle"></div>
 
-        {
-            id:"outdoor",
 
-            name:
-                "Outdoor",
+<div class="live-route-summary">
 
-            viewerTitle:
-                "Gedung Laboratorium Fakultas Teknik",
+<div>
 
-            src:
-                "./assets/models/laboratorium_outdoor.glb",
+<small>
+MENUJU
+</small>
 
-            defaultCameraOrbit:
-                "32deg 66deg auto",
+<h2 id="liveRouteDestination">
+Tujuan
+</h2>
 
-            defaultCameraTarget:
-                "auto auto auto",
+<p id="liveRouteEntrance">
+Entrance tujuan
+</p>
 
-            defaultFieldOfView:
-                "35deg",
+</div>
 
-            viewerDescription:
-                "Model outdoor menampilkan Gedung Laboratorium Fakultas Teknik tiga lantai beserta area laboratorium dan ruang kuliah di dalamnya."
-        }
+</div>
 
-    ]
 
-}
+<button id="toggleRouteDetail"
+        class="route-detail-button"
+        type="button">
 
-];
+☷ &nbsp; Detail
 
+</button>
 
 
-/* =========================================================
-   ENTRANCES
-========================================================= */
+<div id="routeDetailPanel"
+     class="route-detail-panel hidden">
 
-const entrances = [
+<div id="routeInstructionList">
+</div>
 
-{
-    id:"serbaguna-e1",
+</div>
 
-    buildingId:
-        "serbaguna-ft",
 
-    name:
-        "Entrance Gedung Serbaguna Fakultas Teknik",
+<button id="endRoute"
+        class="end-route-button"
+        type="button">
 
-    floor:1,
+Akhiri Rute
 
-    x:644,
+</button>
 
-    y:210,
+</div>
 
-    nodeId:
-        "E_SERBAGUNA",
+</div>
+</section>
 
-    deadEnd:true
 
-},
+<section id="directoryPage"
+         class="page content-page">
 
+<div class="content-container">
 
-{
-    id:"library-e1",
+<button class="page-back-button"
+        data-back
+        type="button">
 
-    buildingId:
-        "perpustakaan-ft",
+← Kembali
 
-    name:
-        "Entrance Perpustakaan Fakultas Teknik",
+</button>
 
-    floor:1,
 
-    x:691,
+<div class="page-heading directory-heading">
 
-    y:356,
+<small>
+DAFTAR GEDUNG & RUANGAN
+</small>
 
-    nodeId:
-        "E_LIBRARY",
+<h1>
+Direktori Fakultas Teknik
+</h1>
 
-    deadEnd:true
+<p>
+Pilih Gedung dan Ruangan untuk melihat Informasi
+atau membuka Petunjuk Arah.
+</p>
 
-},
+</div>
 
+<div id="directoryContainer"
+     class="directory">
+</div>
 
-{
-    id:"biro-main-e1",
+</div>
+</section>
 
-    buildingId:
-        "biro-ft",
 
-    name:
-        "Entrance Gedung Biro Fakultas Teknik",
+<section id="helpPage"
+         class="page content-page">
 
-    floor:2,
+<div class="content-container">
 
-    x:640,
+<button class="page-back-button"
+        data-back
+        type="button">
+← Kembali
+</button>
 
-    y:527,
 
-    nodeId:
-        "E_BIRO",
+<div class="page-heading">
 
-    deadEnd:false
+<small>
+BANTUAN
+</small>
 
-},
+<h1>
+Cara Menggunakan Website
+</h1>
 
+</div>
 
-{
-    id:"class-main-e1",
 
-    buildingId:
-        "perkuliahan-ft",
+<div class="help-grid">
 
-    name:
-        "Entrance Gedung Perkuliahan Fakultas Teknik",
+<article>
 
-    floor:3,
+<h3>
+3D Objek
+</h3>
 
-    x:462,
+<ul>
 
-    y:685,
+<li>
+Pilih Gedung atau Ruangan yang ingin anda lihat.
+</li>
 
-    nodeId:
-        "E_CLASS",
+<li>
+Klik tombol "Tampilkan 3D Objek".
+</li>
 
-    deadEnd:false
+<li>
+Sistem akan menampilkan Model 3D sesuai pilihan anda.
+</li>
 
-},
+<li>
+Untuk Biro dan Perkuliahan,
+Indoor dan Outdoor dapat diganti langsung pada viewer yang sama.
+</li>
 
+<li>
+Model dapat di-drag, rotate,
+serta diperbesar atau diperkecil menggunakan scroll mouse
+atau pinch pada layar.
+</li>
 
-{
-    id:"lab-main-e1",
+</ul>
 
-    buildingId:
-        "laboratorium-ft",
+</article>
 
-    name:
-        "Entrance Utama Gedung Laboratorium",
 
-    floor:1,
+<article>
 
-    x:384,
+<h3>
+AR Markerless
+</h3>
 
-    y:686,
+<ul>
 
-    nodeId:
-        "E_LAB_MAIN",
+<li>
+Pilih Gedung atau Ruangan yang ingin anda lihat.
+</li>
 
-    deadEnd:false
+<li>
+Sistem akan meminta akses izin kamera terlebih dahulu.
+</li>
 
-},
+<li>
+Arahkan kamera ke bidang datar seperti lantai
+atau permukaan meja.
+</li>
 
+<li>
+Augmented Reality Model 3D sesuai pilihan akan muncul.
+</li>
 
-{
-    id:"lab-west-e1",
+</ul>
 
-    buildingId:
-        "laboratorium-ft",
+</article>
 
-    name:
-        "Entrance Barat Gedung Laboratorium",
 
-    floor:1,
+<article>
 
-    x:341,
+<h3>
+Navigasi
+</h3>
 
-    y:805,
+<ul>
 
-    nodeId:
-        "E_LAB_WEST",
+<li>
+Pilih tujuan dengan mengetik nama Gedung atau Ruangan.
+</li>
 
-    deadEnd:true,
+<li>
+Sistem akan menampilkan denah 2D UISU.
+</li>
 
-    accessOnly:[
+<li>
+Tentukan posisi anda dengan mengklik denah.
+</li>
 
-        "lab-hidrolika",
+<li>
+Sistem menghitung rute outdoor menuju entrance tujuan.
+</li>
 
-        "lab-teknologi-mekanik"
+<li>
+Klik "Mulai Navigasi" untuk membuka mode navigasi.
+</li>
 
-    ]
+</ul>
 
-},
+</article>
 
 
-{
-    id:"lab-south-e1",
+<article>
 
-    buildingId:
-        "laboratorium-ft",
+<h3>
+Direktori
+</h3>
 
-    name:
-        "Entrance Selatan Gedung Laboratorium",
+<ul>
 
-    floor:1,
+<li>
+Pilih Gedung, Ruangan, atau Civitas Akademik.
+</li>
 
-    x:460,
+<li>
+Sistem menampilkan informasi lokasi.
+</li>
 
-    y:953,
+<li>
+Pilih Petunjuk Arah jika ingin membuka Navigasi.
+</li>
 
-    nodeId:
-        "E_LAB_SOUTH",
+</ul>
 
-    deadEnd:true,
+</article>
 
-    accessOnly:[
+</div>
 
-        "lab-jalan-raya",
+</div>
+</section>
 
-        "lab-beton",
 
-        "lab-mekanika-tanah",
+<section id="aboutPage"
+         class="page content-page">
 
-        "lab-ilmu-ukur-tanah"
+<div class="content-container">
 
-    ]
+<button class="page-back-button"
+        data-back
+        type="button">
 
-}
+← Kembali
 
-];
+</button>
 
 
+<div class="developer-card">
 
-/* =========================================================
-   ROOM DATABASE
-========================================================= */
+<div class="developer-photo-wrap">
 
-const rooms = [
+<img
+src="./assets/images/foto_developer.png"
+alt="Muhammad Arief Rachim">
 
+</div>
 
-/* =========================================================
-   BIRO FAKULTAS TEKNIK
-========================================================= */
 
-{
-    id:"ruang-dosen",
+<div class="developer-content">
 
-    name:
-        "Ruang Dosen",
+<small class="developer-label">
+DEVELOPER
+</small>
 
-    buildingId:
-        "biro-ft",
+<h1>
+<strong>
+Muhammad Arief Rachim
+</strong>
 
-    floor:2,
+<span>
+(Acim)
+</span>
 
-    navigationEntranceId:
-        "biro-main-e1",
+</h1>
 
-    modelMarker:null
 
-},
+<p class="developer-role">
+Mahasiswa Teknik Informatika FT-UISU
+</p>
 
 
-{
-    id:"gudang-mini",
+<div class="about-text">
 
-    name:
-        "Gudang Mini",
+<p>
+Website ini dibuat berdasarkan hasil dari Keresahan Developer
+atas minimnya akses informasi mengenai Ruangan dan Civitas Akademik
+yang tidak hanya dialami oleh Pengunjung,
+juga oleh Mahasiswa.
+</p>
 
-    buildingId:
-        "biro-ft",
+<p>
+Proyek berbasis Skripsi berjudul
+<strong>
+"Implementasi <em>Augmented Reality Markerless</em>
+menggunakan Algoritma
+<em>Simultaneous Localization and Mapping</em> (SLAM)
+pada Denah Fakultas Teknik Universitas Islam Sumatera Utara"
+</strong>
+ini, diharapkan menjadi solusi dari pertanyaan
+<em>"Ruangan A dimana ya?"</em>,
+<em>"Pak B dimana ya Ruangannya?"</em>.
+</p>
 
-    floor:2,
+</div>
 
-    navigationEntranceId:
-        "biro-main-e1",
 
-    modelMarker:null
+<div class="developer-contacts">
 
-},
 
+<a href="mailto:arifrahim1801@gmail.com"
+   class="contact-item">
 
-{
-    id:"prodi-industri",
+<span class="contact-icon">
 
-    name:
-        "Program Studi Teknik Industri",
+<svg viewBox="0 0 24 24">
 
-    buildingId:
-        "biro-ft",
+<path d="M3 5h18v14H3V5zm2 2v.5l7 5 7-5V7H5zm14 10V10l-7 5-7-5v7h14z">
+</path>
 
-    floor:2,
+</svg>
 
-    navigationEntranceId:
-        "biro-main-e1",
+</span>
 
-    modelMarker:null
+<div>
 
-},
+<small>
+E-mail
+</small>
 
+<strong>
+arifrahim1801@gmail.com
+</strong>
 
-{
-    id:"prodi-mesin",
+</div>
 
-    name:
-        "Program Studi Teknik Mesin",
+</a>
 
-    buildingId:
-        "biro-ft",
 
-    floor:2,
+<a href="https://wa.me/6281263185492"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="contact-item">
 
-    navigationEntranceId:
-        "biro-main-e1",
+<span class="contact-icon">
 
-    modelMarker:null
+<svg viewBox="0 0 24 24">
 
-},
+<path d="M12 2a9.6 9.6 0 0 0-8.2 14.6L2.5 22l5.5-1.3A9.7 9.7 0 1 0 12 2zm0 17.4a7.4 7.4 0 0 1-3.8-1l-.3-.2-3.3.8.9-3.2-.2-.3A7.5 7.5 0 1 1 12 19.4zm4.1-5.6c-.2-.1-1.3-.7-1.5-.7-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8.9-.1.2-.3.2-.5.1-1.4-.7-2.4-1.3-3.3-2.9-.2-.3.2-.3.6-1 .1-.2 0-.4 0-.5l-.7-1.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.5 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.7.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1-.2-.2-.4-.3-.9-.4z">
+</path>
 
+</svg>
 
-{
-    id:"prodi-sipil",
+</span>
 
-    name:
-        "Program Studi Teknik Sipil",
+<div>
 
-    buildingId:
-        "biro-ft",
+<small>
+WhatsApp
+</small>
 
-    floor:2,
+<strong>
+081263185492
+</strong>
 
-    navigationEntranceId:
-        "biro-main-e1",
+</div>
 
-    modelMarker:null
+</a>
 
-},
 
+<a href="https://instagram.com/ar.chimm"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="contact-item">
 
-{
-    id:"prodi-elektro",
+<span class="contact-icon">
 
-    name:
-        "Program Studi Teknik Elektro",
+<svg viewBox="0 0 24 24">
 
-    buildingId:
-        "biro-ft",
+<path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm10.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z">
+</path>
 
-    floor:2,
+</svg>
 
-    navigationEntranceId:
-        "biro-main-e1",
+</span>
 
-    modelMarker:null
+<div>
 
-},
+<small>
+Instagram
+</small>
 
+<strong>
+ar.chimm
+</strong>
 
-{
-    id:"prodi-informatika",
+</div>
 
-    name:
-        "Program Studi Teknik Informatika",
+</a>
 
-    buildingId:
-        "biro-ft",
+</div>
 
-    floor:2,
+</div>
 
-    navigationEntranceId:
-        "biro-main-e1",
+</div>
 
-    modelMarker:null
+</div>
+</section>
 
-},
+</main>
 
 
-{
-    id:"lpmf",
+<footer class="site-footer">
 
-    name:
-        "Lembaga Penjamin Mutu Fakultas-LPMF",
+<p>
+<em>Created By</em> : Acim.
+</p>
 
-    buildingId:
-        "biro-ft",
+<strong>
+© 2026 Muhammad Arief Rachim. All Rights Reserved.
+</strong>
 
-    floor:2,
+</footer>
 
-    navigationEntranceId:
-        "biro-main-e1",
 
-    modelMarker:null
+<div id="infoModal"
+     class="modal hidden">
 
-},
+<div id="infoBackdrop"
+     class="modal-backdrop">
+</div>
 
+<div class="info-modal">
 
-{
-    id:"wakil-dekan-adi",
+<button id="closeInfoModal"
+        class="close-button modal-close"
+        type="button">
+×
+</button>
 
-    name:
-        "Wakil Dekan ADI",
+<small>
+INFORMASI
+</small>
 
-    buildingId:
-        "biro-ft",
+<h2 id="infoTitle">
+-
+</h2>
 
-    floor:2,
+<p id="infoParent">
+-
+</p>
 
-    navigationEntranceId:
-        "biro-main-e1",
+<div id="infoDescription"
+     class="info-description">
+</div>
 
-    modelMarker:null
+</div>
 
-},
+</div>
 
 
-{
-    id:"wakil-dekan-stk",
+<div id="toast"
+     class="toast">
+</div>
 
-    name:
-        "Wakil Dekan STK",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"wakil-dekan-kak",
-
-    name:
-        "Wakil Dekan KAK - Kewirausahaan, Alumni dan Kemahasiswaan",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"dekan",
-
-    name:
-        "Dekan",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"loket-pembayaran",
-
-    name:
-        "Loket Pembayaran Mahasiswa",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kasubbag-keuangan",
-
-    name:
-        "KaSubBag Keuangan",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kasubbag-akademik",
-
-    name:
-        "KaSubBag Akademik IT dan Kerjasama",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kasubbag-kemahasiswaan",
-
-    name:
-        "KaSubBag Kemahasiswaan",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kasubbag-siakad",
-
-    name:
-        "KaSubBag SIAKAD",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kasubbag-umum",
-
-    name:
-        "KaSubBag Umum dan Perlengkapan Kerumahtanggaan",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"kepala-tata-usaha-ktu",
-
-    name:
-        "Kepala Tata Usaha-KTU",
-
-    buildingId:
-        "biro-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "biro-main-e1",
-
-    modelMarker:null
-
-},
-
-
-
-/* =========================================================
-   GEDUNG PERKULIAHAN FAKULTAS TEKNIK
-========================================================= */
-
-{
-    id:"ruang-kuliah-1",
-
-    name:
-        "Ruang Kuliah 1",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-2",
-
-    name:
-        "Ruang Kuliah 2",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-3",
-
-    name:
-        "Ruang Kuliah 3",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-4",
-
-    name:
-        "Ruang Kuliah 4",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-5",
-
-    name:
-        "Ruang Kuliah 5",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-6",
-
-    name:
-        "Ruang Kuliah 6",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-7",
-
-    name:
-        "Ruang Kuliah 7",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-8",
-
-    name:
-        "Ruang Kuliah 8",
-
-    buildingId:
-        "perkuliahan-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "class-main-e1",
-
-    modelMarker:null
-
-},
-
-
-
-/* =========================================================
-   LABORATORIUM - LANTAI 1
-========================================================= */
-
-{
-    id:"lab-hidrolika",
-
-    name:
-        "Lab. Hidrolika",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-hidrolika-teknologi-mekanik",
-
-    navigationEntranceId:
-        "lab-west-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-teknologi-mekanik",
-
-    name:
-        "Lab. Teknologi Mekanik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-hidrolika-teknologi-mekanik",
-
-    navigationEntranceId:
-        "lab-west-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-beton",
-
-    name:
-        "Lab. Beton",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-beton-jalan-raya",
-
-    navigationEntranceId:
-        "lab-south-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-jalan-raya",
-
-    name:
-        "Lab. Jalan Raya",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-beton-jalan-raya",
-
-    navigationEntranceId:
-        "lab-south-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-mekanika-tanah",
-
-    name:
-        "Lab. Mekanika Tanah",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-mekanika-tanah-ilmu-ukur-tanah",
-
-    navigationEntranceId:
-        "lab-south-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-ilmu-ukur-tanah",
-
-    name:
-        "Lab. Ilmu Ukur Tanah",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:1,
-
-    sharedLocationGroup:
-        "lab-l1-mekanika-tanah-ilmu-ukur-tanah",
-
-    navigationEntranceId:
-        "lab-south-e1",
-
-    modelMarker:null
-
-},
-
-
-
-/* =========================================================
-   LABORATORIUM - LANTAI 2
-========================================================= */
-
-{
-    id:"ruang-kuliah-9",
-
-    name:
-        "Ruang Kuliah 9",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-10",
-
-    name:
-        "Ruang Kuliah 10",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-fondry",
-
-    name:
-        "Lab. Fondry",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-komputasi",
-
-    name:
-        "Lab. Komputasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-komputasi-sistem-digital",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-sistem-digital",
-
-    name:
-        "Lab. Sistem Digital",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-komputasi-sistem-digital",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-terintegrasi",
-
-    name:
-        "Lab. Terintegrasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-faktor-manusia",
-
-    name:
-        "Lab. Teknik Faktor Manusia",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-sistem-produksi",
-
-    name:
-        "Lab. Sistem Produksi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-terintegrasi-faktor-manusia-sistem-produksi",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-rangkaian-listrik",
-
-    name:
-        "Lab. Rangkaian Listrik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-dasar-telekomunikasi",
-
-    name:
-        "Lab. Dasar Sistem Telekomunikasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-pengukur-listrik",
-
-    name:
-        "Lab. Pengukur Listrik",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-kontrol",
-
-    name:
-        "Lab. Kontrol",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-dasar-elektronika",
-
-    name:
-        "Lab. Dasar Elektronika",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-plc",
-
-    name:
-        "Lab. PLC",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-instalasi",
-
-    name:
-        "Lab. Instalasi",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:2,
-
-    sharedLocationGroup:
-        "lab-l2-elektro",
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-
-/* =========================================================
-   LABORATORIUM - LANTAI 3
-========================================================= */
-
-{
-    id:"ruang-kuliah-11",
-
-    name:
-        "Ruang Kuliah 11",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-12",
-
-    name:
-        "Ruang Kuliah 12",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"ruang-kuliah-13",
-
-    name:
-        "Ruang Kuliah 13",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-fisika-dasar",
-
-    name:
-        "Lab. Fisika Dasar",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-komputer-jaringan-mikro",
-
-    name:
-        "Lab. Komputer Jaringan Mikro",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-},
-
-
-{
-    id:"lab-menggambar",
-
-    name:
-        "Lab. Menggambar",
-
-    buildingId:
-        "laboratorium-ft",
-
-    floor:3,
-
-    navigationEntranceId:
-        "lab-main-e1",
-
-    modelMarker:null
-
-}
-
-];
-
-
-const people = [];
-
-
-
-/* =========================================================
-   NAVIGATION GRAPH
-========================================================= */
-
-const mapNodes = {
-
-    GATE_MAIN:{
-        x:61,
-        y:488
-    },
-
-    NORTH_WEST:{
-        x:97,
-        y:198
-    },
-
-    NORTH_JUNCTION_A:{
-        x:333,
-        y:222
-    },
-
-    NORTH_JUNCTION_B:{
-        x:397,
-        y:217
-    },
-
-    GATE_EXIT:{
-        x:390,
-        y:31
-    },
-
-    NORTH_RIGHT:{
-        x:744,
-        y:230
-    },
-
-    PARKING_WEST:{
-        x:165,
-        y:492
-    },
-
-    PARKING_CENTER:{
-        x:326,
-        y:505
-    },
-
-    PARKING_SOUTHWEST:{
-        x:283,
-        y:555
-    },
-
-    PARKING_SOUTHEAST:{
-        x:350,
-        y:562
-    },
-
-    PARKING_EAST:{
-        x:400,
-        y:527
-    },
-
-    MOSQUE_EAST:{
-        x:283,
-        y:683
-    },
-
-    MOSQUE_SOUTHWEST:{
-        x:198,
-        y:817
-    },
-
-    MOSQUE_WEST:{
-        x:83,
-        y:804
-    },
-
-    COURT_TOP_LEFT:{
-        x:505,
-        y:356
-    },
-
-    COURT_TOP_RIGHT:{
-        x:630,
-        y:356
-    },
-
-    COURT_CENTER_LEFT:{
-        x:495,
-        y:527
-    },
-
-    COURT_CENTER_RIGHT:{
-        x:631,
-        y:527
-    },
-
-    COURT_BOTTOM_LEFT:{
-        x:494,
-        y:730
-    },
-
-    COURT_BOTTOM_RIGHT:{
-        x:603,
-        y:730
-    },
-
-    CLASS_LAB_WEST:{
-        x:341,
-        y:684
-    },
-
-    CLASS_LAB_CENTER:{
-        x:421,
-        y:686
-    },
-
-    LAB_WEST_LOWER:{
-        x:341,
-        y:944
-    },
-
-    LAB_SOUTH_CENTER:{
-        x:460,
-        y:944
-    },
-
-    E_SERBAGUNA:{
-        x:644,
-        y:210
-    },
-
-    E_LIBRARY:{
-        x:691,
-        y:356
-    },
-
-    E_BIRO:{
-        x:640,
-        y:527
-    },
-
-    E_CLASS:{
-        x:462,
-        y:685
-    },
-
-    E_LAB_MAIN:{
-        x:384,
-        y:686
-    },
-
-    E_LAB_WEST:{
-        x:341,
-        y:805
-    },
-
-    E_LAB_SOUTH:{
-        x:460,
-        y:953
-    }
-
-};
-
-
-
-const mapEdges = [
-
-{
-    id:"R01",
-
-    from:
-        "GATE_MAIN",
-
-    to:
-        "PARKING_WEST",
-
-    points:[
-        [61,488],
-        [112,488],
-        [165,492]
-    ]
-},
-
-
-{
-    id:"R02",
-
-    from:
-        "PARKING_WEST",
-
-    to:
-        "PARKING_CENTER",
-
-    points:[
-        [165,492],
-        [245,498],
-        [326,505]
-    ]
-},
-
-
-{
-    id:"R03",
-
-    from:
-        "PARKING_WEST",
-
-    to:
-        "PARKING_SOUTHWEST",
-
-    points:[
-        [165,492],
-        [218,523],
-        [283,555]
-    ]
-},
-
-
-{
-    id:"R04",
-
-    from:
-        "PARKING_SOUTHWEST",
-
-    to:
-        "PARKING_CENTER",
-
-    points:[
-        [283,555],
-        [326,505]
-    ]
-},
-
-
-{
-    id:"R05",
-
-    from:
-        "PARKING_CENTER",
-
-    to:
-        "PARKING_SOUTHEAST",
-
-    points:[
-        [326,505],
-        [350,562]
-    ]
-},
-
-
-{
-    id:"R06",
-
-    from:
-        "PARKING_SOUTHEAST",
-
-    to:
-        "PARKING_EAST",
-
-    points:[
-        [350,562],
-        [400,527]
-    ]
-},
-
-
-{
-    id:"R07",
-
-    from:
-        "PARKING_CENTER",
-
-    to:
-        "PARKING_EAST",
-
-    points:[
-        [326,505],
-        [400,527]
-    ]
-},
-
-
-{
-    id:"R08",
-
-    from:
-        "NORTH_WEST",
-
-    to:
-        "NORTH_JUNCTION_A",
-
-    points:[
-        [97,198],
-        [214,211],
-        [333,222]
-    ]
-},
-
-
-{
-    id:"R09",
-
-    from:
-        "NORTH_JUNCTION_A",
-
-    to:
-        "NORTH_JUNCTION_B",
-
-    points:[
-        [333,222],
-        [397,217]
-    ]
-},
-
-
-{
-    id:"R10",
-
-    from:
-        "NORTH_JUNCTION_B",
-
-    to:
-        "NORTH_RIGHT",
-
-    points:[
-        [397,217],
-        [520,219],
-        [644,210],
-        [744,230]
-    ]
-},
-
-
-{
-    id:"R11",
-
-    from:
-        "GATE_EXIT",
-
-    to:
-        "NORTH_JUNCTION_B",
-
-    points:[
-        [390,31],
-        [393,111],
-        [397,217]
-    ]
-},
-
-
-{
-    id:"R12",
-
-    from:
-        "NORTH_JUNCTION_A",
-
-    to:
-        "PARKING_CENTER",
-
-    points:[
-        [333,222],
-        [332,350],
-        [326,505]
-    ]
-},
-
-
-{
-    id:"R13",
-
-    from:
-        "NORTH_JUNCTION_B",
-
-    to:
-        "PARKING_EAST",
-
-    points:[
-        [397,217],
-        [399,370],
-        [400,527]
-    ]
-},
-
-
-{
-    id:"R14",
-
-    from:
-        "NORTH_JUNCTION_B",
-
-    to:
-        "E_SERBAGUNA",
-
-    points:[
-        [397,217],
-        [520,217],
-        [644,210]
-    ]
-},
-
-
-{
-    id:"R15",
-
-    from:
-        "E_SERBAGUNA",
-
-    to:
-        "NORTH_RIGHT",
-
-    points:[
-        [644,210],
-        [700,219],
-        [744,230]
-    ]
-},
-
-
-{
-    id:"R16",
-
-    from:
-        "NORTH_RIGHT",
-
-    to:
-        "E_LIBRARY",
-
-    points:[
-        [744,230],
-        [744,300],
-        [744,356],
-        [691,356]
-    ]
-},
-
-
-{
-    id:"R17",
-
-    from:
-        "COURT_TOP_LEFT",
-
-    to:
-        "COURT_TOP_RIGHT",
-
-    points:[
-        [505,356],
-        [568,356],
-        [630,356]
-    ]
-},
-
-
-{
-    id:"R18",
-
-    from:
-        "COURT_TOP_RIGHT",
-
-    to:
-        "E_LIBRARY",
-
-    points:[
-        [630,356],
-        [691,356]
-    ]
-},
-
-
-{
-    id:"R19",
-
-    from:
-        "PARKING_EAST",
-
-    to:
-        "COURT_TOP_LEFT",
-
-    points:[
-        [400,527],
-        [449,441],
-        [505,356]
-    ]
-},
-
-
-{
-    id:"R20",
-
-    from:
-        "PARKING_EAST",
-
-    to:
-        "COURT_TOP_RIGHT",
-
-    points:[
-        [400,527],
-        [518,442],
-        [630,356]
-    ]
-},
-
-
-{
-    id:"R21",
-
-    from:
-        "PARKING_EAST",
-
-    to:
-        "COURT_CENTER_LEFT",
-
-    points:[
-        [400,527],
-        [495,527]
-    ]
-},
-
-
-{
-    id:"R22",
-
-    from:
-        "COURT_CENTER_LEFT",
-
-    to:
-        "COURT_CENTER_RIGHT",
-
-    points:[
-        [495,527],
-        [564,527],
-        [631,527]
-    ]
-},
-
-
-{
-    id:"R23",
-
-    from:
-        "COURT_CENTER_RIGHT",
-
-    to:
-        "E_BIRO",
-
-    points:[
-        [631,527],
-        [640,527]
-    ]
-},
-
-
-{
-    id:"R24",
-
-    from:
-        "COURT_TOP_LEFT",
-
-    to:
-        "COURT_CENTER_LEFT",
-
-    points:[
-        [505,356],
-        [500,442],
-        [495,527]
-    ]
-},
-
-
-{
-    id:"R25",
-
-    from:
-        "COURT_TOP_RIGHT",
-
-    to:
-        "COURT_CENTER_RIGHT",
-
-    points:[
-        [630,356],
-        [631,441],
-        [631,527]
-    ]
-},
-
-
-{
-    id:"R26",
-
-    from:
-        "COURT_CENTER_LEFT",
-
-    to:
-        "COURT_BOTTOM_LEFT",
-
-    points:[
-        [495,527],
-        [495,625],
-        [494,730]
-    ]
-},
-
-
-{
-    id:"R27",
-
-    from:
-        "COURT_CENTER_RIGHT",
-
-    to:
-        "COURT_BOTTOM_RIGHT",
-
-    points:[
-        [631,527],
-        [620,626],
-        [603,730]
-    ]
-},
-
-
-{
-    id:"R28",
-
-    from:
-        "COURT_BOTTOM_LEFT",
-
-    to:
-        "COURT_BOTTOM_RIGHT",
-
-    points:[
-        [494,730],
-        [550,730],
-        [603,730]
-    ]
-},
-
-
-{
-    id:"R29",
-
-    from:
-        "PARKING_SOUTHWEST",
-
-    to:
-        "MOSQUE_EAST",
-
-    points:[
-        [283,555],
-        [283,621],
-        [283,683]
-    ]
-},
-
-
-{
-    id:"R30",
-
-    from:
-        "PARKING_WEST",
-
-    to:
-        "MOSQUE_EAST",
-
-    points:[
-        [165,492],
-        [222,580],
-        [283,683]
-    ]
-},
-
-
-{
-    id:"R31",
-
-    from:
-        "MOSQUE_EAST",
-
-    to:
-        "MOSQUE_SOUTHWEST",
-
-    points:[
-        [283,683],
-        [241,751],
-        [198,817]
-    ]
-},
-
-
-{
-    id:"R32",
-
-    from:
-        "MOSQUE_SOUTHWEST",
-
-    to:
-        "MOSQUE_WEST",
-
-    points:[
-        [198,817],
-        [138,812],
-        [83,804]
-    ]
-},
-
-
-{
-    id:"R33",
-
-    from:
-        "MOSQUE_EAST",
-
-    to:
-        "CLASS_LAB_WEST",
-
-    points:[
-        [283,683],
-        [341,684]
-    ]
-},
-
-
-{
-    id:"R34",
-
-    from:
-        "CLASS_LAB_WEST",
-
-    to:
-        "CLASS_LAB_CENTER",
-
-    points:[
-        [341,684],
-        [381,685],
-        [421,686]
-    ]
-},
-
-
-{
-    id:"R35",
-
-    from:
-        "CLASS_LAB_CENTER",
-
-    to:
-        "E_CLASS",
-
-    points:[
-        [421,686],
-        [462,685]
-    ]
-},
-
-
-{
-    id:"R36",
-
-    from:
-        "CLASS_LAB_CENTER",
-
-    to:
-        "E_LAB_MAIN",
-
-    points:[
-        [421,686],
-        [384,686]
-    ]
-},
-
-
-{
-    id:"R37",
-
-    from:
-        "CLASS_LAB_WEST",
-
-    to:
-        "E_LAB_WEST",
-
-    points:[
-        [341,684],
-        [341,744],
-        [341,805]
-    ]
-},
-
-
-{
-    id:"R38",
-
-    from:
-        "CLASS_LAB_WEST",
-
-    to:
-        "LAB_WEST_LOWER",
-
-    points:[
-        [341,684],
-        [341,815],
-        [341,944]
-    ]
-},
-
-
-{
-    id:"R39",
-
-    from:
-        "LAB_WEST_LOWER",
-
-    to:
-        "LAB_SOUTH_CENTER",
-
-    points:[
-        [341,944],
-        [400,944],
-        [460,944]
-    ]
-},
-
-
-{
-    id:"R40",
-
-    from:
-        "LAB_SOUTH_CENTER",
-
-    to:
-        "E_LAB_SOUTH",
-
-    points:[
-        [460,944],
-        [460,953]
-    ]
-}
-
-];
-
-
-
-/* =========================================================
-   GPS CALIBRATION
-========================================================= */
-
-const mapCalibration = [];
-
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function getBuildingById(id){
-
-    return (
-        buildings.find(
-            building =>
-                building.id === id
-        )
-        ||
-        null
-    );
-
-}
-
-
-function getRoomById(id){
-
-    return (
-        rooms.find(
-            room =>
-                room.id === id
-        )
-        ||
-        null
-    );
-
-}
-
-
-function getEntranceById(id){
-
-    return (
-        entrances.find(
-            entrance =>
-                entrance.id === id
-        )
-        ||
-        null
-    );
-
-}
-
-
-function getBuildingModels(
-    buildingId
-){
-
-    const building =
-        getBuildingById(
-            buildingId
-        );
-
-
-    return (
-        building
-        ?
-        building.models || []
-        :
-        []
-    );
-
-}
-
-
-function getModelVariant(
-    buildingId,
-    modelId
-){
-
-    return (
-        getBuildingModels(
-            buildingId
-        )
-        .find(
-            model =>
-                model.id === modelId
-        )
-        ||
-        null
-    );
-
-}
-
-
-function getDefaultModelVariant(
-    buildingId
-){
-
-    const building =
-        getBuildingById(
-            buildingId
-        );
-
-
-    if(!building){
-
-        return null;
-
-    }
-
-
-    return (
-        getModelVariant(
-            buildingId,
-            building.defaultModel
-        )
-        ||
-        building.models[0]
-        ||
-        null
-    );
-
-}
-
-
-function getNavigationEntranceForLocation(
-    location
-){
-
-    if(!location){
-
-        return null;
-
-    }
-
-
-    if(
-        location.type ===
-        "room"
-        &&
-        location.navigationEntranceId
-    ){
-
-        return getEntranceById(
-            location.navigationEntranceId
-        );
-
-    }
-
-
-    const building =
-        getBuildingById(
-            location.buildingId
-            ||
-            location.id
-        );
-
-
-    if(!building){
-
-        return null;
-
-    }
-
-
-    return getEntranceById(
-        building.defaultEntranceId
-    );
-
-}
-
-
-
-/* =========================================================
-   GLOBAL DATABASE
-========================================================= */
-
-window.FT_DATA = {
-
-    MAP_WIDTH,
-
-    MAP_HEIGHT,
-
-    NAVIGATION_MAP,
-
-    FULL_DETAIL_REFERENCE,
-
-    buildings,
-
-    rooms,
-
-    people,
-
-    entrances,
-
-    mapNodes,
-
-    mapEdges,
-
-    mapCalibration,
-
-    getBuildingById,
-
-    getRoomById,
-
-    getEntranceById,
-
-    getBuildingModels,
-
-    getModelVariant,
-
-    getDefaultModelVariant,
-
-    getNavigationEntranceForLocation
-
-};
-
-
-})();
+</body>
+</html>
