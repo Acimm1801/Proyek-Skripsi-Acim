@@ -2,272 +2,123 @@
 
 "use strict";
 
-
-const DATA =
-    window.FT_DATA || {};
-
-
-const MAP_WIDTH =
-    DATA.MAP_WIDTH || 768;
-
-
-const MAP_HEIGHT =
-    DATA.MAP_HEIGHT || 1024;
-
-
-const buildings =
-    Array.isArray(
-        DATA.buildings
-    )
-    ?
-    DATA.buildings
-    :
-    [];
-
-
-const rooms =
-    Array.isArray(
-        DATA.rooms
-    )
-    ?
-    DATA.rooms
-    :
-    [];
-
-
-const people =
-    Array.isArray(
-        DATA.people
-    )
-    ?
-    DATA.people
-    :
-    [];
-
-
-const entrances =
-    Array.isArray(
-        DATA.entrances
-    )
-    ?
-    DATA.entrances
-    :
-    [];
-
-
-const mapNodes =
-    DATA.mapNodes || {};
-
-
-const mapEdges =
-    Array.isArray(
-        DATA.mapEdges
-    )
-    ?
-    DATA.mapEdges
-    :
-    [];
-
-
-const mapCalibration =
-    Array.isArray(
-        DATA.mapCalibration
-    )
-    ?
-    DATA.mapCalibration
-    :
-    [];
-
-
+const DATA=window.FT_DATA||{};
+const MAP_WIDTH=DATA.MAP_WIDTH||768;
+const MAP_HEIGHT=DATA.MAP_HEIGHT||1024;
+const buildings=Array.isArray(DATA.buildings)?DATA.buildings:[];
+const rooms=Array.isArray(DATA.rooms)?DATA.rooms:[];
+const people=Array.isArray(DATA.people)?DATA.people:[];
+const entrances=Array.isArray(DATA.entrances)?DATA.entrances:[];
+const mapNodes=DATA.mapNodes||{};
+const mapEdges=Array.isArray(DATA.mapEdges)?DATA.mapEdges:[];
+const mapCalibration=Array.isArray(DATA.mapCalibration)?DATA.mapCalibration:[];
 
 function byId(id){
-
-    return document.getElementById(
-        id
-    );
-
+    return document.getElementById(id);
 }
-
 
 function all(selector){
-
-    return Array.from(
-        document.querySelectorAll(
-            selector
-        )
-    );
-
+    return Array.from(document.querySelectorAll(selector));
 }
 
-
-function on(
-    id,
-    eventName,
-    handler,
-    options
-){
-
-    const element =
-        byId(id);
-
+function on(id,eventName,handler,options){
+    const element=byId(id);
 
     if(!element){
-
         return;
-
     }
-
 
     element.addEventListener(
         eventName,
         handler,
         options
     );
-
 }
-
 
 function show(id){
-
-    const element =
-        byId(id);
-
+    const element=byId(id);
 
     if(element){
-
-        element.classList.remove(
-            "hidden"
-        );
-
+        element.classList.remove("hidden");
     }
-
 }
-
 
 function hide(id){
-
-    const element =
-        byId(id);
-
+    const element=byId(id);
 
     if(element){
-
-        element.classList.add(
-            "hidden"
-        );
-
+        element.classList.add("hidden");
     }
+}
 
+function setText(id,value){
+    const element=byId(id);
+
+    if(element){
+        element.textContent=value??"";
+    }
 }
 
 
-function setText(
-    id,
-    value
-){
-
-    const element =
-        byId(id);
-
-
-    if(element){
-
-        element.textContent =
-            value ?? "";
-
-    }
-
-}
-
-
-
-const state = {
-
+const state={
     currentPage:"home",
-
     pageHistory:[],
-
     currentSlide:0,
-
     landingModelIndex:0,
-
     globalSelection:null,
-
     infoLocation:null,
-
     destination:null,
-
     clickedPosition:null,
-
     routeResult:null,
-
     liveInstructions:[],
-
     gpsWatchId:null,
-
     viewerBuildingId:null,
-
     viewerModelId:null,
-
     arBuildingId:null,
-
     arModelId:null,
-
     pending3DMarker:null
-
 };
 
 
+/* =========================================================
+   DATA
+========================================================= */
 
 function getBuildingById(id){
 
     if(
-        typeof DATA.getBuildingById ===
+        typeof DATA.getBuildingById===
         "function"
     ){
-
-        return DATA.getBuildingById(
-            id
-        );
-
+        return DATA.getBuildingById(id);
     }
-
 
     return (
         buildings.find(
-            building =>
-                building.id === id
+            building=>building.id===id
         )
         ||
         null
     );
-
 }
 
 
 function getEntranceById(id){
 
     if(
-        typeof DATA.getEntranceById ===
+        typeof DATA.getEntranceById===
         "function"
     ){
-
-        return DATA.getEntranceById(
-            id
-        );
-
+        return DATA.getEntranceById(id);
     }
-
 
     return (
         entrances.find(
-            entrance =>
-                entrance.id === id
+            entrance=>entrance.id===id
         )
         ||
         null
     );
-
 }
 
 
@@ -276,31 +127,22 @@ function getBuildingModels(
 ){
 
     if(
-        typeof DATA.getBuildingModels ===
+        typeof DATA.getBuildingModels===
         "function"
     ){
-
         return DATA.getBuildingModels(
             buildingId
         );
-
     }
 
-
-    const building =
+    const building=
         getBuildingById(
             buildingId
         );
 
-
-    return (
-        building
-        ?
-        building.models || []
-        :
-        []
-    );
-
+    return building
+        ? building.models||[]
+        : [];
 }
 
 
@@ -310,7 +152,7 @@ function getModelVariant(
 ){
 
     if(
-        typeof DATA.getModelVariant ===
+        typeof DATA.getModelVariant===
         "function"
     ){
 
@@ -321,19 +163,16 @@ function getModelVariant(
 
     }
 
-
     return (
         getBuildingModels(
             buildingId
         )
         .find(
-            model =>
-                model.id === modelId
+            model=>model.id===modelId
         )
         ||
         null
     );
-
 }
 
 
@@ -342,7 +181,7 @@ function getDefaultModelVariant(
 ){
 
     if(
-        typeof DATA.getDefaultModelVariant ===
+        typeof DATA.getDefaultModelVariant===
         "function"
     ){
 
@@ -352,19 +191,14 @@ function getDefaultModelVariant(
 
     }
 
-
-    const building =
+    const building=
         getBuildingById(
             buildingId
         );
 
-
     if(!building){
-
         return null;
-
     }
-
 
     return (
         getModelVariant(
@@ -376,7 +210,6 @@ function getDefaultModelVariant(
         ||
         null
     );
-
 }
 
 
@@ -385,26 +218,23 @@ function getNavigationEntrance(
 ){
 
     if(
-        typeof DATA.getNavigationEntranceForLocation ===
+        typeof DATA.getNavigationEntranceForLocation===
         "function"
     ){
 
-        return DATA.getNavigationEntranceForLocation(
-            location
-        );
+        return DATA
+            .getNavigationEntranceForLocation(
+                location
+            );
 
     }
-
 
     if(!location){
-
         return null;
-
     }
 
-
     if(
-        location.type === "room"
+        location.type==="room"
         &&
         location.navigationEntranceId
     ){
@@ -415,39 +245,32 @@ function getNavigationEntrance(
 
     }
 
-
-    const building =
+    const building=
         getBuildingById(
             location.buildingId
             ||
             location.id
         );
 
-
     if(!building){
-
         return null;
-
     }
-
 
     return getEntranceById(
         building.defaultEntranceId
     );
-
 }
 
 
-
 /* =========================================================
-   CACHE + SERVICE WORKER
+   CACHE
 ========================================================= */
 
-const MODEL_CACHE_NAME =
-    "ft-uisu-models-v41";
+const MODEL_CACHE_NAME=
+    "ft-uisu-models-v44";
 
 
-const PRIORITY_MODELS = [
+const PRIORITY_MODELS=[
 
     "./assets/models/gedung_biro_outdoor.glb",
 
@@ -471,23 +294,19 @@ async function registerServiceWorker(){
             navigator
         )
     ){
-
         return;
-
     }
-
 
     try{
 
         await navigator
             .serviceWorker
             .register(
-                "./sw.js?v=41",
+                "./sw.js?v=44",
                 {
                     scope:"./"
                 }
             );
-
 
         await navigator
             .serviceWorker
@@ -518,21 +337,17 @@ async function cacheModel(url){
             window
         )
     ){
-
         return false;
-
     }
-
 
     try{
 
-        const cache =
+        const cache=
             await caches.open(
                 MODEL_CACHE_NAME
             );
 
-
-        const existing =
+        const existing=
             await cache.match(
                 url,
                 {
@@ -540,15 +355,11 @@ async function cacheModel(url){
                 }
             );
 
-
         if(existing){
-
             return true;
-
         }
 
-
-        const response =
+        const response=
             await fetch(
                 url,
                 {
@@ -556,19 +367,14 @@ async function cacheModel(url){
                 }
             );
 
-
         if(!response.ok){
-
             return false;
-
         }
-
 
         await cache.put(
             url,
             response.clone()
         );
-
 
         return true;
 
@@ -585,28 +391,21 @@ async function cacheModel(url){
 
 async function preloadPriorityModels(){
 
-    const queue =
+    const queue=
         PRIORITY_MODELS.slice();
-
 
     async function worker(){
 
-        while(
-            queue.length
-        ){
+        while(queue.length){
 
-            const url =
+            const url=
                 queue.shift();
 
-
-            await cacheModel(
-                url
-            );
+            await cacheModel(url);
 
         }
 
     }
-
 
     await Promise.all(
         [
@@ -629,14 +428,11 @@ function preloadBuildingModels(
             building.models
         )
     ){
-
         return;
-
     }
 
-
     building.models.forEach(
-        model => {
+        model=>{
 
             cacheModel(
                 model.src
@@ -648,16 +444,15 @@ function preloadBuildingModels(
 }
 
 
-
 /* =========================================================
    LOCATION DATABASE
 ========================================================= */
 
-const locations = [];
+const locations=[];
 
 
 buildings.forEach(
-    building => {
+    building=>{
 
         locations.push(
             {
@@ -683,6 +478,13 @@ buildings.forEach(
                 description:
                     building.description,
 
+                tendik:
+                    Array.isArray(
+                        building.tendik
+                    )
+                        ? building.tendik
+                        : [],
+
                 navigationEntranceId:
                     building.defaultEntranceId,
 
@@ -697,13 +499,12 @@ buildings.forEach(
 
 
 rooms.forEach(
-    room => {
+    room=>{
 
-        const building =
+        const building=
             getBuildingById(
                 room.buildingId
             );
-
 
         locations.push(
             {
@@ -725,13 +526,25 @@ rooms.forEach(
 
                 parent:
                     building
-                    ?
-                    building.name
-                    :
-                    "Fakultas Teknik UISU",
+                        ? building.name
+                        : "Fakultas Teknik UISU",
 
                 navigationEntranceId:
                     room.navigationEntranceId,
+
+                units:
+                    Array.isArray(
+                        room.units
+                    )
+                        ? room.units
+                        : [],
+
+                tendik:
+                    Array.isArray(
+                        room.tendik
+                    )
+                        ? room.tendik
+                        : [],
 
                 modelMarker:
                     room.modelMarker
@@ -748,20 +561,16 @@ rooms.forEach(
                         +
                         (
                             building
-                            ?
-                            building.name
-                            :
-                            "Fakultas Teknik UISU"
+                                ? building.name
+                                : "Fakultas Teknik UISU"
                         )
                         +
                         (
                             room.floor
-                            ?
-                            ", lantai "
-                            +
-                            room.floor
-                            :
-                            ""
+                                ? ", lantai "
+                                  +
+                                  room.floor
+                                : ""
                         )
                         +
                         "."
@@ -775,7 +584,7 @@ rooms.forEach(
 
 
 people.forEach(
-    person => {
+    person=>{
 
         locations.push(
             {
@@ -788,9 +597,8 @@ people.forEach(
 );
 
 
-
 /* =========================================================
-   PAGE NAVIGATION
+   PAGE
 ========================================================= */
 
 function updateHeaderActive(
@@ -801,7 +609,7 @@ function updateHeaderActive(
         ".header-link"
     )
     .forEach(
-        button => {
+        button=>{
 
             button.classList.remove(
                 "active"
@@ -810,12 +618,10 @@ function updateHeaderActive(
         }
     );
 
-
-    const button =
+    const button=
         document.querySelector(
             `.header-link[data-page="${pageName}"]`
         );
-
 
     if(button){
 
@@ -830,29 +636,26 @@ function updateHeaderActive(
 
 function showPage(
     pageName,
-    pushHistory = true
+    pushHistory=true
 ){
 
-    const page =
+    const page=
         byId(
-            pageName + "Page"
+            pageName
+            +
+            "Page"
         );
 
-
     if(!page){
-
         return;
-
     }
-
 
     if(
         pushHistory
         &&
         state.currentPage
         &&
-        state.currentPage !==
-            pageName
+        state.currentPage!==pageName
     ){
 
         state.pageHistory.push(
@@ -861,12 +664,11 @@ function showPage(
 
     }
 
-
     all(
         ".page"
     )
     .forEach(
-        item => {
+        item=>{
 
             item.classList.remove(
                 "active"
@@ -875,26 +677,21 @@ function showPage(
         }
     );
 
-
     page.classList.add(
         "active"
     );
 
-
-    state.currentPage =
+    state.currentPage=
         pageName;
-
 
     updateHeaderActive(
         pageName
     );
 
-
     closeDrawer();
 
-
     if(
-        pageName !==
+        pageName!==
         "navigationActive"
     ){
 
@@ -906,7 +703,6 @@ function showPage(
         );
 
     }
-
 
     setTimeout(
         syncAllMapGeometry,
@@ -920,14 +716,10 @@ function goBack(){
 
     stopGpsTracking();
 
-
-    const previous =
+    const previous=
         state.pageHistory.length
-        ?
-        state.pageHistory.pop()
-        :
-        "home";
-
+            ? state.pageHistory.pop()
+            : "home";
 
     showPage(
         previous,
@@ -941,7 +733,7 @@ all(
     "[data-back]"
 )
 .forEach(
-    button => {
+    button=>{
 
         button.addEventListener(
             "click",
@@ -955,11 +747,11 @@ all(
 on(
     "logoHome",
     "click",
-    () => {
+    ()=>{
 
         stopGpsTracking();
 
-        state.pageHistory = [];
+        state.pageHistory=[];
 
         showPage(
             "home",
@@ -974,11 +766,11 @@ all(
     "[data-page]"
 )
 .forEach(
-    button => {
+    button=>{
 
         button.addEventListener(
             "click",
-            () => {
+            ()=>{
 
                 showPage(
                     button.dataset.page
@@ -991,7 +783,6 @@ all(
 );
 
 
-
 /* =========================================================
    DRAWER
 ========================================================= */
@@ -1001,20 +792,20 @@ function openDrawer(){
     byId(
         "drawer"
     )
-    ?.classList.add(
+    ?.classList
+    .add(
         "open"
     );
-
 
     byId(
         "drawerOverlay"
     )
-    ?.classList.add(
+    ?.classList
+    .add(
         "show"
     );
 
-
-    document.body.style.overflow =
+    document.body.style.overflow=
         "hidden";
 
 }
@@ -1025,20 +816,20 @@ function closeDrawer(){
     byId(
         "drawer"
     )
-    ?.classList.remove(
+    ?.classList
+    .remove(
         "open"
     );
-
 
     byId(
         "drawerOverlay"
     )
-    ?.classList.remove(
+    ?.classList
+    .remove(
         "show"
     );
 
-
-    document.body.style.overflow =
+    document.body.style.overflow=
         "";
 
 }
@@ -1050,13 +841,11 @@ on(
     openDrawer
 );
 
-
 on(
     "closeDrawer",
     "click",
     closeDrawer
 );
-
 
 on(
     "drawerOverlay",
@@ -1065,12 +854,11 @@ on(
 );
 
 
-
 /* =========================================================
    HERO SLIDER
 ========================================================= */
 
-const slides =
+const slides=
     all(
         ".hero-slide"
     );
@@ -1078,53 +866,42 @@ const slides =
 
 function showSlide(index){
 
-    if(
-        !slides.length
-    ){
-
+    if(!slides.length){
         return;
+    }
+
+    if(index<0){
+
+        index=
+            slides.length-1;
 
     }
 
-
     if(
-        index < 0
-    ){
-
-        index =
-            slides.length - 1;
-
-    }
-
-
-    if(
-        index >=
+        index>=
         slides.length
     ){
 
-        index = 0;
+        index=0;
 
     }
 
-
-    state.currentSlide =
+    state.currentSlide=
         index;
-
 
     slides.forEach(
         (
             slide,
             i
-        ) => {
+        )=>{
 
             slide.classList.toggle(
                 "active",
-                i === index
+                i===index
             );
 
         }
     );
-
 
     all(
         ".slider-dot"
@@ -1133,11 +910,11 @@ function showSlide(index){
         (
             dot,
             i
-        ) => {
+        )=>{
 
             dot.classList.toggle(
                 "active",
-                i === index
+                i===index
             );
 
         }
@@ -1149,10 +926,10 @@ function showSlide(index){
 on(
     "prevSlide",
     "click",
-    () => {
+    ()=>{
 
         showSlide(
-            state.currentSlide - 1
+            state.currentSlide-1
         );
 
     }
@@ -1162,10 +939,10 @@ on(
 on(
     "nextSlide",
     "click",
-    () => {
+    ()=>{
 
         showSlide(
-            state.currentSlide + 1
+            state.currentSlide+1
         );
 
     }
@@ -1176,11 +953,11 @@ all(
     ".slider-dot"
 )
 .forEach(
-    dot => {
+    dot=>{
 
         dot.addEventListener(
             "click",
-            () => {
+            ()=>{
 
                 showSlide(
                     Number(
@@ -1195,16 +972,15 @@ all(
 );
 
 
-
 /* =========================================================
-   LANDING 3D
+   LANDING MODEL
 ========================================================= */
 
-const landingModels = [
+const landingModels=[
 
     {
         name:
-            "Gedung Biro Fakultas Teknik",
+            "Biro Fakultas Teknik UISU",
 
         viewer:
             byId(
@@ -1214,7 +990,7 @@ const landingModels = [
 
     {
         name:
-            "Gedung Perkuliahan Fakultas Teknik",
+            "Gedung Perkuliahan Fakultas Teknik UISU",
 
         viewer:
             byId(
@@ -1224,7 +1000,7 @@ const landingModels = [
 
     {
         name:
-            "Gedung Laboratorium Fakultas Teknik",
+            "Laboratorium Fakultas Teknik UISU",
 
         viewer:
             byId(
@@ -1237,72 +1013,57 @@ const landingModels = [
 
 function showLandingModel(index){
 
-    if(
-        !landingModels.length
-    ){
-
+    if(!landingModels.length){
         return;
+    }
+
+    if(index<0){
+
+        index=
+            landingModels.length-1;
 
     }
 
-
     if(
-        index < 0
-    ){
-
-        index =
-            landingModels.length - 1;
-
-    }
-
-
-    if(
-        index >=
+        index>=
         landingModels.length
     ){
 
-        index = 0;
+        index=0;
 
     }
 
-
-    state.landingModelIndex =
+    state.landingModelIndex=
         index;
-
 
     landingModels.forEach(
         (
             item,
             i
-        ) => {
+        )=>{
 
-            if(
-                !item.viewer
-            ){
-
+            if(!item.viewer){
                 return;
-
             }
 
-
-            item.viewer.classList.toggle(
-                "active",
-                i === index
-            );
+            item.viewer
+                .classList
+                .toggle(
+                    "active",
+                    i===index
+                );
 
         }
     );
-
 
     setText(
         "landingModelName",
         landingModels[index].name
     );
 
-
     setText(
         "landingModelCounter",
-        `${index + 1} / ${landingModels.length}`
+        `${index+1} / ${landingModels.length}`
     );
 
 }
@@ -1311,15 +1072,133 @@ function showLandingModel(index){
 on(
     "landingNextModel",
     "click",
-    () => {
+    ()=>{
 
         showLandingModel(
-            state.landingModelIndex + 1
+            state.landingModelIndex+1
         );
 
     }
 );
 
+
+/* =========================================================
+   UNIT WARNA
+========================================================= */
+
+const UNIT_CLASS={
+
+    "Teknik Informatika":
+        "room-unit-informatika",
+
+    "Teknik Mesin":
+        "room-unit-mesin",
+
+    "Teknik Sipil":
+        "room-unit-sipil",
+
+    "Teknik Industri":
+        "room-unit-industri",
+
+    "Teknik Elektro":
+        "room-unit-elektro",
+
+    "Fakultas Teknik":
+        "room-unit-fakultas"
+
+};
+
+
+function escapeHtml(value){
+
+    return String(
+        value??""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function renderUnitMarkup(
+    units
+){
+
+    if(
+        !Array.isArray(
+            units
+        )
+        ||
+        !units.length
+    ){
+        return "";
+    }
+
+    const content=
+        units.map(
+            (
+                unit,
+                index
+            )=>{
+
+                const className=
+                    UNIT_CLASS[unit]
+                    ||
+                    "room-unit-fakultas";
+
+                const comma=
+                    index<
+                    units.length-1
+                        ?
+                        '<span class="room-unit-punctuation">, </span>'
+                        :
+                        "";
+
+                return (
+                    `<span class="room-unit ${className}">`
+                    +
+                    `${escapeHtml(unit)}`
+                    +
+                    `</span>`
+                    +
+                    comma
+                );
+
+            }
+        )
+        .join("");
+
+    return (
+        '<span class="room-unit-group">'
+        +
+        '<span class="room-unit-punctuation">(</span>'
+        +
+        content
+        +
+        '<span class="room-unit-punctuation">)</span>'
+        +
+        '</span>'
+    );
+
+}
 
 
 /* =========================================================
@@ -1329,7 +1208,7 @@ on(
 function normalize(value){
 
     return String(
-        value || ""
+        value||""
     )
     .toLowerCase()
     .trim();
@@ -1341,26 +1220,31 @@ function searchLocations(
     value
 ){
 
-    const query =
+    const query=
         normalize(
             value
         );
 
-
     if(!query){
-
         return [];
-
     }
-
 
     return (
         locations
         .filter(
-            location => {
+            location=>{
 
                 return normalize(
                     location.name
+                    +
+                    " "
+                    +
+                    (
+                        location.units
+                        ||
+                        []
+                    )
+                    .join(" ")
                     +
                     " "
                     +
@@ -1392,83 +1276,77 @@ function renderSearchResults(
 ){
 
     if(!container){
-
         return;
-
     }
 
+    container.innerHTML="";
 
-    container.innerHTML =
-        "";
+    if(!results.length){
 
-
-    if(
-        !results.length
-    ){
-
-        container.innerHTML =
+        container.innerHTML=
             `
             <div class="search-empty">
                 Lokasi tidak ditemukan.
             </div>
             `;
 
-
         return;
 
     }
 
-
     results.forEach(
-        location => {
+        location=>{
 
-            const button =
+            const button=
                 document.createElement(
                     "button"
                 );
 
-
-            button.type =
+            button.type=
                 "button";
 
-
-            button.className =
+            button.className=
                 "search-result";
 
-
-            let typeText =
+            let typeText=
                 "Ruangan";
 
-
             if(
-                location.type ===
+                location.type===
                 "building"
             ){
 
-                typeText =
+                typeText=
                     "Gedung";
 
             }
 
             else if(
-                location.type ===
+                location.type===
                 "person"
             ){
 
-                typeText =
+                typeText=
                     "Civitas";
 
             }
 
-
-            button.innerHTML =
+            button.innerHTML=
                 `
                 <span>
-                    <strong>
-                        ${location.name}
+
+                    <strong class="search-result-title">
+
+                        <span>
+                            ${escapeHtml(location.name)}
+                        </span>
+
+                        ${renderUnitMarkup(location.units)}
+
                     </strong>
 
                     <small>
+
                         ${
                             location.parent
                             ||
@@ -1484,7 +1362,9 @@ function renderSearchResults(
                             :
                             ""
                         }
+
                     </small>
+
                 </span>
 
                 <span class="search-type">
@@ -1492,10 +1372,9 @@ function renderSearchResults(
                 </span>
                 `;
 
-
             button.addEventListener(
                 "click",
-                () => {
+                ()=>{
 
                     onSelect(
                         location
@@ -1503,7 +1382,6 @@ function renderSearchResults(
 
                 }
             );
-
 
             container.appendChild(
                 button
@@ -1515,8 +1393,7 @@ function renderSearchResults(
 }
 
 
-
-const globalSearch =
+const globalSearch=
     byId(
         "globalSearch"
     );
@@ -1526,15 +1403,12 @@ if(globalSearch){
 
     globalSearch.addEventListener(
         "input",
-        event => {
+        event=>{
 
-            const value =
+            const value=
                 event.target.value;
 
-
-            if(
-                !value.trim()
-            ){
+            if(!value.trim()){
 
                 hide(
                     "globalSearchResults"
@@ -1543,7 +1417,6 @@ if(globalSearch){
                 return;
 
             }
-
 
             renderSearchResults(
                 searchLocations(
@@ -1554,26 +1427,22 @@ if(globalSearch){
                     "globalSearchResults"
                 ),
 
-                location => {
+                location=>{
 
-                    state.globalSelection =
+                    state.globalSelection=
                         location;
 
-
-                    globalSearch.value =
+                    globalSearch.value=
                         location.name;
-
 
                     setText(
                         "globalSelectedName",
                         location.name
                     );
 
-
                     hide(
                         "globalSearchResults"
                     );
-
 
                     show(
                         "globalSelected"
@@ -1581,7 +1450,6 @@ if(globalSearch){
 
                 }
             );
-
 
             show(
                 "globalSearchResults"
@@ -1596,26 +1464,20 @@ if(globalSearch){
 on(
     "clearGlobalSearch",
     "click",
-    () => {
+    ()=>{
 
-        if(
-            globalSearch
-        ){
+        if(globalSearch){
 
-            globalSearch.value =
-                "";
+            globalSearch.value="";
 
         }
 
-
-        state.globalSelection =
+        state.globalSelection=
             null;
-
 
         hide(
             "globalSelected"
         );
-
 
         hide(
             "globalSearchResults"
@@ -1625,9 +1487,8 @@ on(
 );
 
 
-
 /* =========================================================
-   INFORMATION MODAL
+   INFORMASI
 ========================================================= */
 
 function openInfo(
@@ -1635,29 +1496,39 @@ function openInfo(
 ){
 
     if(!location){
-
         return;
-
     }
 
-
-    state.infoLocation =
+    state.infoLocation=
         location;
-
 
     setText(
         "infoTitle",
         location.name
     );
 
+    const infoUnits=
+        byId(
+            "infoUnits"
+        );
 
-    setText(
-        "infoParent",
-        location.parent
-        ||
-        "Fakultas Teknik UISU"
-    );
+    if(infoUnits){
 
+        infoUnits.innerHTML=
+            renderUnitMarkup(
+                location.units
+            );
+
+        infoUnits.classList.toggle(
+            "hidden",
+            !Array.isArray(
+                location.units
+            )
+            ||
+            !location.units.length
+        );
+
+    }
 
     setText(
         "infoDescription",
@@ -1665,7 +1536,6 @@ function openInfo(
         ||
         "Informasi belum tersedia."
     );
-
 
     show(
         "infoModal"
@@ -1689,7 +1559,6 @@ on(
     closeInfo
 );
 
-
 on(
     "infoBackdrop",
     "click",
@@ -1700,7 +1569,7 @@ on(
 on(
     "globalInfoButton",
     "click",
-    () => {
+    ()=>{
 
         openInfo(
             state.globalSelection
@@ -1713,7 +1582,7 @@ on(
 on(
     "globalNavButton",
     "click",
-    () => {
+    ()=>{
 
         if(
             state.globalSelection
@@ -1729,9 +1598,320 @@ on(
 );
 
 
+/* =========================================================
+   TENDIK
+========================================================= */
+
+function normalizeWhatsappNumber(
+    phone
+){
+
+    let digits=
+        String(
+            phone||""
+        )
+        .replace(
+            /\D/g,
+            ""
+        );
+
+    if(!digits){
+        return "";
+    }
+
+    if(
+        digits.startsWith(
+            "0"
+        )
+    ){
+
+        digits=
+            "62"
+            +
+            digits.slice(1);
+
+    }
+
+    return digits;
+
+}
+
+
+function whatsappUrl(
+    phone
+){
+
+    const number=
+        normalizeWhatsappNumber(
+            phone
+        );
+
+    return number
+        ? `https://wa.me/${number}`
+        : "";
+
+}
+
+
+function openTendik(
+    location
+){
+
+    const isBiroRoom=
+        location
+        &&
+        location.buildingId===
+        "biro-ft";
+
+    const isLibrary=
+        location
+        &&
+        location.id===
+        "perpustakaan-ft";
+
+    if(
+        !location
+        ||
+        (
+            !isBiroRoom
+            &&
+            !isLibrary
+        )
+    ){
+
+        return;
+
+    }
+
+    setText(
+        "tendikRoomTitle",
+        location.name
+    );
+
+    const parent=
+        byId(
+            "tendikRoomParent"
+        );
+
+    if(parent){
+
+        if(isBiroRoom){
+
+            parent.textContent=
+                "Biro Fakultas Teknik UISU";
+
+            parent.classList.remove(
+                "hidden"
+            );
+
+        }
+
+        else{
+
+            parent.textContent="";
+
+            parent.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+    const list=
+        byId(
+            "tendikList"
+        );
+
+    if(!list){
+        return;
+    }
+
+    const contacts=
+        Array.isArray(
+            location.tendik
+        )
+            ? location.tendik
+            : [];
+
+    list.innerHTML="";
+
+    if(!contacts.length){
+
+        list.innerHTML=
+            `
+            <div class="tendik-empty">
+                Data Tendik belum tersedia.
+            </div>
+            `;
+
+        show(
+            "tendikModal"
+        );
+
+        return;
+
+    }
+
+    contacts.forEach(
+        contact=>{
+
+            const card=
+                document.createElement(
+                    "article"
+                );
+
+            card.className=
+                "tendik-card";
+
+            const wa=
+                whatsappUrl(
+                    contact.phone
+                );
+
+            const photoMarkup=
+                contact.photo
+                ?
+                `
+                <div class="tendik-photo-wrap">
+
+                    <img
+                        class="tendik-photo"
+                        src="${escapeHtml(contact.photo)}"
+                        alt="Foto ${escapeHtml(contact.name||"Tenaga Kependidikan")}"
+                        loading="lazy"
+                        decoding="async">
+
+                </div>
+                `
+                :
+                `
+                <div
+                    class="tendik-photo-wrap tendik-photo-placeholder"
+                    aria-hidden="true">
+
+                    <span>
+                        ${
+                            escapeHtml(
+                                (
+                                    contact.name
+                                    ||
+                                    "T"
+                                )
+                                .trim()
+                                .charAt(0)
+                                .toUpperCase()
+                                ||
+                                "T"
+                            )
+                        }
+                    </span>
+
+                </div>
+                `;
+
+            card.innerHTML=
+                `
+                ${photoMarkup}
+
+                <div class="tendik-card-copy">
+
+                    <h3>
+                        ${
+                            escapeHtml(
+                                contact.name
+                                ||
+                                "Nama belum tersedia"
+                            )
+                        }
+                    </h3>
+
+                    ${
+                        wa
+                        ?
+                        `
+                        <a
+                            class="tendik-whatsapp"
+                            href="${wa}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Hubungi ${escapeHtml(contact.name||"Tendik")} melalui WhatsApp">
+
+                            <span class="tendik-whatsapp-label">
+                                WhatsApp
+                            </span>
+
+                            <strong>
+                                ${
+                                    escapeHtml(
+                                        contact.phone
+                                        ||
+                                        "Hubungi via WhatsApp"
+                                    )
+                                }
+                            </strong>
+
+                        </a>
+                        `
+                        :
+                        `
+                        <span
+                            class="tendik-whatsapp"
+                            aria-disabled="true">
+
+                            <span class="tendik-whatsapp-label">
+                                WhatsApp
+                            </span>
+
+                            <strong>
+                                Nomor belum tersedia
+                            </strong>
+
+                        </span>
+                        `
+                    }
+
+                </div>
+                `;
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+    show(
+        "tendikModal"
+    );
+
+}
+
+
+function closeTendik(){
+
+    hide(
+        "tendikModal"
+    );
+
+}
+
+
+on(
+    "closeTendikModal",
+    "click",
+    closeTendik
+);
+
+on(
+    "tendikBackdrop",
+    "click",
+    closeTendik
+);
+
 
 /* =========================================================
-   BUILDING MODEL SELECT
+   GEDUNG SELECT
 ========================================================= */
 
 function populateBuildingSelect(
@@ -1739,19 +1919,15 @@ function populateBuildingSelect(
 ){
 
     if(!select){
-
         return;
-
     }
 
-
-    select.innerHTML =
+    select.innerHTML=
         `
         <option value="">
             -- Pilih Gedung --
         </option>
         `;
-
 
     buildings
     .slice()
@@ -1759,7 +1935,7 @@ function populateBuildingSelect(
         (
             a,
             b
-        ) =>
+        )=>
             (
                 a.modelMenuOrder
                 ??
@@ -1773,23 +1949,20 @@ function populateBuildingSelect(
             )
     )
     .forEach(
-        building => {
+        building=>{
 
-            const option =
+            const option=
                 document.createElement(
                     "option"
                 );
 
-
-            option.value =
+            option.value=
                 building.id;
 
-
-            option.textContent =
+            option.textContent=
                 building.modelMenuName
                 ||
                 building.name;
-
 
             select.appendChild(
                 option
@@ -1801,28 +1974,28 @@ function populateBuildingSelect(
 }
 
 
-const viewerBuildingSelect =
+const viewerBuildingSelect=
     byId(
         "viewerBuildingSelect"
     );
 
-
-const arBuildingSelect =
+const arBuildingSelect=
     byId(
         "arBuildingSelect"
     );
 
-
 populateBuildingSelect(
     viewerBuildingSelect
 );
-
 
 populateBuildingSelect(
     arBuildingSelect
 );
 
 
+/* =========================================================
+   MODEL SWITCH
+========================================================= */
 
 function renderModelSwitch(
     {
@@ -1834,17 +2007,15 @@ function renderModelSwitch(
     }
 ){
 
-    const container =
+    const container=
         byId(
             containerId
         );
 
-
-    const badge =
+    const badge=
         byId(
             singleBadgeId
         );
-
 
     if(
         !container
@@ -1853,38 +2024,28 @@ function renderModelSwitch(
         ||
         !building
     ){
-
         return;
-
     }
 
-
-    const models =
+    const models=
         building.models
         ||
         [];
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML="";
 
     if(
-        models.length <= 1
+        models.length<=1
     ){
 
         hide(
             containerId
         );
 
+        if(models[0]){
 
-        if(
-            models[0]
-        ){
-
-            badge.textContent =
+            badge.textContent=
                 models[0].name;
-
 
             show(
                 singleBadgeId
@@ -1900,53 +2061,44 @@ function renderModelSwitch(
 
         }
 
-
         return;
 
     }
-
 
     hide(
         singleBadgeId
     );
 
-
     show(
         containerId
     );
 
-
     models.forEach(
-        model => {
+        model=>{
 
-            const button =
+            const button=
                 document.createElement(
                     "button"
                 );
 
-
-            button.type =
+            button.type=
                 "button";
 
-
-            button.className =
+            button.className=
                 "model-switch-button";
 
-
-            button.textContent =
+            button.textContent=
                 model.name;
-
 
             button.classList.toggle(
                 "active",
-                model.id ===
-                    activeModelId
+                model.id===
+                activeModelId
             );
-
 
             button.addEventListener(
                 "click",
-                () => {
+                ()=>{
 
                     onChange(
                         model.id
@@ -1954,7 +2106,6 @@ function renderModelSwitch(
 
                 }
             );
-
 
             container.appendChild(
                 button
@@ -1966,18 +2117,17 @@ function renderModelSwitch(
 }
 
 
-
 /* =========================================================
-   MAIN 3D VIEWER
+   3D
 ========================================================= */
 
-const main3DViewer =
+const main3DViewer=
     byId(
         "main3DViewer"
     );
 
 
-let current3DModel = {
+let current3DModel={
 
     buildingId:null,
 
@@ -1993,17 +2143,15 @@ function updateViewerText(
     model
 ){
 
-    const modelTitle =
+    const modelTitle=
         model.viewerTitle
         ||
         building.name;
-
 
     setText(
         "viewerTitle",
         modelTitle
     );
-
 
     setText(
         "viewerCurrentModelName",
@@ -2013,7 +2161,6 @@ function updateViewerText(
         +
         model.name
     );
-
 
     setText(
         "viewerPreloadDescription",
@@ -2033,31 +2180,26 @@ function setViewerLoading(
         model
     );
 
-
     setText(
         "viewerLoadStatus",
         "MEMUAT MODEL 3D..."
     );
 
-
-    const dot =
+    const dot=
         byId(
             "viewerLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot loading";
 
     }
 
-
     show(
         "viewerLoadingOverlay"
     );
-
 
     hide(
         "viewerUnavailable"
@@ -2076,31 +2218,26 @@ function setViewerReady(
         model
     );
 
-
     setText(
         "viewerLoadStatus",
         "MODEL 3D SIAP"
     );
 
-
-    const dot =
+    const dot=
         byId(
             "viewerLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot ready";
 
     }
 
-
     hide(
         "viewerLoadingOverlay"
     );
-
 
     hide(
         "viewerUnavailable"
@@ -2114,17 +2251,15 @@ function setViewerUnavailable(
     model
 ){
 
-    const modelTitle =
+    const modelTitle=
         model.viewerTitle
         ||
         building.name;
-
 
     setText(
         "viewerTitle",
         modelTitle
     );
-
 
     setText(
         "viewerCurrentModelName",
@@ -2135,37 +2270,31 @@ function setViewerUnavailable(
         model.name
     );
 
-
     setText(
         "viewerPreloadDescription",
         "Model 3D sedang dalam tahap penyelesaian"
     );
-
 
     setText(
         "viewerLoadStatus",
         "MODEL BELUM TERSEDIA"
     );
 
-
-    const dot =
+    const dot=
         byId(
             "viewerLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot error";
 
     }
 
-
     hide(
         "viewerLoadingOverlay"
     );
-
 
     show(
         "viewerUnavailable"
@@ -2176,7 +2305,7 @@ function setViewerUnavailable(
 
 function applyModelDefaultCamera(
     model,
-    jump = true
+    jump=true
 ){
 
     if(
@@ -2184,34 +2313,28 @@ function applyModelDefaultCamera(
         ||
         !model
     ){
-
         return;
-
     }
 
-
-    main3DViewer.cameraOrbit =
+    main3DViewer.cameraOrbit=
         model.defaultCameraOrbit
         ||
         "0deg 75deg auto";
 
-
-    main3DViewer.cameraTarget =
+    main3DViewer.cameraTarget=
         model.defaultCameraTarget
         ||
         "auto auto auto";
 
-
-    main3DViewer.fieldOfView =
+    main3DViewer.fieldOfView=
         model.defaultFieldOfView
         ||
         "35deg";
 
-
     if(
         jump
         &&
-        typeof main3DViewer.jumpCameraToGoal ===
+        typeof main3DViewer.jumpCameraToGoal===
         "function"
     ){
 
@@ -2225,21 +2348,15 @@ function applyModelDefaultCamera(
 
 function reset3DCamera(){
 
-    if(
-        !main3DViewer
-    ){
-
+    if(!main3DViewer){
         return;
-
     }
 
-
-    const model =
+    const model=
         getModelVariant(
             current3DModel.buildingId,
             current3DModel.modelId
         );
-
 
     if(model){
 
@@ -2260,7 +2377,6 @@ on(
 );
 
 
-
 function load3DModel(
     building,
     model
@@ -2273,21 +2389,16 @@ function load3DModel(
         ||
         !main3DViewer
     ){
-
         return;
-
     }
 
-
-    state.viewerBuildingId =
+    state.viewerBuildingId=
         building.id;
 
-
-    state.viewerModelId =
+    state.viewerModelId=
         model.id;
 
-
-    current3DModel = {
+    current3DModel={
 
         buildingId:
             building.id,
@@ -2300,12 +2411,10 @@ function load3DModel(
 
     };
 
-
     applyModelDefaultCamera(
         model,
         true
     );
-
 
     renderModelSwitch(
         {
@@ -2322,18 +2431,15 @@ function load3DModel(
                 "viewerSingleModeBadge",
 
             onChange:
-                nextModelId => {
+                nextModelId=>{
 
-                    const nextModel =
+                    const nextModel=
                         getModelVariant(
                             building.id,
                             nextModelId
                         );
 
-
-                    if(
-                        nextModel
-                    ){
+                    if(nextModel){
 
                         load3DModel(
                             building,
@@ -2347,27 +2453,23 @@ function load3DModel(
         }
     );
 
-
     setViewerLoading(
         building,
         model
     );
 
-
     cacheModel(
         model.src
     );
 
-
-    const currentSrc =
+    const currentSrc=
         main3DViewer
-        .getAttribute(
-            "src"
-        );
-
+            .getAttribute(
+                "src"
+            );
 
     if(
-        currentSrc !==
+        currentSrc!==
         model.src
     ){
 
@@ -2386,7 +2488,6 @@ function load3DModel(
             model
         );
 
-
         applyModelDefaultCamera(
             model,
             true
@@ -2394,35 +2495,27 @@ function load3DModel(
 
     }
 
-
     applyDestinationMarker();
 
 }
-
 
 
 if(main3DViewer){
 
     main3DViewer.addEventListener(
         "load",
-        () => {
+        ()=>{
 
-            const building =
+            const building=
                 getBuildingById(
-                    current3DModel
-                    .buildingId
+                    current3DModel.buildingId
                 );
 
-
-            const model =
+            const model=
                 getModelVariant(
-                    current3DModel
-                    .buildingId,
-
-                    current3DModel
-                    .modelId
+                    current3DModel.buildingId,
+                    current3DModel.modelId
                 );
-
 
             if(
                 building
@@ -2435,7 +2528,6 @@ if(main3DViewer){
                     model
                 );
 
-
                 applyModelDefaultCamera(
                     model,
                     true
@@ -2446,27 +2538,20 @@ if(main3DViewer){
         }
     );
 
-
     main3DViewer.addEventListener(
         "error",
-        () => {
+        ()=>{
 
-            const building =
+            const building=
                 getBuildingById(
-                    current3DModel
-                    .buildingId
+                    current3DModel.buildingId
                 );
 
-
-            const model =
+            const model=
                 getModelVariant(
-                    current3DModel
-                    .buildingId,
-
-                    current3DModel
-                    .modelId
+                    current3DModel.buildingId,
+                    current3DModel.modelId
                 );
-
 
             if(
                 building
@@ -2487,18 +2572,16 @@ if(main3DViewer){
 }
 
 
-
 function prepareViewerBuilding(
     buildingId,
-    preferredModelId = null,
-    scroll = true
+    preferredModelId=null,
+    scroll=true
 ){
 
-    const building =
+    const building=
         getBuildingById(
             buildingId
         );
-
 
     if(!building){
 
@@ -2510,16 +2593,12 @@ function prepareViewerBuilding(
 
     }
 
-
-    const models =
+    const models=
         building.models
         ||
         [];
 
-
-    if(
-        !models.length
-    ){
+    if(!models.length){
 
         toast(
             "Model belum terdaftar."
@@ -2529,18 +2608,15 @@ function prepareViewerBuilding(
 
     }
 
-
     preloadBuildingModels(
         building
     );
-
 
     show(
         "viewerCard"
     );
 
-
-    const model =
+    const model=
         getModelVariant(
             building.id,
             preferredModelId
@@ -2552,17 +2628,15 @@ function prepareViewerBuilding(
         ||
         models[0];
 
-
     load3DModel(
         building,
         model
     );
 
-
     if(scroll){
 
         setTimeout(
-            () => {
+            ()=>{
 
                 byId(
                     "viewerCard"
@@ -2586,21 +2660,14 @@ function prepareViewerBuilding(
 on(
     "show3DModel",
     "click",
-    () => {
+    ()=>{
 
-        if(
-            !viewerBuildingSelect
-        ){
-
+        if(!viewerBuildingSelect){
             return;
-
         }
 
-
-        const buildingId =
-            viewerBuildingSelect
-            .value;
-
+        const buildingId=
+            viewerBuildingSelect.value;
 
         if(!buildingId){
 
@@ -2613,16 +2680,13 @@ on(
 
         }
 
-
         setText(
             "viewerMessage",
             ""
         );
 
-
-        state.pending3DMarker =
+        state.pending3DMarker=
             null;
-
 
         prepareViewerBuilding(
             buildingId,
@@ -2632,7 +2696,6 @@ on(
 
     }
 );
-
 
 
 function hideDestinationHotspot(){
@@ -2648,46 +2711,33 @@ function applyDestinationMarker(){
 
     hideDestinationHotspot();
 
-
     if(
         !state.pending3DMarker
         ||
         !main3DViewer
     ){
-
         return;
-
     }
 
+    const marker=
+        state.pending3DMarker.marker;
 
-    const marker =
-        state.pending3DMarker
-        .marker;
-
-
-    const hotspot =
+    const hotspot=
         byId(
             "destination3DHotspot"
         );
 
-
     if(!hotspot){
-
         return;
-
     }
 
-
-    hotspot.dataset.position =
+    hotspot.dataset.position=
         `${marker.x}m ${marker.y}m ${marker.z}m`;
-
 
     setText(
         "destination3DLabel",
-        state.pending3DMarker
-        .label
+        state.pending3DMarker.label
     );
-
 
     show(
         "destination3DHotspot"
@@ -2696,12 +2746,11 @@ function applyDestinationMarker(){
 }
 
 
-
 /* =========================================================
-   AR VIEWER
+   AR
 ========================================================= */
 
-const mainARViewer =
+const mainARViewer=
     byId(
         "mainARViewer"
     );
@@ -2712,17 +2761,15 @@ function setARLoading(
     model
 ){
 
-    const modelTitle =
+    const modelTitle=
         model.viewerTitle
         ||
         building.name;
-
 
     setText(
         "arViewerTitle",
         modelTitle
     );
-
 
     setText(
         "arCurrentModelName",
@@ -2733,37 +2780,31 @@ function setARLoading(
         model.name
     );
 
-
     setText(
         "arPreloadDescription",
         model.viewerDescription
     );
-
 
     setText(
         "arLoadStatus",
         "MEMUAT MODEL AR..."
     );
 
-
-    const dot =
+    const dot=
         byId(
             "arLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot loading";
 
     }
 
-
     show(
         "arLoadingOverlay"
     );
-
 
     hide(
         "arUnavailable"
@@ -2777,17 +2818,15 @@ function setARReady(
     model
 ){
 
-    const modelTitle =
+    const modelTitle=
         model.viewerTitle
         ||
         building.name;
-
 
     setText(
         "arViewerTitle",
         modelTitle
     );
-
 
     setText(
         "arCurrentModelName",
@@ -2798,37 +2837,31 @@ function setARReady(
         model.name
     );
 
-
     setText(
         "arPreloadDescription",
         model.viewerDescription
     );
-
 
     setText(
         "arLoadStatus",
         "MODEL AR SIAP"
     );
 
-
-    const dot =
+    const dot=
         byId(
             "arLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot ready";
 
     }
 
-
     hide(
         "arLoadingOverlay"
     );
-
 
     hide(
         "arUnavailable"
@@ -2842,17 +2875,15 @@ function setARUnavailable(
     model
 ){
 
-    const modelTitle =
+    const modelTitle=
         model.viewerTitle
         ||
         building.name;
-
 
     setText(
         "arViewerTitle",
         modelTitle
     );
-
 
     setText(
         "arCurrentModelName",
@@ -2863,37 +2894,31 @@ function setARUnavailable(
         model.name
     );
 
-
     setText(
         "arPreloadDescription",
         "Model 3D sedang dalam tahap penyelesaian"
     );
-
 
     setText(
         "arLoadStatus",
         "MODEL BELUM TERSEDIA"
     );
 
-
-    const dot =
+    const dot=
         byId(
             "arLoadingDot"
         );
 
-
     if(dot){
 
-        dot.className =
+        dot.className=
             "loading-dot error";
 
     }
 
-
     hide(
         "arLoadingOverlay"
     );
-
 
     show(
         "arUnavailable"
@@ -2902,26 +2927,21 @@ function setARUnavailable(
 }
 
 
-
 function loadARModel(
     buildingId,
     modelId
 ){
 
-    const building =
+    const building=
         getBuildingById(
             buildingId
         );
 
-
     if(!building){
-
         return;
-
     }
 
-
-    const model =
+    const model=
         getModelVariant(
             building.id,
             modelId
@@ -2931,31 +2951,23 @@ function loadARModel(
             building.id
         );
 
-
     if(!model){
-
         return;
-
     }
 
-
-    state.arBuildingId =
+    state.arBuildingId=
         building.id;
 
-
-    state.arModelId =
+    state.arModelId=
         model.id;
-
 
     preloadBuildingModels(
         building
     );
 
-
     show(
         "arViewerCard"
     );
-
 
     renderModelSwitch(
         {
@@ -2972,7 +2984,7 @@ function loadARModel(
                 "arSingleModeBadge",
 
             onChange:
-                nextModelId => {
+                nextModelId=>{
 
                     loadARModel(
                         building.id,
@@ -2984,12 +2996,10 @@ function loadARModel(
         }
     );
 
-
     setARLoading(
         building,
         model
     );
-
 
     if(mainARViewer){
 
@@ -3004,25 +3014,22 @@ function loadARModel(
 }
 
 
-
 if(mainARViewer){
 
     mainARViewer.addEventListener(
         "load",
-        () => {
+        ()=>{
 
-            const building =
+            const building=
                 getBuildingById(
                     state.arBuildingId
                 );
 
-
-            const model =
+            const model=
                 getModelVariant(
                     state.arBuildingId,
                     state.arModelId
                 );
-
 
             if(
                 building
@@ -3040,23 +3047,20 @@ if(mainARViewer){
         }
     );
 
-
     mainARViewer.addEventListener(
         "error",
-        () => {
+        ()=>{
 
-            const building =
+            const building=
                 getBuildingById(
                     state.arBuildingId
                 );
 
-
-            const model =
+            const model=
                 getModelVariant(
                     state.arBuildingId,
                     state.arModelId
                 );
-
 
             if(
                 building
@@ -3077,16 +3081,14 @@ if(mainARViewer){
 }
 
 
-
 on(
     "prepareMainAR",
     "click",
-    () => {
+    ()=>{
 
-        const buildingId =
+        const buildingId=
             arBuildingSelect
             ?.value;
-
 
         if(!buildingId){
 
@@ -3099,25 +3101,19 @@ on(
 
         }
 
-
-        const model =
+        const model=
             getDefaultModelVariant(
                 buildingId
             );
 
-
         if(!model){
-
             return;
-
         }
-
 
         setText(
             "arMessage",
             ""
         );
-
 
         loadARModel(
             buildingId,
@@ -3128,9 +3124,8 @@ on(
 );
 
 
-
 /* =========================================================
-   DIRECTORY
+   DIREKTORI
 ========================================================= */
 
 function locationForBuilding(
@@ -3139,11 +3134,11 @@ function locationForBuilding(
 
     return (
         locations.find(
-            location =>
-                location.type ===
+            location=>
+                location.type===
                     "building"
                 &&
-                location.id ===
+                location.id===
                     building.id
         )
         ||
@@ -3159,11 +3154,11 @@ function locationForRoom(
 
     return (
         locations.find(
-            location =>
-                location.type ===
+            location=>
+                location.type===
                     "room"
                 &&
-                location.id ===
+                location.id===
                     room.id
         )
         ||
@@ -3173,6 +3168,134 @@ function locationForRoom(
 }
 
 
+/* =========================================================
+   REVISI 44
+   SINGLE ACCORDION
+========================================================= */
+
+function closeDirectoryRoomItem(
+    item
+){
+
+    if(!item){
+        return;
+    }
+
+    item.classList.remove(
+        "open"
+    );
+
+    const toggle=
+        item.querySelector(
+            ".room-toggle-button"
+        );
+
+    const actions=
+        item.querySelector(
+            ".room-actions"
+        );
+
+    toggle?.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    actions
+        ?.classList
+        .add(
+            "hidden"
+        );
+
+}
+
+
+function closeDirectoryBuildingCard(
+    article
+){
+
+    if(!article){
+        return;
+    }
+
+    article.classList.remove(
+        "open"
+    );
+
+    article
+        .querySelector(
+            ".building-button"
+        )
+        ?.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    article
+        .querySelectorAll(
+            ".room-item.open"
+        )
+        .forEach(
+            closeDirectoryRoomItem
+        );
+
+}
+
+
+function closeOtherDirectoryRooms(
+    currentItem
+){
+
+    document
+        .querySelectorAll(
+            ".directory .room-item.open"
+        )
+        .forEach(
+            item=>{
+
+                if(
+                    item!==
+                    currentItem
+                ){
+
+                    closeDirectoryRoomItem(
+                        item
+                    );
+
+                }
+
+            }
+        );
+
+}
+
+
+function closeOtherDirectoryBuildings(
+    currentArticle
+){
+
+    document
+        .querySelectorAll(
+            ".directory .building-card.open"
+        )
+        .forEach(
+            article=>{
+
+                if(
+                    article!==
+                    currentArticle
+                ){
+
+                    closeDirectoryBuildingCard(
+                        article
+                    );
+
+                }
+
+            }
+        );
+
+}
+
 
 function renderRoomList(
     roomList,
@@ -3180,136 +3303,159 @@ function renderRoomList(
 ){
 
     if(!container){
-
         return;
-
     }
 
+    container.innerHTML="";
 
-    container.innerHTML =
-        "";
+    /*
+       REVISI 44:
+       jika gedung tidak punya cabang ruangan,
+       jangan tampilkan placeholder apa pun.
+    */
 
-
-    if(
-        !roomList.length
-    ){
-
-        container.innerHTML =
-            `
-            <div class="search-empty">
-                Data ruangan akan dilengkapi kemudian.
-            </div>
-            `;
-
-
+    if(!roomList.length){
         return;
-
     }
 
-
-    const grid =
+    const grid=
         document.createElement(
             "div"
         );
 
-
-    grid.className =
+    grid.className=
         "room-grid";
 
-
     roomList.forEach(
-        room => {
+        room=>{
 
-            const location =
+            const location=
                 locationForRoom(
                     room
                 );
 
-
-            const item =
+            const item=
                 document.createElement(
                     "div"
                 );
 
-
-            const actionsId =
+            const actionsId=
                 `directory-room-actions-${room.id}`;
 
-
-            item.className =
+            item.className=
                 "room-item";
 
-
-            item.innerHTML =
+            item.innerHTML=
                 `
                 <button
                     type="button"
                     class="room-row room-toggle-button"
                     aria-expanded="false"
-                    aria-controls="${actionsId}"
-                >
-                    <span class="room-name"></span>
+                    aria-controls="${actionsId}">
+
+                    <span class="room-name-wrap">
+
+                        <span class="room-name">
+                        </span>
+
+                        <span class="room-unit-slot">
+                        </span>
+
+                    </span>
 
                     <span
                         class="room-chevron"
-                        aria-hidden="true"
-                    >
+                        aria-hidden="true">
                         ›
                     </span>
+
                 </button>
+
 
                 <div
                     id="${actionsId}"
-                    class="room-actions hidden"
-                >
+                    class="room-actions hidden">
+
                     <button
                         type="button"
-                        class="room-info"
-                    >
+                        class="room-info">
                         Informasi
                     </button>
 
                     <button
                         type="button"
-                        class="room-nav"
-                    >
+                        class="room-nav">
                         Petunjuk Arah
                     </button>
+
+                    ${
+                        room.buildingId===
+                        "biro-ft"
+                        ?
+                        `
+                        <button
+                            type="button"
+                            class="room-tendik">
+                            Tendik
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
                 </div>
                 `;
-
 
             item
                 .querySelector(
                     ".room-name"
                 )
-                .textContent =
+                .textContent=
                     room.name;
 
+            const unitSlot=
+                item.querySelector(
+                    ".room-unit-slot"
+                );
 
-            const toggle =
+            if(unitSlot){
+
+                unitSlot.innerHTML=
+                    renderUnitMarkup(
+                        room.units
+                    );
+
+            }
+
+            const toggle=
                 item.querySelector(
                     ".room-toggle-button"
                 );
 
-
-            const actions =
+            const actions=
                 item.querySelector(
                     ".room-actions"
                 );
 
-
             toggle.addEventListener(
                 "click",
-                () => {
+                ()=>{
 
-                    const expanded =
+                    const expanded=
                         toggle.getAttribute(
                             "aria-expanded"
                         )
                         !==
                         "true";
 
+                    /*
+                       Tutup semua ruangan lain
+                       sebelum membuka yang dipilih.
+                    */
+
+                    closeOtherDirectoryRooms(
+                        item
+                    );
 
                     toggle.setAttribute(
                         "aria-expanded",
@@ -3318,14 +3464,12 @@ function renderRoomList(
                         )
                     );
 
-
                     actions
                         .classList
                         .toggle(
                             "hidden",
                             !expanded
                         );
-
 
                     item
                         .classList
@@ -3337,14 +3481,13 @@ function renderRoomList(
                 }
             );
 
-
             item
                 .querySelector(
                     ".room-info"
                 )
                 .addEventListener(
                     "click",
-                    () => {
+                    ()=>{
 
                         openInfo(
                             location
@@ -3353,14 +3496,13 @@ function renderRoomList(
                     }
                 );
 
-
             item
                 .querySelector(
                     ".room-nav"
                 )
                 .addEventListener(
                     "click",
-                    () => {
+                    ()=>{
 
                         openNavigationWithDestination(
                             location
@@ -3369,6 +3511,20 @@ function renderRoomList(
                     }
                 );
 
+            item
+                .querySelector(
+                    ".room-tendik"
+                )
+                ?.addEventListener(
+                    "click",
+                    ()=>{
+
+                        openTendik(
+                            room
+                        );
+
+                    }
+                );
 
             grid.appendChild(
                 item
@@ -3377,7 +3533,6 @@ function renderRoomList(
         }
     );
 
-
     container.appendChild(
         grid
     );
@@ -3385,27 +3540,23 @@ function renderRoomList(
 }
 
 
-
 function renderLaboratory(
     roomList,
     container
 ){
 
-    const floorButtons =
+    const floorButtons=
         document.createElement(
             "div"
         );
 
-
-    floorButtons.className =
+    floorButtons.className=
         "floor-buttons";
 
-
-    const roomContainer =
+    const roomContainer=
         document.createElement(
             "div"
         );
-
 
     [
         1,
@@ -3413,36 +3564,32 @@ function renderLaboratory(
         3
     ]
     .forEach(
-        floor => {
+        floor=>{
 
-            const button =
+            const button=
                 document.createElement(
                     "button"
                 );
 
-
-            button.type =
+            button.type=
                 "button";
 
-
-            button.className =
+            button.className=
                 "floor-button";
 
-
-            button.textContent =
+            button.textContent=
                 `Lantai ${floor}`;
-
 
             button.addEventListener(
                 "click",
-                () => {
+                ()=>{
 
                     Array
                     .from(
                         floorButtons.children
                     )
                     .forEach(
-                        item => {
+                        item=>{
 
                             item.classList.remove(
                                 "active"
@@ -3451,16 +3598,14 @@ function renderLaboratory(
                         }
                     );
 
-
                     button.classList.add(
                         "active"
                     );
 
-
                     renderRoomList(
                         roomList.filter(
-                            room =>
-                                room.floor ===
+                            room=>
+                                room.floor===
                                 floor
                         ),
                         roomContainer
@@ -3469,7 +3614,6 @@ function renderLaboratory(
                 }
             );
 
-
             floorButtons.appendChild(
                 button
             );
@@ -3477,16 +3621,13 @@ function renderLaboratory(
         }
     );
 
-
     container.appendChild(
         floorButtons
     );
 
-
     container.appendChild(
         roomContainer
     );
-
 
     floorButtons
         .firstElementChild
@@ -3495,77 +3636,63 @@ function renderLaboratory(
 }
 
 
-
 function renderDirectory(){
 
-    const container =
+    const container=
         byId(
             "directoryContainer"
         );
 
-
     if(!container){
-
         return;
-
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML="";
 
     buildings.forEach(
         (
             building,
             index
-        ) => {
+        )=>{
 
-            const buildingRooms =
+            const buildingRooms=
                 rooms.filter(
-                    room =>
-                        room.buildingId ===
+                    room=>
+                        room.buildingId===
                         building.id
                 );
 
-
-            const location =
+            const location=
                 locationForBuilding(
                     building
                 );
 
-
-            const article =
+            const article=
                 document.createElement(
                     "article"
                 );
 
-
-            article.className =
+            article.className=
                 "building-card";
 
-
-            article.innerHTML =
+            article.innerHTML=
                 `
                 <button
                     class="building-button"
                     type="button"
                     aria-expanded="false"
-                    aria-controls="directory-building-content-${building.id}"
-                >
+                    aria-controls="directory-building-content-${building.id}">
 
                     <span class="building-number">
-                        ${String(index + 1).padStart(2,"0")}
+                        ${String(index+1).padStart(2,"0")}
                     </span>
 
                     <span>
+
                         <strong>
                             ${building.name}
                         </strong>
 
-                        <p>
-                            ${building.description || ""}
-                        </p>
                     </span>
 
                     <span>
@@ -3574,36 +3701,63 @@ function renderDirectory(){
 
                 </button>
 
+
                 <div
                     id="directory-building-content-${building.id}"
-                    class="building-content"
-                >
+                    class="building-content">
                 </div>
                 `;
 
-
-            const header =
+            const header=
                 article.querySelector(
                     ".building-button"
                 );
 
-
-            const content =
+            const content=
                 article.querySelector(
                     ".building-content"
                 );
 
-
             header
             ?.addEventListener(
                 "click",
-                () => {
+                ()=>{
 
-                    const expanded =
-                        article.classList.toggle(
-                            "open"
+                    const expanded=
+                        !article
+                            .classList
+                            .contains(
+                                "open"
+                            );
+
+                    /*
+                       REVISI 44:
+                       saat gedung baru dibuka,
+                       gedung sebelumnya otomatis tertutup.
+                    */
+
+                    closeOtherDirectoryBuildings(
+                        article
+                    );
+
+                    if(!expanded){
+
+                        article
+                            .querySelectorAll(
+                                ".room-item.open"
+                            )
+                            .forEach(
+                                closeDirectoryRoomItem
+                            );
+
+                    }
+
+                    article
+                        .classList
+                        .toggle(
+                            "open",
+                            expanded
                         );
-
 
                     header.setAttribute(
                         "aria-expanded",
@@ -3615,39 +3769,47 @@ function renderDirectory(){
                 }
             );
 
-
-            const actions =
+            const actions=
                 document.createElement(
                     "div"
                 );
 
-
-            actions.className =
+            actions.className=
                 "building-actions";
 
-
-            actions.innerHTML =
+            actions.innerHTML=
                 `
                 <button
                     class="button button-primary building-info"
-                    type="button"
-                >
+                    type="button">
                     Informasi
                 </button>
 
                 <button
                     class="button button-primary building-nav"
-                    type="button"
-                >
+                    type="button">
                     Petunjuk Arah
                 </button>
-                `;
 
+                ${
+                    building.id===
+                    "perpustakaan-ft"
+                    ?
+                    `
+                    <button
+                        class="button button-primary building-tendik"
+                        type="button">
+                        Tendik
+                    </button>
+                    `
+                    :
+                    ""
+                }
+                `;
 
             content.appendChild(
                 actions
             );
-
 
             actions
                 .querySelector(
@@ -3655,7 +3817,7 @@ function renderDirectory(){
                 )
                 ?.addEventListener(
                     "click",
-                    () => {
+                    ()=>{
 
                         openInfo(
                             location
@@ -3664,14 +3826,13 @@ function renderDirectory(){
                     }
                 );
 
-
             actions
                 .querySelector(
                     ".building-nav"
                 )
                 ?.addEventListener(
                     "click",
-                    () => {
+                    ()=>{
 
                         openNavigationWithDestination(
                             location
@@ -3680,39 +3841,64 @@ function renderDirectory(){
                     }
                 );
 
+            actions
+                .querySelector(
+                    ".building-tendik"
+                )
+                ?.addEventListener(
+                    "click",
+                    ()=>{
 
-            const roomHolder =
-                document.createElement(
-                    "div"
+                        openTendik(
+                            location
+                        );
+
+                    }
                 );
 
+            /*
+               REVISI 44:
+               hanya buat area daftar ruangan jika
+               gedung memang mempunyai data ruangan.
 
-            content.appendChild(
-                roomHolder
-            );
+               Ini menghilangkan placeholder pada:
+               - Perpustakaan
+               - Ruang Serbaguna
+            */
 
+            if(buildingRooms.length){
 
-            if(
-                building.id ===
-                "laboratorium-ft"
-            ){
+                const roomHolder=
+                    document.createElement(
+                        "div"
+                    );
 
-                renderLaboratory(
-                    buildingRooms,
+                content.appendChild(
                     roomHolder
                 );
 
+                if(
+                    building.id===
+                    "laboratorium-ft"
+                ){
+
+                    renderLaboratory(
+                        buildingRooms,
+                        roomHolder
+                    );
+
+                }
+
+                else{
+
+                    renderRoomList(
+                        buildingRooms,
+                        roomHolder
+                    );
+
+                }
+
             }
-
-            else{
-
-                renderRoomList(
-                    buildingRooms,
-                    roomHolder
-                );
-
-            }
-
 
             container.appendChild(
                 article
@@ -3724,16 +3910,15 @@ function renderDirectory(){
 }
 
 
-
 /* =========================================================
-   NAVIGATION UI
+   NAVIGATION STEP
 ========================================================= */
 
 function setStep(
     stepNumber
 ){
 
-    const ids = [
+    const ids=[
 
         "stepTarget",
 
@@ -3745,37 +3930,31 @@ function setStep(
 
     ];
 
-
     ids.forEach(
         (
             id,
             index
-        ) => {
+        )=>{
 
-            const element =
+            const element=
                 byId(
                     id
                 );
 
-
             if(!element){
-
                 return;
-
             }
-
 
             element.classList.toggle(
                 "active",
-                index + 1 <=
-                    stepNumber
+                index+1<=
+                stepNumber
             );
 
         }
     );
 
 }
-
 
 
 /* =========================================================
@@ -3792,31 +3971,24 @@ function getImageContentBox(
         ||
         !image
     ){
-
         return null;
-
     }
 
-
-    const containerWidth =
+    const containerWidth=
         container.clientWidth;
 
-
-    const containerHeight =
+    const containerHeight=
         container.clientHeight;
 
-
-    const naturalWidth =
+    const naturalWidth=
         image.naturalWidth
         ||
         containerWidth;
 
-
-    const naturalHeight =
+    const naturalHeight=
         image.naturalHeight
         ||
         containerHeight;
-
 
     if(
         !containerWidth
@@ -3827,68 +3999,60 @@ function getImageContentBox(
         ||
         !naturalHeight
     ){
-
         return null;
-
     }
 
-
-    const scale =
+    const scale=
         Math.min(
-            containerWidth /
+            containerWidth
+            /
             naturalWidth,
 
-            containerHeight /
+            containerHeight
+            /
             naturalHeight
         );
 
-
-    const width =
-        naturalWidth *
+    const width=
+        naturalWidth
+        *
         scale;
 
-
-    const height =
-        naturalHeight *
+    const height=
+        naturalHeight
+        *
         scale;
 
-
-    const left =
+    const left=
         (
-            containerWidth -
+            containerWidth
+            -
             width
         )
         /
         2;
 
-
-    const top =
+    const top=
         (
-            containerHeight -
+            containerHeight
+            -
             height
         )
         /
         2;
 
-
     return {
 
         left,
-
         top,
-
         width,
-
         height,
-
         naturalWidth,
-
         naturalHeight
 
     };
 
 }
-
 
 
 function fitContainerToImage(
@@ -3905,17 +4069,13 @@ function fitContainerToImage(
         ||
         !image.naturalHeight
     ){
-
         return;
-
     }
 
-
-    container.style.aspectRatio =
+    container.style.aspectRatio=
         `${image.naturalWidth} / ${image.naturalHeight}`;
 
 }
-
 
 
 function fitSvgToImage(
@@ -3931,51 +4091,46 @@ function fitSvgToImage(
         ||
         !image
     ){
-
         return;
-
     }
 
-
-    const box =
+    const box=
         getImageContentBox(
             container,
             image
         );
 
-
     if(!box){
-
         return;
-
     }
 
-
-    svg.style.inset =
+    svg.style.inset=
         "auto";
 
+    svg.style.left=
+        box.left
+        +
+        "px";
 
-    svg.style.left =
-        box.left + "px";
+    svg.style.top=
+        box.top
+        +
+        "px";
 
+    svg.style.width=
+        box.width
+        +
+        "px";
 
-    svg.style.top =
-        box.top + "px";
-
-
-    svg.style.width =
-        box.width + "px";
-
-
-    svg.style.height =
-        box.height + "px";
-
+    svg.style.height=
+        box.height
+        +
+        "px";
 
     svg.setAttribute(
         "viewBox",
         `0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`
     );
-
 
     svg.setAttribute(
         "preserveAspectRatio",
@@ -3985,37 +4140,30 @@ function fitSvgToImage(
 }
 
 
-
 function syncNavigationMapGeometry(){
 
-    const container =
+    const container=
         byId(
             "navigationMap"
         );
 
-
-    const image =
+    const image=
         byId(
             "navigationMapImage"
         );
-
 
     if(
         !container
         ||
         !image
     ){
-
         return;
-
     }
-
 
     fitContainerToImage(
         container,
         image
     );
-
 
     fitSvgToImage(
         container.querySelector(
@@ -4025,27 +4173,20 @@ function syncNavigationMapGeometry(){
         image
     );
 
-
-    if(
-        state.routeResult
-    ){
+    if(state.routeResult){
 
         positionSelectionMapElement(
             byId(
                 "userMarker"
             ),
-            state.routeResult
-            .startSnap
-            .point
+            state.routeResult.startSnap.point
         );
-
 
         positionSelectionMapElement(
             byId(
                 "entranceMarker"
             ),
-            state.routeResult
-            .entrance
+            state.routeResult.entrance
         );
 
     }
@@ -4053,40 +4194,30 @@ function syncNavigationMapGeometry(){
 }
 
 
-
 function syncLiveMapGeometry(){
 
-    const container =
+    const container=
         byId(
             "liveMapContent"
         );
 
-
     if(!container){
-
         return;
-
     }
 
-
-    const image =
+    const image=
         container.querySelector(
             ".live-map-background"
         );
 
-
     if(!image){
-
         return;
-
     }
-
 
     fitContainerToImage(
         container,
         image
     );
-
 
     fitSvgToImage(
         container.querySelector(
@@ -4096,36 +4227,27 @@ function syncLiveMapGeometry(){
         image
     );
 
-
-    if(
-        state.routeResult
-    ){
+    if(state.routeResult){
 
         positionLiveMapElement(
             byId(
                 "liveUserMarker"
             ),
-            state.routeResult
-            .startSnap
-            .point
+            state.routeResult.startSnap.point
         );
-
 
         positionLiveMapElement(
             byId(
                 "liveDestinationMarker"
             ),
-            state.routeResult
-            .entrance
+            state.routeResult.entrance
         );
-
 
         renderLiveBuildingMarkers();
 
     }
 
 }
-
 
 
 function syncAllMapGeometry(){
@@ -4135,7 +4257,6 @@ function syncAllMapGeometry(){
     syncLiveMapGeometry();
 
 }
-
 
 
 function positionElementOnImage(
@@ -4154,32 +4275,26 @@ function positionElementOnImage(
         ||
         !image
     ){
-
         return;
-
     }
 
-
-    const box =
+    const box=
         getImageContentBox(
             container,
             image
         );
 
-
     if(!box){
-
         return;
-
     }
 
-
-    element.style.left =
+    element.style.left=
         (
             box.left
             +
             (
-                point.x /
+                point.x
+                /
                 MAP_WIDTH
             )
             *
@@ -4188,13 +4303,13 @@ function positionElementOnImage(
         +
         "px";
 
-
-    element.style.top =
+    element.style.top=
         (
             box.top
             +
             (
-                point.y /
+                point.y
+                /
                 MAP_HEIGHT
             )
             *
@@ -4206,7 +4321,6 @@ function positionElementOnImage(
 }
 
 
-
 function positionSelectionMapElement(
     element,
     point
@@ -4215,11 +4329,9 @@ function positionSelectionMapElement(
     positionElementOnImage(
         element,
         point,
-
         byId(
             "navigationMap"
         ),
-
         byId(
             "navigationMapImage"
         )
@@ -4228,24 +4340,19 @@ function positionSelectionMapElement(
 }
 
 
-
 function positionLiveMapElement(
     element,
     point
 ){
 
-    const container =
+    const container=
         byId(
             "liveMapContent"
         );
 
-
     if(!container){
-
         return;
-
     }
-
 
     positionElementOnImage(
         element,
@@ -4259,41 +4366,30 @@ function positionLiveMapElement(
 }
 
 
-
 /* =========================================================
-   RESET NAVIGATION
+   RESET NAVIGASI
 ========================================================= */
 
 function resetNavigation(){
 
     stopGpsTracking();
 
+    state.destination=null;
 
-    state.destination =
-        null;
+    state.clickedPosition=null;
 
+    state.routeResult=null;
 
-    state.clickedPosition =
-        null;
-
-
-    state.routeResult =
-        null;
-
-
-    const search =
+    const search=
         byId(
             "navigationSearch"
         );
 
-
     if(search){
 
-        search.value =
-            "";
+        search.value="";
 
     }
-
 
     byId(
         "activeRoute"
@@ -4303,56 +4399,46 @@ function resetNavigation(){
         ""
     );
 
-
     hide(
         "mapSection"
     );
-
 
     hide(
         "selectedDestination"
     );
 
-
     hide(
         "routeFoundBox"
     );
-
 
     hide(
         "userMarker"
     );
 
-
     hide(
         "entranceMarker"
     );
-
 
     hide(
         "resetPosition"
     );
 
-
     show(
         "mapInstructionArea"
     );
-
 
     setStep(
         1
     );
 
-
-    const results =
+    const results=
         byId(
             "navigationSearchResults"
         );
 
-
     if(results){
 
-        results.innerHTML =
+        results.innerHTML=
             `
             <div class="search-empty">
                 Ketik nama gedung atau ruangan tujuan.
@@ -4364,7 +4450,6 @@ function resetNavigation(){
 }
 
 
-
 /* =========================================================
    SELECT DESTINATION
 ========================================================= */
@@ -4374,35 +4459,28 @@ function selectDestination(
 ){
 
     if(!location){
-
         return;
-
     }
 
-
-    state.destination =
+    state.destination=
         location;
 
-
-    const search =
+    const search=
         byId(
             "navigationSearch"
         );
 
-
     if(search){
 
-        search.value =
+        search.value=
             location.name;
 
     }
-
 
     setText(
         "selectedDestinationName",
         location.name
     );
-
 
     setText(
         "selectedDestinationParent",
@@ -4411,62 +4489,49 @@ function selectDestination(
         "Fakultas Teknik UISU"
     );
 
-
     show(
         "selectedDestination"
     );
 
-
-    const results =
+    const results=
         byId(
             "navigationSearchResults"
         );
 
-
     if(results){
 
-        results.innerHTML =
-            "";
+        results.innerHTML="";
 
     }
 
-
     setText(
         "mapHeadingTitle",
-
         `Tap pada denah sesuai posisi Anda sekarang, lalu sistem akan memberikan jalur terdekat menuju ${location.name}.`
     );
-
 
     show(
         "mapInstructionArea"
     );
 
-
     show(
         "mapSection"
     );
-
 
     hide(
         "routeFoundBox"
     );
 
-
     hide(
         "userMarker"
     );
-
 
     hide(
         "entranceMarker"
     );
 
-
     hide(
         "resetPosition"
     );
-
 
     byId(
         "activeRoute"
@@ -4476,17 +4541,14 @@ function selectDestination(
         ""
     );
 
-
     setStep(
         2
     );
 
-
     setTimeout(
-        () => {
+        ()=>{
 
             syncNavigationMapGeometry();
-
 
             byId(
                 "mapSection"
@@ -4505,8 +4567,7 @@ function selectDestination(
 }
 
 
-
-const navigationSearch =
+const navigationSearch=
     byId(
         "navigationSearch"
     );
@@ -4516,42 +4577,34 @@ if(navigationSearch){
 
     navigationSearch.addEventListener(
         "input",
-        () => {
+        ()=>{
 
-            const value =
+            const value=
                 navigationSearch.value;
 
-
-            const container =
+            const container=
                 byId(
                     "navigationSearchResults"
                 );
 
+            if(!value.trim()){
 
-            if(
-                !value.trim()
-            ){
-
-                container.innerHTML =
+                container.innerHTML=
                     `
                     <div class="search-empty">
                         Ketik nama gedung atau ruangan tujuan.
                     </div>
                     `;
 
-
                 return;
 
             }
-
 
             renderSearchResults(
                 searchLocations(
                     value
                 ),
-
                 container,
-
                 selectDestination
             );
 
@@ -4561,9 +4614,8 @@ if(navigationSearch){
 }
 
 
-
 /* =========================================================
-   DIJKSTRA GRAPH
+   ROUTING
 ========================================================= */
 
 function pointDistance(
@@ -4572,38 +4624,35 @@ function pointDistance(
 ){
 
     return Math.hypot(
-        a.x - b.x,
-        a.y - b.y
+        a.x-b.x,
+        a.y-b.y
     );
 
 }
 
 
-
-const graph = {};
+const graph={};
 
 
 Object.keys(
     mapNodes
 )
 .forEach(
-    nodeId => {
+    nodeId=>{
 
-        graph[nodeId] =
-            [];
+        graph[nodeId]=[];
 
     }
 );
 
 
-
-const preparedEdges =
+const preparedEdges=
     mapEdges.map(
-        edge => {
+        edge=>{
 
-            const points =
+            const points=
                 edge.points.map(
-                    point => (
+                    point=>(
                         {
                             x:point[0],
                             y:point[1]
@@ -4611,26 +4660,23 @@ const preparedEdges =
                     )
                 );
 
+            let length=0;
 
-            let length = 0;
-
-
-            const cumulative =
-                [0];
-
+            const cumulative=[
+                0
+            ];
 
             for(
-                let i = 0;
-                i < points.length - 1;
+                let i=0;
+                i<points.length-1;
                 i++
             ){
 
-                length +=
+                length+=
                     pointDistance(
                         points[i],
-                        points[i + 1]
+                        points[i+1]
                     );
-
 
                 cumulative.push(
                     length
@@ -4638,17 +4684,13 @@ const preparedEdges =
 
             }
 
-
             return {
 
-                id:
-                    edge.id,
+                id:edge.id,
 
-                from:
-                    edge.from,
+                from:edge.from,
 
-                to:
-                    edge.to,
+                to:edge.to,
 
                 points,
 
@@ -4662,17 +4704,16 @@ const preparedEdges =
     );
 
 
-
-const edgeById = {};
+const edgeById={};
 
 
 preparedEdges.forEach(
-    edge => {
+    edge=>{
 
         edgeById[
             edge.id
-        ] = edge;
-
+        ]=
+            edge;
 
         graph[
             edge.from
@@ -4689,7 +4730,6 @@ preparedEdges.forEach(
                     edge.length
             }
         );
-
 
         graph[
             edge.to
@@ -4711,53 +4751,43 @@ preparedEdges.forEach(
 );
 
 
-
-/* =========================================================
-   SNAP POINT TO ROUTE
-========================================================= */
-
 function projectPointToSegment(
     point,
     a,
     b
 ){
 
-    const abX =
-        b.x - a.x;
+    const abX=
+        b.x-a.x;
 
+    const abY=
+        b.y-a.y;
 
-    const abY =
-        b.y - a.y;
+    const apX=
+        point.x-a.x;
 
+    const apY=
+        point.y-a.y;
 
-    const apX =
-        point.x - a.x;
-
-
-    const apY =
-        point.y - a.y;
-
-
-    const lengthSquared =
+    const lengthSquared=
         (
-            abX * abX
+            abX*abX
         )
         +
         (
-            abY * abY
+            abY*abY
         );
 
-
-    let t =
+    let t=
         lengthSquared
         ?
         (
             (
-                apX * abX
+                apX*abX
             )
             +
             (
-                apY * abY
+                apY*abY
             )
         )
         /
@@ -4765,8 +4795,7 @@ function projectPointToSegment(
         :
         0;
 
-
-    t =
+    t=
         Math.max(
             0,
             Math.min(
@@ -4775,21 +4804,19 @@ function projectPointToSegment(
             )
         );
 
-
-    const projected = {
+    const projected={
 
         x:
             a.x
             +
-            abX * t,
+            abX*t,
 
         y:
             a.y
             +
-            abY * t
+            abY*t
 
     };
-
 
     return {
 
@@ -4809,63 +4836,55 @@ function projectPointToSegment(
 }
 
 
-
 function snapToRoute(
     point
 ){
 
-    let best =
-        null;
-
+    let best=null;
 
     preparedEdges.forEach(
-        edge => {
+        edge=>{
 
             for(
-                let i = 0;
-                i < edge.points.length - 1;
+                let i=0;
+                i<edge.points.length-1;
                 i++
             ){
 
-                const a =
+                const a=
                     edge.points[i];
 
+                const b=
+                    edge.points[i+1];
 
-                const b =
-                    edge.points[i + 1];
-
-
-                const projection =
+                const projection=
                     projectPointToSegment(
                         point,
                         a,
                         b
                     );
 
-
-                const segmentLength =
+                const segmentLength=
                     pointDistance(
                         a,
                         b
                     );
 
-
-                const along =
+                const along=
                     edge.cumulative[i]
                     +
                     segmentLength
                     *
                     projection.t;
 
-
                 if(
                     !best
                     ||
-                    projection.distance <
+                    projection.distance<
                     best.distance
                 ){
 
-                    best = {
+                    best={
 
                         edge,
 
@@ -4884,7 +4903,8 @@ function snapToRoute(
                             along,
 
                         distanceToTo:
-                            edge.length -
+                            edge.length
+                            -
                             along
 
                     };
@@ -4896,27 +4916,20 @@ function snapToRoute(
         }
     );
 
-
     return best;
 
 }
 
-
-
-/* =========================================================
-   DIJKSTRA
-========================================================= */
 
 function dijkstra(
     start,
     target
 ){
 
-    const nodeIds =
+    const nodeIds=
         Object.keys(
             graph
         );
-
 
     if(
         !nodeIds.includes(
@@ -4932,68 +4945,57 @@ function dijkstra(
 
     }
 
+    const distances={};
 
-    const distances = {};
+    const previous={};
 
-    const previous = {};
-
-    const previousEdge = {};
-
+    const previousEdge={};
 
     nodeIds.forEach(
-        id => {
+        id=>{
 
-            distances[id] =
+            distances[id]=
                 Infinity;
 
-
-            previous[id] =
+            previous[id]=
                 null;
 
-
-            previousEdge[id] =
+            previousEdge[id]=
                 null;
 
         }
     );
 
-
-    distances[start] =
+    distances[start]=
         0;
 
-
-    const unvisited =
+    const unvisited=
         new Set(
             nodeIds
         );
-
 
     while(
         unvisited.size
     ){
 
-        let current =
+        let current=
             null;
 
-
-        let smallest =
+        let smallest=
             Infinity;
 
-
         unvisited.forEach(
-            id => {
+            id=>{
 
                 if(
-                    distances[id]
-                    <
+                    distances[id]<
                     smallest
                 ){
 
-                    smallest =
+                    smallest=
                         distances[id];
 
-
-                    current =
+                    current=
                         id;
 
                 }
@@ -5001,57 +5003,49 @@ function dijkstra(
             }
         );
 
-
         if(
-            current === null
+            current===null
             ||
-            smallest === Infinity
+            smallest===Infinity
         ){
 
             break;
 
         }
-
 
         if(
-            current === target
+            current===target
         ){
 
             break;
 
         }
-
 
         unvisited.delete(
             current
         );
 
-
         graph[
             current
         ]
         .forEach(
-            connection => {
+            connection=>{
 
                 if(
                     !unvisited.has(
                         connection.node
                     )
                 ){
-
                     return;
-
                 }
 
-
-                const candidate =
+                const candidate=
                     distances[current]
                     +
                     connection.weight;
 
-
                 if(
-                    candidate <
+                    candidate<
                     distances[
                         connection.node
                     ]
@@ -5059,19 +5053,17 @@ function dijkstra(
 
                     distances[
                         connection.node
-                    ] =
+                    ]=
                         candidate;
-
 
                     previous[
                         connection.node
-                    ] =
+                    ]=
                         current;
-
 
                     previousEdge[
                         connection.node
-                    ] =
+                    ]=
                         connection.edgeId;
 
                 }
@@ -5081,25 +5073,19 @@ function dijkstra(
 
     }
 
-
     if(
-        distances[target] ===
+        distances[target]===
         Infinity
     ){
-
         return null;
-
     }
 
+    const nodes=[];
 
-    const nodes = [];
+    const edges=[];
 
-    const edges = [];
-
-
-    let cursor =
+    let cursor=
         target;
-
 
     while(cursor){
 
@@ -5107,16 +5093,11 @@ function dijkstra(
             cursor
         );
 
-
         if(
-            cursor ===
-            start
+            cursor===start
         ){
-
             break;
-
         }
-
 
         edges.unshift(
             previousEdge[
@@ -5124,14 +5105,12 @@ function dijkstra(
             ]
         );
 
-
-        cursor =
+        cursor=
             previous[
                 cursor
             ];
 
     }
-
 
     return {
 
@@ -5147,21 +5126,15 @@ function dijkstra(
 }
 
 
-
-/* =========================================================
-   ROUTE POLYLINE
-========================================================= */
-
 function pointsFromSnapToEndpoint(
     snap,
     endpoint
 ){
 
-    const points =
+    const points=
         snap.edge.points;
 
-
-    const output = [
+    const output=[
 
         {
             x:
@@ -5173,9 +5146,8 @@ function pointsFromSnapToEndpoint(
 
     ];
 
-
     if(
-        endpoint ===
+        endpoint===
         snap.edge.from
     ){
 
@@ -5185,12 +5157,11 @@ function pointsFromSnapToEndpoint(
             ]
         );
 
-
         for(
-            let i =
-                snap.segmentIndex - 1;
+            let i=
+                snap.segmentIndex-1;
 
-            i >= 0;
+            i>=0;
 
             i--
         ){
@@ -5207,16 +5178,15 @@ function pointsFromSnapToEndpoint(
 
         output.push(
             points[
-                snap.segmentIndex + 1
+                snap.segmentIndex+1
             ]
         );
 
-
         for(
-            let i =
-                snap.segmentIndex + 2;
+            let i=
+                snap.segmentIndex+2;
 
-            i < points.length;
+            i<points.length;
 
             i++
         ){
@@ -5229,80 +5199,66 @@ function pointsFromSnapToEndpoint(
 
     }
 
-
     return output;
 
 }
-
 
 
 function routeNodePolyline(
     route
 ){
 
-    const output =
-        [];
-
+    const output=[];
 
     route.edges.forEach(
         (
             edgeId,
             index
-        ) => {
+        )=>{
 
-            const edge =
+            const edge=
                 edgeById[
                     edgeId
                 ];
 
-
             if(!edge){
-
                 return;
-
             }
 
-
-            const fromNode =
+            const fromNode=
                 route.nodes[
                     index
                 ];
 
-
             let points;
 
-
             if(
-                edge.from ===
+                edge.from===
                 fromNode
             ){
 
-                points =
+                points=
                     edge.points.slice();
 
             }
 
             else{
 
-                points =
+                points=
                     edge.points
                     .slice()
                     .reverse();
 
             }
 
-
             if(
                 output.length
             ){
 
-                points =
-                    points.slice(
-                        1
-                    );
+                points=
+                    points.slice(1);
 
             }
-
 
             output.push(
                 ...points
@@ -5311,29 +5267,24 @@ function routeNodePolyline(
         }
     );
 
-
     return output;
 
 }
-
 
 
 function dedupePoints(
     points
 ){
 
-    const output =
-        [];
-
+    const output=[];
 
     points.forEach(
-        point => {
+        point=>{
 
-            const previous =
+            const previous=
                 output[
-                    output.length - 1
+                    output.length-1
                 ];
-
 
             if(
                 !previous
@@ -5355,11 +5306,9 @@ function dedupePoints(
         }
     );
 
-
     return output;
 
 }
-
 
 
 function buildRoute(
@@ -5369,17 +5318,13 @@ function buildRoute(
     if(
         !state.destination
     ){
-
         return null;
-
     }
 
-
-    const entrance =
+    const entrance=
         getNavigationEntrance(
             state.destination
         );
-
 
     if(!entrance){
 
@@ -5391,37 +5336,28 @@ function buildRoute(
 
     }
 
-
-    const snap =
+    const snap=
         snapToRoute(
             clickedPoint
         );
 
-
     if(!snap){
-
         return null;
-
     }
 
-
-    const fromRoute =
+    const fromRoute=
         dijkstra(
             snap.edge.from,
             entrance.nodeId
         );
 
-
-    const toRoute =
+    const toRoute=
         dijkstra(
             snap.edge.to,
             entrance.nodeId
         );
 
-
-    const candidates =
-        [];
-
+    const candidates=[];
 
     if(fromRoute){
 
@@ -5444,7 +5380,6 @@ function buildRoute(
 
     }
 
-
     if(toRoute){
 
         candidates.push(
@@ -5466,44 +5401,35 @@ function buildRoute(
 
     }
 
-
-    if(
-        !candidates.length
-    ){
-
+    if(!candidates.length){
         return null;
-
     }
-
 
     candidates.sort(
         (
             a,
             b
-        ) =>
-            a.cost -
+        )=>
+            a.cost
+            -
             b.cost
     );
 
-
-    const best =
+    const best=
         candidates[0];
 
-
-    const startPart =
+    const startPart=
         pointsFromSnapToEndpoint(
             snap,
             best.endpoint
         );
 
-
-    const graphPart =
+    const graphPart=
         routeNodePolyline(
             best.route
         );
 
-
-    const routePoints =
+    const routePoints=
         dedupePoints(
             startPart
             .concat(
@@ -5521,7 +5447,6 @@ function buildRoute(
                 ]
             )
         );
-
 
     return {
 
@@ -5541,12 +5466,11 @@ function buildRoute(
 }
 
 
-
 /* =========================================================
    MAP CLICK
 ========================================================= */
 
-const navigationMap =
+const navigationMap=
     byId(
         "navigationMap"
     );
@@ -5556,7 +5480,7 @@ if(navigationMap){
 
     navigationMap.addEventListener(
         "pointerdown",
-        event => {
+        event=>{
 
             if(
                 !state.destination
@@ -5570,54 +5494,50 @@ if(navigationMap){
 
             }
 
-
-            const image =
+            const image=
                 byId(
                     "navigationMapImage"
                 );
 
-
-            const rect =
+            const rect=
                 navigationMap
-                .getBoundingClientRect();
+                    .getBoundingClientRect();
 
-
-            const box =
+            const box=
                 getImageContentBox(
                     navigationMap,
                     image
                 );
 
-
             if(!box){
-
                 return;
-
             }
 
-
-            const clickX =
-                event.clientX -
+            const clickX=
+                event.clientX
+                -
                 rect.left;
 
-
-            const clickY =
-                event.clientY -
+            const clickY=
+                event.clientY
+                -
                 rect.top;
 
-
             if(
-                clickX < box.left
+                clickX<
+                box.left
                 ||
-                clickX >
-                box.left +
+                clickX>
+                box.left
+                +
                 box.width
                 ||
-                clickY <
+                clickY<
                 box.top
                 ||
-                clickY >
-                box.top +
+                clickY>
+                box.top
+                +
                 box.height
             ){
 
@@ -5625,13 +5545,13 @@ if(navigationMap){
 
             }
 
-
-            const clickedPoint = {
+            const clickedPoint={
 
                 x:
                     (
                         (
-                            clickX -
+                            clickX
+                            -
                             box.left
                         )
                         /
@@ -5643,7 +5563,8 @@ if(navigationMap){
                 y:
                     (
                         (
-                            clickY -
+                            clickY
+                            -
                             box.top
                         )
                         /
@@ -5654,12 +5575,10 @@ if(navigationMap){
 
             };
 
-
-            const route =
+            const route=
                 buildRoute(
                     clickedPoint
                 );
-
 
             if(!route){
 
@@ -5671,14 +5590,11 @@ if(navigationMap){
 
             }
 
-
-            state.clickedPosition =
+            state.clickedPosition=
                 clickedPoint;
 
-
-            state.routeResult =
+            state.routeResult=
                 route;
-
 
             byId(
                 "activeRoute"
@@ -5688,23 +5604,18 @@ if(navigationMap){
 
                 route.points
                 .map(
-                    point =>
+                    point=>
                         `${point.x},${point.y}`
                 )
-                .join(
-                    " "
-                )
+                .join(" ")
             );
-
 
             positionSelectionMapElement(
                 byId(
                     "userMarker"
                 ),
-                route.startSnap
-                .point
+                route.startSnap.point
             );
-
 
             positionSelectionMapElement(
                 byId(
@@ -5713,31 +5624,25 @@ if(navigationMap){
                 route.entrance
             );
 
-
             show(
                 "userMarker"
             );
-
 
             show(
                 "entranceMarker"
             );
 
-
             hide(
                 "mapInstructionArea"
             );
-
 
             show(
                 "routeFoundBox"
             );
 
-
             show(
                 "resetPosition"
             );
-
 
             setStep(
                 3
@@ -5749,19 +5654,16 @@ if(navigationMap){
 }
 
 
-
 on(
     "resetPosition",
     "click",
-    () => {
+    ()=>{
 
-        state.clickedPosition =
+        state.clickedPosition=
             null;
 
-
-        state.routeResult =
+        state.routeResult=
             null;
-
 
         byId(
             "activeRoute"
@@ -5771,31 +5673,25 @@ on(
             ""
         );
 
-
         hide(
             "userMarker"
         );
-
 
         hide(
             "entranceMarker"
         );
 
-
         hide(
             "routeFoundBox"
         );
-
 
         hide(
             "resetPosition"
         );
 
-
         show(
             "mapInstructionArea"
         );
-
 
         setStep(
             2
@@ -5805,9 +5701,8 @@ on(
 );
 
 
-
 /* =========================================================
-   NAVIGATION INSTRUCTIONS
+   ROUTE INSTRUCTIONS
 ========================================================= */
 
 function turnAngle(
@@ -5816,31 +5711,27 @@ function turnAngle(
     c
 ){
 
-    const ax =
-        b.x - a.x;
+    const ax=
+        b.x-a.x;
 
+    const ay=
+        b.y-a.y;
 
-    const ay =
-        b.y - a.y;
+    const bx=
+        c.x-b.x;
 
+    const by=
+        c.y-b.y;
 
-    const bx =
-        c.x - b.x;
+    const cross=
+        ax*by
+        -
+        ay*bx;
 
-
-    const by =
-        c.y - b.y;
-
-
-    const cross =
-        ax * by -
-        ay * bx;
-
-
-    const dot =
-        ax * bx +
-        ay * by;
-
+    const dot=
+        ax*bx
+        +
+        ay*by;
 
     return (
         Math.atan2(
@@ -5856,7 +5747,6 @@ function turnAngle(
 }
 
 
-
 function simplifyInstructionPoints(
     points
 ){
@@ -5864,39 +5754,31 @@ function simplifyInstructionPoints(
     if(
         !points
         ||
-        points.length <= 2
+        points.length<=2
     ){
 
-        return (
-            points
-            ?
-            points.slice()
-            :
-            []
-        );
+        return points
+            ? points.slice()
+            : [];
 
     }
 
-
-    const output =
-        [
-            points[0]
-        ];
-
+    const output=[
+        points[0]
+    ];
 
     for(
-        let i = 1;
-        i < points.length - 1;
+        let i=1;
+        i<points.length-1;
         i++
     ){
 
-        const angle =
+        const angle=
             turnAngle(
-                points[i - 1],
+                points[i-1],
                 points[i],
-                points[i + 1]
+                points[i+1]
             );
-
 
         if(
             Math.abs(
@@ -5914,18 +5796,15 @@ function simplifyInstructionPoints(
 
     }
 
-
     output.push(
         points[
-            points.length - 1
+            points.length-1
         ]
     );
-
 
     return output;
 
 }
-
 
 
 function createNavigationInstructions(){
@@ -5935,24 +5814,20 @@ function createNavigationInstructions(){
         ||
         !state.destination
     ){
-
         return [];
-
     }
 
-
-    const points =
+    const points=
         simplifyInstructionPoints(
-            state.routeResult
-            .points
+            state.routeResult.points
         );
 
-
-    const instructions = [
+    const instructions=[
 
         {
 
-            icon:"●",
+            icon:
+                "●",
 
             title:
                 "Lokasi Anda saat ini",
@@ -5964,29 +5839,28 @@ function createNavigationInstructions(){
 
     ];
 
-
     for(
-        let i = 1;
-        i < points.length - 1;
+        let i=1;
+        i<points.length-1;
         i++
     ){
 
-        const angle =
+        const angle=
             turnAngle(
-                points[i - 1],
+                points[i-1],
                 points[i],
-                points[i + 1]
+                points[i+1]
             );
 
-
         if(
-            angle > 28
+            angle>28
         ){
 
             instructions.push(
                 {
 
-                    icon:"↱",
+                    icon:
+                        "↱",
 
                     title:
                         "Belok kanan",
@@ -6000,13 +5874,14 @@ function createNavigationInstructions(){
         }
 
         else if(
-            angle < -28
+            angle<-28
         ){
 
             instructions.push(
                 {
 
-                    icon:"↰",
+                    icon:
+                        "↰",
 
                     title:
                         "Belok kiri",
@@ -6021,28 +5896,28 @@ function createNavigationInstructions(){
 
     }
 
-
     instructions.push(
         {
 
-            icon:"◎",
+            icon:
+                "◎",
 
             title:
                 "Entrance tujuan di depan",
 
             description:
                 state.routeResult
-                .entrance
-                .name
+                    .entrance
+                    .name
 
         }
     );
 
-
     instructions.push(
         {
 
-            icon:"✓",
+            icon:
+                "✓",
 
             title:
                 "Anda sudah tiba",
@@ -6053,68 +5928,52 @@ function createNavigationInstructions(){
         }
     );
 
-
     return instructions;
 
 }
 
 
-
 function renderLiveBuildingMarkers(){
 
-    const container =
+    const container=
         byId(
             "liveBuildingMarkers"
         );
 
-
     if(!container){
-
         return;
-
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML="";
 
     buildings.forEach(
-        building => {
+        building=>{
 
-            if(
-                !building.liveMarker
-            ){
-
+            if(!building.liveMarker){
                 return;
-
             }
 
-
-            const marker =
+            const marker=
                 document.createElement(
                     "div"
                 );
 
-
-            marker.className =
+            marker.className=
                 "live-building-marker";
 
-
-            marker.innerHTML =
+            marker.innerHTML=
                 `
-                <span></span>
+                <span>
+                </span>
 
                 <label>
                     ${building.name}
                 </label>
                 `;
 
-
             container.appendChild(
                 marker
             );
-
 
             positionLiveMapElement(
                 marker,
@@ -6127,69 +5986,58 @@ function renderLiveBuildingMarkers(){
 }
 
 
-
 function renderRouteDetail(){
 
-    const container =
+    const container=
         byId(
             "routeInstructionList"
         );
 
-
     if(!container){
-
         return;
-
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML="";
 
     state.liveInstructions
-    .forEach(
-        step => {
+        .forEach(
+            step=>{
 
-            const item =
-                document.createElement(
-                    "div"
+                const item=
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className=
+                    "route-instruction-item";
+
+                item.innerHTML=
+                    `
+                    <div class="route-step-icon">
+                        ${step.icon}
+                    </div>
+
+                    <div class="route-step-copy">
+
+                        <strong>
+                            ${step.title}
+                        </strong>
+
+                        <span>
+                            ${step.description}
+                        </span>
+
+                    </div>
+                    `;
+
+                container.appendChild(
+                    item
                 );
 
-
-            item.className =
-                "route-instruction-item";
-
-
-            item.innerHTML =
-                `
-                <div class="route-step-icon">
-                    ${step.icon}
-                </div>
-
-                <div class="route-step-copy">
-
-                    <strong>
-                        ${step.title}
-                    </strong>
-
-                    <span>
-                        ${step.description}
-                    </span>
-
-                </div>
-                `;
-
-
-            container.appendChild(
-                item
-            );
-
-        }
-    );
+            }
+        );
 
 }
-
 
 
 function renderLiveNavigation(){
@@ -6199,15 +6047,11 @@ function renderLiveNavigation(){
         ||
         !state.destination
     ){
-
         return;
-
     }
 
-
-    const route =
+    const route=
         state.routeResult;
-
 
     byId(
         "liveRoute"
@@ -6217,31 +6061,24 @@ function renderLiveNavigation(){
 
         route.points
         .map(
-            point =>
+            point=>
                 `${point.x},${point.y}`
         )
-        .join(
-            " "
-        )
+        .join(" ")
     );
 
-
     syncLiveMapGeometry();
-
 
     positionLiveMapElement(
         byId(
             "liveUserMarker"
         ),
-        route.startSnap
-        .point
+        route.startSnap.point
     );
-
 
     show(
         "liveUserMarker"
     );
-
 
     positionLiveMapElement(
         byId(
@@ -6250,54 +6087,44 @@ function renderLiveNavigation(){
         route.entrance
     );
 
-
     show(
         "liveDestinationMarker"
     );
-
 
     setText(
         "liveDestinationMarkerLabel",
         state.destination.name
     );
 
-
     setText(
         "liveTargetName",
         state.destination.name
     );
-
 
     setText(
         "liveRouteDestination",
         state.destination.name
     );
 
-
     setText(
         "liveRouteEntrance",
         route.entrance.name
     );
 
-
     renderLiveBuildingMarkers();
 
-
-    state.liveInstructions =
+    state.liveInstructions=
         createNavigationInstructions();
-
 
     renderRouteDetail();
 
-
-    const next =
+    const next=
         state.liveInstructions
         .find(
-            item =>
-                item.title !==
+            item=>
+                item.title!==
                 "Lokasi Anda saat ini"
         );
-
 
     if(next){
 
@@ -6305,7 +6132,6 @@ function renderLiveNavigation(){
             "liveNextInstruction",
             next.title
         );
-
 
         setText(
             "liveDirectionIcon",
@@ -6317,9 +6143,8 @@ function renderLiveNavigation(){
 }
 
 
-
 /* =========================================================
-   GPS CALIBRATION
+   GPS
 ========================================================= */
 
 function solveAffine(
@@ -6333,54 +6158,53 @@ function solveAffine(
             calibration
         )
         ||
-        calibration.length < 3
+        calibration.length<3
     ){
-
         return null;
-
     }
 
-
-    const p1 =
+    const p1=
         calibration[0];
 
-
-    const p2 =
+    const p2=
         calibration[1];
 
-
-    const p3 =
+    const p3=
         calibration[2];
 
+    const determinant=
 
-    const determinant =
-
-        p1.lon *
+        p1.lon
+        *
         (
-            p2.lat -
+            p2.lat
+            -
             p3.lat
         )
 
         -
 
-        p1.lat *
+        p1.lat
+        *
         (
-            p2.lon -
+            p2.lon
+            -
             p3.lon
         )
 
         +
 
         (
-            p2.lon *
+            p2.lon
+            *
             p3.lat
 
             -
 
-            p3.lon *
+            p3.lon
+            *
             p2.lat
         );
-
 
     if(
         Math.abs(
@@ -6389,11 +6213,8 @@ function solveAffine(
         <
         1e-12
     ){
-
         return null;
-
     }
-
 
     function coefficients(
         v1,
@@ -6401,27 +6222,33 @@ function solveAffine(
         v3
     ){
 
-        const a = (
+        const a=(
 
-            v1 *
+            v1
+            *
             (
-                p2.lat -
+                p2.lat
+                -
                 p3.lat
             )
 
             +
 
-            v2 *
+            v2
+            *
             (
-                p3.lat -
+                p3.lat
+                -
                 p1.lat
             )
 
             +
 
-            v3 *
+            v3
+            *
             (
-                p1.lat -
+                p1.lat
+                -
                 p2.lat
             )
 
@@ -6429,28 +6256,33 @@ function solveAffine(
         /
         determinant;
 
+        const b=(
 
-        const b = (
-
-            v1 *
+            v1
+            *
             (
-                p3.lon -
+                p3.lon
+                -
                 p2.lon
             )
 
             +
 
-            v2 *
+            v2
+            *
             (
-                p1.lon -
+                p1.lon
+                -
                 p3.lon
             )
 
             +
 
-            v3 *
+            v3
+            *
             (
-                p2.lon -
+                p2.lon
+                -
                 p1.lon
             )
 
@@ -6458,43 +6290,51 @@ function solveAffine(
         /
         determinant;
 
+        const c=(
 
-        const c = (
-
-            v1 *
+            v1
+            *
             (
-                p2.lon *
+                p2.lon
+                *
                 p3.lat
 
                 -
 
-                p3.lon *
+                p3.lon
+                *
                 p2.lat
             )
 
             +
 
-            v2 *
+            v2
+            *
             (
-                p3.lon *
+                p3.lon
+                *
                 p1.lat
 
                 -
 
-                p1.lon *
+                p1.lon
+                *
                 p3.lat
             )
 
             +
 
-            v3 *
+            v3
+            *
             (
-                p1.lon *
+                p1.lon
+                *
                 p2.lat
 
                 -
 
-                p2.lon *
+                p2.lon
+                *
                 p1.lat
             )
 
@@ -6502,47 +6342,45 @@ function solveAffine(
         /
         determinant;
 
-
         return {
 
             a,
+
             b,
+
             c
 
         };
 
     }
 
-
-    const cx =
+    const cx=
         coefficients(
             p1.x,
             p2.x,
             p3.x
         );
 
-
-    const cy =
+    const cy=
         coefficients(
             p1.y,
             p2.y,
             p3.y
         );
 
-
     return {
 
         x:
-            cx.a * lon
+            cx.a*lon
             +
-            cx.b * lat
+            cx.b*lat
             +
             cx.c,
 
         y:
-            cy.a * lon
+            cy.a*lon
             +
-            cy.b * lat
+            cy.b*lat
             +
             cy.c
 
@@ -6551,44 +6389,35 @@ function solveAffine(
 }
 
 
-
-/* =========================================================
-   GPS TRACKING
-========================================================= */
-
 function stopGpsTracking(){
 
     if(
-        state.gpsWatchId !==
+        state.gpsWatchId!==
         null
 
         &&
         navigator.geolocation
     ){
 
-        navigator
-            .geolocation
+        navigator.geolocation
             .clearWatch(
                 state.gpsWatchId
             );
 
     }
 
-
-    state.gpsWatchId =
+    state.gpsWatchId=
         null;
 
 }
-
 
 
 function startGpsTracking(){
 
     stopGpsTracking();
 
-
     if(
-        mapCalibration.length < 3
+        mapCalibration.length<3
     ){
 
         console.info(
@@ -6599,51 +6428,36 @@ function startGpsTracking(){
 
     }
 
-
-    if(
-        !navigator.geolocation
-    ){
-
+    if(!navigator.geolocation){
         return;
-
     }
 
-
-    state.gpsWatchId =
+    state.gpsWatchId=
         navigator
         .geolocation
         .watchPosition(
 
-            position => {
+            position=>{
 
-                const projected =
+                const projected=
                     solveAffine(
 
                         mapCalibration,
 
-                        position
-                            .coords
-                            .latitude,
+                        position.coords.latitude,
 
-                        position
-                            .coords
-                            .longitude
+                        position.coords.longitude
 
                     );
 
-
                 if(!projected){
-
                     return;
-
                 }
 
-
-                const snap =
+                const snap=
                     snapToRoute(
                         projected
                     );
-
 
                 positionLiveMapElement(
 
@@ -6652,16 +6466,14 @@ function startGpsTracking(){
                     ),
 
                     snap
-                    ?
-                    snap.point
-                    :
-                    projected
+                        ? snap.point
+                        : projected
 
                 );
 
             },
 
-            error => {
+            error=>{
 
                 console.warn(
                     "GPS:",
@@ -6688,15 +6500,14 @@ function startGpsTracking(){
 }
 
 
-
 /* =========================================================
-   START NAVIGATION
+   NAVIGATION ACTION
 ========================================================= */
 
 on(
     "startNavigation",
     "click",
-    () => {
+    ()=>{
 
         if(
             !state.routeResult
@@ -6712,14 +6523,12 @@ on(
 
         }
 
-
         showPage(
             "navigationActive"
         );
 
-
         setTimeout(
-            () => {
+            ()=>{
 
                 syncLiveMapGeometry();
 
@@ -6731,7 +6540,6 @@ on(
             80
         );
 
-
         setStep(
             4
         );
@@ -6740,16 +6548,16 @@ on(
 );
 
 
-
 on(
     "toggleRouteDetail",
     "click",
-    () => {
+    ()=>{
 
         byId(
             "routeDetailPanel"
         )
-        ?.classList.toggle(
+        ?.classList
+        .toggle(
             "hidden"
         );
 
@@ -6757,17 +6565,16 @@ on(
 );
 
 
-
 on(
     "endRoute",
     "click",
-    () => {
+    ()=>{
 
         stopGpsTracking();
 
         resetNavigation();
 
-        state.pageHistory = [];
+        state.pageHistory=[];
 
         showPage(
             "navigation",
@@ -6782,55 +6589,41 @@ on(
 );
 
 
-
 /* =========================================================
-   SHOW DESTINATION IN 3D
+   TUJUAN KE 3D
 ========================================================= */
 
 function showDestinationIn3D(){
 
-    if(
-        !state.destination
-    ){
-
+    if(!state.destination){
         return;
-
     }
 
-
-    const destination =
+    const destination=
         state.destination;
 
-
-    const buildingId =
+    const buildingId=
         destination.buildingId
         ||
         destination.id;
 
-
-    const building =
+    const building=
         getBuildingById(
             buildingId
         );
 
-
     if(!building){
-
         return;
-
     }
 
-
-    let model =
-        null;
-
+    let model=null;
 
     if(
-        destination.type ===
+        destination.type===
         "room"
     ){
 
-        model =
+        model=
             getModelVariant(
                 building.id,
                 "indoor"
@@ -6838,33 +6631,27 @@ function showDestinationIn3D(){
 
     }
 
-
     if(!model){
 
-        model =
+        model=
             getDefaultModelVariant(
                 building.id
             );
 
     }
 
-
     showPage(
         "viewer"
     );
 
+    if(viewerBuildingSelect){
 
-    if(
-        viewerBuildingSelect
-    ){
-
-        viewerBuildingSelect.value =
+        viewerBuildingSelect.value=
             building.id;
 
     }
 
-
-    state.pending3DMarker =
+    state.pending3DMarker=
         destination.modelMarker
 
         ?
@@ -6880,7 +6667,6 @@ function showDestinationIn3D(){
         :
 
         null;
-
 
     prepareViewerBuilding(
         building.id,
@@ -6898,9 +6684,8 @@ on(
 );
 
 
-
 /* =========================================================
-   MAIN MENU
+   MENU
 ========================================================= */
 
 function openViewer(){
@@ -6938,16 +6723,14 @@ function openDirectory(){
 
 
 function openNavigationWithDestination(
-    location = null
+    location=null
 ){
 
     showPage(
         "navigation"
     );
 
-
     resetNavigation();
-
 
     if(location){
 
@@ -6965,7 +6748,7 @@ function openNavigationWithDestination(
     "feature3D"
 ]
 .forEach(
-    id => {
+    id=>{
 
         on(
             id,
@@ -6982,7 +6765,7 @@ function openNavigationWithDestination(
     "featureAR"
 ]
 .forEach(
-    id => {
+    id=>{
 
         on(
             id,
@@ -6999,7 +6782,7 @@ function openNavigationWithDestination(
     "featureNav"
 ]
 .forEach(
-    id => {
+    id=>{
 
         on(
             id,
@@ -7016,7 +6799,7 @@ function openNavigationWithDestination(
     "featureDirectory"
 ]
 .forEach(
-    id => {
+    id=>{
 
         on(
             id,
@@ -7028,49 +6811,38 @@ function openNavigationWithDestination(
 );
 
 
-
 /* =========================================================
    TOAST
 ========================================================= */
 
-let toastTimer =
-    null;
+let toastTimer=null;
 
 
-function toast(
-    message
-){
+function toast(message){
 
-    const element =
+    const element=
         byId(
             "toast"
         );
 
-
     if(!element){
-
         return;
-
     }
 
-
-    element.textContent =
+    element.textContent=
         message;
-
 
     element.classList.add(
         "show"
     );
 
-
     clearTimeout(
         toastTimer
     );
 
-
-    toastTimer =
+    toastTimer=
         setTimeout(
-            () => {
+            ()=>{
 
                 element.classList.remove(
                     "show"
@@ -7083,27 +6855,38 @@ function toast(
 }
 
 
-
 /* =========================================================
    ESCAPE
 ========================================================= */
 
 document.addEventListener(
     "keydown",
-    event => {
+    event=>{
 
         if(
-            event.key !==
+            event.key!==
             "Escape"
         ){
+            return;
+        }
+
+        closeDrawer();
+
+        if(
+            !byId(
+                "tendikModal"
+            )
+            ?.classList
+            .contains(
+                "hidden"
+            )
+        ){
+
+            closeTendik();
 
             return;
 
         }
-
-
-        closeDrawer();
-
 
         if(
             !byId(
@@ -7121,9 +6904,8 @@ document.addEventListener(
 
         }
 
-
         if(
-            state.currentPage !==
+            state.currentPage!==
             "home"
         ){
 
@@ -7135,18 +6917,16 @@ document.addEventListener(
 );
 
 
-
 /* =========================================================
-   IMAGE EVENTS
+   MAP IMAGE
 ========================================================= */
 
 function registerMapImageEvents(){
 
-    const selectionImage =
+    const selectionImage=
         byId(
             "navigationMapImage"
         );
-
 
     if(selectionImage){
 
@@ -7162,24 +6942,23 @@ function registerMapImageEvents(){
 
         else{
 
-            selectionImage.addEventListener(
-                "load",
-                syncNavigationMapGeometry
-            );
+            selectionImage
+                .addEventListener(
+                    "load",
+                    syncNavigationMapGeometry
+                );
 
         }
 
     }
 
-
-    const liveImage =
+    const liveImage=
         byId(
             "liveMapContent"
         )
         ?.querySelector(
             ".live-map-background"
         );
-
 
     if(liveImage){
 
@@ -7195,10 +6974,11 @@ function registerMapImageEvents(){
 
         else{
 
-            liveImage.addEventListener(
-                "load",
-                syncLiveMapGeometry
-            );
+            liveImage
+                .addEventListener(
+                    "load",
+                    syncLiveMapGeometry
+                );
 
         }
 
@@ -7207,21 +6987,18 @@ function registerMapImageEvents(){
 }
 
 
-
-let resizeTimer =
-    null;
+let resizeTimer=null;
 
 
 window.addEventListener(
     "resize",
-    () => {
+    ()=>{
 
         clearTimeout(
             resizeTimer
         );
 
-
-        resizeTimer =
+        resizeTimer=
             setTimeout(
                 syncAllMapGeometry,
                 80
@@ -7233,7 +7010,7 @@ window.addEventListener(
 
 window.addEventListener(
     "orientationchange",
-    () => {
+    ()=>{
 
         setTimeout(
             syncAllMapGeometry,
@@ -7244,9 +7021,8 @@ window.addEventListener(
 );
 
 
-
 /* =========================================================
-   START APP
+   START
 ========================================================= */
 
 async function startApp(){
@@ -7270,14 +7046,12 @@ async function startApp(){
 
     registerServiceWorker();
 
-
-    const warmCache =
-        () => {
+    const warmCache=
+        ()=>{
 
             preloadPriorityModels();
 
         };
-
 
     if(
         "requestIdleCallback"
@@ -7303,15 +7077,13 @@ async function startApp(){
 
     }
 
-
     setTimeout(
         syncAllMapGeometry,
         120
     );
 
-
     console.log(
-        "FT UISU Explorer Revision 41 loaded"
+        "FT UISU Explorer Revision 44 loaded"
     );
 
 }
@@ -7326,7 +7098,7 @@ startApp();
 
 /* =========================================================
    REVISI 40
-   FULLSCREEN KHUSUS 3D OBJEK
+   FULLSCREEN 3D
 ========================================================= */
 
 (function(){
@@ -7334,37 +7106,32 @@ startApp();
 "use strict";
 
 
-const card =
+const card=
     document.getElementById(
         "viewerCard"
     );
 
-
-const page =
+const page=
     document.getElementById(
         "viewerPage"
     );
 
-
-const viewer =
+const viewer=
     document.getElementById(
         "main3DViewer"
     );
 
-
-const status =
+const status=
     document.getElementById(
         "viewerLoadingDot"
     );
 
-
-const openButton =
+const openButton=
     document.getElementById(
         "viewerFullscreenButton"
     );
 
-
-const closeButton =
+const closeButton=
     document.getElementById(
         "viewerFullscreenExit"
     );
@@ -7383,76 +7150,58 @@ if(
     ||
     !closeButton
 ){
-
     return;
-
 }
 
 
 if(
     card.dataset
-    .fullscreenInitialized
+        .fullscreenInitialized
 ){
-
     return;
-
 }
 
 
 card.dataset
-.fullscreenInitialized =
+    .fullscreenInitialized=
     "true";
 
 
-let session =
-    null;
+let session=null;
 
 
-const root =
+const root=
     document.documentElement;
 
 
-const nativeElement =
-    () => (
-
+const nativeElement=
+    ()=>(
         document.fullscreenElement
-
         ||
-
         document.webkitFullscreenElement
-
     );
 
 
-const visible =
-    () => (
-
+const visible=
+    ()=>(
         page.classList.contains(
             "active"
         )
-
         &&
-
         !card.classList.contains(
             "hidden"
         )
-
     );
 
 
-const ready =
-    () => (
-
+const ready=
+    ()=>(
         visible()
-
         &&
-
         status.classList.contains(
             "ready"
         )
-
     );
-
 
 
 function updateButtons(){
@@ -7471,36 +7220,26 @@ function updateButtons(){
 
     }
 
-
     openButton
         .classList
         .toggle(
-
             "hidden",
-
             !ready()
             ||
             !!session
-
         );
-
 
     closeButton
         .classList
         .toggle(
-
             "hidden",
-
             !session
-
         );
 
-
-    closeButton.disabled =
+    closeButton.disabled=
         !!session?.closing;
 
 }
-
 
 
 function finish(
@@ -7508,51 +7247,39 @@ function finish(
 ){
 
     if(
-        session !==
+        session!==
         current
     ){
-
         return;
-
     }
 
-
-    session =
-        null;
-
+    session=null;
 
     card.classList.remove(
         "viewer-is-fullscreen"
     );
 
-
     root.classList.remove(
         "viewer-fullscreen-open"
     );
-
 
     root.style.removeProperty(
         "--viewer-fullscreen-scroll-top"
     );
 
-
     card.removeAttribute(
         "role"
     );
-
 
     card.removeAttribute(
         "aria-modal"
     );
 
-
     card.removeAttribute(
         "aria-labelledby"
     );
 
-
     updateButtons();
-
 
     if(
         current.restore
@@ -7562,7 +7289,6 @@ function finish(
 
         window.scrollTo(
             {
-
                 left:
                     current.x,
 
@@ -7571,17 +7297,13 @@ function finish(
 
                 behavior:
                     "instant"
-
             }
         );
 
-
         (
             ready()
-            ?
-            openButton
-            :
-            viewer
+                ? openButton
+                : viewer
         )
         .focus(
             {
@@ -7594,36 +7316,29 @@ function finish(
 }
 
 
-
 function exitNativeQuietly(){
 
-    const exit =
-
+    const exit=
         document.exitFullscreen
-
         ||
-
         document.webkitExitFullscreen;
-
 
     if(
         exit
         &&
-        nativeElement() ===
+        nativeElement()===
         card
     ){
 
         try{
 
             Promise.resolve(
-
                 exit.call(
                     document
                 )
-
             )
             .catch(
-                () => {}
+                ()=>{}
             );
 
         }
@@ -7637,7 +7352,6 @@ function exitNativeQuietly(){
 }
 
 
-
 async function openFullscreen(){
 
     if(
@@ -7647,13 +7361,10 @@ async function openFullscreen(){
         ||
         nativeElement()
     ){
-
         return;
-
     }
 
-
-    const current = {
+    const current={
 
         x:
             window.scrollX,
@@ -7675,50 +7386,38 @@ async function openFullscreen(){
 
     };
 
-
-    session =
+    session=
         current;
 
-
     root.style.setProperty(
-
         "--viewer-fullscreen-scroll-top",
-
         `${-current.y}px`
-
     );
-
 
     root.classList.add(
         "viewer-fullscreen-open"
     );
 
-
     card.classList.add(
         "viewer-is-fullscreen"
     );
-
 
     card.setAttribute(
         "role",
         "dialog"
     );
 
-
     card.setAttribute(
         "aria-modal",
         "true"
     );
-
 
     card.setAttribute(
         "aria-labelledby",
         "viewerTitle"
     );
 
-
     updateButtons();
-
 
     closeButton.focus(
         {
@@ -7726,28 +7425,17 @@ async function openFullscreen(){
         }
     );
 
-
-    const request =
-
+    const request=
         card.requestFullscreen
-
         ||
-
         card.webkitRequestFullscreen;
 
-
-    const enabled =
-
+    const enabled=
         document.fullscreenEnabled
-
         ??
-
         document.webkitFullscreenEnabled
-
         ??
-
         true;
-
 
     if(
         !request
@@ -7755,18 +7443,15 @@ async function openFullscreen(){
         !enabled
     ){
 
-        current.pending =
+        current.pending=
             false;
 
-
-        current.fallback =
+        current.fallback=
             true;
-
 
         return;
 
     }
-
 
     try{
 
@@ -7774,31 +7459,25 @@ async function openFullscreen(){
             card
         );
 
-
         if(
-            session !==
+            session!==
             current
         ){
 
-            if(
-                !session
-            ){
+            if(!session){
 
                 exitNativeQuietly();
 
             }
 
-
             return;
 
         }
 
-
-        current.pending =
+        current.pending=
             false;
 
-
-        current.fallback =
+        current.fallback=
             nativeElement()
             !==
             card;
@@ -7808,24 +7487,19 @@ async function openFullscreen(){
     catch(_){
 
         if(
-            session !==
+            session!==
             current
         ){
-
             return;
-
         }
 
-
-        current.pending =
+        current.pending=
             false;
 
-
-        current.fallback =
+        current.fallback=
             true;
 
     }
-
 
     closeButton.focus(
         {
@@ -7833,67 +7507,49 @@ async function openFullscreen(){
         }
     );
 
-
     updateButtons();
 
 }
 
 
-
 async function closeFullscreen(
-    restore = true
+    restore=true
 ){
 
-    const current =
+    const current=
         session;
 
-
     if(!current){
-
         return;
-
     }
 
+    if(!restore){
 
-    if(
-        !restore
-    ){
-
-        current.restore =
+        current.restore=
             false;
 
     }
 
-
     if(
         current.closing
     ){
-
         return;
-
     }
 
-
-    current.closing =
+    current.closing=
         true;
-
 
     updateButtons();
 
-
     if(
-        nativeElement() ===
+        nativeElement()===
         card
     ){
 
-        const exit =
-
+        const exit=
             document.exitFullscreen
-
             ||
-
             document.webkitExitFullscreen;
-
 
         try{
 
@@ -7905,7 +7561,6 @@ async function closeFullscreen(
 
             }
 
-
             await exit.call(
                 document
             );
@@ -7915,22 +7570,20 @@ async function closeFullscreen(
         catch(_){
 
             if(
-                session ===
+                session===
                 current
 
                 &&
 
-                nativeElement() ===
+                nativeElement()===
                 card
             ){
 
-                current.closing =
+                current.closing=
                     false;
 
-
-                closeButton.disabled =
+                closeButton.disabled=
                     false;
-
 
                 return;
 
@@ -7940,7 +7593,6 @@ async function closeFullscreen(
 
     }
 
-
     finish(
         current
     );
@@ -7948,17 +7600,14 @@ async function closeFullscreen(
 }
 
 
-
 function onNativeChange(){
 
     if(
-        nativeElement() ===
+        nativeElement()===
         card
     ){
 
-        if(
-            !session
-        ){
+        if(!session){
 
             exitNativeQuietly();
 
@@ -7966,12 +7615,10 @@ function onNativeChange(){
 
         }
 
-
-        session.pending =
+        session.pending=
             false;
 
-
-        session.fallback =
+        session.fallback=
             false;
 
     }
@@ -7988,11 +7635,10 @@ function onNativeChange(){
             !visible()
         ){
 
-            session.restore =
+            session.restore=
                 false;
 
         }
-
 
         finish(
             session
@@ -8003,7 +7649,6 @@ function onNativeChange(){
 }
 
 
-
 openButton.addEventListener(
     "click",
     openFullscreen
@@ -8012,7 +7657,7 @@ openButton.addEventListener(
 
 closeButton.addEventListener(
     "click",
-    () => {
+    ()=>{
 
         closeFullscreen();
 
@@ -8032,22 +7677,16 @@ document.addEventListener(
 );
 
 
-
 document.addEventListener(
     "keydown",
-    event => {
+    event=>{
 
-        if(
-            !session
-        ){
-
+        if(!session){
             return;
-
         }
 
-
         if(
-            event.key ===
+            event.key===
             "Escape"
         ){
 
@@ -8060,59 +7699,41 @@ document.addEventListener(
         }
 
         else if(
-            event.key ===
+            event.key===
             "Tab"
         ){
 
-            const controls =
-
+            const controls=
                 Array.from(
-
                     card.querySelectorAll(
-
                         "button:not([disabled]), select:not([disabled]), a[href], [tabindex], model-viewer"
-
                     )
-
                 )
                 .filter(
-                    element =>
-
-                        element.tabIndex >= 0
-
+                    element=>
+                        element.tabIndex>=0
                         &&
-
                         element
-                        .getClientRects()
-                        .length
+                            .getClientRects()
+                            .length
                 );
 
-
-            if(
-                !controls.length
-            ){
-
+            if(!controls.length){
                 return;
-
             }
 
-
-            const first =
+            const first=
                 controls[0];
 
-
-            const last =
+            const last=
                 controls[
-                    controls.length - 1
+                    controls.length-1
                 ];
-
 
             if(
                 event.shiftKey
-
                 &&
-
-                document.activeElement ===
+                document.activeElement===
                 first
             ){
 
@@ -8124,10 +7745,8 @@ document.addEventListener(
 
             else if(
                 !event.shiftKey
-
                 &&
-
-                document.activeElement ===
+                document.activeElement===
                 last
             ){
 
@@ -8152,13 +7771,11 @@ document.addEventListener(
         }
 
     },
-
     true
 );
 
 
-
-const observer =
+const observer=
     new MutationObserver(
         updateButtons
     );
@@ -8170,7 +7787,7 @@ const observer =
     status
 ]
 .forEach(
-    element => {
+    element=>{
 
         observer.observe(
             element,
