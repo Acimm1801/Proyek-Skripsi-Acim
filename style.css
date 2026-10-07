@@ -784,7 +784,7 @@ a{
 
 
 /* =========================================================
-   FEATURE CARDS
+   FEATURE
 ========================================================= */
 
 .feature-section{
@@ -1055,6 +1055,7 @@ a{
 }
 
 @keyframes loadingPulse{
+
     0%{
         box-shadow:
             0 0 0 0
@@ -1072,6 +1073,7 @@ a{
             0 0 0 0
             rgba(17,184,152,0);
     }
+
 }
 
 .model-viewer-stage{
@@ -1148,9 +1150,11 @@ a{
 }
 
 @keyframes loaderSpin{
+
     to{
         transform:rotate(360deg);
     }
+
 }
 
 .unavailable-3d-icon{
@@ -1217,6 +1221,7 @@ a{
 }
 
 @keyframes targetPulse{
+
     0%{
         box-shadow:
             0 0 0 3px
@@ -1234,6 +1239,7 @@ a{
             0 0 0 3px
             rgba(24,152,213,0);
     }
+
 }
 
 .native-ar-button{
@@ -1818,6 +1824,7 @@ a{
 
 .room-info,
 .room-nav,
+.room-tendik,
 .floor-button{
     min-height:27px;
     padding:0 8px;
@@ -1829,8 +1836,10 @@ a{
 
 .directory .building-info,
 .directory .building-nav,
+.directory .building-tendik,
 .directory .room-info,
-.directory .room-nav{
+.directory .room-nav,
+.directory .room-tendik{
     background:var(--green);
     color:var(--white);
     transition:
@@ -1842,8 +1851,10 @@ a{
 
     .directory .building-info:hover,
     .directory .building-nav:hover,
+    .directory .building-tendik:hover,
     .directory .room-info:hover,
-    .directory .room-nav:hover{
+    .directory .room-nav:hover,
+    .directory .room-tendik:hover{
         background:var(--white);
         color:var(--green);
     }
@@ -1856,6 +1867,7 @@ a{
         background:var(--green);
         color:var(--white);
     }
+
 }
 
 .directory .floor-button{
@@ -1894,16 +1906,19 @@ a{
 
     .directory .building-info,
     .directory .building-nav,
+    .directory .building-tendik,
     .directory .room-info,
     .directory .room-nav,
+    .directory .room-tendik,
     .directory .floor-button{
         min-height:44px;
     }
+
 }
 
 
 /* =========================================================
-   HELP + ABOUT
+   HELP
 ========================================================= */
 
 .help-grid{
@@ -1937,6 +1952,11 @@ a{
     font-size:9px;
     line-height:1.6;
 }
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
 
 .developer-card{
     display:grid;
@@ -2125,12 +2145,6 @@ a{
     font-size:20px;
 }
 
-.info-modal > p{
-    margin-top:4px;
-    color:var(--green);
-    font-size:8px;
-}
-
 .info-description{
     margin:17px 0;
     color:#61767d;
@@ -2198,6 +2212,7 @@ a{
             minmax(0,1fr);
         gap:25px;
     }
+
 }
 
 
@@ -2436,11 +2451,12 @@ a{
     .live-map-viewport{
         min-height:440px;
     }
+
 }
 
 
 /* =========================================================
-   REVISI 1 / REVISI 2
+   REVISI 1 / 2
 ========================================================= */
 
 .brand-copy strong{
@@ -2455,6 +2471,7 @@ a{
     -webkit-text-fill-color:transparent;
     color:transparent;
 }
+
 
 :is(
     .button-primary,
@@ -2473,6 +2490,7 @@ a{
     color:var(--white);
 }
 
+
 @media (hover:hover){
 
     :is(
@@ -2488,6 +2506,7 @@ a{
         color:var(--green);
         border-color:var(--green);
     }
+
 }
 
 
@@ -2496,40 +2515,51 @@ a{
 ========================================================= */
 
 :root{
+
     --r39-title-gradient:
         linear-gradient(
             135deg,
             #087f72,
             #1898d5
         );
+
 }
 
+
 .brand-copy strong,
+
 .hero-slide[data-slide-index="0"]
 .hero-title > span:not(.accent),
+
 .hero-slide[data-slide-index="1"]
 .hero-title > span:not(.accent),
+
 #feature3D h3,
+
 #featureAR h3,
+
 #featureNav h3,
+
 #featureDirectory h3{
+
     background-image:
         var(--r39-title-gradient);
 
     -webkit-background-clip:text;
+
     background-clip:text;
 
     -webkit-text-fill-color:
         transparent;
 
     color:transparent;
+
 }
 
 
-/* Logo 3D */
-
 #menu3D,
 #feature3D{
+
     --r39-logo-image:
         url("./assets/images/logo_3d.png?v=39-fix1");
 
@@ -2538,13 +2568,13 @@ a{
 
     --r39-logo-position:
         52.077% 50.109%;
+
 }
 
 
-/* Logo AR */
-
 #menuAR,
 #featureAR{
+
     --r39-logo-image:
         url("./assets/images/logo_ar.png?v=39-fix1");
 
@@ -2553,13 +2583,13 @@ a{
 
     --r39-logo-position:
         52.836% 119.249%;
+
 }
 
 
-/* Logo Navigasi */
-
 #menuNavigation,
 #featureNav{
+
     --r39-logo-image:
         url("./assets/images/logo_navigasi.png?v=39-fix1");
 
@@ -2568,13 +2598,13 @@ a{
 
     --r39-logo-position:
         50% 169.444%;
+
 }
 
 
-/* Logo Direktori */
-
 #menuDirectory,
 #featureDirectory{
+
     --r39-logo-image:
         url("./assets/images/logo_direktori.png?v=39-fix1");
 
@@ -2583,6 +2613,7 @@ a{
 
     --r39-logo-position:
         66.546% 79.414%;
+
 }
 
 
@@ -2626,6 +2657,7 @@ a{
     font-size:0;
 
     flex-shrink:0;
+
 }
 
 
@@ -2639,6 +2671,7 @@ a{
     width:40px;
     min-width:40px;
     height:40px;
+
 }
 
 
@@ -2652,10 +2685,9 @@ a{
     width:43px;
     min-width:43px;
     height:43px;
+
 }
 
-
-/* Logo header */
 
 #logoHome > .revision39-brand-icon{
 
@@ -2667,6 +2699,7 @@ a{
 
     --r39-logo-position:
         56.088% 50.529%;
+
 }
 
 
@@ -2695,21 +2728,23 @@ a{
 
         color:
             CanvasText;
+
     }
+
 }
 
-
-/* Penyesuaian visual */
 
 :is(
     #menu3D,
     #feature3D
 ){
+
     --r39-logo-size:
         280.976% auto;
 
     --r39-logo-position:
         52.183% 50.126%;
+
 }
 
 
@@ -2728,6 +2763,7 @@ a{
     letter-spacing:0;
 
     gap:6px;
+
 }
 
 
@@ -2752,6 +2788,7 @@ a{
     gap:6px;
 
     white-space:nowrap;
+
 }
 
 
@@ -2765,7 +2802,9 @@ a{
                 6.3vw,
                 36px
             );
+
     }
+
 }
 
 
@@ -2782,28 +2821,30 @@ a{
             #1898d5
         );
 
-    -webkit-background-clip:
-        text;
+    -webkit-background-clip:text;
 
-    background-clip:
-        text;
+    background-clip:text;
 
     -webkit-text-fill-color:
         transparent;
 
     color:transparent;
+
 }
 
 
 /* =========================================================
    REVISI 39 FIX 5
-   LOGO MENGGUNAKAN IMG
 ========================================================= */
 
 .site-header{
+
     background:#fff;
+
     -webkit-backdrop-filter:none;
+
     backdrop-filter:none;
+
 }
 
 
@@ -2836,6 +2877,7 @@ a{
     transform:none;
 
     will-change:auto;
+
 }
 
 
@@ -2861,10 +2903,9 @@ a{
     pointer-events:none;
 
     user-select:none;
+
 }
 
-
-/* Logo 3D */
 
 #menu3D,
 #feature3D{
@@ -2877,10 +2918,9 @@ a{
 
     --r39-img-top:
         -29.097642%;
+
 }
 
-
-/* Logo AR */
 
 #menuAR,
 #featureAR{
@@ -2893,10 +2933,9 @@ a{
 
     --r39-img-top:
         -13.785930%;
+
 }
 
-
-/* Logo Navigasi */
 
 #menuNavigation,
 #featureNav{
@@ -2909,10 +2948,9 @@ a{
 
     --r39-img-top:
         3.473602%;
+
 }
 
-
-/* Logo Direktori */
 
 #menuDirectory,
 #featureDirectory{
@@ -2925,10 +2963,9 @@ a{
 
     --r39-img-top:
         6.339620%;
+
 }
 
-
-/* Logo Website */
 
 #logoHome{
 
@@ -2940,12 +2977,12 @@ a{
 
     --r39-img-top:
         -9.439322%;
+
 }
 
 
 /* =========================================================
    REVISI 40
-   FULLSCREEN 3D VIEWER
 ========================================================= */
 
 #viewerCard .viewer-fullscreen-button,
@@ -2966,6 +3003,7 @@ a{
     border-radius:9px;
 
     font-weight:800;
+
 }
 
 
@@ -2986,6 +3024,7 @@ a{
     color:#fff;
 
     font-size:9px;
+
 }
 
 
@@ -2993,6 +3032,7 @@ a{
 .viewer-fullscreen-button span{
 
     font-size:18px;
+
 }
 
 
@@ -3009,6 +3049,7 @@ a{
         var(--green);
 
     font-size:20px;
+
 }
 
 
@@ -3019,6 +3060,7 @@ a{
 
     color:
         var(--green);
+
 }
 
 
@@ -3029,6 +3071,7 @@ a{
         var(--green);
 
     color:#fff;
+
 }
 
 
@@ -3043,12 +3086,14 @@ a{
         var(--blue);
 
     outline-offset:3px;
+
 }
 
 
 html.viewer-fullscreen-open{
 
     overflow:hidden !important;
+
 }
 
 
@@ -3067,6 +3112,7 @@ html.viewer-fullscreen-open body{
     width:100%;
 
     overflow:hidden !important;
+
 }
 
 
@@ -3118,6 +3164,7 @@ html.viewer-fullscreen-open body{
     border-radius:0;
 
     background:#fff;
+
 }
 
 
@@ -3133,6 +3180,7 @@ html.viewer-fullscreen-open body{
     align-items:center;
 
     gap:10px;
+
 }
 
 
@@ -3144,6 +3192,7 @@ html.viewer-fullscreen-open body{
     max-width:100%;
 
     margin-left:auto;
+
 }
 
 
@@ -3154,6 +3203,7 @@ html.viewer-fullscreen-open body{
 .viewer-interaction-info{
 
     flex:0 0 auto;
+
 }
 
 
@@ -3165,6 +3215,7 @@ html.viewer-fullscreen-open body{
     min-height:0;
 
     height:auto;
+
 }
 
 
@@ -3176,17 +3227,510 @@ html.viewer-fullscreen-open body{
     height:100%;
 
     min-height:0;
+
 }
 
 
 /* =========================================================
-   REVISI 41
+   REVISI 42
 ========================================================= */
 
-/*
-   Tidak ada perubahan visual khusus pada CSS.
-   Revisi 41 berfokus pada:
-   - kamera default 7 model,
-   - model Laboratorium,
-   - database ruangan.
-*/
+.room-name-wrap{
+
+    min-width:0;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:baseline;
+
+    gap:4px;
+
+}
+
+
+.room-unit-slot:empty{
+
+    display:none;
+
+}
+
+
+.room-unit-group{
+
+    display:inline-flex;
+
+    flex-wrap:wrap;
+
+    align-items:baseline;
+
+    gap:0;
+
+    font-size:8px;
+
+    font-weight:800;
+
+}
+
+
+.room-unit-punctuation{
+
+    color:var(--muted);
+
+    font-weight:700;
+
+}
+
+
+.room-unit{
+
+    font-weight:900;
+
+}
+
+
+.room-unit-informatika{
+
+    color:#8b4513;
+
+}
+
+
+.room-unit-mesin{
+
+    color:#c62828;
+
+}
+
+
+.room-unit-sipil{
+
+    color:#2e7d32;
+
+}
+
+
+.room-unit-industri{
+
+    color:#b8860b;
+
+}
+
+
+.room-unit-elektro{
+
+    color:#1565c0;
+
+}
+
+
+.room-unit-fakultas{
+
+    color:#111827;
+
+}
+
+
+.search-result-title{
+
+    display:flex !important;
+
+    flex-wrap:wrap;
+
+    align-items:baseline;
+
+    gap:4px;
+
+}
+
+
+.search-result-title
+.room-unit-group{
+
+    font-size:8px;
+
+}
+
+
+.info-units{
+
+    margin-top:7px;
+
+}
+
+
+.info-units
+.room-unit-group{
+
+    font-size:9px;
+
+}
+
+
+.tendik-modal{
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(560px,100%);
+
+    max-height:min(78vh,720px);
+
+    overflow:auto;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.tendik-modal > small{
+
+    color:var(--green);
+
+    font-size:7px;
+
+    font-weight:900;
+
+    letter-spacing:.8px;
+
+}
+
+
+.tendik-modal h2{
+
+    margin-top:8px;
+
+    padding-right:40px;
+
+    font-size:20px;
+
+}
+
+
+.tendik-modal > p{
+
+    margin-top:4px;
+
+    color:var(--green);
+
+    font-size:8px;
+
+}
+
+
+.tendik-list{
+
+    margin-top:17px;
+
+    display:grid;
+
+    gap:10px;
+
+}
+
+
+.tendik-empty{
+
+    padding:14px;
+
+    border:1px dashed #cbdcde;
+
+    border-radius:12px;
+
+    background:#f8fbfb;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   REVISI 43
+========================================================= */
+
+.directory .building-button{
+
+    min-height:72px;
+
+}
+
+
+.directory .building-button strong{
+
+    font-size:13px;
+
+    line-height:1.35;
+
+    font-weight:800;
+
+}
+
+
+.directory .room-tendik,
+.directory .building-tendik{
+
+    border-color:var(--green);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--blue)
+        );
+
+    color:var(--white);
+
+}
+
+
+@media (hover:hover){
+
+    .directory .room-tendik:hover,
+    .directory .building-tendik:hover{
+
+        background:var(--white);
+
+        color:var(--green);
+
+        border-color:var(--green);
+
+    }
+
+}
+
+
+.tendik-card{
+
+    padding:16px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    gap:12px;
+
+    border:1px solid var(--line);
+
+    border-radius:13px;
+
+    background:#f9fbfb;
+
+}
+
+
+.tendik-photo-wrap{
+
+    width:120px;
+
+    height:120px;
+
+    overflow:hidden;
+
+    display:grid;
+
+    place-items:center;
+
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    background:#edf5f4;
+
+    box-shadow:
+        0 10px 24px
+        rgba(18,53,62,.08);
+
+}
+
+
+.tendik-photo{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+
+.tendik-photo-placeholder{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8,127,114,.12),
+            rgba(24,152,213,.14)
+        );
+
+    color:var(--green);
+
+}
+
+
+.tendik-photo-placeholder span{
+
+    font-size:34px;
+
+    font-weight:900;
+
+}
+
+
+.tendik-card-copy{
+
+    width:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+
+.tendik-card-copy h3{
+
+    font-size:12px;
+
+    line-height:1.4;
+
+}
+
+
+.tendik-whatsapp{
+
+    width:min(
+        100%,
+        280px
+    );
+
+    min-height:42px;
+
+    margin-top:10px;
+
+    padding:
+        8px 14px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:2px;
+
+    border:
+        1px solid
+        var(--green);
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--blue)
+        );
+
+    color:#fff;
+
+    text-align:center;
+
+    line-height:1.25;
+
+    transition:
+        background .2s,
+        color .2s,
+        border-color .2s;
+
+}
+
+
+.tendik-whatsapp-label{
+
+    font-size:7px;
+
+    font-weight:800;
+
+    opacity:.9;
+
+}
+
+
+.tendik-whatsapp strong{
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+
+.tendik-whatsapp:hover{
+
+    background:#fff;
+
+    color:var(--green);
+
+    border-color:var(--green);
+
+}
+
+
+.tendik-whatsapp[aria-disabled="true"]{
+
+    pointer-events:none;
+
+    opacity:.48;
+
+}
+
+
+@media(max-width:640px){
+
+    .directory .building-button strong{
+
+        font-size:11px;
+
+    }
+
+
+    .tendik-photo-wrap{
+
+        width:108px;
+
+        height:108px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REVISI 44
+
+   Single accordion Direktori dikendalikan di script.js:
+   - hanya satu gedung terbuka,
+   - hanya satu ruangan terbuka,
+   - Perpustakaan dan Serbaguna tanpa placeholder ruangan.
+========================================================= */
