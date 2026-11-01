@@ -1,362 +1,63 @@
-/* =========================================================
-   FT UISU EXPLORER
-   SERVICE WORKER
-   REVISION 44
-========================================================= */
-
-const MODEL_CACHE =
-    "ft-uisu-models-v44";
-
-
-const STATIC_CACHE =
-    "ft-uisu-static-v44";
-
-
-
-/* =========================================================
-   INSTALL
-========================================================= */
-
-self.addEventListener(
-    "install",
-    () => {
-
-        self.skipWaiting();
-
-    }
-);
-
-
-
-/* =========================================================
-   ACTIVATE
-========================================================= */
-
-self.addEventListener(
-    "activate",
-    event => {
-
-        event.waitUntil(
-
-            (async() => {
-
-                const cacheNames =
-                    await caches.keys();
-
-
-                await Promise.all(
-
-                    cacheNames.map(
-                        name => {
-
-                            if(
-                                name.startsWith(
-                                    "ft-uisu-models-"
-                                )
-                                &&
-                                name !== MODEL_CACHE
-                            ){
-
-                                return caches.delete(
-                                    name
-                                );
-
-                            }
-
-
-                            if(
-                                name.startsWith(
-                                    "ft-uisu-static-"
-                                )
-                                &&
-                                name !== STATIC_CACHE
-                            ){
-
-                                return caches.delete(
-                                    name
-                                );
-
-                            }
-
-
-                            return Promise.resolve();
-
-                        }
-                    )
-
-                );
-
-
-                await self.clients.claim();
-
-            })()
-
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   FETCH
-========================================================= */
-
-self.addEventListener(
-    "fetch",
-    event => {
-
-        const request =
-            event.request;
-
-
-        if(
-            request.method !==
-            "GET"
-        ){
-
-            return;
-
-        }
-
-
-        const url =
-            new URL(
-                request.url
-            );
-
-
-        /*
-           Jangan intersep range requests.
-        */
-
-        if(
-            request.headers.has(
-                "range"
-            )
-        ){
-
-            return;
-
-        }
-
-
-
-        /* =====================================================
-           GLB MODEL
-        ====================================================== */
-
-        if(
-            url.pathname
-                .toLowerCase()
-                .endsWith(
-                    ".glb"
-                )
-        ){
-
-            event.respondWith(
-
-                modelStaleWhileRevalidate(
-                    request
-                )
-
-            );
-
-
-            return;
-
-        }
-
-
-
-        /* =====================================================
-           STATIC FILE
-        ====================================================== */
-
-        if(
-            url.pathname.endsWith(
-                ".css"
-            )
-            ||
-            url.pathname.endsWith(
-                ".js"
-            )
-            ||
-            url.pathname.endsWith(
-                ".png"
-            )
-            ||
-            url.pathname.endsWith(
-                ".jpg"
-            )
-            ||
-            url.pathname.endsWith(
-                ".jpeg"
-            )
-            ||
-            url.pathname.endsWith(
-                ".webp"
-            )
-        ){
-
-            event.respondWith(
-
-                staticNetworkFirst(
-                    request
-                )
-
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   MODEL CACHE
-========================================================= */
-
-async function modelStaleWhileRevalidate(
-    request
-){
-
-    const cache =
-        await caches.open(
-            MODEL_CACHE
-        );
-
-
-    const cached =
-        await cache.match(
-            request,
-            {
-                ignoreSearch:true
-            }
-        );
-
-
-    const networkPromise =
-        fetch(
-            request
-        )
-            .then(
-                async response => {
-
-                    if(
-                        response
-                        &&
-                        response.ok
-                    ){
-
-                        await cache.put(
-                            request,
-                            response.clone()
-                        );
-
-                    }
-
-
-                    return response;
-
-                }
-            )
-            .catch(
-                () => null
-            );
-
-
-    if(cached){
-
-        networkPromise;
-
-
-        return cached;
-
-    }
-
-
-    const network =
-        await networkPromise;
-
-
-    if(network){
-
-        return network;
-
-    }
-
-
-    return new Response(
-        "",
-        {
-            status:504,
-            statusText:"Model unavailable"
-        }
-    );
-
+const VERSION="ft-uisu-r11-ar-interaction",APP=VERSION+"-app",MODELS="ft-uisu-r11-ar-models",STATIC=["./","./index.html","./style.css?v=12-r9-ui-ar","./script.js?v=11-ar-interaction","./data/map-data.js?v=12-r9-ui-ar"];
+
+self.addEventListener("install",event=>{
+event.waitUntil(caches.open(APP).then(cache=>cache.addAll(STATIC)).then(()=>self.skipWaiting()));
+});
+
+self.addEventListener("activate",event=>{
+event.waitUntil((async()=>{
+const keys=await caches.keys();
+await Promise.all(keys.filter(name=>name.startsWith("ft-uisu")&&name!==APP&&name!==MODELS).map(name=>caches.delete(name)));
+await self.clients.claim();
+})());
+});
+
+self.addEventListener("fetch",event=>{
+const request=event.request,url=new URL(request.url);
+if(request.method!=="GET"||url.origin!==self.location.origin||request.headers.has("range"))return;
+if(url.pathname.endsWith("/sw.js"))return;
+
+if(/\.glb$/i.test(url.pathname)){
+event.respondWith((async()=>{
+const cache=await caches.open(MODELS);
+try{
+const response=await fetch(request,{cache:"no-cache"});
+if(response.ok)await cache.put(request,response.clone()).catch(()=>{});
+return response;
+}catch(error){
+const saved=await cache.match(request,{ignoreSearch:true});
+if(saved)return saved;
+throw error;
+}
+})());
+return;
 }
 
-
-
-/* =========================================================
-   STATIC CACHE
-========================================================= */
-
-async function staticNetworkFirst(
-    request
-){
-
-    const cache =
-        await caches.open(
-            STATIC_CACHE
-        );
-
-
-    try{
-
-        const response =
-            await fetch(
-                request
-            );
-
-
-        if(
-            response
-            &&
-            response.ok
-        ){
-
-            cache.put(
-                request,
-                response.clone()
-            );
-
-        }
-
-
-        return response;
-
-    }
-
-    catch(error){
-
-        const cached =
-            await cache.match(
-                request
-            );
-
-
-        if(cached){
-
-            return cached;
-
-        }
-
-
-        throw error;
-
-    }
-
+if(request.mode==="navigate"||/\.(?:html|css|js)$/i.test(url.pathname)){
+event.respondWith((async()=>{
+const cache=await caches.open(APP);
+try{
+const response=await fetch(request,{cache:"no-cache"});
+if(response.ok)await cache.put(request,response.clone()).catch(()=>{});
+return response;
+}catch(error){
+const saved=await cache.match(request,{ignoreSearch:true});
+if(saved)return saved;
+if(request.mode==="navigate"){
+const home=await cache.match("./index.html");
+if(home)return home;
 }
+throw error;
+}
+})());
+return;
+}
+
+event.respondWith((async()=>{
+const cache=await caches.open(APP),saved=await cache.match(request);
+if(saved)return saved;
+const response=await fetch(request);
+if(response.ok)await cache.put(request,response.clone()).catch(()=>{});
+return response;
+})());
+});
